@@ -1,0 +1,156 @@
+import React, {useState} from 'react';
+import {useFirstSkipEffect} from '@pdg/react-hook';
+import {Text_12} from '@style';
+import {useFormState} from '../FormContext';
+import {FormControlProps as Props, FormControlCommands} from './FormControl.types';
+
+function FormControl<T extends unknown>({
+  $controlType,
+  component,
+  name,
+  value,
+  label,
+  labelHelperText,
+  labelStyle,
+  error: initError,
+  hideErrorText,
+  errorHelperTextColor,
+  helperText,
+  required,
+  $onGetCommands,
+  onChangeError,
+  onValidate,
+  onChange,
+}: Props<T>) {
+  /********************************************************************************************************************
+   * Use
+   * ******************************************************************************************************************/
+
+  const theme = useTheme();
+  const formState = useFormState();
+
+  /********************************************************************************************************************
+   * Ref
+   * ******************************************************************************************************************/
+
+  const containerRef = useRef<NativeView>(null);
+
+  /********************************************************************************************************************
+   * State
+   * ******************************************************************************************************************/
+
+  const [error, setError] = useState<boolean | string>(ifUndefined(initError, false));
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useFirstSkipEffect(() => {
+    onChange && onChange(value);
+  }, [value]);
+
+  useFirstSkipEffect(() => {
+    onChangeError && onChangeError(error);
+  }, [error]);
+
+  useFirstSkipEffect(() => {
+    setError(ifUndefined(initError, false));
+  }, [initError]);
+
+  /********************************************************************************************************************
+   * Commands
+   * ******************************************************************************************************************/
+
+  const commands: FormControlCommands<T> = useMemo(() => {
+    const baseCommands = {
+      getContainer() {
+        return containerRef.current;
+      },
+      validate(noSetError?: boolean) {
+        if (required && empty(value)) {
+          if (!noSetError) {
+            setError('필수 입력 항목입니다.');
+          }
+          return false;
+        }
+
+        if (onValidate) {
+          const validateResult = onValidate(value);
+          if (validateResult !== true) {
+            if (!noSetError) {
+              setError(validateResult);
+            }
+            return false;
+          }
+        }
+
+        if (!noSetError) {
+          setError(false);
+        }
+        return true;
+      },
+      focus() {},
+      getValue() {
+        return value;
+      },
+      setError(newError: string) {
+        setError(newError);
+      },
+    };
+    if ($onGetCommands) {
+      return $onGetCommands(baseCommands);
+    } else {
+      return baseCommands;
+    }
+  }, [$onGetCommands, onValidate, required, value]);
+
+  useEffect(() => {
+    formState?.addControl(name, $controlType, commands);
+
+    return () => {
+      formState?.removeControl(name);
+    };
+  }, [formState, commands, name, $controlType]);
+
+  /********************************************************************************************************************
+   * Render
+   * ******************************************************************************************************************/
+
+  return (
+    <View ref={containerRef}>
+      {label && (
+        <View mb={10}>
+          <Label required={required} error={error !== false} style={labelStyle}>
+            {label}
+          </Label>
+          {labelHelperText && (
+            <>{typeof labelHelperText === 'string' ? <Text_12 mt={6}>{labelHelperText}</Text_12> : labelHelperText}</>
+          )}
+        </View>
+      )}
+
+      <View>{component}</View>
+      {helperText && (
+        <View mt={10} ml={3}>
+          {typeof helperText === 'string' ? (
+            <Text_12 color={error ? ifUndefined(errorHelperTextColor, theme.colors.error) : theme.colors.textRight200}>
+              {helperText}
+            </Text_12>
+          ) : (
+            helperText
+          )}
+        </View>
+      )}
+      {error !== false && error !== true && notEmpty(error) && !hideErrorText && (
+        <Stack mt={10} row center spacing={5}>
+          <Icon name='information' size={14} color={ifUndefined(errorHelperTextColor, theme.colors.error)} />
+          <Text_12 color={ifUndefined(errorHelperTextColor, theme.colors.error)} lineHeight={14}>
+            {error}
+          </Text_12>
+        </Stack>
+      )}
+    </View>
+  );
+}
+
+export default FormControl;

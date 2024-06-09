@@ -1,0 +1,203 @@
+apply plugin: "com.android.application"
+apply plugin: "com.facebook.react"
+apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+react {
+}
+
+def appVersionName = "1.0.0"
+def appVersionCode = 1
+
+def enableProguardInReleaseBuilds = true
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+def outputDirectory = "${layout.projectDirectory.asFile.absolutePath}/../@dist"
+project.mkdir outputDirectory
+
+def outputDebugPath = ''
+def outputDebugFileName = ''
+def outputStagingPath = ''
+def outputStagingFileName = ''
+def outputReleasePath = ''
+def outputReleaseFileName = ''
+def buildDirectory = layout.getBuildDirectory()
+def destDirectory = ''
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    ndkVersion rootProject.ext.ndkVersion
+
+    namespace "domain.reactnativetemplate"
+    defaultConfig {
+        applicationId "domain.reactnativetemplate"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionName appVersionName
+        versionCode appVersionCode
+        setProperty("archivesBaseName", applicationId + '_' + appVersionName + '_' + appVersionCode)
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file('release.keystore')
+            storePassword 'dlfemdgkwk'
+            keyAlias 'release_key'
+            keyPassword 'dlfemdgkwk'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", CODEPUSH_DEPLOYMENT_KEY_DEBUG
+        }
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", CODEPUSH_DEPLOYMENT_KEY_PRODUCTION
+//            ndk {
+//                debugSymbolLevel "FULL"
+//            }
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
+        }
+        staging {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", CODEPUSH_DEPLOYMENT_KEY_STAGING
+//            ndk {
+//                debugSymbolLevel "FULL"
+//            }
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
+            matchingFallbacks = ['debug', 'release']
+        }
+    }
+
+   applicationVariants.all { variant ->
+       variant.outputs.each { output ->
+           if (output.name == 'debug') {
+               outputDebugPath = output.outputFile.parent
+               outputDebugFileName = output.outputFile.name
+           } else if (output.name == 'staging') {
+               outputStagingPath = output.outputFile.parent
+               outputStagingFileName = output.outputFile.name
+           } else if (output.name == 'release') {
+               outputReleasePath = output.outputFile.parent
+               outputReleaseFileName = output.outputFile.name
+           }
+       }
+   }
+}
+
+dependencies {
+    implementation("com.facebook.react:react-android")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("androidx.ads:ads-identifier:1.0.0-alpha05")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    implementation("com.android.installreferrer:installreferrer:2.2")
+
+    implementation("com.google.android.recaptcha:recaptcha:18.4.0")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+project.ext.vectoricons = [
+     iconFontNames: [ 'MaterialCommunityIcons.ttf' ]
+ ]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+project.ext.envConfigFiles = [
+  debug: ".env.development",
+  staging: ".env.staging",
+  release: ".env.production",
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+
+// aab 파일 이동, native-debug-symbols.zip 생성
+tasks.register('clearBuildDirectory', Delete) {
+   delete buildDirectory
+}
+tasks.register('bundleStaging_post_genereNativeDebugSymbols', Exec) {
+   workingDir buildDirectory.dir('intermediates/merged_native_libs/staging/out/lib')
+   commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
+}
+tasks.register('bundleStaging_post_moveFile', Exec) {
+   commandLine 'mv', "${outputStagingPath}/${outputStagingFileName}", destDirectory
+}
+tasks.register('bundleRelease_post_genereNativeDebugSymbols', Exec) {
+   workingDir buildDirectory.dir('intermediates/merged_native_libs/release/out/lib')
+   commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
+}
+tasks.register('bundleRelease_post_moveFile', Exec) {
+   commandLine 'mv', "${outputReleasePath}/${outputReleaseFileName}", destDirectory
+}
+
+gradle.projectsEvaluated {
+   tasks.named('generateStagingLintVitalReportModel') {
+       dependsOn('copyReactNativeVectorIconFonts')
+   }
+   tasks.named('generateReleaseLintVitalReportModel') {
+       dependsOn('copyReactNativeVectorIconFonts')
+   }
+
+   tasks.named('bundleStaging') {
+       dependsOn('clearBuildDirectory')
+
+       shouldRunAfter
+
+       outputStagingPath = outputStagingPath.replaceAll('/apk/', '/bundle/')
+       outputStagingFileName = outputStagingFileName.replaceAll('.apk', '.aab')
+
+       destDirectory = "${outputDirectory}/staging/${appVersionName}_${appVersionCode}"
+       project.mkdir destDirectory
+
+       finalizedBy('bundleStaging_post_genereNativeDebugSymbols')
+       finalizedBy('bundleStaging_post_moveFile')
+   }
+   tasks.named('bundleRelease') {
+       dependsOn('clearBuildDirectory')
+
+       shouldRunAfter
+
+       outputReleasePath = outputReleasePath.replaceAll('/apk/', '/bundle/')
+       outputReleaseFileName = outputReleaseFileName.replaceAll('.apk', '.aab')
+
+       destDirectory = "${outputDirectory}/release/${appVersionName}_${appVersionCode}"
+       project.mkdir destDirectory
+
+       finalizedBy('bundleRelease_post_genereNativeDebugSymbols')
+       finalizedBy('bundleRelease_post_moveFile')
+   }
+}
