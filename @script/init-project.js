@@ -33,11 +33,11 @@ if (currentProjectName === env.PROJECT_NAME) {
 
 // 파일 내용 Ext 변경 함수
 const replaceExtContent = (filePath, startText, findText, endText, replaceText) => {
-    ll(`${filePath} 파일 내용 변경`);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    const newFileContent = replaceTextExt(fileContent, startText, findText, endText, replaceText);
-    fs.writeFileSync(filePath, newFileContent);
-  }
+  ll(`${filePath} 파일 내용 변경`);
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const newFileContent = replaceTextExt(fileContent, startText, findText, endText, replaceText);
+  fs.writeFileSync(filePath, newFileContent);
+}
 
 // 파일 내용 변경 함수
 const replaceContent = (filePath, findText, _replaceText) => {
