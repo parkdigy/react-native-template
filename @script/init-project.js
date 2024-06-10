@@ -123,7 +123,8 @@ const replaceContent = (filePath, findText, _replaceText) => {
 
   // project.pbxproj 변경
   replaceContent(xcodeProjectPbxprojPath, currentProjectName, env.PROJECT_NAME);
-  replaceExtContent(xcodeProjectPbxprojPath, "PRODUCT_BUNDLE_IDENTIFIER = ", '', ';', env.IOS_BUNDLE_ID);
+  replaceExtContent(xcodeProjectPbxprojPath, 'PRODUCT_BUNDLE_IDENTIFIER = ', '', ';', env.IOS_BUNDLE_ID);
+  replaceExtContent(xcodeProjectPbxprojPath, 'INFOPLIST_KEY_CFBundleDisplayName = "', '', '";', env.IOS_BUNDLE_ID);
 
   // contents.xcworkspacedata 변경
   replaceContent(xcodeWorkspaceContentsPath, currentProjectName, env.PROJECT_NAME);
