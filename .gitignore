@@ -1,8 +1,10 @@
-@script/app.env
+# Env
 .env
 .env.development
 .env.staging
 .env.production
+
+app.env
 
 # Ios
 ios/tmp.xcconfig
