@@ -718,7 +718,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				INFOPLIST_KEY_CFBundleDisplayName = ReactNativeTemplate;
+				INFOPLIST_KEY_CFBundleDisplayName = "React Native Template";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD = "";
 				LDPLUSPLUS = "";
@@ -886,7 +886,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				INFOPLIST_KEY_CFBundleDisplayName = ReactNativeTemplate;
+				INFOPLIST_KEY_CFBundleDisplayName = "React Native Template";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD = "";
 				LDPLUSPLUS = "";
@@ -982,7 +982,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				INFOPLIST_KEY_CFBundleDisplayName = ReactNativeTemplate;
+				INFOPLIST_KEY_CFBundleDisplayName = "React Native Template";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD = "";
 				LDPLUSPLUS = "";
