@@ -30,6 +30,14 @@ if (!currentProjectName) {
   throw new Error('현재 프로젝트명을 찾을 수 없습니다.');
 }
 
+// 파일 내용 Ext 변경 함수
+const replaceExtContent = (filePath, startText, findText, endText, replaceText) => {
+  ll(`${filePath} 파일 내용 변경`);
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const newFileContent = replaceTextExt(fileContent, startText, findText, endText, replaceText);
+  fs.writeFileSync(filePath, newFileContent);
+}
+
 /********************************************************************************************************************
  * package.json 파일 변경
  * ******************************************************************************************************************/
@@ -196,6 +204,8 @@ if (fs.existsSync(projectPbxprojPath)) {
   } while(true);
 
   fs.writeFileSync(projectPbxprojPath, fileContent);
+
+  replaceExtContent(projectPbxprojPath, 'INFOPLIST_KEY_CFBundleDisplayName = "', '', '";', env.DISPLAY_NAME);
 }
 
 /********************************************************************************************************************
