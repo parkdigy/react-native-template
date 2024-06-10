@@ -186,13 +186,13 @@ const replaceContent = (filePath, findText, _replaceText) => {
   // 현재 bundleId 정보 가져오기
   const currentAndroidBundleId = fs.readFileSync(path.join(basePath, 'app', 'build.gradle'), 'utf8').match(/namespace "(.+?)"/)[1];
   const currentAndroidBundleIds = currentAndroidBundleId.split('.');
-  const env.ANDROID_PACKAGE_NAMEs = env.ANDROID_PACKAGE_NAME.split('.');
+  const androidPackageNames = env.ANDROID_PACKAGE_NAME.split('.');
 
   // java 소스 경로
   const javaSourceRootDir = path.join(basePath, 'app', 'src', 'main', 'java');
   const javaSourceTempDir = path.join(javaSourceRootDir, '__temp__');
   const javaSourceDir = path.join(javaSourceRootDir, ...currentAndroidBundleIds);
-  const newJavaSourceDir = path.join(javaSourceRootDir, ...env.ANDROID_PACKAGE_NAMEs);
+  const newJavaSourceDir = path.join(javaSourceRootDir, ...androidPackageNames);
 
   // 삭제할 폴더
   const dotGradleDir = path.join(basePath, '.gradle');
@@ -241,7 +241,7 @@ const replaceContent = (filePath, findText, _replaceText) => {
 
   // java 소스 경로 생성
   let prevDir = javaSourceRootDir;
-  env.ANDROID_PACKAGE_NAMEs.forEach((v) => {
+  androidPackageNames.forEach((v) => {
     const valueDir = path.join(prevDir, v);
     if (!fs.existsSync(valueDir)) {
       fs.mkdirSync(valueDir);
