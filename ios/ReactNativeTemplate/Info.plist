@@ -26,10 +26,10 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string/>
+        <string>kakao</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>kakaof2dfa557c15dc18d8a52053ebc869ef6</string>
+          <string>kakao-url-scheme</string>
         </array>
       </dict>
       <dict>
