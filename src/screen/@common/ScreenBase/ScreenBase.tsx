@@ -51,7 +51,9 @@ function ScreenBase<C extends React.ComponentType<any>, CP = ExtractProps<C>>({
 
   /** 최종 SafeAreaView 의 props */
   const finalSafeAreaViewProps: SafeAreaViewProps | undefined = useMemo(() => {
-    if (topEdgeSafeArea) {
+    if (topEdgeSafeArea && bottomEdgeSafeArea) {
+      return {...safeAreaViewProps, edges: ['top', 'bottom']};
+    } else if (topEdgeSafeArea) {
       return {...safeAreaViewProps, edges: ['top']};
     } else if (bottomEdgeSafeArea) {
       return {...safeAreaViewProps, edges: ['bottom']};
