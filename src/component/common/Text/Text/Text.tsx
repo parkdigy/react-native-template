@@ -22,6 +22,9 @@ const Text = ({
   textShadowOffset,
   textShadowRadius,
   textTransform,
+  autoAdjustFontSize,
+  adjustsFontSizeToFit,
+  numberOfLines,
   ...props
 }: Props) => {
   /********************************************************************************************************************
@@ -212,7 +215,15 @@ const Text = ({
    * Render
    * ******************************************************************************************************************/
 
-  return <CustomComponent component={PaperText} style={finalStyle} {...props} />;
+  return (
+    <CustomComponent
+      component={PaperText}
+      style={finalStyle}
+      adjustsFontSizeToFit={ifUndefined(adjustsFontSizeToFit, autoAdjustFontSize)}
+      numberOfLines={ifUndefined(numberOfLines, autoAdjustFontSize ? 1 : undefined)}
+      {...props}
+    />
+  );
 };
 
 export default Text;

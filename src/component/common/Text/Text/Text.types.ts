@@ -62,4 +62,5 @@ export interface TextProps
     | 'green400';
   size?: TextSize | number;
   fontWeight?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  autoAdjustFontSize?: boolean;
 }
