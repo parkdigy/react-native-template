@@ -8,7 +8,6 @@ import React from 'react';
 import codePush from 'react-native-code-push';
 import {StatusBar, unstable_batchedUpdates} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import FirebaseAuth from '@react-native-firebase/auth';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
@@ -19,8 +18,8 @@ import storage from '@storage';
 import {AppAuthInfo} from '@context';
 import App from './App';
 import {AppStatus} from './common/app/app.types';
-import AppLogo from './AppLogo';
 import {api} from './common';
+import AppSplash from './AppSplash';
 
 let lastCodePushRunTime = 0;
 
@@ -35,13 +34,11 @@ interface Props {
   navigationBarHeight: number;
 }
 
-let CodePushApp = ({}: Props) => {
+let AppCodePush = ({}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
 
-  // SafeArea 정보
-  const {bottom: safeAreaBottomInset} = useSafeAreaInsets();
   // 앱 활성 상태
   const appStatus = useAppListener('appStatus');
 
@@ -49,10 +46,9 @@ let CodePushApp = ({}: Props) => {
    * Ref
    * ******************************************************************************************************************/
 
-  // Splash 화면 숨김 애니메이션
-  const hideAnimation = useRef(new Animated.Value(1)).current;
   // codePushUpdate 실행중인지 여부 Ref
   const codePushUpdatingRef = useRef(false);
+
   /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
@@ -65,19 +61,6 @@ let CodePushApp = ({}: Props) => {
   const [updatingPercent, setUpdatingPercent] = useState(0);
   // App 컴포넌트 초기화 완료 여부
   const [componentReady, setComponentReady] = useState(false);
-  // 로그 텍스트 (개발, 스테이징 환경에서만 사용)
-  const [logText, setLogText] = useState<string>();
-  // 로고 애니메이션 완료 여부
-  const [logoAnimationCompleted, setLogoAnimationCompleted] = useState(false);
-
-  /********************************************************************************************************************
-   * Function
-   * ******************************************************************************************************************/
-
-  /** 로그 텍스트 업데이트 (개발, 스테이징 환경에서만 사용) */
-  const updateLogText = useCallback((text: string) => {
-    setLogText(text);
-  }, []);
 
   /********************************************************************************************************************
    * Effect
@@ -88,42 +71,6 @@ let CodePushApp = ({}: Props) => {
       api._setAuthCookieName(config.auth_cookie_name);
     }
   }, [config]);
-
-  /** 앱 활성 상태 변경 시, 로그 텍스트 업데이트 (개발, 스테이징 환경에서만 사용) */
-  useEffect(() => {
-    let newLogText: string | undefined;
-    switch (appStatus) {
-      case app.AppStatus.Loading:
-        newLogText = '로드중...';
-        break;
-      case app.AppStatus.LoadError:
-        newLogText = '오류';
-        break;
-      case app.AppStatus.RequiredAppUpdate:
-        newLogText = '업데이트 필요';
-        break;
-      case app.AppStatus.CodePushDownloading:
-        newLogText = '업데이트 다운로드중...';
-        break;
-      case app.AppStatus.CodePushInstalling:
-        newLogText = '업데이트 설치중...';
-        break;
-      case app.AppStatus.CodePushChecked:
-        newLogText = '화면 그리는중...';
-        break;
-      case app.AppStatus.CodePushScreenHiding:
-        newLogText = '.';
-        break;
-      case app.AppStatus.Auth:
-        newLogText = '..';
-        break;
-      case app.AppStatus.Main:
-        newLogText = '...';
-        break;
-    }
-    updateLogText(newLogText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appStatus]);
 
   /** 초기화 */
   useLayoutEffect(() => {
@@ -149,8 +96,6 @@ let CodePushApp = ({}: Props) => {
       setUpdatingPercent(0);
       // App 컴포넌트 초기화 완료 여부 초기화
       setComponentReady(false);
-      // Splash 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
 
       nextTick(() => {
         // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
@@ -161,9 +106,6 @@ let CodePushApp = ({}: Props) => {
     } else if (appStatus === app.AppStatus.RequiredAppUpdate) {
       // 앱 강제 업데이트 상태로 변경 시
 
-      // Splash 화면 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
-
       nextTick(() => {
         // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
         app.navigationBar.fullScreen(false);
@@ -171,23 +113,7 @@ let CodePushApp = ({}: Props) => {
         app.navigationBar.set(app.color.CoverScreenBackground, 'light');
       });
     }
-  }, [appStatus, hideAnimation]);
-
-  /** App 컴포넌트 초기화 완료 시, Splash 화면 숨김 애니메이션 실행 */
-  useEffect(() => {
-    if (componentReady) {
-      // Splash 화면 바로 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start(() => {
-        // 앱 상태를 현재 화면 숨김중 상태로 변경
-        app.setAppStatus(app.AppStatus.CodePushScreenHiding);
-        // Splash 화면 숨김 애니메이션 실행
-        Animated.timing(hideAnimation, {toValue: 0, duration: 100, useNativeDriver: true}).start(() => {
-          // 앱 상태를 인증 상태로 변경
-          app.setAppStatus(app.AppStatus.Auth);
-        });
-      });
-    }
-  }, [componentReady, hideAnimation]);
+  }, [appStatus]);
 
   /********************************************************************************************************************
    * Function
@@ -471,11 +397,6 @@ let CodePushApp = ({}: Props) => {
     }
   }, [appStatus, codePushUpdate]);
 
-  /** 앱 강제 업데이트 상태에서, 앱 업데이트 버튼 클릭 시, 마켓으로 이동 */
-  const handleAppUpdatePress = useCallback(() => {
-    app.openMarketStore(config).then(() => {});
-  }, [config]);
-
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
@@ -484,7 +405,6 @@ let CodePushApp = ({}: Props) => {
   const showApp = useMemo(
     () =>
       !FORCE_SHOW_COVER_SCREEN &&
-      logoAnimationCompleted &&
       !contains(
         [
           app.AppStatus.Loading,
@@ -495,7 +415,7 @@ let CodePushApp = ({}: Props) => {
         ],
         appStatus,
       ),
-    [appStatus, logoAnimationCompleted],
+    [appStatus],
   );
   // const showApp = false;
 
@@ -503,7 +423,6 @@ let CodePushApp = ({}: Props) => {
   const showCoverScreen = useMemo(
     () =>
       FORCE_SHOW_COVER_SCREEN ||
-      !logoAnimationCompleted ||
       contains(
         [
           app.AppStatus.Loading,
@@ -512,11 +431,11 @@ let CodePushApp = ({}: Props) => {
           app.AppStatus.CodePushDownloading,
           app.AppStatus.CodePushInstalling,
           app.AppStatus.CodePushChecked,
-          app.AppStatus.CodePushScreenHiding,
+          app.AppStatus.AppSplashHiding,
         ],
         appStatus,
       ),
-    [appStatus, logoAnimationCompleted],
+    [appStatus],
   );
   // const showCoverScreen = true;
 
@@ -545,81 +464,12 @@ let CodePushApp = ({}: Props) => {
             <StatusBar animated barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
           )}
 
-          {/* Splash 화면 - App 컴포넌트를 덮기 위해 Absolute Position 으로 표시 */}
-          <View
-            animated
-            backgroundColor={app.color.CoverScreenBackground}
-            opacity={hideAnimation}
-            position={'absolute'}
-            left={0}
-            right={0}
-            top={0}
-            bottom={0}>
-            {/* 로고 */}
-            <View
-              flex={1}
-              // mb={isAndroid ? -navigationBarHeight + (StatusBar.currentHeight || 0) : undefined}
-              justifyContent='center'
-              alignItems='center'>
-              <AppLogo onAnimationComplete={() => setLogoAnimationCompleted(true)} />
-            </View>
-
-            <Stack
-              spacing={20}
-              position='absolute'
-              bottom={safeAreaBottomInset + 20}
-              left={24}
-              right={24}
-              alignItems='center'>
-              {appStatus === app.AppStatus.LoadError ? (
-                // 로드 에러
-                <Stack spacing={16} mb={20}>
-                  <Text color={app.color.White} fontSize={13}>
-                    {Config.APP_TITLE} 서버에 연결할 수 없습니다.
-                  </Text>
-                  <Button
-                    backgroundColor={app.color.White}
-                    labelStyle={{color: app.color.CoverScreenBackground, fontSize: 13, fontWeight: '700'}}
-                    onPress={() => loadConfig(true)}>
-                    재시도
-                  </Button>
-                </Stack>
-              ) : (
-                appStatus === app.AppStatus.RequiredAppUpdate && (
-                  // 앱 강제 업데이트
-                  <Stack spacing={16} mb={20}>
-                    <Text color={app.color.White} fontSize={13}>
-                      앱을 최신 버전으로 업데이트 해야합니다.
-                    </Text>
-                    <Button
-                      backgroundColor={app.color.Blue}
-                      labelStyle={{color: app.color.White, fontSize: 13, fontWeight: '700'}}
-                      onPress={handleAppUpdatePress}>
-                      최선 버전 설치하기
-                    </Button>
-                  </Stack>
-                )
-              )}
-              {updatingPercent > 0 ? (
-                // CodePush 업데이트 퍼센트
-                <View backgroundColor='rgba(255,255,255,.3)' height={5} overflow='hidden' borderRadius={5} width='100%'>
-                  <View backgroundColor={app.color.White} height={5} width={`${updatingPercent}%`} />
-                </View>
-              ) : (
-                // 로드에러, 앱 강제 업데이트 상태가 아닌 경우, ActivityIndicator 와 로그 테스트 표시
-                !contains([app.AppStatus.LoadError, app.AppStatus.RequiredAppUpdate], appStatus) && (
-                  <View mb={20}>
-                    <ActivityIndicator color={app.color.White} />
-                    {logText && (
-                      <Text mt={3} fontSize={11} color={app.color.White}>
-                        {logText}
-                      </Text>
-                    )}
-                  </View>
-                )
-              )}
-            </Stack>
-          </View>
+          <AppSplash
+            config={config}
+            componentReady={componentReady}
+            updatingPercent={updatingPercent}
+            onErrorRetry={() => loadConfig(true)}
+          />
         </>
       )}
     </>
@@ -627,10 +477,10 @@ let CodePushApp = ({}: Props) => {
 };
 
 if (CODE_PUSH_TEST_MODE || !__DEV__) {
-  CodePushApp = codePush({
+  AppCodePush = codePush({
     checkFrequency: codePush.CheckFrequency.MANUAL,
     installMode: codePush.InstallMode.IMMEDIATE,
-  })(CodePushApp);
+  })(AppCodePush);
 }
 
-export default CodePushApp;
+export default AppCodePush;

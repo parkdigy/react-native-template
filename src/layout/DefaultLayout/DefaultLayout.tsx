@@ -25,8 +25,7 @@ const DefaultLayout = () => {
 
   useLayoutEffect(() => {
     switch (appStatus) {
-      case app.AppStatus.CodePushScreenHiding:
-      case app.AppStatus.Auth:
+      case app.AppStatus.AppSplashHiding:
         nextTick(() => {
           app.navigationBar.fullScreen(false);
           app.navigationBar.set(theme.colors.background, theme.dark ? 'light' : 'dark');
@@ -55,7 +54,7 @@ const DefaultLayout = () => {
           app.AppStatus.CodePushDownloading,
           app.AppStatus.CodePushInstalling,
           app.AppStatus.CodePushChecked,
-          app.AppStatus.CodePushScreenHiding,
+          app.AppStatus.AppSplashHiding,
         ],
         appStatus,
       ) && (

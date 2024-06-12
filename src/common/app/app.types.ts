@@ -9,7 +9,7 @@ export const AppStatus = {
   CodePushDownloading: 'code_push_downloading',
   CodePushInstalling: 'code_push_installing',
   CodePushChecked: 'code_push_checked',
-  CodePushScreenHiding: 'code_push_screen_hiding',
+  AppSplashHiding: 'app_splash_hiding',
   Auth: 'auth',
   Main: 'main',
 } as const;
