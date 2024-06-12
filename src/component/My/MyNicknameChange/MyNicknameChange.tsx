@@ -46,10 +46,6 @@ export const MyNicknameChange = ({navigation}: Props) => {
           })
           .catch((err) => {
             switch (app.getAxiosApiErrorResultCode(err)) {
-              case Const.Error.my.editName.same:
-              case Const.Error.my.editName.using:
-                formRef.current?.setError('nickname', app.getAxiosApiErrorResultMessage(err) as string);
-                break;
               default:
                 Dialog.openErrorAlert({
                   contentTitle: '닉네임 변경 실패',
