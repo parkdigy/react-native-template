@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
-import {IconButton, IconButtonProps} from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 
 export const AuthSnsIconButton = styled(IconButton)`
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  opacity: ${(props: IconButtonProps) => (props.disabled ? 0.3 : 1)};
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
 
 export const AuthSnsActivityIndicatorContainer = styled(View)`
