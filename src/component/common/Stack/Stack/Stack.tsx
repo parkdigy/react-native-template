@@ -65,14 +65,18 @@ const Stack = ({
   const finalGap = useMemo(() => (useFlexGap ? spacing : undefined), [useFlexGap, spacing]);
 
   const finalAlignItems = useMemo(
-    () => alignItems || (finalFlexDirection === 'row' && center ? 'center' : undefined),
-    [finalFlexDirection, alignItems, center],
+    () =>
+      alignItems ||
+      ((finalFlexDirection === 'row' || finalFlexDirection === 'row-reverse') && center ? 'center' : undefined),
+    [alignItems, center],
   );
 
   const finalWidth = useMemo(() => width || (fullWidth ? '100%' : undefined), [fullWidth, width]);
 
   const finalJustifyContent = useMemo(
-    () => justifyContent || (finalFlexDirection !== 'column' && center ? 'center' : undefined),
+    () =>
+      justifyContent ||
+      (finalFlexDirection !== 'column' && finalFlexDirection !== 'column-reverse' && center ? 'center' : undefined),
     [finalFlexDirection, justifyContent, center],
   );
 
