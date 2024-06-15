@@ -1,5 +1,5 @@
 import {ViewProps} from 'react-native';
-import {CustomComponentStyleProps} from '../CustomComponent';
+import {CustomComponentStyleProps} from '../../CustomComponent';
 
 export interface StackProps extends Omit<ViewProps, 'children'>, CustomComponentStyleProps {
   children?: ReactNode;
@@ -8,4 +8,5 @@ export interface StackProps extends Omit<ViewProps, 'children'>, CustomComponent
   wrap?: boolean;
   useFlexGap?: boolean;
   center?: boolean;
+  fullWidth?: boolean;
 }

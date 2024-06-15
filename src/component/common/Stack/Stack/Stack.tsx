@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomComponent from '../CustomComponent';
+import CustomComponent from '../../CustomComponent';
 import {StackProps as Props} from './Stack.types';
 
 type ReactChildArray = ReturnType<typeof React.Children.toArray>;
@@ -33,6 +33,8 @@ const Stack = ({
   alignItems,
   justifyContent,
   wrap,
+  width,
+  fullWidth,
   useFlexGap,
   center,
   ...props
@@ -56,7 +58,7 @@ const Stack = ({
     [spacing, childrenArray, useFlexGap],
   );
 
-  const finalFlexDirection = useMemo(() => flexDirection || (row ? 'row' : undefined), [flexDirection, row]);
+  const finalFlexDirection = useMemo(() => flexDirection || (row ? 'row' : 'column'), [flexDirection, row]);
 
   const finalFlexWrap = useMemo(() => flexWrap || (wrap ? 'wrap' : undefined), [flexWrap, wrap]);
 
@@ -67,8 +69,10 @@ const Stack = ({
     [finalFlexDirection, alignItems, center],
   );
 
+  const finalWidth = useMemo(() => width || (fullWidth ? '100%' : undefined), [fullWidth, width]);
+
   const finalJustifyContent = useMemo(
-    () => justifyContent || (finalFlexDirection !== 'row' && center ? 'center' : undefined),
+    () => justifyContent || (finalFlexDirection !== 'column' && center ? 'center' : undefined),
     [finalFlexDirection, justifyContent, center],
   );
 
@@ -84,6 +88,7 @@ const Stack = ({
       alignItems={finalAlignItems}
       justifyContent={finalJustifyContent}
       gap={finalGap}
+      width={finalWidth}
       {...props}>
       {finalChildrenArray}
     </CustomComponent>
