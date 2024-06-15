@@ -37,6 +37,8 @@ const Stack = ({
   fullWidth,
   useFlexGap,
   center,
+  alignCenter,
+  justifyCenter,
   ...props
 }: Props) => {
   /********************************************************************************************************************
@@ -67,8 +69,10 @@ const Stack = ({
   const finalAlignItems = useMemo(
     () =>
       alignItems ||
-      ((finalFlexDirection === 'row' || finalFlexDirection === 'row-reverse') && center ? 'center' : undefined),
-    [alignItems, center],
+      (((finalFlexDirection === 'row' || finalFlexDirection === 'row-reverse') && center) || alignCenter
+        ? 'center'
+        : undefined),
+    [alignCenter, alignItems, center, finalFlexDirection],
   );
 
   const finalWidth = useMemo(() => width || (fullWidth ? '100%' : undefined), [fullWidth, width]);
@@ -76,8 +80,10 @@ const Stack = ({
   const finalJustifyContent = useMemo(
     () =>
       justifyContent ||
-      (finalFlexDirection !== 'column' && finalFlexDirection !== 'column-reverse' && center ? 'center' : undefined),
-    [finalFlexDirection, justifyContent, center],
+      ((finalFlexDirection !== 'column' && finalFlexDirection !== 'column-reverse' && center) || justifyCenter
+        ? 'center'
+        : undefined),
+    [justifyContent, finalFlexDirection, center, justifyCenter],
   );
 
   /********************************************************************************************************************

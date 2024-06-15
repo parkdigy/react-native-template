@@ -8,5 +8,7 @@ export interface StackProps extends Omit<ViewProps, 'children'>, CustomComponent
   wrap?: boolean;
   useFlexGap?: boolean;
   center?: boolean;
+  alignCenter?: boolean;
+  justifyCenter?: boolean;
   fullWidth?: boolean;
 }
