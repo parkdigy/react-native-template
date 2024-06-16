@@ -3,8 +3,8 @@
  * ******************************************************************************************************************/
 
 import {createContext} from 'react';
-import {AppContextDefaultValue, AppContextValue} from './AppContext.types';
+import {AppContextValue} from './AppContext.types';
 
-const AppContext = createContext<AppContextValue>(AppContextDefaultValue);
+const AppContext = createContext<AppContextValue>({} as any);
 
 export default AppContext;

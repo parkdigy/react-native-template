@@ -24,24 +24,3 @@ export interface AppContextValue {
   setAdid(adid: string): void;
   setAdidLoading(loading: boolean): void;
 }
-
-export const AppContextDefaultValue: AppContextValue = {
-  appState: 'active',
-  colorScheme: 'light',
-  forceColorScheme: 'light',
-  config: {} as any,
-  adid: null,
-  adidLoading: true,
-  reloadAuth() {
-    return Promise.resolve(false);
-  },
-  setAuth() {},
-  clearAuth() {},
-  reloadFcmToken: () => Promise.resolve(false),
-  setConfig() {},
-  reloadConfig() {},
-  setColorScheme() {},
-  setForceColorScheme() {},
-  setAdid() {},
-  setAdidLoading() {},
-};
