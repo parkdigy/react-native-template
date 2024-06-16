@@ -67,25 +67,20 @@ const Stack = ({
   const finalGap = useMemo(() => (useFlexGap ? spacing : undefined), [useFlexGap, spacing]);
 
   const finalAlignItems = useMemo(
-    () =>
-      alignItems ||
-      (((finalFlexDirection === 'row' || finalFlexDirection === 'row-reverse') && center) || alignCenter
-        ? 'center'
-        : undefined),
-    [alignCenter, alignItems, center, finalFlexDirection],
+    () => alignItems || (center || alignCenter ? 'center' : undefined),
+    [alignCenter, alignItems, center],
   );
 
   const finalWidth = useMemo(() => width || (fullWidth ? '100%' : undefined), [fullWidth, width]);
 
   const finalJustifyContent = useMemo(
-    () =>
-      justifyContent ||
-      ((finalFlexDirection !== 'column' && finalFlexDirection !== 'column-reverse' && center) || justifyCenter
-        ? 'center'
-        : undefined),
-    [justifyContent, finalFlexDirection, center, justifyCenter],
+    () => justifyContent || (justifyCenter ? 'center' : undefined),
+    [justifyContent, justifyCenter],
   );
 
+  if (center) {
+    ll(finalFlexDirection, finalAlignItems, finalJustifyContent);
+  }
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
