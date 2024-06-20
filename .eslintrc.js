@@ -96,6 +96,7 @@ module.exports = {
     useEffect: 'readonly',
     useCallback: 'readonly',
     useMemo: 'readonly',
+    useMounted: 'readonly',
 
     // react-native
     Keyboard: 'readonly',
