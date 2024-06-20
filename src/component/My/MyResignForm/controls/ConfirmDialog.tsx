@@ -38,7 +38,7 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
     delayTimeout(() => {
       Const.My.resign({reasons})
         .then(async () => {
-          await storage.remove(storage.Key.Fcm);
+          storage.remove(storage.Key.Fcm);
           Dialog.openSuccessAlert({
             contentTitle: '회원 탈퇴가 완료되었습니다.',
             content: `${Config.APP_TITLE} 서비스를 이용해 주셔서\n감사합니다.`,

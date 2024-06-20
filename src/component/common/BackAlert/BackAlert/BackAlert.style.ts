@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Stack from '../../Stack';
 
 export const StyledContainerStack = styled(Stack)`
   flex: 1;

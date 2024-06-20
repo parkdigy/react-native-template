@@ -113,34 +113,33 @@ const FaqList = ({}: Props) => {
 
   const handleLoadList = useCallback(() => {
     return new Promise<FaqListData>((resolve, reject) => {
-      storage.getData<FaqListData>(storage.Key.FaqList).then((storageData) => {
-        const localDataKey = storageData?.data_key;
-        const localItems = storageData?.items;
+      const storageData = storage.getData<FaqListData>(storage.Key.FaqList);
+      const localDataKey = storageData?.data_key;
+      const localItems = storageData?.items;
 
-        const params: Dict = {};
-        if (localDataKey) {
-          params.data_key = localDataKey;
-        }
+      const params: Dict = {};
+      if (localDataKey) {
+        params.data_key = localDataKey;
+      }
 
-        Const.Faq.list(params)
-          .then(async ({data: {data_key, items}}) => {
-            let newItems: FaqListData | undefined;
-            if (data_key === localDataKey && localItems) {
-              newItems = localItems;
-            } else if (items) {
-              newItems = items;
-              await storage.set(storage.Key.FaqList, JSON.stringify({data_key, items}));
-            } else {
-              await storage.remove(storage.Key.FaqList);
-            }
+      Const.Faq.list(params)
+        .then(({data: {data_key, items}}) => {
+          let newItems: FaqListData | undefined;
+          if (data_key === localDataKey && localItems) {
+            newItems = localItems;
+          } else if (items) {
+            newItems = items;
+            storage.set(storage.Key.FaqList, JSON.stringify({data_key, items}));
+          } else {
+            storage.remove(storage.Key.FaqList);
+          }
 
-            if (newItems) {
-              setList(newItems);
-              resolve(filterList(newItems));
-            }
-          })
-          .catch((err) => reject(err));
-      });
+          if (newItems) {
+            setList(newItems);
+            resolve(filterList(newItems));
+          }
+        })
+        .catch((err) => reject(err));
     });
   }, [filterList]);
 

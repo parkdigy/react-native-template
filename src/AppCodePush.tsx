@@ -120,69 +120,68 @@ let AppCodePush = ({}: Props) => {
    * ******************************************************************************************************************/
 
   /** 인증 정보 로드 */
-  const loadAuth = useCallback((callback?: (lastAppStatus: AppStatus) => void) => {
+  const loadAuth = useCallback(async (callback?: (lastAppStatus: AppStatus) => void) => {
     // storage 에서 인증 정보 로드
-    storage.getAuth().then(async (authData) => {
-      const runCallback = (lastAppStatus: AppStatus) => {
-        if (callback) {
-          nextTick(() => {
-            callback(lastAppStatus);
-          });
-        }
-      };
+    const authData = storage.getAuth();
+    const runCallback = (lastAppStatus: AppStatus) => {
+      if (callback) {
+        nextTick(() => {
+          callback(lastAppStatus);
+        });
+      }
+    };
 
-      if (authData) {
-        // 인증 정보 로드 API 호출 함수
-        const goLoadInfo = (data?: {google_id_token?: string; apple_id_token?: string}) => {
-          Const.Auth.info({is_login: true, ...data})
-            .then(({data: authInfo}) => {
-              unstable_batchedUpdates(() => {
-                // 인증 정보 설정
-                if (authInfo.auth) {
-                  setAuth(authInfo.auth);
-                } else {
-                  setAuth(undefined);
-                }
-                // 설정 정보 설정
-                setConfig(authInfo.config);
-              });
-
-              nextTick(() => {
-                // 앱 상태를 CodePush 체크 완료 상태로 변경
-                app.setAppStatus(app.AppStatus.CodePushChecked);
-                runCallback(app.AppStatus.CodePushChecked);
-              });
-            })
-            .catch(() => {
-              // 앱 상태를 에러 상태로 변경
-              app.setAppStatus(app.AppStatus.LoadError);
+    if (authData) {
+      // 인증 정보 로드 API 호출 함수
+      const goLoadInfo = (data?: {google_id_token?: string; apple_id_token?: string}) => {
+        Const.Auth.info({is_login: true, ...data})
+          .then(({data: authInfo}) => {
+            unstable_batchedUpdates(() => {
+              // 인증 정보 설정
+              if (authInfo.auth) {
+                setAuth(authInfo.auth);
+              } else {
+                setAuth(undefined);
+              }
+              // 설정 정보 설정
+              setConfig(authInfo.config);
             });
-        };
-        if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
-          // 구글, 애플 로그인
-          // Firebase 에서 idToken 을 가져옴
-          const idToken = await FirebaseAuth().currentUser?.getIdToken();
-          if (idToken) {
-            if (authData.authType === 'GOOGLE') {
-              goLoadInfo({google_id_token: idToken});
-            } else if (authData.authType === 'APPLE') {
-              goLoadInfo({apple_id_token: idToken});
-            }
-          } else {
-            // idToken 가져오기 실패 시, 앱 상태를 CodePush 체크 완료 상태로 변경
-            app.setAppStatus(app.AppStatus.CodePushChecked);
-            runCallback(app.AppStatus.CodePushChecked);
+
+            nextTick(() => {
+              // 앱 상태를 CodePush 체크 완료 상태로 변경
+              app.setAppStatus(app.AppStatus.CodePushChecked);
+              runCallback(app.AppStatus.CodePushChecked);
+            });
+          })
+          .catch(() => {
+            // 앱 상태를 에러 상태로 변경
+            app.setAppStatus(app.AppStatus.LoadError);
+          });
+      };
+      if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
+        // 구글, 애플 로그인
+        // Firebase 에서 idToken 을 가져옴
+        const idToken = await FirebaseAuth().currentUser?.getIdToken();
+        if (idToken) {
+          if (authData.authType === 'GOOGLE') {
+            goLoadInfo({google_id_token: idToken});
+          } else if (authData.authType === 'APPLE') {
+            goLoadInfo({apple_id_token: idToken});
           }
         } else {
-          // 일반, 카카오, 네이버 로그인
-          goLoadInfo();
+          // idToken 가져오기 실패 시, 앱 상태를 CodePush 체크 완료 상태로 변경
+          app.setAppStatus(app.AppStatus.CodePushChecked);
+          runCallback(app.AppStatus.CodePushChecked);
         }
       } else {
-        // 인증 정보가 없을 경우, 앱 상태를 CodePush 체크 완료 상태로 변경
-        app.setAppStatus(app.AppStatus.CodePushChecked);
-        runCallback(app.AppStatus.CodePushChecked);
+        // 일반, 카카오, 네이버 로그인
+        goLoadInfo();
       }
-    });
+    } else {
+      // 인증 정보가 없을 경우, 앱 상태를 CodePush 체크 완료 상태로 변경
+      app.setAppStatus(app.AppStatus.CodePushChecked);
+      runCallback(app.AppStatus.CodePushChecked);
+    }
   }, []);
 
   /********************************************************************************************************************

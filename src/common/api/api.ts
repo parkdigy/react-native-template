@@ -41,7 +41,7 @@ const defaultOption: ApiOption = {
   timeParamName: '__t__',
   async onRequest(config: InternalAxiosRequestConfig, baseUrl) {
     if (baseUrl === API_BASE_URL) {
-      const authData = await storage.getAuth();
+      const authData = storage.getAuth();
       if (empty(config.headers.Cookie)) {
         config.headers.Cookie = `${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`;
       } else if (!config.headers.Cookie.includes(`${API_AUTH_COOKIE_NAME}=`)) {
@@ -75,21 +75,20 @@ const defaultOption: ApiOption = {
             // app.showSuccessToast(responseData.result.m);
           }
           if (res.request.responseURL.split('?')[0] === `${API_BASE_URL}/${API_AUTH_SIGN_IN_PATH}`) {
-            await storage.removeAuth().then(async () => {
-              const cookies = res.headers['set-cookie'];
-              if (cookies) {
-                for (const v of cookies) {
-                  const authKey = extractAuthKeyFromCookie(v);
-                  if (authKey) {
-                    const authType = responseData.data?.auth?.reg_type;
-                    if (authType) {
-                      await storage.setAuth(authType, authKey);
-                      break;
-                    }
+            storage.removeAuth();
+            const cookies = res.headers['set-cookie'];
+            if (cookies) {
+              for (const v of cookies) {
+                const authKey = extractAuthKeyFromCookie(v);
+                if (authKey) {
+                  const authType = responseData.data?.auth?.reg_type;
+                  if (authType) {
+                    storage.setAuth(authType, authKey);
+                    break;
                   }
                 }
               }
-            });
+            }
           }
         }
       }

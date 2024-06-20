@@ -31,28 +31,27 @@ const NoticeList = ({navigation}: Props) => {
   const handleLoadList = useCallback((lastId?: number) => {
     return new Promise<NoticeListData>((resolve, reject) => {
       if (lastId === undefined) {
-        storage.getData<NoticeListData>(storage.Key.NoticeList).then((storageData) => {
-          const localDataKey = storageData?.data_key;
-          const localItems = storageData?.items;
+        const storageData = storage.getData<NoticeListData>(storage.Key.NoticeList);
+        const localDataKey = storageData?.data_key;
+        const localItems = storageData?.items;
 
-          const params: Dict = {limit: LIMIT};
-          if (localDataKey) {
-            params.data_key = localDataKey;
-          }
+        const params: Dict = {limit: LIMIT};
+        if (localDataKey) {
+          params.data_key = localDataKey;
+        }
 
-          Const.Notice.list(params)
-            .then(async ({data: {data_key, items}}) => {
-              if (data_key === localDataKey && localItems) {
-                resolve(localItems);
-              } else if (items) {
-                resolve(items);
-                await storage.set(storage.Key.NoticeList, JSON.stringify({data_key, items}));
-              } else {
-                await storage.remove(storage.Key.NoticeList);
-              }
-            })
-            .catch((err) => reject(err));
-        });
+        Const.Notice.list(params)
+          .then(({data: {data_key, items}}) => {
+            if (data_key === localDataKey && localItems) {
+              resolve(localItems);
+            } else if (items) {
+              resolve(items);
+              storage.set(storage.Key.NoticeList, JSON.stringify({data_key, items}));
+            } else {
+              storage.remove(storage.Key.NoticeList);
+            }
+          })
+          .catch((err) => reject(err));
       } else {
         Const.Notice.list({limit: LIMIT, last_id: lastId})
           .then(({data: {items}}) => {

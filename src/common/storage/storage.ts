@@ -1,95 +1,90 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MMKV} from 'react-native-mmkv';
 import {AuthSigninType} from '@const';
+import {AppForceColorScheme} from '@context';
 import {StorageKey} from './storage.types';
+
+const MmkvStorage = new MMKV();
 
 const storage = {
   Key: StorageKey,
 
-  async set(key: StorageKey, value: string) {
-    await AsyncStorage.setItem(key, value);
+  set(key: StorageKey, value: string | number | boolean) {
+    MmkvStorage.set(key, value);
   },
-  async get(key: StorageKey): Promise<string | null> {
-    return await AsyncStorage.getItem(key);
+  getString(key: StorageKey) {
+    return MmkvStorage.getString(key);
   },
-  async remove(key: StorageKey) {
-    await AsyncStorage.removeItem(key);
+  getNumber(key: StorageKey) {
+    return MmkvStorage.getNumber(key);
+  },
+  getBoolean(key: StorageKey) {
+    return MmkvStorage.getBoolean(key);
+  },
+  remove(key: StorageKey) {
+    MmkvStorage.delete(key);
+  },
+
+  /********************************************************************************************************************
+   * 테마
+   * ******************************************************************************************************************/
+
+  setTheme(theme: AppForceColorScheme) {
+    this.set(StorageKey.Theme, theme);
+  },
+
+  getTheme() {
+    return this.getString(StorageKey.Theme);
   },
 
   /********************************************************************************************************************
    * 인증 정보
    * ******************************************************************************************************************/
 
-  async setAuth(authType: AuthSigninType, authKey: string) {
-    await this.set(StorageKey.Auth, JSON.stringify({authType: authType, authKey: authKey}));
+  setAuth(authType: AuthSigninType, authKey: string) {
+    this.set(StorageKey.Auth, JSON.stringify({authType: authType, authKey: authKey}));
   },
 
-  async removeAuth() {
-    await this.remove(StorageKey.Auth);
+  removeAuth() {
+    this.remove(StorageKey.Auth);
   },
 
-  async getAuth() {
-    return new Promise<{authType: AuthSigninType; authKey: string} | null>((resolve, reject) => {
-      this.get(StorageKey.Auth)
-        .then((data) => {
-          if (data) {
-            try {
-              const authData = JSON.parse(data);
-              resolve(authData);
-            } catch (err) {
-              resolve(null);
-            }
-          } else {
-            resolve(null);
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  getAuth() {
+    const data = this.getString(StorageKey.Auth);
+    if (data) {
+      return JSON.parse(data) as {authType: AuthSigninType; authKey: string};
+    } else {
+      return null;
+    }
   },
 
   /********************************************************************************************************************
    * FCM 정보
    * ******************************************************************************************************************/
 
-  async setFcm(token: string, userKey: string, osVersion: string, buildNumber: string) {
-    await this.set(StorageKey.Fcm, JSON.stringify({token, userKey, osVersion, buildNumber}));
+  setFcm(token: string, userKey: string, osVersion: string, buildNumber: string) {
+    this.set(StorageKey.Fcm, JSON.stringify({token, userKey, osVersion, buildNumber}));
   },
 
-  async getFcm() {
-    return new Promise<{token: string; userKey: string; osVersion: string; buildNumber: string} | null>(
-      (resolve, reject) => {
-        this.get(StorageKey.Fcm)
-          .then((data) => {
-            if (data) {
-              try {
-                const authData = JSON.parse(data);
-                resolve(authData);
-              } catch (err) {
-                resolve(null);
-              }
-            } else {
-              resolve(null);
-            }
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      },
-    );
+  getFcm() {
+    const data = this.getString(StorageKey.Fcm);
+    if (data) {
+      return JSON.parse(data) as {token: string; userKey: string; osVersion: string; buildNumber: string};
+    } else {
+      return null;
+    }
   },
 
-  async removeFcm() {
-    await this.remove(StorageKey.Fcm);
+  removeFcm() {
+    this.remove(StorageKey.Fcm);
   },
 
   /********************************************************************************************************************
    * getData
    * ******************************************************************************************************************/
 
-  async getData<T>(key: StorageKey): Promise<{data_key: number; items: T} | undefined> {
+  getData<T>(key: StorageKey): {data_key: number; items: T} | undefined {
     try {
-      const data = await this.get(key);
+      const data = this.getString(key);
       if (data) {
         const jsData = JSON.parse(data);
         return {

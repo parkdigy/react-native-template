@@ -28,30 +28,29 @@ const AutoResizeImage: React.FC<Props> = ({uri, style, width, height, maxWidth, 
 
   useEffect(() => {
     if (isInnerUrl) {
-      storage.getAuth().then((authData) => {
-        axios
-          .get(`${app.getApiBaseUrl()}${uri}`, {
-            responseType: 'blob',
-            headers: {Cookie: `${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`},
-          })
-          .then((res) => {
-            const contentType = res.headers['content-type'];
+      const authData = storage.getAuth();
+      axios
+        .get(`${app.getApiBaseUrl()}${uri}`, {
+          responseType: 'blob',
+          headers: {Cookie: `${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`},
+        })
+        .then((res) => {
+          const contentType = res.headers['content-type'];
 
-            if (contentType) {
-              const fileReader = new FileReader();
-              fileReader.onload = (e) => {
-                const newImageUri = e.target?.result as string;
-                Image.getSize(newImageUri, (w, h) => {
-                  unstable_batchedUpdates(() => {
-                    setImageUri(newImageUri);
-                    setImageSize({width: w, height: h});
-                  });
+          if (contentType) {
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+              const newImageUri = e.target?.result as string;
+              Image.getSize(newImageUri, (w, h) => {
+                unstable_batchedUpdates(() => {
+                  setImageUri(newImageUri);
+                  setImageSize({width: w, height: h});
                 });
-              };
-              fileReader.readAsDataURL(new Blob([res.data], {type: contentType, lastModified: 0}));
-            }
-          });
-      });
+              });
+            };
+            fileReader.readAsDataURL(new Blob([res.data], {type: contentType, lastModified: 0}));
+          }
+        });
     } else {
       const newImageUri = uri;
       axios.head(newImageUri, {responseType: 'blob'}).then((res) => {

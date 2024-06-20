@@ -100,22 +100,19 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
 
   /** 테마 적용 - 설정에서 선택한 테마가 있으면 적용하고, 아니면 시스템 테마 적용 */
   useEffect(() => {
-    storage.get(storage.Key.Theme).then((v) => {
-      unstable_batchedUpdates(() => {
-        switch (v) {
-          case 'light':
-          case 'dark':
-            // 설정에서 선택한 테마 적용
-            setColorScheme(v);
-            setForceColorScheme(v);
-            break;
-          default:
-            // 시스템 테마 적용
-            setColorScheme('dark');
-            setForceColorScheme('dark');
-        }
-      });
-    });
+    const theme = storage.getTheme();
+    switch (theme) {
+      case 'light':
+      case 'dark':
+        // 설정에서 선택한 테마 적용
+        setColorScheme(theme);
+        setForceColorScheme(theme);
+        break;
+      default:
+        // 시스템 테마 적용
+        setColorScheme(Appearance.getColorScheme());
+        setForceColorScheme('system');
+    }
   }, []);
 
   /** 앱 상태 변경 이벤트 등록 */
@@ -185,82 +182,79 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
     }
 
     // storage 에서 인증 정보 삭제
-    storage.removeAuth().then(() => {
-      setAuth(undefined);
-    });
+    storage.removeAuth();
+    setAuth(undefined);
 
     // FCM 토큰 삭제 API 호출 및 storage 에서 FCM 정보 삭제
-    storage.getFcm().then((fcmInfo) => {
-      if (fcmInfo?.token) {
-        if (!fcmTokenRemovingRef.current) {
-          fcmTokenRemovingRef.current = true;
-          Const.Common.removeFcm(fcmInfo.token)
-            .then(() => {
-              storage.removeFcm();
-            })
-            .finally(() => {
-              fcmTokenRemovingRef.current = false;
-            });
-        }
+    const fcmInfo = storage.getFcm();
+    if (fcmInfo?.token) {
+      if (!fcmTokenRemovingRef.current) {
+        fcmTokenRemovingRef.current = true;
+        Const.Common.removeFcm(fcmInfo.token)
+          .then(() => {
+            storage.removeFcm();
+          })
+          .finally(() => {
+            fcmTokenRemovingRef.current = false;
+          });
       }
-    });
+    }
   }, [auth]);
 
   /** 인증 정보 재로드 */
   const reloadAuth = useCallback(
     (isLogin?: boolean): Promise<boolean> => {
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         // storage 에서 인증 정보 로드
-        storage.getAuth().then(async (authData) => {
-          if (authData) {
-            // 인증 정보 로드 API 호출 함수
-            const goLoad = (data?: {google_id_token?: string; apple_id_token?: string}) => {
-              Const.Auth.info({is_login: !!isLogin, ...data})
-                .then(({data: authInfo}) => {
-                  if (isLogin) {
-                    // 로그인 상태 인증 정보 로드 시간을 현재 시간으로 저장
-                    lastReloadAuthLoginDateRef.current = nowTime();
-                  }
-                  unstable_batchedUpdates(() => {
-                    // 인증 정보 저장
-                    if (authInfo.auth) {
-                      setAuth(authInfo.auth);
-                    } else {
-                      clearAuth();
-                    }
-                    // 설정 정보 저장
-                    setConfig(authInfo.config);
-
-                    resolve(true);
-                  });
-                })
-                .catch(() => {
-                  resolve(false);
-                });
-            };
-
-            if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
-              // 구글, 애플 로그인
-              // Firebase 에서 idToken 을 가져옴
-              const idToken = await FirebaseAuth().currentUser?.getIdToken();
-              if (idToken) {
-                if (authData.authType === 'GOOGLE') {
-                  goLoad({google_id_token: idToken});
-                } else if (authData.authType === 'APPLE') {
-                  goLoad({apple_id_token: idToken});
+        const authData = storage.getAuth();
+        if (authData) {
+          // 인증 정보 로드 API 호출 함수
+          const goLoad = (data?: {google_id_token?: string; apple_id_token?: string}) => {
+            Const.Auth.info({is_login: !!isLogin, ...data})
+              .then(({data: authInfo}) => {
+                if (isLogin) {
+                  // 로그인 상태 인증 정보 로드 시간을 현재 시간으로 저장
+                  lastReloadAuthLoginDateRef.current = nowTime();
                 }
-              } else {
-                clearAuth().then(() => {});
-                resolve(true);
+                unstable_batchedUpdates(() => {
+                  // 인증 정보 저장
+                  if (authInfo.auth) {
+                    setAuth(authInfo.auth);
+                  } else {
+                    clearAuth();
+                  }
+                  // 설정 정보 저장
+                  setConfig(authInfo.config);
+
+                  resolve(true);
+                });
+              })
+              .catch(() => {
+                resolve(false);
+              });
+          };
+
+          if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
+            // 구글, 애플 로그인
+            // Firebase 에서 idToken 을 가져옴
+            const idToken = await FirebaseAuth().currentUser?.getIdToken();
+            if (idToken) {
+              if (authData.authType === 'GOOGLE') {
+                goLoad({google_id_token: idToken});
+              } else if (authData.authType === 'APPLE') {
+                goLoad({apple_id_token: idToken});
               }
             } else {
-              // 일반, 카카오, 네이버 로그인
-              goLoad();
+              clearAuth().then(() => {});
+              resolve(true);
             }
           } else {
-            resolve(true);
+            // 일반, 카카오, 네이버 로그인
+            goLoad();
           }
-        });
+        } else {
+          resolve(true);
+        }
       });
     },
     [setAuth, clearAuth],
@@ -278,7 +272,7 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
         break;
     }
     setForceColorScheme(newForceColorScheme);
-    storage.set(storage.Key.Theme, newForceColorScheme).then(() => {});
+    storage.set(storage.Key.Theme, newForceColorScheme);
   }, []);
 
   /** 설정 정보 재로드 */
@@ -323,7 +317,7 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
                 const osVersion = `${Platform.Version}`;
                 const buildNumber = getBuildNumber();
 
-                const storageFcmData = await storage.getFcm();
+                const storageFcmData = storage.getFcm();
 
                 if (
                   storageFcmData?.token !== fcmToken ||
@@ -337,7 +331,7 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
                     d_ma: getManufacturerSync(),
                   });
 
-                  await storage.setFcm(fcmToken, auth.user_key, osVersion, buildNumber);
+                  storage.setFcm(fcmToken, auth.user_key, osVersion, buildNumber);
                 }
                 return true;
               default:
