@@ -31,7 +31,7 @@ declare global {
   var useCallback: typeof _useCallback;
   var useMemo: typeof _useMemo;
   var useState: typeof useSafeState;
-  var useMounted: typeof useMountedFunction;
+  var useMountedRef: typeof useMountedRefFunction;
 }
 /* eslint-enable */
 
@@ -50,11 +50,11 @@ globalThis.useMemo = _useMemo;
 function useSafeState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
 function useSafeState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
 function useSafeState<S>(initialState?: S | (() => S)): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
-  const isMounted = useMounted();
+  const isMounted = useMountedRef();
   const [value, setValue] = _useState(initialState);
 
   const safeSetValue = _useCallback((newValue: any) => {
-    if (isMounted) {
+    if (isMounted.current) {
       setValue(newValue);
     } else {
       if (__DEV__) {
@@ -71,7 +71,7 @@ globalThis.useState = useSafeState;
 /********************************************************************************************************************
  * useMounted
  * ******************************************************************************************************************/
-function useMountedFunction() {
+function useMountedRefFunction() {
   const isMountedRef = _useRef(true);
 
   _useEffect(() => {
@@ -80,9 +80,9 @@ function useMountedFunction() {
     };
   }, []);
 
-  return isMountedRef.current;
+  return isMountedRef;
 }
-globalThis.useMounted = useMountedFunction;
+globalThis.useMountedRef = useMountedRefFunction;
 
 /********************************************************************************************************************
  * export
