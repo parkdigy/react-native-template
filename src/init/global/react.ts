@@ -26,11 +26,12 @@ declare global {
 
   var useId: typeof _useId;
   var useRef: typeof _useRef;
-  var useState: typeof _useState;
   var useLayoutEffect: typeof _useLayoutEffect;
   var useEffect: typeof _useEffect;
   var useCallback: typeof _useCallback;
   var useMemo: typeof _useMemo;
+  var useState: typeof useSafeState;
+  var useMounted: typeof useMountedFunction;
 }
 /* eslint-enable */
 
@@ -43,20 +44,17 @@ globalThis.useEffect = _useEffect;
 globalThis.useCallback = _useCallback;
 globalThis.useMemo = _useMemo;
 
+/********************************************************************************************************************
+ * useSafeState
+ * ******************************************************************************************************************/
 function useSafeState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
 function useSafeState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
 function useSafeState<S>(initialState?: S | (() => S)): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
+  const isMounted = useMounted();
   const [value, setValue] = _useState(initialState);
-  const isMountedRef = _useRef(true);
-
-  _useEffect(() => {
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
 
   const safeSetValue = _useCallback((newValue: any) => {
-    if (isMountedRef.current) {
+    if (isMounted) {
       setValue(newValue);
     } else {
       if (__DEV__) {
@@ -70,4 +68,23 @@ function useSafeState<S>(initialState?: S | (() => S)): [S | undefined, Dispatch
 
 globalThis.useState = useSafeState;
 
+/********************************************************************************************************************
+ * useMounted
+ * ******************************************************************************************************************/
+function useMountedFunction() {
+  const isMountedRef = _useRef(true);
+
+  _useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
+  return isMountedRef.current;
+}
+globalThis.useMounted = useMountedFunction;
+
+/********************************************************************************************************************
+ * export
+ * ******************************************************************************************************************/
 export {};
