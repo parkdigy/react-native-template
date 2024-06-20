@@ -9,6 +9,8 @@ import {
   useMemo as _useMemo,
   ForwardRefExoticComponent,
   RefAttributes,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 
 const _withStaticProps = <Props, Ref, T>(
@@ -36,10 +38,36 @@ globalThis.withStaticProps = _withStaticProps;
 
 globalThis.useId = _useId;
 globalThis.useRef = _useRef;
-globalThis.useState = _useState;
 globalThis.useLayoutEffect = _useLayoutEffect;
 globalThis.useEffect = _useEffect;
 globalThis.useCallback = _useCallback;
 globalThis.useMemo = _useMemo;
+
+function useSafeState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
+function useSafeState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
+function useSafeState<S>(initialState?: S | (() => S)): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
+  const [value, setValue] = _useState(initialState);
+  const isMountedRef = _useRef(true);
+
+  _useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
+  const safeSetValue = _useCallback((newValue: any) => {
+    if (isMountedRef.current) {
+      setValue(newValue);
+    } else {
+      if (__DEV__) {
+        ll('unmounted set value', newValue);
+      }
+    }
+  }, []);
+
+  return [value, safeSetValue];
+}
+
+globalThis.useState = useSafeState;
 
 export {};
