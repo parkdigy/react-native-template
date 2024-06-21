@@ -5,7 +5,6 @@
 import React from 'react';
 import {ListRenderItemInfo} from 'react-native';
 import {NoticeListData, NoticeListDataItem} from '@const';
-import storage from '@storage';
 import {NoticeListProps as Props} from './NoticeList.types';
 import {NoticeListItem, NoticeListLoading} from './controls';
 
@@ -31,7 +30,7 @@ const NoticeList = ({navigation}: Props) => {
   const handleLoadList = useCallback((lastId?: number) => {
     return new Promise<NoticeListData>((resolve, reject) => {
       if (lastId === undefined) {
-        const storageData = storage.getData<NoticeListData>(storage.Key.NoticeList);
+        const storageData = storage.getNoticeList();
         const localDataKey = storageData?.data_key;
         const localItems = storageData?.items;
 
@@ -46,7 +45,7 @@ const NoticeList = ({navigation}: Props) => {
               resolve(localItems);
             } else if (items) {
               resolve(items);
-              storage.set(storage.Key.NoticeList, JSON.stringify({data_key, items}));
+              storage.setNoticeList(data_key, items);
             } else {
               storage.remove(storage.Key.NoticeList);
             }
@@ -92,7 +91,7 @@ const NoticeList = ({navigation}: Props) => {
         ItemSeparatorComponent={Divider}
         emptyText='공지사항이 없습니다'
         style={{backgroundColor: theme.colors.background}}
-        contentContainerStyle={{paddingHorizontal: 24}}
+        contentContainerStyle={{paddingHorizontal: 15}}
         renderItem={handleRenderItem}
         renderLoading={handleRenderLoading}
       />

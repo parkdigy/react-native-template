@@ -14,7 +14,6 @@ import DeviceInfo from 'react-native-device-info';
 import notifee from '@notifee/react-native';
 import app, {useAppListener} from '@app';
 import {ConfigInfoData} from '@const';
-import storage from '@storage';
 import {AppAuthInfo} from '@context';
 import App from './App';
 import {AppStatus} from './common/app/app.types';

@@ -117,6 +117,9 @@ module.exports = {
     // app
     app: 'readonly',
 
+    // storage
+    storage: 'readonly',
+
     // timeout
     delayTimeout: 'readonly',
 

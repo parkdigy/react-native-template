@@ -1,4 +1,5 @@
 import React from 'react';
+import {GestureResponderEvent} from 'react-native';
 import CustomComponent from '../../CustomComponent';
 import {ButtonProps as Props, ButtonSize} from './Button.types';
 
@@ -7,6 +8,7 @@ const Button = ({
   size = 'md',
   mode = 'contained',
   color = 'primary',
+  icon,
   borderColor,
   backgroundColor,
   borderRadius,
@@ -14,7 +16,7 @@ const Button = ({
   buttonColor,
   textColor,
   fontSize,
-  fontWeight,
+  fontWeight = 700,
   textDecorationLine,
   textDecorationStyle,
   textDecorationColor,
@@ -171,6 +173,28 @@ const Button = ({
   ]);
 
   /********************************************************************************************************************
+   * Event Handler
+   * ******************************************************************************************************************/
+
+  const handlePress = useCallback(
+    (e: GestureResponderEvent) => {
+      onPress && onPress(e);
+    },
+    [onPress],
+  );
+
+  const handleIcon = useCallback(
+    ({color: iconColor}: {color: string}) => {
+      if (typeof icon === 'string') {
+        return <Icon name={icon} color={iconColor} size={18} />;
+      } else {
+        return undefined;
+      }
+    },
+    [icon],
+  );
+
+  /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
@@ -186,7 +210,8 @@ const Button = ({
       width={width}
       mh={mh}
       marginHorizontal={marginHorizontal}
-      onPress={loading ? undefined : onPress}
+      icon={typeof icon === 'string' ? handleIcon : icon}
+      onPress={loading ? undefined : handlePress}
       {...props}
     />
   );

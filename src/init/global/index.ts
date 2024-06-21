@@ -13,3 +13,4 @@ import './color';
 import './theme';
 import './adid';
 import './lazy';
+import './storage';

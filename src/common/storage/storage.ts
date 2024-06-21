@@ -1,15 +1,21 @@
 import {MMKV} from 'react-native-mmkv';
-import {AuthSigninType} from '@const';
+import {AuthSigninType, FaqListData, NoticeListData} from '@const';
 import {AppForceColorScheme} from '@context';
-import {StorageKey} from './storage.types';
+import {StorageKey, StorageKeyValueType} from './storage.types';
 
 const MmkvStorage = new MMKV();
 
 const storage = {
   Key: StorageKey,
 
-  set(key: StorageKey, value: string | number | boolean) {
-    MmkvStorage.set(key, value);
+  set<K extends StorageKey>(key: K, value: StorageKeyValueType<K>) {
+    if (value instanceof Uint8Array) {
+      MmkvStorage.set(key, value);
+    } else if (typeof value === 'object') {
+      MmkvStorage.set(key, JSON.stringify(value));
+    } else {
+      MmkvStorage.set(key, value as any);
+    }
   },
   getString(key: StorageKey) {
     return MmkvStorage.getString(key);
@@ -19,6 +25,26 @@ const storage = {
   },
   getBoolean(key: StorageKey) {
     return MmkvStorage.getBoolean(key);
+  },
+  getObject(key: StorageKey) {
+    const data = MmkvStorage.getString(key);
+    return data ? JSON.parse(data) : undefined;
+  },
+  get<K extends StorageKey, RT = StorageKeyValueType<K>>(key: K): RT | undefined {
+    switch (key) {
+      case StorageKey.Theme:
+        return this.getString(key) as RT;
+      case StorageKey.Auth:
+        return this.getObject(key) as RT;
+      case StorageKey.Fcm:
+        return this.getObject(key) as RT;
+      case StorageKey.NoticeList:
+        return this.getObject(key) as RT;
+      case StorageKey.FaqList:
+        return this.getObject(key) as RT;
+      default:
+        throw new Error('storage.get - 정의되지 않은 StorageKey!');
+    }
   },
   remove(key: StorageKey) {
     MmkvStorage.delete(key);
@@ -33,7 +59,7 @@ const storage = {
   },
 
   getTheme() {
-    return this.getString(StorageKey.Theme);
+    return this.get(StorageKey.Theme);
   },
 
   /********************************************************************************************************************
@@ -41,7 +67,7 @@ const storage = {
    * ******************************************************************************************************************/
 
   setAuth(authType: AuthSigninType, authKey: string) {
-    this.set(StorageKey.Auth, JSON.stringify({authType: authType, authKey: authKey}));
+    this.set(StorageKey.Auth, {authType: authType, authKey: authKey});
   },
 
   removeAuth() {
@@ -62,16 +88,11 @@ const storage = {
    * ******************************************************************************************************************/
 
   setFcm(token: string, userKey: string, osVersion: string, buildNumber: string) {
-    this.set(StorageKey.Fcm, JSON.stringify({token, userKey, osVersion, buildNumber}));
+    this.set(StorageKey.Fcm, {token, userKey, osVersion, buildNumber});
   },
 
   getFcm() {
-    const data = this.getString(StorageKey.Fcm);
-    if (data) {
-      return JSON.parse(data) as {token: string; userKey: string; osVersion: string; buildNumber: string};
-    } else {
-      return null;
-    }
+    return this.get(StorageKey.Fcm);
   },
 
   removeFcm() {
@@ -79,24 +100,27 @@ const storage = {
   },
 
   /********************************************************************************************************************
-   * getData
+   * Notice List
    * ******************************************************************************************************************/
 
-  getData<T>(key: StorageKey): {data_key: number; items: T} | undefined {
-    try {
-      const data = this.getString(key);
-      if (data) {
-        const jsData = JSON.parse(data);
-        return {
-          data_key: jsData.data_key,
-          items: jsData.items,
-        };
-      } else {
-        return undefined;
-      }
-    } catch (err) {
-      return undefined;
-    }
+  setNoticeList(dataKey: number, items: NoticeListData) {
+    this.set(StorageKey.NoticeList, {data_key: dataKey, items});
+  },
+
+  getNoticeList() {
+    return this.get(StorageKey.NoticeList);
+  },
+
+  /********************************************************************************************************************
+   * Faq List
+   * ******************************************************************************************************************/
+
+  setFaqList(dataKey: number, items: FaqListData) {
+    this.set(StorageKey.FaqList, {data_key: dataKey, items});
+  },
+
+  getFaqList() {
+    return this.get(StorageKey.FaqList);
   },
 };
 

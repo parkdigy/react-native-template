@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import storage from '@storage';
 import {FaqListData, FaqListDataItem, LoadingStatus} from '@const';
 import {ApiSectionListCommands, FormSearchTextCommands, FormToggleButtonGroupItems} from '@ccomp';
 import {FaqListProps as Props} from './FaqList.types';
@@ -113,7 +112,7 @@ const FaqList = ({}: Props) => {
 
   const handleLoadList = useCallback(() => {
     return new Promise<FaqListData>((resolve, reject) => {
-      const storageData = storage.getData<FaqListData>(storage.Key.FaqList);
+      const storageData = storage.getFaqList();
       const localDataKey = storageData?.data_key;
       const localItems = storageData?.items;
 
@@ -129,7 +128,7 @@ const FaqList = ({}: Props) => {
             newItems = localItems;
           } else if (items) {
             newItems = items;
-            storage.set(storage.Key.FaqList, JSON.stringify({data_key, items}));
+            storage.setFaqList(data_key, items);
           } else {
             storage.remove(storage.Key.FaqList);
           }
@@ -170,7 +169,7 @@ const FaqList = ({}: Props) => {
 
   const topComponent = useMemo(
     () => (
-      <View ph={24} pt={16}>
+      <View ph={15} pt={15}>
         <FormSearchText
           ref={keywordRef}
           name='keyword'
@@ -189,12 +188,12 @@ const FaqList = ({}: Props) => {
   const listFixedComponent = useMemo(
     () =>
       notEmpty(categoryItems) ? (
-        <View pv={16} mb={12} backgroundColor={theme.colors.background}>
+        <View pv={15} mb={12} backgroundColor={theme.colors.background}>
           <FormToggleButtonGroup
             name='category'
             buttonType='chip'
             horizontal
-            scrollViewContentPaddingHorizontal={24}
+            scrollViewContentPaddingHorizontal={15}
             value={category}
             items={categoryItems}
             disabled={isLoading}
@@ -214,7 +213,7 @@ const FaqList = ({}: Props) => {
   return (
     <ApiSectionList
       reloadListWhenActiveFromLongTermDeActive
-      contentContainerStyle={{paddingBottom: 24}}
+      contentContainerStyle={{paddingBottom: 15}}
       perPageListItemCount={LIMIT}
       emptyText='검색된 항목이 없습니다'
       TopComponent={topComponent}

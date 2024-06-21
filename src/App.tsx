@@ -28,7 +28,6 @@ import FirebaseAuth from '@react-native-firebase/auth';
 import NaverLogin from '@react-native-seoul/naver-login';
 import {logout as KakaoLogout} from '@react-native-seoul/kakao-login';
 import {AppAuthInfo, AppContextProvider, AppContextValue, AppForceColorScheme} from '@context';
-import storage from '@storage';
 import {ConfigInfoData} from '@const';
 import {api} from '@api';
 import {NavigationLightTheme, NavigationDarkTheme, PaperBlueLightTheme, PaperBlueDarkTheme} from './theme';

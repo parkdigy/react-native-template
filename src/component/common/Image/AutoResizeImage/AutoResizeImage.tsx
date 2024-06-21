@@ -2,7 +2,6 @@ import React from 'react';
 import {Image, unstable_batchedUpdates} from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import axios from 'axios';
-import storage from '@storage';
 import {API_AUTH_COOKIE_NAME} from '@api';
 import {AutoResizeImageProps as Props} from './AutoResizeImage.types';
 

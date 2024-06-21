@@ -7,7 +7,6 @@ import {ModalProps} from 'react-native';
 import Config from 'react-native-config';
 import {Text_Accent, Text_Error_W600} from '@style';
 import {useAppState} from '@context';
-import storage from '@storage';
 
 interface Props extends Pick<ModalProps, 'visible'> {
   reasons: string[];

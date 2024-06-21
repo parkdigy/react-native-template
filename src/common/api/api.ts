@@ -3,7 +3,6 @@ import {ApiOption, Api, ApiError, ApiRequestData, ApiRequestOption} from '@pdg/a
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
 import {getBuildNumber} from 'react-native-device-info';
-import storage from '@storage';
 import {ApiResult} from './api.types';
 
 export const API_BASE_URL =
