@@ -6,8 +6,11 @@
 
 import React from 'react';
 import codePush from 'react-native-code-push';
-import {StatusBar, unstable_batchedUpdates} from 'react-native';
+import {Appearance, ColorSchemeName, StatusBar, unstable_batchedUpdates} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider as PaperProvider} from 'react-native-paper';
+import {ThemeProvider} from 'styled-components/native';
 import FirebaseAuth from '@react-native-firebase/auth';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
@@ -18,6 +21,7 @@ import {AppAuthInfo} from '@context';
 import App from './App';
 import {AppStatus} from './common/app/app.types';
 import AppSplash from './AppSplash';
+import {NavigationDarkTheme, NavigationLightTheme, PaperBlueDarkTheme, PaperBlueLightTheme} from './theme';
 
 let lastCodePushRunTime = 0;
 
@@ -27,12 +31,7 @@ const FORCE_SHOW_COVER_SCREEN = false;
 const CODE_PUSH_TEST_DEPLOYMENT_KEY = isIos ? Config.TEST_CODE_PUSH_IOS_KEY : Config.TEST_CODE_PUSH_AND_KEY;
 const CODE_PUSH_TEST_MODE = Config.TEST_CODE_PUSH === 'true' && notEmpty(CODE_PUSH_TEST_DEPLOYMENT_KEY) && __DEV__;
 
-interface Props {
-  // 네비게이션 바 높이
-  navigationBarHeight: number;
-}
-
-let AppCodePush = ({}: Props) => {
+let AppCodePush = () => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -51,6 +50,17 @@ let AppCodePush = ({}: Props) => {
    * State
    * ******************************************************************************************************************/
 
+  // 테마 (dark|red)
+  const [colorScheme, setColorScheme] = useState<ColorSchemeName>(() => {
+    const theme = storage.getTheme();
+    switch (theme) {
+      case 'dark':
+      case 'light':
+        return theme;
+      default:
+        return Appearance.getColorScheme();
+    }
+  });
   // 인증 정보
   const [auth, setAuth] = useState<AppAuthInfo>();
   // 설정 정보
@@ -59,6 +69,20 @@ let AppCodePush = ({}: Props) => {
   const [updatingPercent, setUpdatingPercent] = useState(0);
   // App 컴포넌트 초기화 완료 여부
   const [componentReady, setComponentReady] = useState(false);
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  /** colorScheme 에 따른 테마 설정 */
+  const theme = useMemo(() => {
+    return colorScheme === 'dark' ? NavigationDarkTheme : NavigationLightTheme;
+  }, [colorScheme]);
+
+  /** colorScheme 에 따른 Paper 테마 설정 */
+  const paperTheme = useMemo(() => {
+    return colorScheme === 'dark' ? PaperBlueDarkTheme : PaperBlueLightTheme;
+  }, [colorScheme]);
 
   /********************************************************************************************************************
    * Effect
@@ -414,7 +438,6 @@ let AppCodePush = ({}: Props) => {
       ),
     [appStatus],
   );
-  // const showApp = false;
 
   /** Splash 화면 표시 여부 */
   const showCoverScreen = useMemo(
@@ -441,35 +464,39 @@ let AppCodePush = ({}: Props) => {
    * ******************************************************************************************************************/
 
   return (
-    <>
-      {showApp && config && (
-        <>
-          <App
-            initAuth={auth}
-            initConfig={config}
-            onReady={() => setComponentReady(true)}
-            onActiveFromBackground={handleActiveFromBackground}
-          />
-        </>
-      )}
-
-      {showCoverScreen && (
-        <>
-          {showApp ? (
-            <StatusBar animated />
-          ) : (
-            <StatusBar animated barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
+    <NavigationContainer theme={theme}>
+      <PaperProvider theme={paperTheme}>
+        <ThemeProvider theme={paperTheme}>
+          {showApp && config && (
+            <App
+              colorScheme={colorScheme}
+              initAuth={auth}
+              initConfig={config}
+              onColorSchemeChange={setColorScheme}
+              onReady={() => setComponentReady(true)}
+              onActiveFromBackground={handleActiveFromBackground}
+            />
           )}
 
-          <AppSplash
-            config={config}
-            componentReady={componentReady}
-            updatingPercent={updatingPercent}
-            onErrorRetry={() => loadConfig(true)}
-          />
-        </>
-      )}
-    </>
+          {showCoverScreen && (
+            <>
+              {showApp ? (
+                <StatusBar animated />
+              ) : (
+                <StatusBar animated barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
+              )}
+
+              <AppSplash
+                config={config}
+                componentReady={componentReady}
+                updatingPercent={updatingPercent}
+                onErrorRetry={() => loadConfig(true)}
+              />
+            </>
+          )}
+        </ThemeProvider>
+      </PaperProvider>
+    </NavigationContainer>
   );
 };
 

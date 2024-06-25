@@ -17,10 +17,7 @@ import {
   // eslint-disable-next-line react-native/split-platform-components
   PermissionsAndroid,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider as PaperProvider} from 'react-native-paper';
 import messaging from '@react-native-firebase/messaging';
-import {ThemeProvider} from 'styled-components/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import DeviceInfo, {getBuildNumber, getManufacturerSync, getModel} from 'react-native-device-info';
 import Config from 'react-native-config';
@@ -30,21 +27,24 @@ import {logout as KakaoLogout} from '@react-native-seoul/kakao-login';
 import {AppAuthInfo, AppContextProvider, AppContextValue, AppForceColorScheme} from '@context';
 import {ConfigInfoData} from '@const';
 import {api} from '@api';
-import {NavigationLightTheme, NavigationDarkTheme, PaperBlueLightTheme, PaperBlueDarkTheme} from './theme';
 import {DefaultLayout} from './layout';
 
 interface Props {
+  // 테마
+  colorScheme: ColorSchemeName;
   // 초기 인증 정보
   initAuth?: AppAuthInfo;
   // 초기 설정 정보
   initConfig: ConfigInfoData;
+  // 테마 변경
+  onColorSchemeChange(colorScheme: ColorSchemeName): void;
   // 백그라운드에서 앱이 활성화 될 때 이벤트
   onActiveFromBackground?(): void;
   // 초기화 완료 이벤트
   onReady?(): void;
 }
 
-const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => {
+const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFromBackground, onReady}: Props) => {
   /********************************************************************************************************************
    * Ref
    * ******************************************************************************************************************/
@@ -74,10 +74,17 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
   const [adidLoading, setAdidLoading] = useState(true);
   // 광고 ID
   const [adid, setAdid] = useState<string | null>(DEFAULT_ADID);
-  // 테마 (dark|red)
-  const [colorScheme, setColorScheme] = useState<ColorSchemeName>();
   // 강제 적용 테마 (light|dark|system)
-  const [forceColorScheme, setForceColorScheme] = useState<AppForceColorScheme>();
+  const [forceColorScheme, setForceColorScheme] = useState<AppForceColorScheme>(() => {
+    const theme = storage.getTheme();
+    switch (theme) {
+      case 'light':
+      case 'dark':
+        return theme;
+      default:
+        return 'system';
+    }
+  });
   // 성인인증 성공 콜백
   const [onAdultAuthSuccess, setOnAdultAuthSuccess] = useState<() => void>();
   // 아임포트 본인인증 성공 콜백
@@ -95,23 +102,6 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
       consumerSecret: Config.NAVER_LOGIN_CLIENT_SECRET,
       serviceUrlSchemeIOS: Config.NAVER_LOGIN_URL_SCHEME_IOS,
     });
-  }, []);
-
-  /** 테마 적용 - 설정에서 선택한 테마가 있으면 적용하고, 아니면 시스템 테마 적용 */
-  useEffect(() => {
-    const theme = storage.getTheme();
-    switch (theme) {
-      case 'light':
-      case 'dark':
-        // 설정에서 선택한 테마 적용
-        setColorScheme(theme);
-        setForceColorScheme(theme);
-        break;
-      default:
-        // 시스템 테마 적용
-        setColorScheme(Appearance.getColorScheme());
-        setForceColorScheme('system');
-    }
   }, []);
 
   /** 앱 상태 변경 이벤트 등록 */
@@ -260,19 +250,22 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
   );
 
   /** 테마 변경 */
-  const changeForceColorScheme = useCallback((newForceColorScheme: AppForceColorScheme) => {
-    switch (newForceColorScheme) {
-      case 'light':
-      case 'dark':
-        setColorScheme(newForceColorScheme);
-        break;
-      default:
-        setColorScheme(Appearance.getColorScheme());
-        break;
-    }
-    setForceColorScheme(newForceColorScheme);
-    storage.set(storage.Key.Theme, newForceColorScheme);
-  }, []);
+  const changeForceColorScheme = useCallback(
+    (newForceColorScheme: AppForceColorScheme) => {
+      switch (newForceColorScheme) {
+        case 'light':
+        case 'dark':
+          onColorSchemeChange(newForceColorScheme);
+          break;
+        default:
+          onColorSchemeChange(Appearance.getColorScheme());
+          break;
+      }
+      setForceColorScheme(newForceColorScheme);
+      storage.set(storage.Key.Theme, newForceColorScheme);
+    },
+    [onColorSchemeChange],
+  );
 
   /** 설정 정보 재로드 */
   const reloadConfig = useCallback(() => {
@@ -380,51 +373,34 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
   }, []);
 
   /********************************************************************************************************************
-   * Memo
-   * ******************************************************************************************************************/
-
-  /** colorScheme 에 따른 테마 설정 */
-  const theme = useMemo(() => {
-    return colorScheme === 'dark' ? NavigationDarkTheme : NavigationLightTheme;
-  }, [colorScheme]);
-
-  /** colorScheme 에 따른 Paper 테마 설정 */
-  const paperTheme = useMemo(() => {
-    return colorScheme === 'dark' ? PaperBlueDarkTheme : PaperBlueLightTheme;
-  }, [colorScheme]);
-
-  /********************************************************************************************************************
    * AppContext Value
    * ******************************************************************************************************************/
 
   /** AppContext 의 Value 설정 */
   const appStateValue: AppContextValue | undefined = useMemo(
-    () =>
-      colorScheme && forceColorScheme
-        ? {
-            adid,
-            setAdid,
-            adidLoading,
-            setAdidLoading,
-            appState,
-            auth,
-            reloadAuth,
-            setAuth,
-            clearAuth,
-            reloadFcmToken,
-            config,
-            setConfig,
-            reloadConfig,
-            colorScheme,
-            setColorScheme,
-            forceColorScheme,
-            setForceColorScheme: changeForceColorScheme,
-            onAdultAuthSuccess,
-            setOnAdultAuthSuccess: finalSetOnAdultAuthSuccess,
-            onImpCertificationSuccess,
-            setOnImpCertificationSuccess: finalSetOnImpCertificationSuccess,
-          }
-        : undefined,
+    () => ({
+      adid,
+      setAdid,
+      adidLoading,
+      setAdidLoading,
+      appState,
+      auth,
+      reloadAuth,
+      setAuth,
+      clearAuth,
+      reloadFcmToken,
+      config,
+      setConfig,
+      reloadConfig,
+      colorScheme,
+      setColorScheme: onColorSchemeChange,
+      forceColorScheme,
+      setForceColorScheme: changeForceColorScheme,
+      onAdultAuthSuccess,
+      setOnAdultAuthSuccess: finalSetOnAdultAuthSuccess,
+      onImpCertificationSuccess,
+      setOnImpCertificationSuccess: finalSetOnImpCertificationSuccess,
+    }),
     [
       adid,
       adidLoading,
@@ -438,6 +414,7 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
       finalSetOnImpCertificationSuccess,
       forceColorScheme,
       onAdultAuthSuccess,
+      onColorSchemeChange,
       onImpCertificationSuccess,
       reloadAuth,
       reloadConfig,
@@ -480,24 +457,17 @@ const App = ({initAuth, initConfig, onActiveFromBackground, onReady}: Props) => 
    * Render
    * ******************************************************************************************************************/
 
-  return appStateValue ? (
+  return (
     <AppContextProvider value={appStateValue}>
       <GestureHandlerRootView style={{flex: 1}}>
-        <NavigationContainer theme={theme}>
-          <ActiveDetector
-            onActiveFromBackground={handleActiveFromBackground}
-            onAppActiveFromInactive={handleAppActiveFromInactive}
-          />
-
-          <PaperProvider theme={paperTheme}>
-            <ThemeProvider theme={paperTheme}>
-              <DefaultLayout />
-            </ThemeProvider>
-          </PaperProvider>
-        </NavigationContainer>
+        <ActiveDetector
+          onActiveFromBackground={handleActiveFromBackground}
+          onAppActiveFromInactive={handleAppActiveFromInactive}
+        />
+        <DefaultLayout />
       </GestureHandlerRootView>
     </AppContextProvider>
-  ) : null;
+  );
 };
 
 export default App;

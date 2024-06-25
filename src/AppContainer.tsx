@@ -7,7 +7,7 @@
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import React from 'react';
-import {StatusBar, Dimensions} from 'react-native';
+import {StatusBar} from 'react-native';
 import app from '@app';
 import AppCodePush from './AppCodePush';
 
@@ -19,9 +19,6 @@ const AppContainer = ({notificationData}: Props) => {
   /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
-
-  // NavigationBar 높이
-  const [navigationBarHeight, setNavigationBarHeight] = useState<number | undefined>(isIos ? 0 : undefined);
 
   /********************************************************************************************************************
    * Effect
@@ -39,20 +36,8 @@ const AppContainer = ({notificationData}: Props) => {
   return (
     <>
       <StatusBar barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
-      <SafeAreaProvider
-        onLayout={
-          isAndroid
-            ? (e) => {
-                if (navigationBarHeight === undefined) {
-                  setNavigationBarHeight(
-                    Dimensions.get('screen').height - e.nativeEvent.layout.height - (StatusBar.currentHeight || 0),
-                  );
-                }
-              }
-            : undefined
-        }
-        style={{backgroundColor: app.color.CoverScreenBackground}}>
-        {navigationBarHeight !== undefined && <AppCodePush navigationBarHeight={navigationBarHeight} />}
+      <SafeAreaProvider style={{backgroundColor: app.color.CoverScreenBackground}}>
+        <AppCodePush />
       </SafeAreaProvider>
     </>
   );
