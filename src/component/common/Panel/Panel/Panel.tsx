@@ -33,7 +33,7 @@ const Panel = ({title, itemPadding = 16, children, ...props}: Props) => {
         </Text_Accent_W600>
       )}
       <ShadowView borderRadius={10} backgroundColor={theme.colors.bgPrimary}>
-        {React.Children.map(removeReactFragment(children), (child, idx) => {
+        {React.Children.map(util.react.removeFragment(children), (child, idx) => {
           if (React.isValidElement(child)) {
             const {children: itemChildren, ...itemProps} = child.props;
             return (

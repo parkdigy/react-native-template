@@ -104,21 +104,16 @@ module.exports = {
     isIos: 'readonly',
     isAndroid: 'readonly',
 
-    // react-fragment
-    isReactFragment: 'readonly',
-    removeReactFragment: 'readonly',
-
     // adid
     DEFAULT_ADID: 'readonly',
 
-    // nas
-    nas: 'readonly',
-
-    // app
+    // common
+    animations: 'readonly',
+    api: 'readonly',
     app: 'readonly',
-
-    // storage
     storage: 'readonly',
+    text: 'readonly',
+    util: 'readonly',
 
     // timeout
     delayTimeout: 'readonly',
@@ -139,8 +134,6 @@ module.exports = {
     StyledReactNativePaperTheme: 'readonly',
     useTheme: 'readonly',
 
-    // text
-    text: 'readonly',
     // Const
     Const: 'readonly',
 

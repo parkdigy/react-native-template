@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text as PaperText} from 'react-native-paper';
-import {Falsy, RecursiveArray, RegisteredStyle, TextStyle} from 'react-native';
+import {TextStyle} from 'react-native';
 import CustomComponent from '../../CustomComponent';
 import {TextProps as Props, TextSize} from './Text.types';
 
@@ -166,7 +166,7 @@ const Text = ({
     let fw: Props['fontWeight'];
     if (style) {
       if (Array.isArray(style)) {
-        fw = ifNullOrUndefined(findFontWeight(style), fontWeight);
+        fw = ifNullOrUndefined(util.style.findFontWeight(style), fontWeight);
       } else if (typeof style === 'object') {
         fw = ifNullOrUndefined(style.fontWeight, fontWeight);
       }
@@ -227,20 +227,3 @@ const Text = ({
 };
 
 export default Text;
-
-const findFontWeight = (s: RecursiveArray<Falsy | TextStyle | RegisteredStyle<TextStyle>>): TextStyle['fontWeight'] => {
-  let fw: TextStyle['fontWeight'];
-  for (const s2 of s.reverse()) {
-    if (Array.isArray(s2)) {
-      fw = findFontWeight(s2);
-    } else if (typeof s2 === 'object') {
-      if ((s2 as TextStyle).fontWeight !== undefined) {
-        fw = (s2 as TextStyle).fontWeight;
-      }
-    }
-    if (fw !== undefined) {
-      break;
-    }
-  }
-  return fw;
-};

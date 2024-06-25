@@ -18,6 +18,7 @@ module.exports = {
           '@app': './src/common/app',
           '@api': './src/common/api',
           '@storage': './src/common/storage',
+          '@util': './src/common/util',
           '@image': './src/@assets/image',
         },
       },

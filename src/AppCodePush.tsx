@@ -17,7 +17,6 @@ import {ConfigInfoData} from '@const';
 import {AppAuthInfo} from '@context';
 import App from './App';
 import {AppStatus} from './common/app/app.types';
-import {api} from './common';
 import AppSplash from './AppSplash';
 
 let lastCodePushRunTime = 0;

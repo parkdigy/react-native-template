@@ -1,5 +1,5 @@
 import React from 'react';
-import {GestureResponderEvent} from 'react-native';
+import {Falsy, GestureResponderEvent, RecursiveArray, RegisteredStyle, TextStyle} from 'react-native';
 import CustomComponent from '../../CustomComponent';
 import {ButtonProps as Props, ButtonSize} from './Button.types';
 
@@ -142,8 +142,53 @@ const Button = ({
   );
 
   const finalLabelStyle = useMemo(() => {
+    let fw: Props['fontWeight'];
+    if (labelStyle) {
+      if (Array.isArray(labelStyle)) {
+        fw = ifNullOrUndefined(findFontWeight(labelStyle), fontWeight);
+      } else if (typeof labelStyle === 'object') {
+        fw = ifNullOrUndefined(labelStyle.fontWeight, fontWeight);
+      }
+    } else {
+      fw = fontWeight;
+    }
+
+    const finalFontWeight = (
+      fw !== undefined ? (typeof fw === 'number' ? `${fw}` : fw) : fw
+    ) as TextStyle['fontWeight'];
+
+    let fontFamily: TextStyle['fontFamily'];
+    if (Platform.OS === 'android') {
+      switch (finalFontWeight) {
+        case '300':
+          fontFamily = 'Pretendard-Light';
+          break;
+        case '500':
+          fontFamily = 'Pretendard-Medium';
+          break;
+        case '600':
+          fontFamily = 'Pretendard-SemiBold';
+          break;
+        case '700':
+          fontFamily = 'Pretendard-Bold';
+          break;
+        case '800':
+          fontFamily = 'Pretendard-ExtraBold';
+          break;
+        case '900':
+          fontFamily = 'Pretendard-Black';
+          break;
+        default:
+          fontFamily = 'Pretendard-Regular';
+          break;
+      }
+    } else {
+      fontFamily = 'Pretendard';
+    }
+
     return [
       ButtonSize[size || 'md'],
+      {fontFamily},
       ifNotUndefined(height, {marginVertical: 0, lineHeight: height}),
       ifNotUndefined(fontSize, {fontSize}),
       ifNotUndefined(fontWeight, {fontWeight}),
@@ -218,3 +263,23 @@ const Button = ({
 };
 
 export default Button;
+
+/********************************************************************************************************************
+ * findFontWeight
+ * ******************************************************************************************************************/
+const findFontWeight = (s: RecursiveArray<Falsy | TextStyle | RegisteredStyle<TextStyle>>): TextStyle['fontWeight'] => {
+  let fw: TextStyle['fontWeight'];
+  for (const s2 of s.reverse()) {
+    if (Array.isArray(s2)) {
+      fw = findFontWeight(s2);
+    } else if (typeof s2 === 'object') {
+      if ((s2 as TextStyle).fontWeight !== undefined) {
+        fw = (s2 as TextStyle).fontWeight;
+      }
+    }
+    if (fw !== undefined) {
+      break;
+    }
+  }
+  return fw;
+};

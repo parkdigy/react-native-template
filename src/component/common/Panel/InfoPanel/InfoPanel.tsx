@@ -27,7 +27,7 @@ export const InfoPanel = ({title, children, ...props}: Props) => {
             </Stack>
           )}
           <Stack spacing={5}>
-            {React.Children.map(removeReactFragment(children), (child, idx) => {
+            {React.Children.map(util.react.removeFragment(children), (child, idx) => {
               if (React.isValidElement(child)) {
                 if (child.type !== InfoPanelItem) {
                   throw new Error('InfoPanel 에는 InfoPanelItem 만 포함될 수 있습니다.');

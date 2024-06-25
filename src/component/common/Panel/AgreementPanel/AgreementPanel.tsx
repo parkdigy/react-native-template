@@ -58,7 +58,7 @@ export const AgreementPanel = ({children, title, allCheck, allCheckName, disable
         </PanelItem>
       )}
 
-      {React.Children.map(removeReactFragment(children), (child, idx) => {
+      {React.Children.map(util.react.removeFragment(children), (child, idx) => {
         if (React.isValidElement(child)) {
           if (child.type !== AgreementPanelItem) {
             throw new Error('AgreementPanel 에는 AgreementPanelItem 만 포함될 수 있습니다.');
