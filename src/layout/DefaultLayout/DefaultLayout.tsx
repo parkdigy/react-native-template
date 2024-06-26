@@ -36,7 +36,7 @@ const DefaultLayout = () => {
       case app.AppStatus.Main:
         nextTick(() => {
           app.navigationBar.fullScreen(false);
-          app.navigationBar.set(theme.dark ? theme.colors.black : theme.colors.white, theme.dark ? 'light' : 'dark');
+          app.navigationBar.set(theme.colors.surface, theme.dark ? 'light' : 'dark');
         });
         break;
     }

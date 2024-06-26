@@ -23,6 +23,7 @@ const MainStack = ({navigation}: ScreenProps) => {
    * Use
    * ******************************************************************************************************************/
 
+  const theme = useTheme();
   const {commonStackNavigationOptions, auth, adid, setAdid, setAdidLoading, reloadAuth} = useAppState();
   const lockScreen = useAppListener('lockScreen');
 
@@ -181,7 +182,11 @@ const MainStack = ({navigation}: ScreenProps) => {
 
       <Stack.Navigator
         initialRouteName='MainTab'
-        screenOptions={{...commonStackNavigationOptions, gestureEnabled: !lockScreen}}>
+        screenOptions={{
+          ...commonStackNavigationOptions,
+          gestureEnabled: !lockScreen,
+          navigationBarColor: theme.colors.background,
+        }}>
         <Stack.Screen name='MainTab' component={MainTab} options={{headerShown: false}} />
         {/*<StackNavigator.Group screenOptions={{header: handleHeader, presentation: isIos ? 'modal' : undefined}}>*/}
         {/*  <StackNavigator.Screen name='TermsOfService' component={TermsOfServiceScreen} />*/}
