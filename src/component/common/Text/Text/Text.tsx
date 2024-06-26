@@ -82,7 +82,7 @@ const Text = ({
           newCustomStyle.color = theme.colors.textRight200;
           break;
         default:
-          newCustomStyle.color = color;
+          newCustomStyle.color = tc;
           break;
       }
     }
