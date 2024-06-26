@@ -65,8 +65,7 @@ const DefaultLayout = () => {
         />
       )}
 
-      <Stack.Navigator
-        screenOptions={{headerShown: false, gestureEnabled: !lockScreen, navigationBarColor: theme.colors.surface}}>
+      <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: !lockScreen}}>
         <Stack.Screen name='Root' component={RootStack} />
       </Stack.Navigator>
     </>

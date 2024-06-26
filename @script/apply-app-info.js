@@ -289,6 +289,18 @@ if (fs.existsSync(stringsXmlPath)) {
 
   let fileContent = fs.readFileSync(stringsXmlPath, 'utf8');
 
+  if (env.DISPLAY_NAME) {
+    const findStr = '<string name="app_name">';
+    let start = fileContent.indexOf(findStr);
+    if (start > -1) {
+      start += findStr.length;
+      const end = fileContent.indexOf('</string>', start);
+      if (end > -1) {
+        fileContent = fileContent.substring(0, start) + env.DISPLAY_NAME + fileContent.substring(end);
+      }
+    }
+  }
+
   if (env.KAKAO_APP_KEY) {
     const findStr = '<string name="kakao_app_key">';
     let start = fileContent.indexOf(findStr);
