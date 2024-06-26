@@ -1,11 +1,13 @@
 import {AppStateStatus, ColorSchemeName} from 'react-native';
 import {AuthInfo, ConfigInfoData} from '@const';
+import {NativeStackNavigationOptions} from '@react-navigation/native-stack/src/types';
 
 export type AppForceColorScheme = 'light' | 'dark' | 'system';
 
 export interface AppAuthInfo extends AuthInfo {}
 
 export interface AppContextValue {
+  commonStackNavigationOptions: NativeStackNavigationOptions;
   auth?: AppAuthInfo;
   colorScheme: ColorSchemeName;
   forceColorScheme: AppForceColorScheme;

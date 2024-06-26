@@ -8,6 +8,7 @@ import {AuthScreenList} from '@types';
 import {AuthHomeScreen, TermsOfPrivacyFullScreen, TermsOfServiceFullScreen} from '@screen';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
+import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<AuthScreenList>();
 
@@ -17,6 +18,7 @@ const AuthStack = () => {
    * ******************************************************************************************************************/
 
   const lockScreen = useAppListener('lockScreen');
+  const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
    * Event Handler
@@ -30,7 +32,9 @@ const AuthStack = () => {
 
   return (
     <>
-      <Stack.Navigator initialRouteName='AuthHome' screenOptions={{header: handleHeader, gestureEnabled: !lockScreen}}>
+      <Stack.Navigator
+        initialRouteName='AuthHome'
+        screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
         <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
           <Stack.Screen name='AuthHome' component={AuthHomeScreen} />
         </Stack.Group>

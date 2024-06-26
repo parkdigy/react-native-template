@@ -46,6 +46,12 @@ interface Props {
 
 const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFromBackground, onReady}: Props) => {
   /********************************************************************************************************************
+   * Use
+   * ******************************************************************************************************************/
+
+  const theme = useTheme();
+
+  /********************************************************************************************************************
    * Ref
    * ******************************************************************************************************************/
 
@@ -89,6 +95,15 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   const [onAdultAuthSuccess, setOnAdultAuthSuccess] = useState<() => void>();
   // 아임포트 본인인증 성공 콜백
   const [onImpCertificationSuccess, setOnImpCertificationSuccess] = useState<(impUid: string) => void>();
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  const commonStackNavigationOptions = useMemo(
+    () => ({navigationBarColor: theme.colors.surface}),
+    [theme.colors.surface],
+  );
 
   /********************************************************************************************************************
    * Effect
@@ -379,6 +394,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   /** AppContext 의 Value 설정 */
   const appStateValue: AppContextValue | undefined = useMemo(
     () => ({
+      commonStackNavigationOptions,
       adid,
       setAdid,
       adidLoading,
@@ -419,6 +435,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       reloadAuth,
       reloadConfig,
       reloadFcmToken,
+      theme.colors.surface,
     ],
   );
 

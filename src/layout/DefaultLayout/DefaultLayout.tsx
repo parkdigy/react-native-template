@@ -7,6 +7,7 @@ import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAppListener} from '@app';
 import RootStack from './RootStack';
+import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<{Root: undefined}>();
 
@@ -18,6 +19,7 @@ const DefaultLayout = () => {
   const theme = useTheme();
   const appStatus = useAppListener('appStatus');
   const lockScreen = useAppListener('lockScreen');
+  const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
    * LayoutEffect
@@ -66,7 +68,7 @@ const DefaultLayout = () => {
       )}
 
       <Stack.Navigator
-        screenOptions={{headerShown: false, gestureEnabled: !lockScreen, navigationBarColor: theme.colors.surface}}>
+        screenOptions={{...commonStackNavigationOptions, headerShown: false, gestureEnabled: !lockScreen}}>
         <Stack.Screen name='Root' component={RootStack} />
       </Stack.Navigator>
     </>

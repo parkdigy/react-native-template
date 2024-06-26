@@ -70,7 +70,6 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
 
   return (
     <View
-      animated
       backgroundColor={theme.colors.splashBackground}
       opacity={hideAnimation}
       position={'absolute'}

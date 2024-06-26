@@ -8,6 +8,7 @@ import {MainTabHomeScreenList, ScreenProps} from '@types';
 import {HomeScreen} from '@screen';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
+import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<MainTabHomeScreenList>();
 
@@ -17,6 +18,7 @@ const MainTabHomeStack = ({}: ScreenProps) => {
    * ******************************************************************************************************************/
 
   const lockScreen = useAppListener('lockScreen');
+  const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
    * Event Handler
@@ -29,7 +31,9 @@ const MainTabHomeStack = ({}: ScreenProps) => {
    * ******************************************************************************************************************/
 
   return (
-    <Stack.Navigator initialRouteName='Home' screenOptions={{header: handleHeader, gestureEnabled: !lockScreen}}>
+    <Stack.Navigator
+      initialRouteName='Home'
+      screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
       <Stack.Screen name='Home' component={HomeScreen} options={{headerShown: false}} />
     </Stack.Navigator>
   );

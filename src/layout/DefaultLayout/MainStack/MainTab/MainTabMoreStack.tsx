@@ -17,6 +17,7 @@ import {
 } from '@screen';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
+import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<MainTabMoreScreenList>();
 
@@ -26,6 +27,7 @@ const MainTabMoreStack = ({}: ScreenProps) => {
    * ******************************************************************************************************************/
 
   const lockScreen = useAppListener('lockScreen');
+  const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
    * Event Handler
@@ -38,7 +40,9 @@ const MainTabMoreStack = ({}: ScreenProps) => {
    * ******************************************************************************************************************/
 
   return (
-    <Stack.Navigator initialRouteName='MoreHome' screenOptions={{header: handleHeader, gestureEnabled: !lockScreen}}>
+    <Stack.Navigator
+      initialRouteName='MoreHome'
+      screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
       <Stack.Screen name='MoreHome' component={MoreHomeScreen} options={{headerShown: false}} />
       <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
       <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />

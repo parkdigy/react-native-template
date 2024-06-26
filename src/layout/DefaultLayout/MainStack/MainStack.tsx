@@ -23,7 +23,7 @@ const MainStack = ({navigation}: ScreenProps) => {
    * Use
    * ******************************************************************************************************************/
 
-  const {auth, adid, setAdid, setAdidLoading, reloadAuth} = useAppState();
+  const {commonStackNavigationOptions, auth, adid, setAdid, setAdidLoading, reloadAuth} = useAppState();
   const lockScreen = useAppListener('lockScreen');
 
   /********************************************************************************************************************
@@ -179,7 +179,9 @@ const MainStack = ({navigation}: ScreenProps) => {
       <ActiveDetector onActiveFromBackground={handleActiveFromBackground} />
       <Fcm />
 
-      <Stack.Navigator initialRouteName='MainTab' screenOptions={{gestureEnabled: !lockScreen}}>
+      <Stack.Navigator
+        initialRouteName='MainTab'
+        screenOptions={{...commonStackNavigationOptions, gestureEnabled: !lockScreen}}>
         <Stack.Screen name='MainTab' component={MainTab} options={{headerShown: false}} />
         {/*<StackNavigator.Group screenOptions={{header: handleHeader, presentation: isIos ? 'modal' : undefined}}>*/}
         {/*  <StackNavigator.Screen name='TermsOfService' component={TermsOfServiceScreen} />*/}
