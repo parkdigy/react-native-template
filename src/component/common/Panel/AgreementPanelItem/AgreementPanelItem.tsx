@@ -1,6 +1,6 @@
 import React from 'react';
 import {useAutoUpdateRefState} from '@pdg/react-hook';
-import {Text_Primary} from '@style';
+import {Text_Default, Text_Primary} from '@style';
 import {AgreementPanelItemCommand, AgreementPanelItemProps as Props} from './AgreementPanelItem.types';
 
 export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Props>(
@@ -57,10 +57,10 @@ export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Pr
       <Stack row center spacing={10}>
         <View flex={1}>
           <FormCheckbox name={name} checked={checked} disabled={disabled} onChange={setChecked}>
-            <Text>
+            <Text_Default>
               {required && <Text_Primary>[필수]&nbsp;</Text_Primary>}
-              <Text>{title}</Text>
-            </Text>
+              <Text_Default>{title}</Text_Default>
+            </Text_Default>
           </FormCheckbox>
         </View>
         <View mt={-10} mb={-10}>

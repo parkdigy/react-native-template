@@ -1,6 +1,6 @@
 import React from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {Text_12_W500, Text_13_W500} from '@style';
+import {Text_Default} from '@style';
 import {FormTextCommands} from '../FormText';
 import {FormPasswordProps as Props, FormPasswordCommands} from './FormPassword.types';
 
@@ -192,7 +192,9 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
                   }
                 />
-                <Text_13_W500 color={isContainAlphabet ? 'primary' : error ? 'error' : 'right100'}>영문</Text_13_W500>
+                <Text_Default s={13} w={500} color={isContainAlphabet ? 'primary' : error ? 'error' : 'right100'}>
+                  영문
+                </Text_Default>
               </Stack>
             )}
             {formatNumeric && (
@@ -204,7 +206,9 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
                   }
                 />
-                <Text_13_W500 color={isContainNumeric ? 'primary' : error ? 'error' : 'right100'}>숫자</Text_13_W500>
+                <Text_Default s={13} w={500} color={isContainNumeric ? 'primary' : error ? 'error' : 'right100'}>
+                  숫자
+                </Text_Default>
               </Stack>
             )}
             {formatSpecialChar && (
@@ -216,9 +220,9 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
                   }
                 />
-                <Text_12_W500 color={isContainSpecialChar ? 'primary' : error ? 'error' : 'right100'}>
+                <Text_Default s={12} w={500} color={isContainSpecialChar ? 'primary' : error ? 'error' : 'right100'}>
                   특수문자
-                </Text_12_W500>
+                </Text_Default>
               </Stack>
             )}
             {formatLength !== undefined && (
@@ -230,9 +234,9 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
                   }
                 />
-                <Text_13_W500 color={isOverLength ? 'primary' : error ? 'error' : 'right100'}>
+                <Text_Default s={13} w={500} color={isOverLength ? 'primary' : error ? 'error' : 'right100'}>
                   {formatLength}글자 이상
-                </Text_13_W500>
+                </Text_Default>
               </Stack>
             )}
           </Stack>

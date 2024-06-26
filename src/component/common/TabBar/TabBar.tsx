@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_W600} from '@style';
+import {Text_Default} from '@style';
 import {TabBarProps as Props, TabBarItemValue} from './TabBar.types';
 
 function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initValue, onChange, ...props}: Props<T>) {
@@ -58,7 +58,9 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
                 <View flexDirection='row' pb={14} position='relative'>
                   <Stack row center spacing={8}>
                     {active && info.activeIcon ? info.activeIcon : info.icon}
-                    <Text_W600 color={active ? 'primary' : undefined}>{info.label}</Text_W600>
+                    <Text_Default w={600} color={active ? 'primary' : undefined}>
+                      {info.label}
+                    </Text_Default>
                   </Stack>
                   {active && (
                     <View
@@ -92,7 +94,7 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
                 borderBottomWidth={1}>
                 <Stack row center spacing={8}>
                   {active && info.activeIcon ? info.activeIcon : info.icon}
-                  <Text color={active ? 'primary100' : 'primary200'}>{info.label}</Text>
+                  <Text_Default color={active ? 'primary100' : 'primary200'}>{info.label}</Text_Default>
                 </Stack>
               </View>
             )}

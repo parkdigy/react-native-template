@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {useAppState} from '@context';
-import {Text_18_Accent_W800, Text_18_Primary_W800, Text_Accent} from '@style';
+import {Text_Accent, Text_Default, Text_Primary} from '@style';
 import {MyResignFormProps as Props} from './MyResignForm.types';
 import {ConfirmDialog} from './controls';
 
@@ -74,11 +74,15 @@ const MyResignForm = ({navigation}: Props) => {
         <Stack spacing={28}>
           <Stack spacing={24}>
             <View>
-              <Text_18_Accent_W800 lineHeight={27}>
-                <Text_18_Primary_W800>{auth?.nickname}</Text_18_Primary_W800>
+              <Text_Accent s={18} w={800} lh={27}>
+                <Text_Primary s={18} w={800} lh={27}>
+                  {auth?.nickname}
+                </Text_Primary>
                 님,
-              </Text_18_Accent_W800>
-              <Text_18_Accent_W800 lineHeight={27}>회원 탈퇴 전 아래 내용을 확인해 주세요.</Text_18_Accent_W800>
+              </Text_Accent>
+              <Text_Accent s={18} w={800} lh={27}>
+                회원 탈퇴 전 아래 내용을 확인해 주세요.
+              </Text_Accent>
             </View>
             <View backgroundColor={theme.colors.opacity05} borderRadius={10}>
               <BulletValueList
@@ -105,22 +109,24 @@ const MyResignForm = ({navigation}: Props) => {
           <Divider />
 
           <Stack spacing={14}>
-            <Text_18_Accent_W800 lineHeight={27}>회원 탈퇴 사유를 선택해 주세요.</Text_18_Accent_W800>
+            <Text_Accent s={18} w={800} lh={27}>
+              회원 탈퇴 사유를 선택해 주세요.
+            </Text_Accent>
             <View>
               <FormCheckbox name='is_reason_1_agree' checked={isReason1Agree} onChange={setIsReason1Agree}>
                 <Stack row flex={1}>
-                  <Text lineHeight={18}>{_reasons[1]}</Text>
+                  <Text_Default lh={18}>{_reasons[1]}</Text_Default>
                 </Stack>
               </FormCheckbox>
               <FormCheckbox name='is_reason_2_agree' checked={isReason2Agree} onChange={setIsReason2Agree}>
                 <Stack row flex={1}>
-                  <Text lineHeight={18}>{_reasons[2]}</Text>
+                  <Text_Default lh={18}>{_reasons[2]}</Text_Default>
                 </Stack>
               </FormCheckbox>
               <Stack>
                 <FormCheckbox name='is_reason_etc_agree' checked={isReasonEtcAgree} onChange={setIsReasonEtcAgree}>
                   <Stack row flex={1}>
-                    <Text lineHeight={18}>기타 이유로 앱 사용에 불편함이 있었습니다.</Text>
+                    <Text_Default lh={18}>기타 이유로 앱 사용에 불편함이 있었습니다.</Text_Default>
                   </Stack>
                 </FormCheckbox>
                 {isReasonEtcAgree && (

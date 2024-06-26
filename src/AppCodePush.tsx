@@ -12,6 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {ThemeProvider} from 'styled-components/native';
 import FirebaseAuth from '@react-native-firebase/auth';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import notifee from '@notifee/react-native';
@@ -101,7 +102,7 @@ let AppCodePush = () => {
     // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
     app.navigationBar.fullScreen(false);
     // 네비게이션 바 색상 및 스타일 설정
-    app.navigationBar.set(app.color.CoverScreenBackground, 'light');
+    app.navigationBar.set(paperTheme.colors.splashBackground, 'light');
     // BootSplash 화면 숨김
     BootSplash.hide({fade: true}).then(() => {});
     // 설정 정보 로드
@@ -123,7 +124,7 @@ let AppCodePush = () => {
         // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
         app.navigationBar.fullScreen(false);
         // 네비게이션 바 색상 및 스타일 설정
-        app.navigationBar.set(app.color.CoverScreenBackground, 'light');
+        app.navigationBar.set(paperTheme.colors.splashBackground, 'light');
       });
     } else if (appStatus === app.AppStatus.RequiredAppUpdate) {
       // 앱 강제 업데이트 상태로 변경 시
@@ -132,10 +133,10 @@ let AppCodePush = () => {
         // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
         app.navigationBar.fullScreen(false);
         // 네비게이션 바 색상 및 스타일 설정
-        app.navigationBar.set(app.color.CoverScreenBackground, 'light');
+        app.navigationBar.set(paperTheme.colors.splashBackground, 'light');
       });
     }
-  }, [appStatus]);
+  }, [appStatus, paperTheme.colors.splashBackground]);
 
   /********************************************************************************************************************
    * Function
@@ -467,33 +468,35 @@ let AppCodePush = () => {
     <NavigationContainer theme={theme}>
       <PaperProvider theme={paperTheme}>
         <ThemeProvider theme={paperTheme}>
-          {showApp && config && (
-            <App
-              colorScheme={colorScheme}
-              initAuth={auth}
-              initConfig={config}
-              onColorSchemeChange={setColorScheme}
-              onReady={() => setComponentReady(true)}
-              onActiveFromBackground={handleActiveFromBackground}
-            />
-          )}
-
-          {showCoverScreen && (
-            <>
-              {showApp ? (
-                <StatusBar animated />
-              ) : (
-                <StatusBar animated barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
-              )}
-
-              <AppSplash
-                config={config}
-                componentReady={componentReady}
-                updatingPercent={updatingPercent}
-                onErrorRetry={() => loadConfig(true)}
+          <SafeAreaProvider style={{backgroundColor: paperTheme.colors.splashBackground}}>
+            {showApp && config && (
+              <App
+                colorScheme={colorScheme}
+                initAuth={auth}
+                initConfig={config}
+                onColorSchemeChange={setColorScheme}
+                onReady={() => setComponentReady(true)}
+                onActiveFromBackground={handleActiveFromBackground}
               />
-            </>
-          )}
+            )}
+
+            {showCoverScreen && (
+              <>
+                {showApp ? (
+                  <StatusBar animated />
+                ) : (
+                  <StatusBar animated barStyle='light-content' backgroundColor={paperTheme.colors.splashBackground} />
+                )}
+
+                <AppSplash
+                  config={config}
+                  componentReady={componentReady}
+                  updatingPercent={updatingPercent}
+                  onErrorRetry={() => loadConfig(true)}
+                />
+              </>
+            )}
+          </SafeAreaProvider>
         </ThemeProvider>
       </PaperProvider>
     </NavigationContainer>

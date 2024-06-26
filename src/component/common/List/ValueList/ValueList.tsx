@@ -3,6 +3,7 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
+import {Text_Default} from '@style';
 import {ValueListProps as Props} from './ValueList.types';
 
 const ValueList = ({label, items, valueTextProps, ...props}: Props) => {
@@ -14,7 +15,7 @@ const ValueList = ({label, items, valueTextProps, ...props}: Props) => {
             <Stack row spacing={8} key={idx}>
               {label && <View>{label}</View>}
               <View flex={1}>
-                <Text {...valueTextProps}>{v}</Text>
+                <Text_Default {...valueTextProps}>{v}</Text_Default>
               </View>
             </Stack>
           ) : (

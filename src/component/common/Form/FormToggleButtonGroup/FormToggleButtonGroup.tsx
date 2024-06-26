@@ -1,6 +1,7 @@
 import React from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
 import {AutoTypeForwardRef, ToForwardRefExoticComponent} from '@types';
+import {Text_Default} from '@style';
 import FormControl, {FormControlCommands} from '../FormControl';
 import {
   FormToggleButtonGroupProps,
@@ -194,11 +195,11 @@ const FormToggleButtonGroup = ToForwardRefExoticComponent(
                           backgroundColor={active ? theme.colors.primary : theme.colors.opacity05}
                           borderRadius={20}
                           onPress={disabled ? undefined : () => toggleValue(info.value)}>
-                          <Text
-                            color={active ? theme.colors.onPrimary : theme.colors.textAccent}
-                            fontWeight={active ? 600 : undefined}>
+                          <Text_Default
+                            c={active ? theme.colors.onPrimary : theme.colors.textAccent}
+                            w={active ? 600 : undefined}>
                             {info.label}
-                          </Text>
+                          </Text_Default>
                         </TouchableOpacity>
                       );
                     default:

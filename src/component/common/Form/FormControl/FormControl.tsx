@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {Text_12} from '@style';
+import {Text_Default} from '@style';
 import {useFormState} from '../FormContext';
 import {FormControlProps as Props, FormControlCommands} from './FormControl.types';
 
@@ -124,7 +124,15 @@ function FormControl<T extends unknown>({
             {label}
           </Label>
           {labelHelperText && (
-            <>{typeof labelHelperText === 'string' ? <Text_12 mt={6}>{labelHelperText}</Text_12> : labelHelperText}</>
+            <>
+              {typeof labelHelperText === 'string' ? (
+                <Text_Default s={12} mt={6}>
+                  {labelHelperText}
+                </Text_Default>
+              ) : (
+                labelHelperText
+              )}
+            </>
           )}
         </View>
       )}
@@ -133,9 +141,11 @@ function FormControl<T extends unknown>({
       {helperText && (
         <View mt={10} ml={3}>
           {typeof helperText === 'string' ? (
-            <Text_12 color={error ? ifUndefined(errorHelperTextColor, theme.colors.error) : theme.colors.textRight200}>
+            <Text_Default
+              s={12}
+              color={error ? ifUndefined(errorHelperTextColor, theme.colors.error) : theme.colors.textRight200}>
               {helperText}
-            </Text_12>
+            </Text_Default>
           ) : (
             helperText
           )}
@@ -144,9 +154,9 @@ function FormControl<T extends unknown>({
       {error !== false && error !== true && notEmpty(error) && !hideErrorText && (
         <Stack mt={10} row center spacing={5}>
           <Icon name='information' size={14} color={ifUndefined(errorHelperTextColor, theme.colors.error)} />
-          <Text_12 color={ifUndefined(errorHelperTextColor, theme.colors.error)} lineHeight={14}>
+          <Text_Default s={12} lh={14} c={ifUndefined(errorHelperTextColor, theme.colors.error)}>
             {error}
-          </Text_12>
+          </Text_Default>
         </Stack>
       )}
     </View>

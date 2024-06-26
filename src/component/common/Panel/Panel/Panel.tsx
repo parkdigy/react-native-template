@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text_Accent_W600} from '@style';
+import {Text_Default} from '@style';
 import {PanelProps as Props} from './Panel.types';
 
-const Panel = ({title, itemPadding = 16, children, ...props}: Props) => {
+const Panel = ({title, titleProps, itemPadding = 17, flat, children, moreTitle, onMorePress, ...props}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -13,40 +13,50 @@ const Panel = ({title, itemPadding = 16, children, ...props}: Props) => {
    * Render
    * ******************************************************************************************************************/
 
-  let lastIndex = 0;
-  if (children) {
-    React.Children.forEach(children, (child, idx) => {
-      if (React.isValidElement(child)) {
-        if (child.type !== PanelItem) {
-          throw new Error('Panel 에는 PanelItem 만 포함될 수 있습니다.');
-        }
-        lastIndex = idx;
-      }
-    });
-  }
-
   return (
     <View {...props}>
-      {title && (
-        <Text_Accent_W600 lineHeight={16} mb={16}>
-          {title}
-        </Text_Accent_W600>
-      )}
-      <ShadowView borderRadius={10} backgroundColor={theme.colors.bgPrimary}>
+      <View borderRadius={flat ? 0 : 15} backgroundColor={theme.colors.surface}>
+        {title && (
+          <Stack row center ph={itemPadding} pt={itemPadding} pb={8} fullWidth>
+            <View flex={1}>
+              <Text_Default s={17} w={700} {...titleProps}>
+                {title}
+              </Text_Default>
+            </View>
+            {moreTitle && onMorePress && (
+              <TouchableOpacity opacity={0.6} mr={-5} onPress={onMorePress}>
+                <Stack row center spacing={3}>
+                  <Text_Default s={15} w={600}>
+                    {moreTitle}
+                  </Text_Default>
+                  <Icon name='chevron-right' color={theme.colors.onSurface} size={22} />
+                </Stack>
+              </TouchableOpacity>
+            )}
+          </Stack>
+        )}
+
         {React.Children.map(util.react.removeFragment(children), (child, idx) => {
           if (React.isValidElement(child)) {
+            if (child.type !== PanelItem && child.type !== PanelDivider) {
+              throw new Error('Panel 에는 PanelItem, PanelDivider 만 포함될 수 있습니다.');
+            }
+
             const {children: itemChildren, ...itemProps} = child.props;
             return (
               <View key={idx}>
-                <PanelItem p={itemPadding} {...itemProps}>
-                  {itemChildren}
-                </PanelItem>
-                {idx !== lastIndex && <View borderTopWidth={1} borderTopColor={theme.colors.background} />}
+                {child.type === PanelItem ? (
+                  <PanelItem p={itemPadding} {...itemProps}>
+                    {itemChildren}
+                  </PanelItem>
+                ) : (
+                  <View ph={itemPadding}>{child}</View>
+                )}
               </View>
             );
           }
         })}
-      </ShadowView>
+      </View>
     </View>
   );
 };

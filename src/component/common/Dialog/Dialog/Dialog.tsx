@@ -1,7 +1,7 @@
 import React from 'react';
 import {useWindowDimensions} from 'react-native';
 import {FullScreenDialogProps} from '@ccomp';
-import {Text_W500, Text_W700} from '@style';
+import {Text_Default} from '@style';
 import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
 
 let dialogId = 0;
@@ -242,21 +242,22 @@ const Dialog = () => {
               {props.contentTitle && (
                 <>
                   {['string', 'number'].includes(typeof props.contentTitle) ? (
-                    <Text_W700
-                      textAlign='center'
-                      lineHeight={21}
+                    <Text_Default
+                      w={700}
+                      center
+                      lh={21}
                       color={props.contentTitleColor || props.contentColor || textColor}>
                       {props.contentTitle}
-                    </Text_W700>
+                    </Text_Default>
                   ) : (
                     props.contentTitle
                   )}
                 </>
               )}
               {['string', 'number'].includes(typeof props.content) ? (
-                <Text_W500 textAlign='center' lineHeight={21} color={props.contentColor || textColor}>
+                <Text_Default w={500} center lh={21} color={props.contentColor || textColor}>
                   {props.content}
-                </Text_W500>
+                </Text_Default>
               ) : (
                 props.content
               )}
@@ -266,21 +267,22 @@ const Dialog = () => {
                     props.subHiddenContent ? () => Dialog.openAlert({content: props.subHiddenContent}) : undefined
                   }>
                   {['string', 'number'].includes(typeof props.subContent) ? (
-                    <Text_W500
-                      size='sm'
+                    <Text_Default
+                      s='sm'
+                      w={500}
+                      lh={21}
+                      center
                       borderWidth={1}
                       borderRadius={10}
                       borderColor={textColor}
                       ph={10}
                       pv={5}
                       opacity={0.7}
-                      textAlign='center'
-                      lineHeight={21}
                       color={props.subContentColor || textColor}
                       numberOfLines={5}
                       mt={10}>
                       {props.subContent}
-                    </Text_W500>
+                    </Text_Default>
                   ) : (
                     props.subContent
                   )}

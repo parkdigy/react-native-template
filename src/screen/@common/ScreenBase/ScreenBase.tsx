@@ -4,7 +4,8 @@
 
 import React from 'react';
 import ErrorBoundary from 'react-native-error-boundary';
-import {Button, SafeAreaView, Text, View, Stack, SafeAreaViewProps} from '@ccomp';
+import {Button, SafeAreaView, View, Stack, SafeAreaViewProps} from '@ccomp';
+import {Text_Gray} from '@style';
 import {ScreenBaseProps as Props} from './ScreenBase.types';
 
 type ExtractProps<TComponentOrTProps> =
@@ -15,12 +16,8 @@ const ErrorFallback = (props: {error: Error; resetError: Function}) => {
     <View flex={1} alignItems={'center'} justifyContent={'center'} p={20}>
       <Stack spacing={20}>
         <View>
-          <Text textAlign='center' color='gray'>
-            예상치 못한 오류가 발생했습니다.
-          </Text>
-          <Text textAlign='center' color='gray'>
-            잠시 후 재시도 해주세요.
-          </Text>
+          <Text_Gray center>예상치 못한 오류가 발생했습니다.</Text_Gray>
+          <Text_Gray center>잠시 후 재시도 해주세요.</Text_Gray>
         </View>
         <Button onPress={() => props.resetError()}>재시도</Button>
       </Stack>

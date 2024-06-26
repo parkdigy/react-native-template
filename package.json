@@ -20,7 +20,7 @@
     "codepush:android:production": "npm run lint && appVersionName=$(npm run --silent android:app-version-name) && appcenter codepush release-react -a app-center-username/app-center-app-id-android -d Production -t $appVersionName",
     "codepush:ios:staging": "npm run lint && appcenter codepush release-react -a app-center-username/app-center-app-id-ios -d Staging",
     "codepush:ios:production": "npm run lint && appcenter codepush release-react -a app-center-username/app-center-app-id-ios -d Production",
-    "generate:bootsplash": "react-native generate-bootsplash src/@assets/bootsplash/logo.svg --platforms=android,ios --background=111111 --logo-width=100 --assets-output=assets --flavor=main --html=index.html",
+    "generate:bootsplash": "react-native generate-bootsplash src/@assets/bootsplash/logo.svg --platforms=android,ios --background=100f11 --logo-width=100 --assets-output=assets --flavor=main --html=index.html",
     "lint": "eslint .",
     "start": "npm run watchman-del && npm run remove-ios-generated-dotenv-m && react-native start --no-interactive --reset-cache",
     "git-cache-reset": "git rm -r -f --cached . && git add .",

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_W500} from '@style';
+import {Text_Default} from '@style';
 import FormControl, {FormControlCommands} from '../FormControl';
 import {FormCheckboxProps as Props, FormCheckboxCommands, FormCheckboxValue} from './FormCheckbox.types';
 
@@ -143,7 +143,9 @@ const FormCheckbox = React.forwardRef<FormCheckboxCommands, Props>(
                   <Icon name='check-bold' size={15} color={theme.colors.bgPrimary} />
                 </View>
                 {typeof children === 'string' ? (
-                  <Text_W500 color={isError ? 'error' : 'accent'}>{children}</Text_W500>
+                  <Text_Default w={500} color={isError ? 'error' : 'accent'}>
+                    {children}
+                  </Text_Default>
                 ) : (
                   children
                 )}

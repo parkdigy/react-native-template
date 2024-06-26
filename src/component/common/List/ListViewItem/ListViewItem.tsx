@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_12} from '@style';
+import {Text_Default} from '@style';
 import {ListViewItemProps as Props} from './ListViewItem.types';
 import {StyledContainerTouchableOpacity} from './ListViewItem.style';
 
@@ -61,9 +61,9 @@ const ListViewItem = ({
       {(trailingText || trailingIcon) && (
         <Stack row ml={10} spacing={7} center>
           {trailingText && (
-            <Text_12 opacity={0.5} textAlign='right'>
+            <Text_Default s={12} opacity={0.5} textAlign='right'>
               {trailingText}
-            </Text_12>
+            </Text_Default>
           )}
           {trailingIcon && trailingIconName && (
             <Icon name={trailingIconName} size={trailingIconSize} color={trailingIconColor} />

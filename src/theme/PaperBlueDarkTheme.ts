@@ -57,8 +57,8 @@ export default {
     blueGrayContainer: '#c4dce8',
     onBlueGrayContainer: '#122a36',
     // surface
-    surface: '#000000',
-    onSurface: '#969696', // 기본 텍스트
+    surface: '#18161c',
+    onSurface: '#bbbbbb', // 기본 텍스트
     surfaceVariant: 'rgb(224, 226, 236)',
     onSurfaceVariant: 'rgb(67, 71, 78)',
     // surface disabled
@@ -91,7 +91,7 @@ export default {
     // black
     black: '#000000',
     // background
-    background: '#161718',
+    background: '#100f11',
     onBackground: 'rgb(26, 28, 30)',
     bgPrimary: '#000',
     bgAppList: '#1E1F20',
@@ -119,6 +119,8 @@ export default {
     purple: '#7F32F9',
     onPurple: '#FFFFFF',
     purpleLine: '#B284FB',
+    // splash
+    splashBackground: '#100f11',
     // opacity
     opacity05: 'rgba(255, 255, 255, 0.05)',
     opacity10: 'rgba(255, 255, 255, 0.1)',

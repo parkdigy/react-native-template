@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text_Default} from '@style';
 import AgreementPanelItem, {AgreementPanelItemCommand, AgreementPanelItemProps} from '../AgreementPanelItem';
 import {AgreementPanelProps as Props} from './AgreementPanel.types';
 
@@ -53,7 +54,7 @@ export const AgreementPanel = ({children, title, allCheck, allCheckName, disable
             disabled={disabled}
             checked={allChecked}
             onChange={handleAllCheckChange}>
-            <Text>전체 동의</Text>
+            <Text_Default>전체 동의</Text_Default>
           </FormCheckbox>
         </PanelItem>
       )}

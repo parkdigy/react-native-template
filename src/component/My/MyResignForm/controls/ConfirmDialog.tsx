@@ -5,8 +5,8 @@
 import React from 'react';
 import {ModalProps} from 'react-native';
 import Config from 'react-native-config';
-import {Text_Accent, Text_Error_W600} from '@style';
 import {useAppState} from '@context';
+import {Text_Accent, Text_Error} from '@style';
 
 interface Props extends Pick<ModalProps, 'visible'> {
   reasons: string[];
@@ -88,7 +88,7 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
       <Stack ph={24} pv={24} spacing={16}>
         <Stack>
           <Text_Accent>
-            회원 탈퇴 후 <Text_Error_W600>복구가 불가능합니다.</Text_Error_W600>
+            회원 탈퇴 후 <Text_Error w={600}>복구가 불가능합니다.</Text_Error>
           </Text_Accent>
           <Text_Accent>정말 탈퇴 하시겠습니까?</Text_Accent>
         </Stack>

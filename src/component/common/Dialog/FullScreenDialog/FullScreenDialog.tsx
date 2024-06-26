@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hasNotch} from 'react-native-device-info';
-import {Text_16_W600} from '@style';
+import {Text_Default} from '@style';
 import {FullScreenDialogProps as Props} from './FullScreenDialog.types';
 
 const FullScreenDialog = ({
@@ -107,7 +107,9 @@ const FullScreenDialog = ({
                 justifyContent='center'
                 onLayout={(e) => setTitleHeight(e.nativeEvent.layout.height)}>
                 {typeof title === 'string' ? (
-                  <Text_16_W600 color={ifUndefined(titleColor, theme.colors.textAccent)}>{title}</Text_16_W600>
+                  <Text_Default s={16} w={600} color={ifUndefined(titleColor, theme.colors.textAccent)}>
+                    {title}
+                  </Text_Default>
                 ) : (
                   title
                 )}

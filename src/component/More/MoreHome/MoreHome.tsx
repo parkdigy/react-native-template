@@ -7,7 +7,7 @@ import codePush, {LocalPackage} from 'react-native-code-push';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import {versionString} from '@pdg/util';
-import {Text_13, Text_13_W600, Text_Accent, Text_Right100} from '@style';
+import {Text_Accent, Text_Default, Text_Right100} from '@style';
 import {useAppState} from '@context';
 import {MoreHomeProps as Props} from './MoreHome.types';
 
@@ -90,7 +90,9 @@ const MoreHome = ({navigation}: Props) => {
             <View m={-10}>
               <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>
                 <Stack row center backgroundColor={theme.colors.onSurface} pv={6} ph={10} borderRadius={4}>
-                  <Text_13_W600 color={theme.colors.surface}>{auth ? '로그아웃' : '로그인'}</Text_13_W600>
+                  <Text_Default s={13} w={600} color={theme.colors.surface}>
+                    {auth ? '로그아웃' : '로그인'}
+                  </Text_Default>
                 </Stack>
               </TouchableOpacity>
             </View>
@@ -102,37 +104,53 @@ const MoreHome = ({navigation}: Props) => {
         <Stack spacing={16}>
           {auth && (
             <Panel>
-              <PanelItem indicator value={auth.nickname} onPress={() => app.navigate(navigation, 'MyNicknameChange')}>
-                닉네임
-              </PanelItem>
+              <PanelItem
+                title='닉네임'
+                indicator
+                value={auth.nickname}
+                onPress={() => app.navigate(navigation, 'MyNicknameChange')}
+              />
             </Panel>
           )}
 
           {/* 공지사항, FAQ */}
           <Panel>
-            <PanelItem icon='alert-circle-outline' indicator onPress={() => app.navigate(navigation, 'NoticeList')}>
-              공지사항
-            </PanelItem>
-            <PanelItem icon='help-circle-outline' indicator onPress={() => app.navigate(navigation, 'FaqList')}>
-              FAQ
-            </PanelItem>
+            <PanelItem
+              title='공지사항'
+              icon='alert-circle-outline'
+              indicator
+              onPress={() => app.navigate(navigation, 'NoticeList')}
+            />
+            <PanelItem
+              title='FAQ'
+              icon='help-circle-outline'
+              indicator
+              onPress={() => app.navigate(navigation, 'FaqList')}
+            />
           </Panel>
 
           {/* 테마설정, 알림설정 */}
           <Panel>
-            <PanelItem icon='brightness-6' indicator onPress={() => app.navigate(navigation, 'ThemeSettings')}>
-              테마설정
-            </PanelItem>
+            <PanelItem
+              title='테마설정'
+              icon='brightness-6'
+              indicator
+              onPress={() => app.navigate(navigation, 'ThemeSettings')}
+            />
             {auth && (
-              <PanelItem icon='bell-outline' indicator onPress={() => app.navigate(navigation, 'NotificationSettings')}>
-                알림설정
-              </PanelItem>
+              <PanelItem
+                title='알림설정'
+                icon='bell-outline'
+                indicator
+                onPress={() => app.navigate(navigation, 'NotificationSettings')}
+              />
             )}
           </Panel>
 
           {/* 앱 버전 정보 */}
           <Panel>
             <PanelItem
+              title='설치버전'
               value={
                 <Text_Right100>
                   {DeviceInfo.getVersion()}
@@ -143,10 +161,10 @@ const MoreHome = ({navigation}: Props) => {
                     </>
                   )}
                 </Text_Right100>
-              }>
-              설치버전
-            </PanelItem>
+              }
+            />
             <PanelItem
+              title='최신버전'
               value={
                 <Stack row center spacing={10}>
                   <Text_Right100>
@@ -154,17 +172,11 @@ const MoreHome = ({navigation}: Props) => {
                     {Config.APP_ENV !== 'production' && <Text_Right100> ({config.app_build_number})</Text_Right100>}
                   </Text_Right100>
                 </Stack>
-              }>
-              최신버전
-            </PanelItem>
+              }
+            />
             {versionString(DeviceInfo.getBuildNumber(), 10, 10) < versionString(config.app_build_number, 10, 10) && (
               <PanelItem>
-                <Button mode='outlined' onPress={() => app.openMarketStore()}>
-                  {Platform.OS === 'ios' ? (
-                    <Icon name='apple' size={16} />
-                  ) : (
-                    Platform.OS === 'android' && <Icon name='google-play' size={16} />
-                  )}{' '}
+                <Button mode='outlined' icon={isIos ? 'apple' : 'google-play'} onPress={() => app.openMarketStore()}>
                   최신 버전 다운로드
                 </Button>
               </PanelItem>
@@ -173,28 +185,19 @@ const MoreHome = ({navigation}: Props) => {
 
           {/* 약관 및 정책 */}
           <Panel>
-            <PanelItem indicator onPress={() => app.navigate(navigation, 'TermsOfService')}>
-              이용약관
-            </PanelItem>
-            <PanelItem indicator onPress={() => app.navigate(navigation, 'TermsOfPrivacy')}>
-              개인정보처리방침
-            </PanelItem>
+            <PanelItem title='이용약관' indicator onPress={() => app.navigate(navigation, 'TermsOfService')} />
+            <PanelItem title='개인정보처리방침' indicator onPress={() => app.navigate(navigation, 'TermsOfPrivacy')} />
           </Panel>
 
           {/* 회사 정보 */}
           <Panel>
             <PanelItem>
-              <Stack
-                spacing={6}
-                borderRadius={10}
-                borderWidth={1}
-                borderColor={theme.colors.opacity05}
-                backgroundColor={theme.colors.opacityReverse50}>
-                <Text_13>대표 : Representative</Text_13>
-                <Text_13>상호명 : Business Name</Text_13>
-                <Text_13>주소 : Address</Text_13>
-                <Text_13>사업자등록번호 : 000-00-00000</Text_13>
-                <Text_13>메일주소 : Email Address</Text_13>
+              <Stack spacing={6}>
+                <Text_Default s={13}>대표 : Representative</Text_Default>
+                <Text_Default s={13}>상호명 : Business Name</Text_Default>
+                <Text_Default s={13}>주소 : Address</Text_Default>
+                <Text_Default s={13}>사업자등록번호 : 000-00-00000</Text_Default>
+                <Text_Default s={13}>메일주소 : Email Address</Text_Default>
               </Stack>
             </PanelItem>
           </Panel>

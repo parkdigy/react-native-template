@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text_Default} from '@style';
 import {TimerTextProps as Props} from './TimerText.types';
 
 const DEFAULT_LIMIT_SECONDS = 60 * 5;
@@ -75,7 +76,7 @@ const TimerText = ({startDate, limitSeconds, onLimitExceed, ...props}: Props) =>
    * Render
    * ******************************************************************************************************************/
 
-  return <Text {...props}>{text}</Text>;
+  return <Text_Default {...props}>{text}</Text_Default>;
 };
 
 export default TimerText;

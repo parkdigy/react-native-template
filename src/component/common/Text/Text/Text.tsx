@@ -5,15 +5,20 @@ import CustomComponent from '../../CustomComponent';
 import {TextProps as Props, TextSize} from './Text.types';
 
 const Text = ({
-  size = 'md',
+  center,
+  size,
+  s,
   style,
   color,
+  c,
   fontFamily,
   fontSize,
   fontStyle,
   fontWeight,
+  w,
   letterSpacing,
   lineHeight,
+  lh,
   textAlign,
   textDecorationLine,
   textDecorationStyle,
@@ -39,49 +44,33 @@ const Text = ({
 
   const customStyle = useMemo(() => {
     const newCustomStyle: Record<string, any> = {};
-    if (color !== undefined) {
-      switch (color) {
+    const tc = ifUndefined(color, c);
+    if (tc !== undefined) {
+      switch (tc) {
         case 'primary':
-          newCustomStyle.color = theme.colors.primary;
-          break;
         case 'primary100':
-          newCustomStyle.color = theme.colors.primary100;
-          break;
         case 'primary200':
-          newCustomStyle.color = theme.colors.primary200;
-          break;
         case 'primary300':
-          newCustomStyle.color = theme.colors.primary300;
-          break;
         case 'primary400':
-          newCustomStyle.color = theme.colors.primary400;
-          break;
         case 'primary500':
-          newCustomStyle.color = theme.colors.primary500;
-          break;
         case 'primaryAccent':
-          newCustomStyle.color = theme.colors.primaryAccent;
+        case 'secondary':
+        case 'tertiary':
+        case 'success':
+        case 'warning':
+        case 'error':
+        case 'blueGray':
+        case 'green100':
+        case 'green200':
+        case 'green300':
+        case 'green400':
+        case 'white':
+        case 'black':
+        case 'gray':
+          newCustomStyle.color = theme.colors[tc];
           break;
         case 'info':
           newCustomStyle.color = theme.colors.primary;
-          break;
-        case 'secondary':
-          newCustomStyle.color = theme.colors.secondary;
-          break;
-        case 'tertiary':
-          newCustomStyle.color = theme.colors.tertiary;
-          break;
-        case 'success':
-          newCustomStyle.color = theme.colors.success;
-          break;
-        case 'warning':
-          newCustomStyle.color = theme.colors.warning;
-          break;
-        case 'error':
-          newCustomStyle.color = theme.colors.error;
-          break;
-        case 'blueGray':
-          newCustomStyle.color = theme.colors.blueGray;
           break;
         case 'accent':
           newCustomStyle.color = theme.colors.textAccent;
@@ -92,18 +81,6 @@ const Text = ({
         case 'right200':
           newCustomStyle.color = theme.colors.textRight200;
           break;
-        case 'green100':
-          newCustomStyle.color = theme.colors.green100;
-          break;
-        case 'green200':
-          newCustomStyle.color = theme.colors.green200;
-          break;
-        case 'green300':
-          newCustomStyle.color = theme.colors.green300;
-          break;
-        case 'green400':
-          newCustomStyle.color = theme.colors.green400;
-          break;
         default:
           newCustomStyle.color = color;
           break;
@@ -113,6 +90,7 @@ const Text = ({
     fontStyle !== undefined && (newCustomStyle.fontStyle = fontStyle);
     letterSpacing !== undefined && (newCustomStyle.letterSpacing = letterSpacing);
     textAlign !== undefined && (newCustomStyle.textAlign = textAlign);
+    center && (newCustomStyle.textAlign = 'center');
     textDecorationLine !== undefined && (newCustomStyle.textDecorationLine = textDecorationLine);
     textDecorationStyle !== undefined && (newCustomStyle.textDecorationStyle = textDecorationStyle);
     textDecorationColor !== undefined && (newCustomStyle.textDecorationColor = textDecorationColor);
@@ -123,10 +101,12 @@ const Text = ({
     return newCustomStyle;
   }, [
     color,
+    c,
     fontFamily,
     fontStyle,
     letterSpacing,
     textAlign,
+    center,
     textDecorationLine,
     textDecorationStyle,
     textDecorationColor,
@@ -134,48 +114,40 @@ const Text = ({
     textShadowOffset,
     textShadowRadius,
     textTransform,
-    theme.colors.primary,
-    theme.colors.primary100,
-    theme.colors.primary200,
-    theme.colors.primary300,
-    theme.colors.primary400,
-    theme.colors.primary500,
-    theme.colors.primaryAccent,
-    theme.colors.secondary,
-    theme.colors.tertiary,
-    theme.colors.success,
-    theme.colors.warning,
-    theme.colors.error,
-    theme.colors.blueGray,
-    theme.colors.textAccent,
-    theme.colors.textRight100,
-    theme.colors.textRight200,
-    theme.colors.green100,
-    theme.colors.green200,
-    theme.colors.green300,
-    theme.colors.green400,
+    theme.colors,
   ]);
 
-  const baseFontSize = useMemo(() => (typeof size === 'number' ? size : TextSize[size || 'md'].fontSize), [size]);
+  const baseFontSize = useMemo(() => {
+    const fs = ifUndefined(size, s) || 'md';
+    const ts = TextSize[fs as TextSize];
+    if (ts) {
+      return {fontSize: ts.fontSize, lineHeight: ts.lineHeight};
+    } else {
+      return {fontSize: fs};
+    }
+  }, [size, s]);
 
   const fontSizeStyle = useMemo(() => ifNotUndefined(fontSize, {fontSize}), [fontSize]);
 
-  const lineHeightStyle = useMemo(() => ifNotUndefined(lineHeight, {lineHeight}), [lineHeight]);
+  const lineHeightStyle = useMemo(() => {
+    const newLh = ifUndefined(lineHeight, lh);
+    return ifNotUndefined(newLh, {lineHeight: newLh});
+  }, [lh, lineHeight]);
 
   const finalFontWeight: TextStyle['fontWeight'] = useMemo(() => {
     let fw: Props['fontWeight'];
     if (style) {
       if (Array.isArray(style)) {
-        fw = ifNullOrUndefined(util.style.findFontWeight(style), fontWeight);
+        fw = ifNullOrUndefined(ifNullOrUndefined(util.style.findFontWeight(style), fontWeight), w);
       } else if (typeof style === 'object') {
-        fw = ifNullOrUndefined(style.fontWeight, fontWeight);
+        fw = ifNullOrUndefined(ifNullOrUndefined(style.fontWeight, fontWeight), w);
       }
     } else {
-      fw = fontWeight;
+      fw = ifNullOrUndefined(fontWeight, w);
     }
 
     return (fw !== undefined ? (typeof fw === 'number' ? `${fw}` : fw) : fw) as TextStyle['fontWeight'];
-  }, [fontWeight, style]);
+  }, [fontWeight, style, w]);
 
   const fontWeightStyle = useMemo(
     () => ({fontWeight: Platform.OS === 'android' ? undefined : finalFontWeight}),

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_13_W600} from '@style';
+import {Text_Default} from '@style';
 import {PanelValueListProps as Props} from './PanelValueList.types';
 
 const LineHeight = 16.8;
@@ -29,9 +29,9 @@ const PanelValueList = ({title, titleColor: initTitleColor, ...props}: Props) =>
             <Stack center minWidth={12} height={LineHeight}>
               <Icon name='information' color={titleColor} size={LineHeight} />
             </Stack>
-            <Text_13_W600 flex={1} color={titleColor} lineHeight={LineHeight}>
+            <Text_Default s={13} w={600} flex={1} color={titleColor} lineHeight={LineHeight}>
               {title}
-            </Text_13_W600>
+            </Text_Default>
           </Stack>
           {props.items && (
             <BulletValueList

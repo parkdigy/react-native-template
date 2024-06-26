@@ -10,7 +10,7 @@ import DeviceInfo from 'react-native-device-info';
 import {Logo} from '@image';
 import {useAppState} from '@context';
 import {AuthSignInRequestData, AuthSigninType} from '@const';
-import {Text_11_Right200, Text_Accent, Text_Primary_W700} from '@style';
+import {Text_Accent, Text_Primary, Text_Right200} from '@style';
 import {AppleUserInfo, AuthSns, GoogleUserInfo, KakaoUserInfo, NaverUserInfo} from './controls';
 import {AuthHomeProps as Props} from './AuthHome.types';
 
@@ -158,10 +158,10 @@ const AuthHome = ({navigation}: Props) => {
         <Logo width={logoSize.width} height={logoSize.height} />
         {Config.APP_ENV !== 'production' && (
           <View mt={10}>
-            <Text_11_Right200>
+            <Text_Right200 s={11}>
               {DeviceInfo.getVersion()} ({DeviceInfo.getBuildNumber()})
-              {codePushMetaData && <Text_11_Right200> ({codePushMetaData.label})</Text_11_Right200>}
-            </Text_11_Right200>
+              {codePushMetaData && <Text_Right200 s={11}> ({codePushMetaData.label})</Text_Right200>}
+            </Text_Right200>
           </View>
         )}
       </View>
@@ -176,19 +176,21 @@ const AuthHome = ({navigation}: Props) => {
           onAppleLogin={handleAppleLogin}
         />
         <Stack spacing={5} opacity={loading ? 0.5 : 1}>
-          <Text_Accent textAlign='center'>로그인을 통해 {Config.APP_TITLE}의</Text_Accent>
-          <Text_Accent textAlign='center'>
-            <Text_Primary_W700
-              textAlign='center'
+          <Text_Accent center>로그인을 통해 {Config.APP_TITLE}의</Text_Accent>
+          <Text_Accent center>
+            <Text_Primary
+              w={700}
+              center
               onPress={loading ? undefined : () => app.navigate(navigation, 'TermsOfService')}>
               이용약관
-            </Text_Primary_W700>{' '}
+            </Text_Primary>{' '}
             및{' '}
-            <Text_Primary_W700
-              textAlign='center'
+            <Text_Primary
+              w={700}
+              center
               onPress={loading ? undefined : () => app.navigate(navigation, 'TermsOfPrivacy')}>
               개인정보처리방침
-            </Text_Primary_W700>
+            </Text_Primary>
             에 동의합니다.
           </Text_Accent>
         </Stack>

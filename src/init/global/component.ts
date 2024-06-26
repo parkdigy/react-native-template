@@ -27,6 +27,7 @@ import {
   Stack as _Stack,
   Panel as _Panel,
   PanelItem as _PanelItem,
+  PanelDivider as _PanelDivider,
   AgreementPanel as _AgreementPanel,
   AgreementPanelItem as _AgreementPanelItem,
   InfoPanel as _InfoPanel,
@@ -139,6 +140,7 @@ declare global {
   var Stack: typeof _Stack;
   var Panel: typeof _Panel;
   var PanelItem: typeof _PanelItem;
+  var PanelDivider: typeof _PanelDivider;
   var AgreementPanel: typeof _AgreementPanel;
   var AgreementPanelItem: typeof _AgreementPanelItem;
   var InfoPanel: typeof _InfoPanel;
@@ -229,6 +231,7 @@ globalThis.ScrollView = _ScrollView;
 globalThis.Stack = _Stack;
 globalThis.Panel = _Panel;
 globalThis.PanelItem = _PanelItem;
+globalThis.PanelDivider = _PanelDivider;
 globalThis.AgreementPanel = _AgreementPanel;
 globalThis.AgreementPanelItem = _AgreementPanelItem;
 globalThis.InfoPanel = _InfoPanel;

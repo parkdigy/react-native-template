@@ -2,6 +2,7 @@ import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import app, {useAppListener} from '@app';
 import {ConfigInfoData} from '@const';
+import {Text_Accent, Text_White} from '@style';
 import AppLogo from './AppLogo';
 import AppLogText from './AppLogText';
 
@@ -17,6 +18,7 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
    * Use
    * ******************************************************************************************************************/
 
+  const theme = useTheme();
   const {bottom: safeAreaBottomInset} = useSafeAreaInsets();
   const appStatus = useAppListener('appStatus');
 
@@ -69,7 +71,7 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
   return (
     <View
       animated
-      backgroundColor={app.color.CoverScreenBackground}
+      backgroundColor={theme.colors.splashBackground}
       opacity={hideAnimation}
       position={'absolute'}
       left={0}
@@ -91,12 +93,10 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
         {appStatus === app.AppStatus.LoadError ? (
           // 로드 에러
           <Stack spacing={16} mb={20}>
-            <Text color={app.color.White} fontSize={13}>
-              서버에 연결할 수 없습니다.
-            </Text>
+            <Text_Accent s={13}>서버에 연결할 수 없습니다.</Text_Accent>
             <Button
-              backgroundColor={app.color.White}
-              labelStyle={{color: app.color.CoverScreenBackground, fontSize: 13, fontWeight: '700'}}
+              backgroundColor={theme.colors.white}
+              labelStyle={{color: theme.colors.splashBackground, fontSize: 13, fontWeight: '700'}}
               onPress={onErrorRetry}>
               재시도
             </Button>
@@ -105,12 +105,10 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
           appStatus === app.AppStatus.RequiredAppUpdate && (
             // 앱 강제 업데이트
             <Stack spacing={16} mb={20}>
-              <Text color={app.color.White} fontSize={13}>
-                앱을 최신 버전으로 업데이트 해야합니다.
-              </Text>
+              <Text_White s={13}>앱을 최신 버전으로 업데이트 해야합니다.</Text_White>
               <Button
-                backgroundColor={app.color.Blue}
-                labelStyle={{color: app.color.White, fontSize: 13, fontWeight: '700'}}
+                backgroundColor={theme.colors.primary}
+                labelStyle={{color: theme.colors.white, fontSize: 13, fontWeight: '700'}}
                 onPress={() => app.openMarketStore(config).then(() => {})}>
                 최선 버전 설치하기
               </Button>
@@ -120,13 +118,13 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
         {updatingPercent > 0 ? (
           // CodePush 업데이트 퍼센트
           <View backgroundColor='rgba(255,255,255,.3)' height={5} overflow='hidden' borderRadius={5} width='100%'>
-            <View backgroundColor={app.color.White} height={5} width={`${updatingPercent}%`} />
+            <View backgroundColor={theme.colors.white} height={5} width={`${updatingPercent}%`} />
           </View>
         ) : (
           // 로드에러, 앱 강제 업데이트 상태가 아닌 경우, ActivityIndicator 와 로그 테스트 표시
           !contains([app.AppStatus.LoadError, app.AppStatus.RequiredAppUpdate], appStatus) && (
             <View mb={20}>
-              <ActivityIndicator color={app.color.White} />
+              <ActivityIndicator color={theme.colors.white} />
               <AppLogText />
             </View>
           )

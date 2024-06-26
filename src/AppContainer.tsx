@@ -5,9 +5,7 @@
  * - iOS : AppCodePush 컴포넌트 바로 표시
  * ******************************************************************************************************************/
 
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import React from 'react';
-import {StatusBar} from 'react-native';
 import app from '@app';
 import AppCodePush from './AppCodePush';
 
@@ -20,27 +18,23 @@ const AppContainer = ({notificationData}: Props) => {
    * State
    * ******************************************************************************************************************/
 
+  const [initialized, setInitialized] = useState(false);
+
   /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
 
   /** 푸시 알림 데이터 설정 */
-  useEffect(() => {
+  useLayoutEffect(() => {
     app.notification.setInitData(notificationData);
+    setInitialized(true);
   }, [notificationData]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return (
-    <>
-      <StatusBar barStyle='light-content' backgroundColor={app.color.CoverScreenBackground} />
-      <SafeAreaProvider style={{backgroundColor: app.color.CoverScreenBackground}}>
-        <AppCodePush />
-      </SafeAreaProvider>
-    </>
-  );
+  return initialized ? <AppCodePush /> : null;
 };
 
 export default AppContainer;

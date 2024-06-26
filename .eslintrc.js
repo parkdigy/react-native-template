@@ -217,6 +217,7 @@ module.exports = {
     Stack: 'readonly',
     Panel: 'readonly',
     PanelItem: 'readonly',
+    PanelDivider: 'readonly',
     AgreementPanel: 'readonly',
     AgreementPanelItem: 'readonly',
     InfoPanel: 'readonly',

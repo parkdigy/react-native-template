@@ -119,6 +119,8 @@ export default {
     purple: '#7F32F9',
     onPurple: '#FFFFFF',
     purpleLine: '#B284FB',
+    // splash
+    splashBackground: '#100f11',
     // opacity
     opacity05: 'rgba(0, 0, 0, 0.05)',
     opacity10: 'rgba(0, 0, 0, 0.1)',

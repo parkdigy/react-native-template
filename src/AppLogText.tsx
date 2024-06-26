@@ -1,6 +1,7 @@
 import React from 'react';
 import Config from 'react-native-config';
 import app, {useAppListener} from '@app';
+import {Text_Accent} from '@style';
 
 const IsUse = Config.APP_ENV !== 'production';
 
@@ -61,9 +62,9 @@ export const AppLogText = () => {
    * ******************************************************************************************************************/
 
   return logText ? (
-    <Text mt={10} fontSize={11} color={app.color.White}>
+    <Text_Accent s={11} mt={10}>
       {logText}
-    </Text>
+    </Text_Accent>
   ) : null;
 };
 
