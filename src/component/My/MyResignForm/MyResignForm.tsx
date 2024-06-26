@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {useAppState} from '@context';
-import {Text_18_Accent_W800, Text_18_Primary_W800, Text_Accent, Text_L18} from '@style';
+import {Text_18_Accent_W800, Text_18_Primary_W800, Text_Accent} from '@style';
 import {MyResignFormProps as Props} from './MyResignForm.types';
 import {ConfirmDialog} from './controls';
 
@@ -109,18 +109,18 @@ const MyResignForm = ({navigation}: Props) => {
             <View>
               <FormCheckbox name='is_reason_1_agree' checked={isReason1Agree} onChange={setIsReason1Agree}>
                 <Stack row flex={1}>
-                  <Text_L18>{_reasons[1]}</Text_L18>
+                  <Text lineHeight={18}>{_reasons[1]}</Text>
                 </Stack>
               </FormCheckbox>
               <FormCheckbox name='is_reason_2_agree' checked={isReason2Agree} onChange={setIsReason2Agree}>
                 <Stack row flex={1}>
-                  <Text_L18>{_reasons[2]}</Text_L18>
+                  <Text lineHeight={18}>{_reasons[2]}</Text>
                 </Stack>
               </FormCheckbox>
               <Stack>
                 <FormCheckbox name='is_reason_etc_agree' checked={isReasonEtcAgree} onChange={setIsReasonEtcAgree}>
                   <Stack row flex={1}>
-                    <Text_L18>기타 이유로 앱 사용에 불편함이 있었습니다.</Text_L18>
+                    <Text lineHeight={18}>기타 이유로 앱 사용에 불편함이 있었습니다.</Text>
                   </Stack>
                 </FormCheckbox>
                 {isReasonEtcAgree && (

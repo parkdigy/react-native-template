@@ -1,7 +1,7 @@
 import React from 'react';
 import {useWindowDimensions} from 'react-native';
 import {FullScreenDialogProps} from '@ccomp';
-import {Text_W500} from '@style';
+import {Text_W500, Text_W700} from '@style';
 import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
 
 let dialogId = 0;
@@ -242,13 +242,12 @@ const Dialog = () => {
               {props.contentTitle && (
                 <>
                   {['string', 'number'].includes(typeof props.contentTitle) ? (
-                    <Text
+                    <Text_W700
                       textAlign='center'
-                      fontWeight={700}
                       lineHeight={21}
                       color={props.contentTitleColor || props.contentColor || textColor}>
                       {props.contentTitle}
-                    </Text>
+                    </Text_W700>
                   ) : (
                     props.contentTitle
                   )}
@@ -267,7 +266,7 @@ const Dialog = () => {
                     props.subHiddenContent ? () => Dialog.openAlert({content: props.subHiddenContent}) : undefined
                   }>
                   {['string', 'number'].includes(typeof props.subContent) ? (
-                    <Text
+                    <Text_W500
                       size='sm'
                       borderWidth={1}
                       borderRadius={10}
@@ -276,13 +275,12 @@ const Dialog = () => {
                       pv={5}
                       opacity={0.7}
                       textAlign='center'
-                      fontWeight={500}
                       lineHeight={21}
                       color={props.subContentColor || textColor}
                       numberOfLines={5}
                       mt={10}>
                       {props.subContent}
-                    </Text>
+                    </Text_W500>
                   ) : (
                     props.subContent
                   )}

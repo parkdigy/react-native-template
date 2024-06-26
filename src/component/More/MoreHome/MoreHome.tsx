@@ -7,7 +7,7 @@ import codePush, {LocalPackage} from 'react-native-code-push';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import {versionString} from '@pdg/util';
-import {Text_13, Text_Accent, Text_Right100} from '@style';
+import {Text_13, Text_13_W600, Text_Accent, Text_Right100} from '@style';
 import {useAppState} from '@context';
 import {MoreHomeProps as Props} from './MoreHome.types';
 
@@ -90,9 +90,7 @@ const MoreHome = ({navigation}: Props) => {
             <View m={-10}>
               <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>
                 <Stack row center backgroundColor={theme.colors.onSurface} pv={6} ph={10} borderRadius={4}>
-                  <Text color={theme.colors.surface} fontSize={13} fontWeight={600}>
-                    {auth ? '로그아웃' : '로그인'}
-                  </Text>
+                  <Text_13_W600 color={theme.colors.surface}>{auth ? '로그아웃' : '로그인'}</Text_13_W600>
                 </Stack>
               </TouchableOpacity>
             </View>

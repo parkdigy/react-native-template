@@ -71,6 +71,4 @@ const AutoHeightWebView: React.FC<Props> = ({style, onSizeUpdated, ...props}) =>
   );
 };
 
-AutoHeightWebView.displayName = 'AutoHeightWebView';
-
 export default AutoHeightWebView;

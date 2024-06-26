@@ -1,6 +1,6 @@
 import React from 'react';
 import {useAppState} from '@context';
-import {Text_12_W300_L16, Text_Accent_W600} from '@style';
+import {Text_12_W300, Text_Accent_W600} from '@style';
 import {ThemeSettingsProps as Props} from './ThemeSettings.types';
 
 export const ThemeSettings = ({}: Props) => {
@@ -25,8 +25,8 @@ export const ThemeSettings = ({}: Props) => {
           </TouchableOpacity>
         </Stack>
         <View mt={-6} pb={8}>
-          <Text_12_W300_L16>시스템 디스플레이 설정에 따라</Text_12_W300_L16>
-          <Text_12_W300_L16>라이트/다크 모드로 자동 전환됩니다.</Text_12_W300_L16>
+          <Text_12_W300 lineHeight={16}>시스템 디스플레이 설정에 따라</Text_12_W300>
+          <Text_12_W300 lineHeight={16}>라이트/다크 모드로 자동 전환됩니다.</Text_12_W300>
         </View>
 
         <Stack row center justifyContent={'space-between'} height={42}>

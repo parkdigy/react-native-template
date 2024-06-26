@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {NoticeInfoData} from '@const';
-import {DateText_12_Right100_L16, Text_18_Accent_W600_L24} from '@style';
+import {Text_18_Accent_W600} from '@style';
 import {NoticeInfoProps as Props} from './NoticeInfo.types';
 
 const NoticeInfo = ({
@@ -36,8 +36,8 @@ const NoticeInfo = ({
         {(title || notice_date) && (
           <Stack spacing={24}>
             <Stack spacing={12}>
-              {title && <Text_18_Accent_W600_L24>{title}</Text_18_Accent_W600_L24>}
-              {notice_date && <DateText_12_Right100_L16 value={notice_date} />}
+              {title && <Text_18_Accent_W600 lineHeight={24}>{title}</Text_18_Accent_W600>}
+              {notice_date && <DateText fontSize={13} color='right100' lineHeight={16} value={notice_date} />}
             </Stack>
             <Divider />
           </Stack>
@@ -55,8 +55,8 @@ const NoticeInfo = ({
       <ContainerScrollView>
         <Stack spacing={24}>
           <Stack spacing={12}>
-            <Text_18_Accent_W600_L24>{info.title}</Text_18_Accent_W600_L24>
-            <DateText_12_Right100_L16 value={info.notice_date} />
+            <Text_18_Accent_W600 lineHeight={24}>{info.title}</Text_18_Accent_W600>
+            <DateText fontSize={13} color='right100' lineHeight={16} value={info.notice_date} />
           </Stack>
           <Divider />
           <AutoHeightWebView source={{html: info.content}} />

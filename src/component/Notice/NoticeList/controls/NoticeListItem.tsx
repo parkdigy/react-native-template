@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {NoticeListDataItem} from '@const';
-import {DateText_12_Right100_L16, Text_Accent_W600_L18} from '@style';
+import {Text_Accent_W600} from '@style';
 
 interface Props {
   theme: ReactNativePaperTheme;
@@ -17,8 +17,10 @@ const NoticeListItem = ({theme, info, onPress}: Props) => {
     <TouchableOpacity pv={20} onPress={onPress}>
       <Stack row center>
         <Stack flex={1} pr={16}>
-          <Text_Accent_W600_L18 numberOfLines={1}>{info.title}</Text_Accent_W600_L18>
-          <DateText_12_Right100_L16 value={info.notice_date} mt={6} />
+          <Text_Accent_W600 lineHeight={18} numberOfLines={1}>
+            {info.title}
+          </Text_Accent_W600>
+          <DateText fontSize={13} color='right100' lineHeight={16} value={info.notice_date} mt={6} />
         </Stack>
         <View mr={-5}>
           <Icon name='chevron-right' size={20} color={theme.colors.textRight100} />

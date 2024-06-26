@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text_Primary_W600} from '@style';
 import {InfoPanelProps as Props} from './InfoPanel.types';
 
 export const InfoPanel = ({title, children, ...props}: Props) => {
@@ -21,9 +22,7 @@ export const InfoPanel = ({title, children, ...props}: Props) => {
               <Stack center minWidth={12}>
                 <Icon name='information' color={theme.colors.primary} size={16} />
               </Stack>
-              <Text flex={1} color={theme.colors.primary} fontWeight={600}>
-                {title}
-              </Text>
+              <Text_Primary_W600 flex={1}>{title}</Text_Primary_W600>
             </Stack>
           )}
           <Stack spacing={5}>

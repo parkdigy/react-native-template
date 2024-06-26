@@ -1,7 +1,7 @@
 import React from 'react';
 import {useAppState} from '@context';
 import {FormCommands} from '@ccomp';
-import {Text_Accent_W600_L18, Text_Right100_L18} from '@style';
+import {Text_Accent_W600, Text_Right100} from '@style';
 import {MyNicknameChangeProps as Props} from './MyNicknameChange.types';
 
 export const MyNicknameChange = ({navigation}: Props) => {
@@ -83,8 +83,8 @@ export const MyNicknameChange = ({navigation}: Props) => {
       <Form ref={formRef} parentScrollView={scrollViewRef} onSubmit={handleFormSubmit}>
         <Stack spacing={24} pb={8}>
           <Stack spacing={8}>
-            <Text_Right100_L18>현재 닉네임</Text_Right100_L18>
-            <Text_Accent_W600_L18>{auth.nickname}</Text_Accent_W600_L18>
+            <Text_Right100 lineHeight={18}>현재 닉네임</Text_Right100>
+            <Text_Accent_W600 lineHeight={18}>{auth.nickname}</Text_Accent_W600>
           </Stack>
 
           <Divider />

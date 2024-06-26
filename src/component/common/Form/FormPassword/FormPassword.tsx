@@ -1,6 +1,6 @@
 import React from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {Text_13_W500} from '@style';
+import {Text_12_W500, Text_13_W500} from '@style';
 import {FormTextCommands} from '../FormText';
 import {FormPasswordProps as Props, FormPasswordCommands} from './FormPassword.types';
 
@@ -216,12 +216,9 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
                   }
                 />
-                <Text
-                  color={isContainSpecialChar ? 'primary' : error ? 'error' : 'right100'}
-                  size='sm'
-                  fontWeight={500}>
+                <Text_12_W500 color={isContainSpecialChar ? 'primary' : error ? 'error' : 'right100'}>
                   특수문자
-                </Text>
+                </Text_12_W500>
               </Stack>
             )}
             {formatLength !== undefined && (
