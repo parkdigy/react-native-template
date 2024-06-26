@@ -234,7 +234,7 @@ const Dialog = () => {
               {props.icon === 'check' && (
                 <View alignItems='center' justifyContent='center'>
                   <View p={7} backgroundColor={theme.colors.primary400} borderRadius={30}>
-                    <Icon name='check' size={25} color={theme.colors.primary} />
+                    <Icon name='check' size={25} color='primary' />
                   </View>
                 </View>
               )}

@@ -36,19 +36,19 @@ const FaqListItem = ({info, active, onPress}: Props) => {
       <View borderTopWidth={1} borderTopColor={theme.dark ? '#222324' : '#E7E9EC'} />
       <TouchableOpacity pv={20} onPress={handlePress}>
         <Stack row spacing={10}>
-          <Icon name='alpha-q-circle' size={23} color={theme.colors.textRight100} />
+          <Icon name='alpha-q-circle' size={23} color='right100' />
           <Text_Accent flex={1} lineHeight={20}>
             <Text_Primary_W600>[{info.category}]</Text_Primary_W600> {info.title}
           </Text_Accent>
           <View mr={-3}>
-            <Icon name={active ? 'chevron-down' : 'chevron-up'} size={20} color={theme.colors.primary200} />
+            <Icon name={active ? 'chevron-down' : 'chevron-up'} size={20} color='primary200' />
           </View>
         </Stack>
       </TouchableOpacity>
       {active && (
         <View>
           <Stack row ph={16} pv={20} spacing={10} backgroundColor={theme.colors.bgAppList}>
-            <Icon name='alpha-a-circle' size={23} color={theme.colors.primary} />
+            <Icon name='alpha-a-circle' size={23} color='primary' />
             <Text_Primary100 flex={1} lineHeight={20}>
               {info.content}
             </Text_Primary100>
