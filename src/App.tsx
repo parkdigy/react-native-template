@@ -262,7 +262,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
           break;
       }
       setForceColorScheme(newForceColorScheme);
-      storage.set(storage.Key.Theme, newForceColorScheme);
+      storage.setTheme(newForceColorScheme);
     },
     [onColorSchemeChange],
   );

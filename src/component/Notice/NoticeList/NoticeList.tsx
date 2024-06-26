@@ -65,14 +65,9 @@ const NoticeList = ({navigation}: Props) => {
 
   const handleRenderItem = useCallback(
     ({item}: ListRenderItemInfo<NoticeListDataItem>) => (
-      <NoticeListItem
-        theme={theme}
-        key={item.id}
-        info={item}
-        onPress={() => app.navigate(navigation, 'NoticeInfo', {info: item})}
-      />
+      <NoticeListItem key={item.id} info={item} onPress={() => app.navigate(navigation, 'NoticeInfo', {info: item})} />
     ),
-    [navigation, theme],
+    [navigation],
   );
 
   const handleRenderLoading = useCallback(() => <NoticeListLoading />, []);

@@ -7,12 +7,11 @@ import {NoticeListDataItem} from '@const';
 import {Text_Accent_W600} from '@style';
 
 interface Props {
-  theme: ReactNativePaperTheme;
   info: NoticeListDataItem;
   onPress?(): void;
 }
 
-const NoticeListItem = ({theme, info, onPress}: Props) => {
+const NoticeListItem = ({info, onPress}: Props) => {
   return (
     <TouchableOpacity pv={20} onPress={onPress}>
       <Stack row center>
@@ -23,7 +22,7 @@ const NoticeListItem = ({theme, info, onPress}: Props) => {
           <DateText fontSize={13} color='right100' lineHeight={16} value={info.notice_date} mt={6} />
         </Stack>
         <View mr={-5}>
-          <Icon name='chevron-right' size={20} color={theme.colors.textRight100} />
+          <Icon name='chevron-right' size={20} color='right100' />
         </View>
       </Stack>
     </TouchableOpacity>
