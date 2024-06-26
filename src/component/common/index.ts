@@ -23,3 +23,4 @@ export * from './Loading';
 export * from './BackAlert';
 export * from './ActiveDetector';
 export * from './WebView';
+export * from './Animatable';

@@ -2,12 +2,12 @@ import {
   Animated as _Animated,
   TextInput as _NativeTextInput,
   View as _NativeView,
-  ScrollView as _NativeScrollView,
   TouchableOpacity as _NativeTouchableOpacity,
   Pressable as _NativePressable,
 } from 'react-native';
+import {ScrollView as _NativeScrollView} from 'react-native-gesture-handler';
 import {Button as _PaperButton} from 'react-native-paper';
-import * as _Animatable from 'react-native-animatable';
+import {Animation as _Animation} from 'react-native-animatable';
 import {
   Modal as _Modal,
   ModalProps as _ModalProps,
@@ -85,11 +85,12 @@ import {
   ApiInfoView as _ApiInfoView,
   SkeletonPlaceholder as _SkeletonPlaceholder,
   ActiveDetector as _ActiveDetector,
+  Animatable as _Animatable,
 } from '@ccomp';
 
 declare global {
   namespace Animatable {
-    type Animation = _Animatable.Animation;
+    type Animation = _Animation;
   }
   namespace Animated {
     type WithAnimatedValue<T> = _Animated.WithAnimatedValue<T>;

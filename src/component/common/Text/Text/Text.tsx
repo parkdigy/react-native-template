@@ -121,7 +121,7 @@ const Text = ({
     const fs = ifUndefined(size, s) || 'md';
     const ts = TextSize[fs as TextSize];
     if (ts) {
-      return {fontSize: ts.fontSize, lineHeight: ts.lineHeight};
+      return {fontSize: ts.fontSize};
     } else {
       return {fontSize: fs};
     }
