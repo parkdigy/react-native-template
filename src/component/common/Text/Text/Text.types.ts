@@ -34,6 +34,7 @@ export const TextSize = {
   28: {fontSize: 28, lineHeight: 28 * DEFAULT_LINE_HEIGHT_SCALE},
   29: {fontSize: 29, lineHeight: 29 * DEFAULT_LINE_HEIGHT_SCALE},
   30: {fontSize: 30, lineHeight: 30 * DEFAULT_LINE_HEIGHT_SCALE},
+  55: {fontSize: 55, lineHeight: 55 * DEFAULT_LINE_HEIGHT_SCALE},
 } as const;
 type TTextSize = typeof TextSize;
 export type TextSize = keyof TTextSize;

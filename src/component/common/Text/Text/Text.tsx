@@ -2,23 +2,23 @@ import React from 'react';
 import {Text as PaperText} from 'react-native-paper';
 import {TextStyle} from 'react-native';
 import CustomComponent from '../../CustomComponent';
-import {TextProps as Props, TextSize} from './Text.types';
+import {DEFAULT_LINE_HEIGHT_SCALE, TextProps as Props, TextSize} from './Text.types';
 
 const Text = ({
   center,
   size,
   s,
-  style,
-  color,
-  c,
-  fontFamily,
   fontSize,
-  fontStyle,
   fontWeight,
   w,
-  letterSpacing,
+  color,
+  c,
   lineHeight,
   lh,
+  fontFamily,
+  fontStyle,
+  style,
+  letterSpacing,
   textAlign,
   textDecorationLine,
   textDecorationStyle,
@@ -118,16 +118,16 @@ const Text = ({
   ]);
 
   const baseFontSize = useMemo(() => {
-    const fs = ifUndefined(size, s) || 'md';
+    const fs = ifUndefined(ifUndefined(size, s), fontSize) || 'md';
     const ts = TextSize[fs as TextSize];
     if (ts) {
-      return {fontSize: ts.fontSize};
+      return {fontSize: ts.fontSize, lineHeight: ts.lineHeight};
+    } else if (typeof fs === 'number') {
+      return {fontSize: fs, lineHeight: fs * DEFAULT_LINE_HEIGHT_SCALE};
     } else {
       return {fontSize: fs};
     }
-  }, [size, s]);
-
-  const fontSizeStyle = useMemo(() => ifNotUndefined(fontSize, {fontSize}), [fontSize]);
+  }, [size, s, fontSize]);
 
   const lineHeightStyle = useMemo(() => {
     const newLh = ifUndefined(lineHeight, lh);
@@ -149,10 +149,7 @@ const Text = ({
     return (fw !== undefined ? (typeof fw === 'number' ? `${fw}` : fw) : fw) as TextStyle['fontWeight'];
   }, [fontWeight, style, w]);
 
-  const fontWeightStyle = useMemo(
-    () => ({fontWeight: Platform.OS === 'android' ? undefined : finalFontWeight}),
-    [finalFontWeight],
-  );
+  const fontWeightStyle = useMemo(() => ({fontWeight: isAndroid ? undefined : finalFontWeight}), [finalFontWeight]);
 
   const fontFamilyStyle = useMemo(() => {
     // Light:300, Regular:400, Medium:500, SemiBold:600, Bold:700, ExtraBold:800, Black:900
@@ -179,8 +176,8 @@ const Text = ({
   }, [finalFontWeight]);
 
   const finalStyle = useMemo(
-    () => [customStyle, baseFontSize, style, fontSizeStyle, lineHeightStyle, fontWeightStyle, fontFamilyStyle],
-    [customStyle, baseFontSize, fontSizeStyle, lineHeightStyle, style, fontWeightStyle, fontFamilyStyle],
+    () => [baseFontSize, lineHeightStyle, fontWeightStyle, fontFamilyStyle, customStyle, style],
+    [customStyle, baseFontSize, lineHeightStyle, style, fontWeightStyle, fontFamilyStyle],
   );
 
   /********************************************************************************************************************
