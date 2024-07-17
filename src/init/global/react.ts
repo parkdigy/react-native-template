@@ -72,7 +72,7 @@ globalThis.useState = useSafeState;
  * useMounted
  * ******************************************************************************************************************/
 function useMountedRefFunction() {
-  const isMountedRef = _useRef(true);
+  const isMountedRef = _useRef(false);
 
   _useEffect(() => {
     return () => {
