@@ -32,6 +32,7 @@ export interface ApiSectionListProps<T extends ApiSectionListItem>
       ApiFlatListProps<T>,
       | 'perPageListItemCount'
       | 'loadDelay'
+      | 'disableRefresh'
       | 'errorDelay'
       | 'emptyText'
       | 'emptyMinHeight'

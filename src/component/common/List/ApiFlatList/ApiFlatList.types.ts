@@ -36,6 +36,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
   parentHeight?: number;
   reloadListWhenActiveFromBackground?: boolean;
   reloadListWhenActiveFromLongTermDeActive?: boolean;
+  disableRefresh?: boolean;
   renderLoading?(): ReactElement | null;
   onLoadList(
     lastId: number | string | undefined,

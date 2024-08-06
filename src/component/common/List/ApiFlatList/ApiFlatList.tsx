@@ -31,6 +31,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   reloadListWhenActiveFromLongTermDeActive,
   ListHeaderComponent: InitListHeaderComponent,
   ListEmptyComponent: InitListEmptyComponent,
+  disableRefresh,
   onLoadList,
   onLayout,
   onList,
@@ -505,7 +506,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
         keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
         keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
         keyExtractor={keyExtractor}
-        refreshControl={refreshControl}
+        refreshControl={!disableRefresh ? refreshControl : undefined}
         onLayout={handleLayout}
         onEndReachedThreshold={onEndReachedThreshold}
         onEndReached={isFirstLoading ? undefined : handleEndReached}

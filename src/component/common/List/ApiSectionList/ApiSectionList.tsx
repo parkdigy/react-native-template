@@ -34,6 +34,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   errorDelay = 500,
   emptyText,
   emptyMinHeight,
+  disableRefresh,
   reloadListWhenActiveFromBackground,
   reloadListWhenActiveFromLongTermDeActive,
   listPaddingHorizontal,
@@ -48,6 +49,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
   renderListItem,
   renderLoading,
   ItemSeparatorComponent,
+  initialNumToRender,
+  windowSize,
   onLoadList,
   onList,
   onChangeLoadingStatus,
@@ -214,6 +217,9 @@ function ApiSectionList<T extends ApiSectionListItem>({
             <View ph={ifUndefined(listPaddingHorizontal, 24)} mt={listMarginTop} minHeight={listMinHeight}>
               <ApiFlatList
                 scrollEnabled={false}
+                initialNumToRender={initialNumToRender}
+                windowSize={windowSize}
+                disableRefresh
                 loadDelay={loadDelay}
                 errorDelay={errorDelay}
                 keyboardDismissMode={keyboardDismissMode}
@@ -246,6 +252,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
       listPaddingHorizontal,
       listMarginTop,
       listMinHeight,
+      initialNumToRender,
+      windowSize,
       loadDelay,
       errorDelay,
       keyboardDismissMode,
@@ -328,6 +336,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
     <SectionList
       ref={sectionListRef}
       sections={_sections}
+      initialNumToRender={initialNumToRender}
+      windowSize={windowSize}
       stickySectionHeadersEnabled={true}
       keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
       keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
@@ -335,7 +345,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
       renderSectionHeader={handleRenderSectionHeader}
       renderSectionFooter={handleRenderSectionFooter}
       onScrollEndDrag={handleScrollEndDrag}
-      refreshControl={refreshControl}
+      refreshControl={disableRefresh ? undefined : refreshControl}
       onLayout={handleLayout}
       indicatorStyle={theme.dark ? 'white' : 'black'}
       {...props}
