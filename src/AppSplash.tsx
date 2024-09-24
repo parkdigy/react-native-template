@@ -23,11 +23,10 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
   const appStatus = useAppListener('appStatus');
 
   /********************************************************************************************************************
-   * Ref
+   * State
    * ******************************************************************************************************************/
 
-  // Splash 화면 숨김 애니메이션
-  const hideAnimation = useRef(new Animated.Value(1)).current;
+  const [isHide, setIsHide] = useState(false);
 
   /********************************************************************************************************************
    * Effect
@@ -38,31 +37,36 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
     if (appStatus === app.AppStatus.CodePushDownloading) {
       // CodePush 다운로드중 상태로 변경 시
 
-      // Splash 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
+      // Splash 화면 표시
+      // Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
+      setIsHide(false);
     } else if (appStatus === app.AppStatus.RequiredAppUpdate) {
       // 앱 강제 업데이트 상태로 변경 시
 
       // Splash 화면 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
+      // Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
+      setIsHide(false);
     }
-  }, [appStatus, hideAnimation]);
+  }, [appStatus]);
 
   /** App 컴포넌트 초기화 완료 시, Splash 화면 숨김 애니메이션 실행 */
   useEffect(() => {
     if (componentReady) {
-      // Splash 화면 바로 표시
-      Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start(() => {
-        // 앱 상태를 현재 화면 숨김중 상태로 변경
-        app.setAppStatus(app.AppStatus.AppSplashHiding);
-        // Splash 화면 숨김 애니메이션 실행
-        Animated.timing(hideAnimation, {toValue: 0, duration: 100, useNativeDriver: true}).start(() => {
-          // 앱 상태를 메인화면 상태로 변경
-          app.setAppStatus(app.AppStatus.Main);
-        });
-      });
+      setIsHide(true);
+      // app.setAppStatus(app.AppStatus.AppSplashHiding);
+      // // Splash 화면 바로 표시
+      // setIsHide(false);
+      // Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start(() => {
+      //   // 앱 상태를 현재 화면 숨김중 상태로 변경
+      //   app.setAppStatus(app.AppStatus.AppSplashHiding);
+      //   // Splash 화면 숨김 애니메이션 실행
+      //   Animated.timing(hideAnimation, {toValue: 0, duration: 100, useNativeDriver: true}).start(() => {
+      //     // 앱 상태를 메인화면 상태로 변경
+      //     app.setAppStatus(app.AppStatus.Main);
+      //   });
+      // });
     }
-  }, [componentReady, hideAnimation]);
+  }, [componentReady]);
 
   /********************************************************************************************************************
    * Render
@@ -70,13 +74,19 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
 
   return (
     <View
+      animation={isHide ? 'fadeOut' : 'fadeIn'}
       backgroundColor={theme.colors.splashBackground}
-      opacity={hideAnimation}
+      // opacity={hideAnimation}
       position={'absolute'}
       left={0}
       right={0}
       top={0}
-      bottom={0}>
+      bottom={0}
+      onAnimationEnd={() => {
+        if (isHide) {
+          app.setAppStatus(app.AppStatus.Main);
+        }
+      }}>
       {/* 로고 */}
       <View flex={1} justifyContent='center' alignItems='center'>
         <AppLogo />

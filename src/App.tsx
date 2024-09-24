@@ -82,11 +82,11 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   const [adid, setAdid] = useState<string | null>(DEFAULT_ADID);
   // 강제 적용 테마 (light|dark|system)
   const [forceColorScheme, setForceColorScheme] = useState<AppForceColorScheme>(() => {
-    const theme = storage.getTheme();
-    switch (theme) {
+    const storageTheme = storage.getTheme();
+    switch (storageTheme) {
       case 'light':
       case 'dark':
-        return theme;
+        return storageTheme;
       default:
         return 'system';
     }
@@ -425,6 +425,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       changeForceColorScheme,
       clearAuth,
       colorScheme,
+      commonStackNavigationOptions,
       config,
       finalSetOnAdultAuthSuccess,
       finalSetOnImpCertificationSuccess,
@@ -435,7 +436,6 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       reloadAuth,
       reloadConfig,
       reloadFcmToken,
-      theme.colors.surface,
     ],
   );
 

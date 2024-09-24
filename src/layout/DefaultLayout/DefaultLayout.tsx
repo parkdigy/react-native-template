@@ -5,9 +5,9 @@
 import React, {useLayoutEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useAppState} from '@context';
 import {useAppListener} from '@app';
 import RootStack from './RootStack';
-import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<{Root: undefined}>();
 

@@ -5,6 +5,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 react {
+  autolinkLibrariesWithApp()
 }
 
 def appVersionName = "1.0.0"
@@ -126,8 +127,6 @@ dependencies {
         implementation jscFlavor
     }
 }
-
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
 project.ext.vectoricons = [
      iconFontNames: [ 'MaterialCommunityIcons.ttf' ]

@@ -114,7 +114,6 @@ declare global {
   var NativeScrollView: typeof _NativeScrollView;
   type NativeScrollView = _NativeScrollView;
   var NativeTouchableOpacity: typeof _NativeTouchableOpacity;
-  type NativeTouchableOpacity = _NativeTouchableOpacity;
   var NativePressable: typeof _NativePressable;
   type NativePressable = NativeView;
 
