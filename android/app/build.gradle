@@ -164,13 +164,6 @@ tasks.register('bundleRelease_post_moveFile', Exec) {
 }
 
 gradle.projectsEvaluated {
-   tasks.named('generateStagingLintVitalReportModel') {
-       dependsOn('copyReactNativeVectorIconFonts')
-   }
-   tasks.named('generateReleaseLintVitalReportModel') {
-       dependsOn('copyReactNativeVectorIconFonts')
-   }
-
    tasks.named('bundleStaging') {
        dependsOn('clearBuildDirectory')
 
