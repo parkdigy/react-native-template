@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
@@ -27,9 +28,9 @@ def buildDirectory = layout.getBuildDirectory()
 def destDirectory = ''
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
 
     namespace "domain.reactnativetemplate"
     defaultConfig {
@@ -70,7 +71,7 @@ android {
 //            }
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
-                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib'
             }
         }
         staging {
@@ -84,7 +85,7 @@ android {
 //            }
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
-                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/staging/mergeStagingNativeLibs/out/lib'
             }
             matchingFallbacks = ['debug', 'release']
         }
@@ -109,17 +110,11 @@ android {
 dependencies {
     implementation("com.facebook.react:react-android")
 
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-analytics")
-
-    implementation("androidx.ads:ads-identifier:1.0.0-alpha05")
-
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
     implementation("com.android.installreferrer:installreferrer:2.2")
-
-    implementation("com.google.android.recaptcha:recaptcha:18.4.0")
+    implementation("androidx.ads:ads-identifier:1.0.0-alpha05")
+    implementation 'androidx.core:core-ktx:1.13.1'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -143,20 +138,21 @@ project.ext.envConfigFiles = [
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+apply plugin: 'org.jetbrains.kotlin.android'
 
 // aab 파일 이동, native-debug-symbols.zip 생성
 tasks.register('clearBuildDirectory', Delete) {
    delete buildDirectory
 }
 tasks.register('bundleStaging_post_genereNativeDebugSymbols', Exec) {
-   workingDir buildDirectory.dir('intermediates/merged_native_libs/staging/out/lib')
+    workingDir buildDirectory.dir('intermediates/merged_native_libs/staging/mergeStagingNativeLibs/out/lib')
    commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
 }
 tasks.register('bundleStaging_post_moveFile', Exec) {
    commandLine 'mv', "${outputStagingPath}/${outputStagingFileName}", destDirectory
 }
 tasks.register('bundleRelease_post_genereNativeDebugSymbols', Exec) {
-   workingDir buildDirectory.dir('intermediates/merged_native_libs/release/out/lib')
+   workingDir buildDirectory.dir('intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib')
    commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
 }
 tasks.register('bundleRelease_post_moveFile', Exec) {
