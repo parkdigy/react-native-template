@@ -45,7 +45,7 @@
     "@invertase/react-native-apple-authentication": "2.4.0",
     "@notifee/react-native": "7.9.0",
     "@pdg/api": "1.0.18",
-    "@pdg/react-hook": "1.0.23",
+    "@pdg/react-hook": "1.0.24",
     "@pdg/util": "1.0.22",
     "@react-native-community/blur": "4.4.1",
     "@react-native-community/eslint-config": "3.2.0",
