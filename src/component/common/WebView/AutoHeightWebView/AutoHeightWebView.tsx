@@ -35,7 +35,7 @@ const AutoHeightWebView: React.FC<Props> = ({style, onSizeUpdated, ...props}) =>
   const handleSizeUpdated = useCallback(
     (size: SizeUpdate) => {
       setHeight(size.height);
-      onSizeUpdated && onSizeUpdated(size);
+      onSizeUpdated?.(size);
     },
     [onSizeUpdated],
   );

@@ -43,7 +43,7 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
             content: `${Config.APP_TITLE} 서비스를 이용해 주셔서\n감사합니다.`,
             onConfirm() {
               clearAuth();
-              onSuccess && onSuccess();
+              onSuccess?.();
             },
           });
         })

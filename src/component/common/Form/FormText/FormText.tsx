@@ -489,7 +489,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
         }
 
         setFocused(true);
-        onFocus && onFocus(e);
+        onFocus?.(e);
       },
       [onFocus, selectTextOnFocus],
     );
@@ -497,7 +497,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     const handleEndEditing = useCallback(
       (e: any) => {
         setFocused(false);
-        onEndEditing && onEndEditing(e);
+        onEndEditing?.(e);
       },
       [onEndEditing],
     );
@@ -510,7 +510,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
           }
         }
 
-        onSubmitEditing && onSubmitEditing(e);
+        onSubmitEditing?.(e);
       },
       [returnKeyType, nextName, onSubmitEditing, formState],
     );
@@ -558,7 +558,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     const handleChangeError = useCallback(
       (newError: false | string) => {
         setError(newError);
-        onChangeError && onChangeError(newError);
+        onChangeError?.(newError);
       },
       [onChangeError],
     );

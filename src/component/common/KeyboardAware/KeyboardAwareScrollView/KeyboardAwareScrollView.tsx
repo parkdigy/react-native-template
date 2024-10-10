@@ -109,7 +109,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
     const handleKeyboardWillShow = useCallback(
       (event: KeyboardEvent) => {
         if (Platform.OS === 'ios') {
-          onKeyboardShow && onKeyboardShow(event.endCoordinates.height);
+          onKeyboardShow?.(event.endCoordinates.height);
           nextTick(() => {
             keyboardShow(event.endCoordinates.height);
           });
@@ -122,7 +122,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
 
     const handleKeyboardWillHide = useCallback(() => {
       if (Platform.OS === 'ios') {
-        onKeyboardHide && onKeyboardHide();
+        onKeyboardHide?.();
         nextTick(() => {
           keyboardHide();
         });
@@ -134,7 +134,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
     const handleKeyboardDidShow = useCallback(
       (event: KeyboardEvent) => {
         if (Platform.OS === 'android') {
-          onKeyboardShow && onKeyboardShow(event.endCoordinates.height);
+          onKeyboardShow?.(event.endCoordinates.height);
           nextTick(() => {
             keyboardShow(event.endCoordinates.height);
           });
@@ -147,7 +147,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
 
     const handleKeyboardDidHide = useCallback(() => {
       if (Platform.OS !== 'ios') {
-        onKeyboardHide && onKeyboardHide();
+        onKeyboardHide?.();
         nextTick(() => {
           keyboardHide();
         });
@@ -189,7 +189,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
     const handleScroll = useCallback(
       (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollYRef.current = event.nativeEvent.contentOffset.y;
-        onScroll && onScroll(event);
+        onScroll?.(event);
       },
       [onScroll],
     );
@@ -197,7 +197,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
     const handleContentSizeChange = useCallback(
       (width: number, height: number) => {
         contentHeightRef.current = height;
-        onContentSizeChange && onContentSizeChange(width, height);
+        onContentSizeChange?.(width, height);
       },
       [onContentSizeChange],
     );
@@ -205,7 +205,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
     const handleLayout = useCallback(
       (event: LayoutChangeEvent) => {
         scrollViewTargetRef.current = event.target as unknown as NativeView;
-        onLayout && onLayout(event);
+        onLayout?.(event);
       },
       [onLayout],
     );

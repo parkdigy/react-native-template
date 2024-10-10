@@ -122,7 +122,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
       setRefreshing(true);
       if (Platform.OS === 'android') {
         apiFlatListCommands.current?.refresh();
-        onRefresh && onRefresh();
+        onRefresh?.();
       }
     }
   }, [onRefresh]);
@@ -130,7 +130,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const handleScrollEndDrag = useCallback(() => {
     if (Platform.OS === 'ios' && refreshing) {
       apiFlatListCommands.current?.refresh();
-      onRefresh && onRefresh();
+      onRefresh?.();
     }
   }, [onRefresh, refreshing]);
 
@@ -180,7 +180,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
 
   const handleApiFlatListChangeLoadingStatus = useCallback(
     (loadingStatus: LoadingStatus) => {
-      onChangeLoadingStatus && onChangeLoadingStatus(loadingStatus);
+      onChangeLoadingStatus?.(loadingStatus);
       loadingStatusRef.current = loadingStatus;
 
       if (refreshing && !Const.LoadingStatus.isLoading(loadingStatus)) {
@@ -199,7 +199,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
       if (list === undefined) {
         sectionListRef.current?.scrollToLocation({sectionIndex: 0, itemIndex: 0, animated: false});
       }
-      onList && onList(list, loadingStatus);
+      onList?.(list, loadingStatus);
     },
     [onList],
   );
@@ -282,7 +282,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const handleLayout = useCallback(
     (e: LayoutChangeEvent) => {
       setSectionListHeight(e.nativeEvent.layout.height);
-      onLayout && onLayout(e);
+      onLayout?.(e);
     },
     [onLayout],
   );
@@ -315,7 +315,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   }, []);
 
   useEffect(() => {
-    onCommands && onCommands(commands);
+    onCommands?.(commands);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commands]);
 

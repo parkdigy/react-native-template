@@ -16,7 +16,7 @@ export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Pr
      * ******************************************************************************************************************/
 
     useEffect(() => {
-      onChange && onChange(checked);
+      onChange?.(checked);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
 

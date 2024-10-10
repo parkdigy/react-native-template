@@ -223,7 +223,7 @@ const Button = ({
 
   const handlePress = useCallback(
     (e: GestureResponderEvent) => {
-      onPress && onPress(e);
+      onPress?.(e);
     },
     [onPress],
   );

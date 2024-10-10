@@ -128,7 +128,7 @@ const FormToggleButtonGroup = ToForwardRefExoticComponent(
     const handleChangeError = useCallback(
       (newError: false | string) => {
         setError(newError);
-        onChangeError && onChangeError(newError);
+        onChangeError?.(newError);
       },
       [onChangeError],
     );

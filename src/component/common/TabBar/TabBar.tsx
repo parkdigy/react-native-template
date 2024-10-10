@@ -30,7 +30,7 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
 
   useEffect(() => {
     if (value !== undefined) {
-      onChange && onChange(value);
+      onChange?.(value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

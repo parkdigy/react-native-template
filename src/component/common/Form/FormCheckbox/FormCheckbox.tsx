@@ -104,7 +104,7 @@ const FormCheckbox = React.forwardRef<FormCheckboxCommands, Props>(
 
     const handlePress = useCallback(() => {
       setChecked(!checked);
-      onChange && onChange(!checked);
+      onChange?.(!checked);
       if (isError) {
         commandsRef.current?.validate();
       }
@@ -113,7 +113,7 @@ const FormCheckbox = React.forwardRef<FormCheckboxCommands, Props>(
     const handleChangeError = useCallback(
       (err: string | false) => {
         setError(err);
-        onChangeError && onChangeError(err);
+        onChangeError?.(err);
       },
       [onChangeError],
     );

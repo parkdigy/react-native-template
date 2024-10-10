@@ -449,7 +449,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   /** 초기화 후 onReady 이벤트 호출 */
   useEffect(() => {
     nextTick(() => {
-      onReady && onReady();
+      onReady?.();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -462,7 +462,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   const handleActiveFromBackground = useCallback(() => {
     // 인증정보 재로드 - 마지막 인증정보 로드 후 1시간이 지나면 로그인 상태로 간주하여 재로드
     reloadAuth(nowTime() - lastReloadAuthLoginDateRef.current > 1000 * 60 * 60).then(() => {});
-    onActiveFromBackground && onActiveFromBackground();
+    onActiveFromBackground?.();
   }, [onActiveFromBackground, reloadAuth]);
 
   /** 비활성화에서 앱이 활성화 될 때 */

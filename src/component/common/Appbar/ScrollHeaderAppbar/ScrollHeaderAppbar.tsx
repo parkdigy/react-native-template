@@ -66,7 +66,7 @@ const ScrollHeaderAppbar = ({children, navigation, animatedValue, onLayout, blur
         style={style}
         onLayout={(e) => {
           setHeaderHeight(e.nativeEvent.layout.height);
-          onLayout && onLayout(e);
+          onLayout?.(e);
         }}>
         {children}
       </HeaderAppbar>

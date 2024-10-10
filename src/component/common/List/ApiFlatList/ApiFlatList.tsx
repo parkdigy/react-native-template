@@ -101,7 +101,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
     if (reloadListWhenActiveFromBackground && lastAppState === 'background' && appState === 'active') {
       setList(undefined);
       loadRefreshList();
-      onReloadWhenActiveFromBackground && onReloadWhenActiveFromBackground();
+      onReloadWhenActiveFromBackground?.();
     } else if (
       reloadListWhenActiveFromLongTermDeActive &&
       ((lastAppState === 'background' && appState === 'active') || (!lastActiveScreen && activeScreen))
@@ -109,7 +109,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
       if (new Date().getTime() - inactiveTimeRef.current > app.RefreshTime) {
         setList(undefined);
         loadRefreshList();
-        onReloadWhenActiveFromLongTermDeActive && onReloadWhenActiveFromLongTermDeActive();
+        onReloadWhenActiveFromLongTermDeActive?.();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,7 +122,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   }, [list]);
 
   useEffect(() => {
-    onList && onList(list, loadingStatus);
+    onList?.(list, loadingStatus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list, loadingStatus]);
 
@@ -163,7 +163,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * ******************************************************************************************************************/
 
   useEffect(() => {
-    onChangeLoadingStatus && onChangeLoadingStatus(loadingStatus);
+    onChangeLoadingStatus?.(loadingStatus);
 
     switch (loadingStatus) {
       case Const.LoadingStatus.FirstLoading:
@@ -289,7 +289,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
       setRefreshing(true);
       if (Platform.OS === 'android') {
         loadRefreshList();
-        onRefresh && onRefresh();
+        onRefresh?.();
       }
     }
   }, [loadRefreshList, onRefresh]);
@@ -298,7 +298,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
     if (isActiveRef.current) {
       if (Platform.OS === 'ios' && refreshing) {
         loadRefreshList();
-        onRefresh && onRefresh();
+        onRefresh?.();
       }
     }
   }, [loadRefreshList, onRefresh, refreshing]);
@@ -309,7 +309,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
         {...scrollViewProps}
         onContentSizeChange={(w, h) => {
           contentHeightRef.current = h;
-          onContentSizeChange && onContentSizeChange(w, h);
+          onContentSizeChange?.(w, h);
         }}
       />
     );
@@ -330,7 +330,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {
       setFlatListHeight(event.nativeEvent.layout.height);
-      onLayout && onLayout(event);
+      onLayout?.(event);
     },
     [onLayout],
   );
@@ -376,7 +376,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   );
 
   useEffect(() => {
-    onCommands && onCommands(commands);
+    onCommands?.(commands);
   }, [commands, onCommands]);
 
   /********************************************************************************************************************

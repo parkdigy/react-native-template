@@ -61,7 +61,7 @@ const ActiveDetector = ({
         foregroundChangeSkipRef.current = false;
       } else {
         const pastTime = pastTimeRef.current === 0 ? 0 : nowTime() - pastTimeRef.current;
-        onChangeInForeground && onChangeInForeground(isActive, pastTime);
+        onChangeInForeground?.(isActive, pastTime);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +83,7 @@ const ActiveDetector = ({
   useEffect(() => {
     if (lastAppState === 'active' && appState !== 'active') {
       appInactiveActiveTimeRef.current = nowTime();
-      onAppInactive && onAppInactive();
+      onAppInactive?.();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState, lastAppState]);
@@ -101,7 +101,7 @@ const ActiveDetector = ({
   useEffect(() => {
     setLastIsActive(isActive);
     const pastTime = pastTimeRef.current === 0 ? 0 : nowTime() - pastTimeRef.current;
-    onChange && onChange(isActive, pastTime);
+    onChange?.(isActive, pastTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 

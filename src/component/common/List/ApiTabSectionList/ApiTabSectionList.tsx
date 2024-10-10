@@ -81,7 +81,7 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
       }
 
       setTab(newTab);
-      onChangeTab && onChangeTab(newTab);
+      onChangeTab?.(newTab);
     },
     [loadingStatus, onChangeTab],
   );
@@ -109,7 +109,7 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
       tabListRef.current[tab] = list;
       tabLoadingStatusRef.current[tab] = newLoadingStatus;
 
-      onList && onList(tab, list, newLoadingStatus);
+      onList?.(tab, list, newLoadingStatus);
     },
     [onList, tab],
   );
@@ -128,7 +128,7 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
   const handleChangeLoadingStatus = useCallback(
     (newLoadingStatus: LoadingStatus) => {
       setLoadingStatus(newLoadingStatus);
-      onChangeLoadingStatus && onChangeLoadingStatus(tab, newLoadingStatus);
+      onChangeLoadingStatus?.(tab, newLoadingStatus);
     },
     [onChangeLoadingStatus, tab],
   );
@@ -136,7 +136,7 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
   const handleCommands = useCallback(
     (commands: ApiSectionListCommands) => {
       apiSectionListCommands.current = commands;
-      onCommands && onCommands(commands);
+      onCommands?.(commands);
     },
     [onCommands],
   );

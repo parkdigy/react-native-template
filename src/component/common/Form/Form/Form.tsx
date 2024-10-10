@@ -21,11 +21,11 @@ const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubm
       getControl,
       submit() {
         const submitResult = submit((errorFormControls) => {
-          onSubmitError && onSubmitError(errorFormControls);
+          onSubmitError?.(errorFormControls);
         });
         if (submitResult) {
           Keyboard.dismiss();
-          onSubmit && onSubmit(submitResult);
+          onSubmit?.(submitResult);
         }
       },
       getValue: getControlValue,

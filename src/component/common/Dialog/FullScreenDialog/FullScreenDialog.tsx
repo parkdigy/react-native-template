@@ -131,7 +131,7 @@ const FullScreenDialog = ({
                   disabled={disabledCloseButton}
                   labelStyle={{paddingVertical: 5, color: theme.colors.onSurface, fontWeight: '700'}}
                   borderRadius={0}
-                  onPress={() => onRequestClose && onRequestClose()}>
+                  onPress={onRequestClose}>
                   닫기
                 </Button>
               )}
@@ -203,7 +203,7 @@ const FullScreenDialog = ({
       presentationStyle='overFullScreen'
       transparent
       animationType={ifUndefined(animationType, 'none')}
-      onRequestClose={() => onRequestClose && onRequestClose()}
+      onRequestClose={onRequestClose}
       {...props}>
       {isIos && (
         <>
@@ -223,7 +223,7 @@ const FullScreenDialog = ({
           top={0}
           right={0}
           bottom={0}
-          onPress={() => backdropClose && onRequestClose && onRequestClose()}
+          onPress={() => backdropClose && onRequestClose?.()}
         />
         {keyboardAware ? (
           <KeyboardAwareScrollView

@@ -42,14 +42,14 @@ const TimerText = ({startDate, limitSeconds, onLimitExceed, ...props}: Props) =>
 
           makeText(remainSeconds);
 
-          onLimitExceed && onLimitExceed();
+          onLimitExceed?.();
         } else {
           makeText(remainSeconds);
         }
       }, 1000) as unknown as number;
     } else {
       makeText(firstRemainSeconds);
-      onLimitExceed && onLimitExceed();
+      onLimitExceed?.();
     }
 
     return () => {

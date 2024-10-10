@@ -44,7 +44,7 @@ const FormSearchText = React.forwardRef<FormSearchTextCommands, Props>(
     const handleFocus = useCallback(
       (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         setFocused(true);
-        onFocus && onFocus(e);
+        onFocus?.(e);
       },
       [onFocus],
     );
@@ -52,15 +52,15 @@ const FormSearchText = React.forwardRef<FormSearchTextCommands, Props>(
     const handleBlur = useCallback(
       (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         setFocused(false);
-        onBlur && onBlur(e);
+        onBlur?.(e);
       },
       [onBlur],
     );
 
     const handleSubmitEditing = useCallback(
       (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
-        onSubmitEditing && onSubmitEditing(e);
-        onSubmit && onSubmit(value, false);
+        onSubmitEditing?.(e);
+        onSubmit?.(value, false);
       },
       [onSubmit, onSubmitEditing, value],
     );
@@ -68,16 +68,16 @@ const FormSearchText = React.forwardRef<FormSearchTextCommands, Props>(
     const handleChange = useCallback(
       (text: string) => {
         setValue(text);
-        onChange && onChange(text);
+        onChange?.(text);
       },
       [onChange],
     );
 
     const handleClearPress = useCallback(() => {
       setValue('');
-      onChange && onChange('');
+      onChange?.('');
       nextTick(() => {
-        onSubmit && onSubmit('', true);
+        onSubmit?.('', true);
       });
     }, [onChange, onSubmit]);
 

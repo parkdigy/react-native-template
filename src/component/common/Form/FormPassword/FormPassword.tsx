@@ -124,7 +124,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
     const handleChange = useCallback(
       (v: Props['value']) => {
         setValue(v);
-        onChange && onChange(v);
+        onChange?.(v);
       },
       [onChange],
     );
@@ -160,7 +160,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
     const handleChangeError = useCallback(
       (newError: false | string) => {
         setError(newError);
-        onChangeError && onChangeError(newError);
+        onChangeError?.(newError);
       },
       [onChangeError],
     );
