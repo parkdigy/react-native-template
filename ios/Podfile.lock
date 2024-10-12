@@ -1802,10 +1802,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNNotifee (7.9.0):
+  - RNNotifee (9.1.1):
     - React-Core
-    - RNNotifee/NotifeeCore (= 7.9.0)
-  - RNNotifee/NotifeeCore (7.9.0):
+    - RNNotifee/NotifeeCore (= 9.1.1)
+  - RNNotifee/NotifeeCore (9.1.1):
     - React-Core
   - RNScreens (3.34.0):
     - DoubleConversion
@@ -2261,7 +2261,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: f81137aeaf7a060c491d0a43af0f5ef6a8867250
   RNGoogleSignin: 9e68b9bcc3888219357924e32ee563624745647d
   RNNaverLogin: b47794502b392e6a10d6966dd95896385056f957
-  RNNotifee: 935f3ea8c134c88cbf8b13ea0c97c72c09ad2116
+  RNNotifee: 35b5f984d11083b02d7f2990b3408cd99a0aeeac
   RNScreens: de55b9d7de8a017d1588dcb70415492d0b0597c2
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
