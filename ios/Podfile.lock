@@ -17,13 +17,13 @@ PODS:
     - AppCenter/Crashes (~> 5.0)
     - AppCenterReactNativeShared (~> 5.0)
     - React-Core
-  - AppCenter/Analytics (5.0.4):
+  - AppCenter/Analytics (5.0.5):
     - AppCenter/Core
-  - AppCenter/Core (5.0.4)
-  - AppCenter/Crashes (5.0.4):
+  - AppCenter/Core (5.0.5)
+  - AppCenter/Crashes (5.0.5):
     - AppCenter/Core
-  - AppCenterReactNativeShared (5.0.1):
-    - AppCenter/Core (= 5.0.4)
+  - AppCenterReactNativeShared (5.0.2):
+    - AppCenter/Core (= 5.0.5)
   - Base64 (1.1.2)
   - boost (1.84.0)
   - BVLinearGradient (2.8.3):
@@ -163,7 +163,7 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
-  - naveridlogin-sdk-ios (4.2.1)
+  - naveridlogin-sdk-ios (4.2.3)
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
@@ -1780,11 +1780,11 @@ PODS:
   - RNGoogleSignin (13.1.0):
     - GoogleSignIn (~> 7.1)
     - React-Core
-  - RNNaverLogin (4.0.1):
+  - RNNaverLogin (4.0.2):
     - DoubleConversion
     - glog
     - hermes-engine
-    - naveridlogin-sdk-ios (= 4.2.1)
+    - naveridlogin-sdk-ios (= 4.2.3)
     - RCT-Folly (= 2024.01.01.00)
     - RCTRequired
     - RCTTypeSafety
@@ -2147,11 +2147,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
-  AppCenter: 85c92db0759d2792a65eb61d6842d2e86611a49a
+  AppCenter: 994875ea7941b9e168babb98299f900a94bcef13
   appcenter-analytics: b3a60e025b8db7013a71053c1ced96bcf7acba75
   appcenter-core: 53cc7b5d9a2cdd6a484cae8e50977bab91e0780e
   appcenter-crashes: 9cb825ee8f89715a1b0a7164a71fc8c582b0e796
-  AppCenterReactNativeShared: 22aea9046e80c449137f4e574ae1f229616e2358
+  AppCenterReactNativeShared: e6f6bd4d0e055bf1a3d7337edb4993bfce79185b
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 4cb898d0bf20404aab1850c656dcea009429d6c1
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -2185,7 +2185,7 @@ SPEC CHECKSUMS:
   MMKV: 817ba1eea17421547e01e087285606eb270a8dcb
   MMKVCore: af055b00e27d88cd92fad301c5fecd1ff9b26dd9
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  naveridlogin-sdk-ios: d5f9d92905a7e964976ebfdd665bee5fb75845c5
+  naveridlogin-sdk-ios: d9d46d02119d303023d7000cd5963864d5bb89e5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
@@ -2260,7 +2260,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 3fa1114c0868dd21f20dfe186adf42297ea316b1
   RNGestureHandler: f81137aeaf7a060c491d0a43af0f5ef6a8867250
   RNGoogleSignin: 9e68b9bcc3888219357924e32ee563624745647d
-  RNNaverLogin: b47794502b392e6a10d6966dd95896385056f957
+  RNNaverLogin: 4a64e1375d3b3ae4f997ca9057f7c4978265e0c7
   RNNotifee: 35b5f984d11083b02d7f2990b3408cd99a0aeeac
   RNScreens: de55b9d7de8a017d1588dcb70415492d0b0597c2
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
