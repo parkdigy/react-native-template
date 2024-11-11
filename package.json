@@ -27,6 +27,8 @@
     "git-cache-reset": "git rm -r -f --cached . && git add .",
     "watchman-del": "watchman watch-del \"${PWD}\" ; watchman watch-project \"${PWD}\"",
     "remove-ios-generated-dotenv-m": "rm -f ./node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m",
+    "update-ios": "eas update --channel=production-ios --message=$(date +%Y-%m-%d-%H-%M-%S)",
+    "update-android": "eas update --channel=production-android --message=$(date +%Y-%m-%d-%H-%M-%S)",
     "reinstall": "npm run reinstall:module && npm run reinstall:pod",
     "reinstall:module": "rm -rf node_modules && rm -f package-lock.json && npm install",
     "reinstall:bundle": "rm -rf vendor && rm -f Gemfile.lock && bundle install",
@@ -36,6 +38,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "expo": "^51.0.38",
+    "expo-updates": "~0.25.27",
     "react": "18.3.1",
     "react-native": "0.76.1"
   },

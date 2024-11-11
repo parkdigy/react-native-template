@@ -37,6 +37,7 @@
 		92B0509A2489464BA4EAAB1A /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = A2193365D5FC46049D8174A5 /* Pretendard-ExtraLight.otf */; };
 		99B6F65AB1E04895B5D8BBD3 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60F5D58B160D479BA395C027 /* Pretendard-Light.otf */; };
 		C81787B32C0CAA66004A9C03 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C81787B22C0CAA66004A9C03 /* BootSplash.storyboard */; };
+		C8DD9A742CE22C580094BB0C /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8DD9A722CE22C580094BB0C /* Expo.plist */; };
 		DE1508F7E6DA4D50967BF7C7 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36739FA81F3C4D01910A0D10 /* Pretendard-Black.otf */; };
 		E9F2EEC2EF9946F2AE3D0654 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 02F730453F5248DBB404187F /* Pretendard-Bold.otf */; };
 		F357C59CCE2C46A7B27382D6 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2508BA2512CD4A828679C8F0 /* Pretendard-SemiBold.otf */; };
@@ -100,6 +101,7 @@
 		A2193365D5FC46049D8174A5 /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.otf"; path = "../src/@assets/fonts/Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		B4F397B8FECD4B9085975559 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../src/@assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		C81787B22C0CAA66004A9C03 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BootSplash.storyboard; sourceTree = "<group>"; };
+		C8DD9A722CE22C580094BB0C /* Expo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -161,6 +163,7 @@
 		2FEBBF242B563711001994EE /* ReactNativeTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				C8DD9A732CE22C580094BB0C /* Supporting */,
 				2F48303E2B85C15C00232FAF /* ReactNativeTemplate.entitlements */,
 				2F23B9102BD73C230034F40C /* RNUtilModule.h */,
 				2F23B9112BD73C8E0034F40C /* RNUtilModule.m */,
@@ -218,6 +221,14 @@
 				5B3A0A861D1AEC524F6EB047 /* Pods-ReactNativeTemplate.staging.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C8DD9A732CE22C580094BB0C /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				C8DD9A722CE22C580094BB0C /* Expo.plist */,
+			);
+			path = Supporting;
 			sourceTree = "<group>";
 		};
 		EF86B3DC8BDE4DE7A204F343 /* Resources */ = {
@@ -345,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8DD9A742CE22C580094BB0C /* Expo.plist in Resources */,
 				2FEBBF362B5637D3001994EE /* Images.xcassets in Resources */,
 				2F9DB92729A853BA00781DAC /* MaterialCommunityIcons.ttf in Resources */,
 				2F93EF712BCFAADC00FE70AC /* PrivacyInfo.xcprivacy in Resources */,
@@ -733,10 +745,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MULTI_DEPLOYMENT_CONFIG = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -902,10 +911,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				MULTI_DEPLOYMENT_CONFIG = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -998,10 +1004,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MULTI_DEPLOYMENT_CONFIG = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
