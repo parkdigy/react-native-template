@@ -1,9 +1,4 @@
-import React from 'react';
-
-const NoticeList = LazyComponent(
-  React.lazy(() => import('./NoticeList')),
-  {fullScreen: true},
-);
+import NoticeList from './NoticeList.tsx';
 
 export default NoticeList;
 

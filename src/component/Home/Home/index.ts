@@ -1,9 +1,4 @@
-import React from 'react';
-
-const Home = LazyComponent(
-  React.lazy(() => import('./Home')),
-  {fullScreen: true},
-);
+import Home from './Home.tsx';
 
 export default Home;
 

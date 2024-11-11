@@ -1,9 +1,4 @@
-import React from 'react';
-
-const TermsOfService = LazyComponent(
-  React.lazy(() => import('./TermsOfService')),
-  {fullScreen: true},
-);
+import TermsOfService from './TermsOfService.tsx';
 
 export default TermsOfService;
 

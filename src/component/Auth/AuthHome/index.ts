@@ -1,9 +1,4 @@
-import React from 'react';
-
-const AuthHome = LazyComponent(
-  React.lazy(() => import('./AuthHome')),
-  {fullScreen: true},
-);
+import AuthHome from './AuthHome.tsx';
 
 export default AuthHome;
 

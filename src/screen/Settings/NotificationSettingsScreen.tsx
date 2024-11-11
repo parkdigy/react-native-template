@@ -1,27 +1,26 @@
 /********************************************************************************************************************
- * '홈' 화면 Screen 컴포넌트
+ * '더보기 > 테마 설정' 화면 Screen 컴포넌트
  * ******************************************************************************************************************/
 
 import React from 'react';
-import Config from 'react-native-config';
 import {ScreenProps} from '@types';
-import {Home} from '@comp';
-import {ScreenBase} from '../../@common';
+import {NotificationSettings} from '@comp';
+import {ScreenBase} from '../@common';
 
-const HomeScreen = ({navigation, route}: ScreenProps<'Home'>) => {
+export const NotificationSettingsScreen = ({navigation, route}: ScreenProps<'NotificationSettings'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: Config.APP_TITLE});
+    navigation.setOptions({title: '알림 설정'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={Home} topEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={NotificationSettings} navigation={navigation} route={route} />;
 };
 
-export default HomeScreen;
+export default NotificationSettingsScreen;

@@ -1,9 +1,4 @@
-import React from 'react';
-
-const NotificationSettings = LazyComponent(
-  React.lazy(() => import('./NotificationSettings')),
-  {fullScreen: true},
-);
+import NotificationSettings from './NotificationSettings.tsx';
 
 export default NotificationSettings;
 

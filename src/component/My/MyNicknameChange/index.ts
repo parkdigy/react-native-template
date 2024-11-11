@@ -1,6 +1,4 @@
-import React from 'react';
-
-const MyNicknameChange = LazyComponent(React.lazy(() => import('./MyNicknameChange')));
+import MyNicknameChange from './MyNicknameChange.tsx';
 
 export default MyNicknameChange;
 

@@ -1,22 +1,22 @@
 import React from 'react';
 import {ScreenProps} from '@types';
-import {MyResignForm} from '@comp';
-import {ScreenBase} from '../../@common';
+import {TermsOfService} from '@comp';
+import {ScreenBase} from '../@common';
 
-const MyResignFormScreen = ({navigation, route}: ScreenProps<'MyResignForm'>) => {
+export const TermsOfServiceScreen = ({navigation, route}: ScreenProps<'TermsOfService'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: '회원 탈퇴'});
+    navigation.setOptions({title: '이용약관'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={MyResignForm} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={TermsOfService} navigation={navigation} route={route} />;
 };
 
-export default MyResignFormScreen;
+export default TermsOfServiceScreen;

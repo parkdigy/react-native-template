@@ -1,16 +1,7 @@
 {
+  "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": false,
-    "resolveJsonModule": true,
-    "preserveSymlinks": true,
     "baseUrl": "./",
     "typeRoots": ["src/@types"],
     "paths": {
@@ -31,5 +22,4 @@
       "@types/styled-components-react-native"
     ]
   },
-  "extends": "@react-native/typescript-config/tsconfig.json"
 }

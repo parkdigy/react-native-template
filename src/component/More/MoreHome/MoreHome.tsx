@@ -3,7 +3,6 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import codePush, {LocalPackage} from 'react-native-code-push';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import {versionString} from '@pdg/util';
@@ -27,22 +26,8 @@ const MoreHome = ({navigation}: Props) => {
   const isActiveRef = useRef(false);
 
   /********************************************************************************************************************
-   * State
-   * ******************************************************************************************************************/
-
-  const [codePushMetaData, setCodePushMetaData] = useState<LocalPackage | null>(null);
-
-  /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
-
-  useEffect(() => {
-    if (Config.APP_ENV !== 'production') {
-      codePush.getUpdateMetadata().then((data) => {
-        setCodePushMetaData(data);
-      });
-    }
-  }, []);
 
   useEffect(() => {
     const handler = () => {
@@ -61,7 +46,7 @@ const MoreHome = ({navigation}: Props) => {
    * ******************************************************************************************************************/
 
   const handleSigninPress = useCallback(() => {
-    app.navigate(navigation, 'AuthHome');
+    navigation.navigate('AuthStack');
   }, [navigation]);
 
   const handleSignOutPress = useCallback(() => {
@@ -108,7 +93,7 @@ const MoreHome = ({navigation}: Props) => {
                 title='닉네임'
                 indicator
                 value={auth.nickname}
-                onPress={() => app.navigate(navigation, 'MyNicknameChange')}
+                onPress={() => navigation.navigate('MyNicknameChange')}
               />
             </Panel>
           )}
@@ -119,13 +104,13 @@ const MoreHome = ({navigation}: Props) => {
               title='공지사항'
               icon='alert-circle-outline'
               indicator
-              onPress={() => app.navigate(navigation, 'NoticeList')}
+              onPress={() => navigation.navigate('NoticeList')}
             />
             <PanelItem
               title='FAQ'
               icon='help-circle-outline'
               indicator
-              onPress={() => app.navigate(navigation, 'FaqList')}
+              onPress={() => navigation.navigate('FaqList')}
             />
           </Panel>
 
@@ -135,14 +120,14 @@ const MoreHome = ({navigation}: Props) => {
               title='테마설정'
               icon='brightness-6'
               indicator
-              onPress={() => app.navigate(navigation, 'ThemeSettings')}
+              onPress={() => navigation.navigate('ThemeSettings')}
             />
             {auth && (
               <PanelItem
                 title='알림설정'
                 icon='bell-outline'
                 indicator
-                onPress={() => app.navigate(navigation, 'NotificationSettings')}
+                onPress={() => navigation.navigate('NotificationSettings')}
               />
             )}
           </Panel>
@@ -157,7 +142,6 @@ const MoreHome = ({navigation}: Props) => {
                   {Config.APP_ENV !== 'production' && (
                     <>
                       <Text_Right100> ({DeviceInfo.getBuildNumber()})</Text_Right100>
-                      {codePushMetaData && <Text_Right100> ({codePushMetaData.label})</Text_Right100>}
                     </>
                   )}
                 </Text_Right100>
@@ -185,8 +169,8 @@ const MoreHome = ({navigation}: Props) => {
 
           {/* 약관 및 정책 */}
           <Panel>
-            <PanelItem title='이용약관' indicator onPress={() => app.navigate(navigation, 'TermsOfService')} />
-            <PanelItem title='개인정보처리방침' indicator onPress={() => app.navigate(navigation, 'TermsOfPrivacy')} />
+            <PanelItem title='이용약관' indicator onPress={() => navigation.navigate('TermsOfService')} />
+            <PanelItem title='개인정보처리방침' indicator onPress={() => navigation.navigate('TermsOfPrivacy')} />
           </Panel>
 
           {/* 회사 정보 */}
@@ -207,7 +191,7 @@ const MoreHome = ({navigation}: Props) => {
               mode='text'
               color='primary100'
               labelStyle={{textDecorationLine: 'underline'}}
-              onPress={() => app.navigate(navigation, 'MyResignForm')}>
+              onPress={() => navigation.navigate('MyResignForm')}>
               회원탈퇴
             </Button>
           )}

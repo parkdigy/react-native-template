@@ -1,22 +1,22 @@
 import React from 'react';
 import {ScreenProps} from '@types';
-import {AuthHome} from '@comp';
-import {ScreenBase} from '../../@common';
+import {TermsOfPrivacy} from '@comp';
+import {ScreenBase} from '../@common';
 
-export const AuthHomeScreen = ({navigation, route}: ScreenProps<'AuthHome'>) => {
+export const TermsOfPrivacyFullScreen = ({navigation, route}: ScreenProps<'TermsOfPrivacy'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: ''});
+    navigation.setOptions({title: '개인정보처리방침'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={AuthHome} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={TermsOfPrivacy} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
-export default AuthHomeScreen;
+export default TermsOfPrivacyFullScreen;

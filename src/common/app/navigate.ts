@@ -1,4 +1,4 @@
-import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {RootScreenList, ScreenList} from '@types';
 
 type OptionalParam = {$$Optional$$?: true};
@@ -168,7 +168,30 @@ function navigate<PScreenName extends OptionalParamValueKeyOfScreenList | ParamV
         item = foundScreenNamePath.pop();
       }
 
-      navigation.navigate('Root', routes);
+      type Params = {screen?: string; params?: Params};
+      const screenList: {screen?: string; params?: Dict}[] = [{screen: 'Root'}];
+      const makeScreenList = (parent: Params) => {
+        if (parent.params?.screen) {
+          screenList.push({screen: parent.screen});
+          makeScreenList(parent.params);
+        } else {
+          screenList.push(parent);
+        }
+      };
+      makeScreenList(routes as Params);
+
+      const navigateScreenList = (goScreenList: {screen?: string; params?: Dict}[]) => {
+        if (goScreenList.length > 0) {
+          const data = goScreenList.shift();
+          if (contains(['Root', 'Main'], data?.screen)) {
+            navigateScreenList(goScreenList);
+          } else {
+            navigation.navigate(data?.screen as string, data?.params);
+            navigateScreenList(goScreenList);
+          }
+        }
+      };
+      navigateScreenList(screenList);
 
       return true;
     }

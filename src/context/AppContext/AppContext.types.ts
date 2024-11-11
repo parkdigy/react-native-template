@@ -1,5 +1,5 @@
 import {AppStateStatus, ColorSchemeName} from 'react-native';
-import {NativeStackNavigationOptions} from '@react-navigation/native-stack/src/types';
+import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 import {AuthInfo, ConfigInfoData} from '@const';
 
 export type AppForceColorScheme = 'light' | 'dark' | 'system';

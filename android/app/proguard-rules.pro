@@ -9,12 +9,6 @@
 -keep class com.facebook.hermes.unicode.** { *; }
 -keep class com.facebook.jni.** { *; }
 
-# react-native-codepush
--keepclassmembers class com.facebook.react.ReactInstanceManager {
-    private final ** mBundleLoader;
-}
--dontwarn com.nimbusds.jose.**
-
 # react-native-device-info
 -keepclassmembers class com.android.installreferrer.api.** { *; }
 

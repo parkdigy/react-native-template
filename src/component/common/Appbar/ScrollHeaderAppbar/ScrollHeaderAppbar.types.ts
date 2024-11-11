@@ -1,4 +1,4 @@
-import {StackNavigationProp} from '@react-navigation/stack/src/types';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {Animated, LayoutChangeEvent} from 'react-native';
 import {HeaderAppbarProps} from '../HeaderAppbar';
 

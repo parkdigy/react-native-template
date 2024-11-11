@@ -2,7 +2,7 @@ import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import app, {useAppListener} from '@app';
 import {ConfigInfoData} from '@const';
-import {Text_Accent, Text_White} from '@style';
+import {Text_White} from '@style';
 import AppLogo from './AppLogo';
 import AppLogText from './AppLogText';
 
@@ -34,8 +34,8 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
 
   /** 앱 상태 변경 시 */
   useEffect(() => {
-    if (appStatus === app.AppStatus.CodePushDownloading) {
-      // CodePush 다운로드중 상태로 변경 시
+    if (appStatus === app.AppStatus.EasUpdateDownloading) {
+      // EasUpdate 다운로드중 상태로 변경 시
 
       // Splash 화면 표시
       // Animated.timing(hideAnimation, {toValue: 1, duration: 0, useNativeDriver: true}).start();
@@ -102,7 +102,9 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
         {appStatus === app.AppStatus.LoadError ? (
           // 로드 에러
           <Stack spacing={16} mb={20}>
-            <Text_Accent s={13}>서버에 연결할 수 없습니다.</Text_Accent>
+            <Text c={theme.colors.white} s={13}>
+              서버에 연결할 수 없습니다.
+            </Text>
             <Button
               backgroundColor={theme.colors.white}
               labelStyle={{color: theme.colors.splashBackground, fontSize: 13, fontWeight: '700'}}
@@ -125,7 +127,7 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
           )
         )}
         {updatingPercent > 0 ? (
-          // CodePush 업데이트 퍼센트
+          // EasUpdate 업데이트 퍼센트
           <View backgroundColor='rgba(255,255,255,.3)' height={5} overflow='hidden' borderRadius={5} width='100%'>
             <View backgroundColor={theme.colors.white} height={5} width={`${updatingPercent}%`} />
           </View>

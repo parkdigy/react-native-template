@@ -1,22 +1,22 @@
 import React from 'react';
 import {ScreenProps} from '@types';
-import {Tab2Home} from '@comp';
-import {ScreenBase} from '../../@common';
+import {TermsOfPrivacy} from '@comp';
+import {ScreenBase} from '../@common';
 
-const Tab2HomeScreen = ({navigation, route}: ScreenProps<'Tab2Home'>) => {
+export const TermsOfPrivacyScreen = ({navigation, route}: ScreenProps<'TermsOfPrivacy'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: '공지사항'});
+    navigation.setOptions({title: '개인정보처리방침'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={Tab2Home} topEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={TermsOfPrivacy} navigation={navigation} route={route} />;
 };
 
-export default Tab2HomeScreen;
+export default TermsOfPrivacyScreen;

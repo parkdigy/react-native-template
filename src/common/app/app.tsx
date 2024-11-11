@@ -1,4 +1,4 @@
-import {StackNavigationProp} from '@react-navigation/stack/src/types';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Config from 'react-native-config';
 import {Linking, NativeModules} from 'react-native';
 import {API_BASE_URL, ApiResult} from '@api';
@@ -51,10 +51,10 @@ const app = {
     Callback = Name extends 'lockScreen'
       ? AppListenerLockScreenCallback
       : Name extends 'appStatus'
-        ? AppListenerAppStatusCallback
-        : Name extends 'tabRePress'
-          ? AppListenerTabRePressCallback
-          : never,
+      ? AppListenerAppStatusCallback
+      : Name extends 'tabRePress'
+      ? AppListenerTabRePressCallback
+      : never,
   >(name: Name, callback: Callback) {
     switch (name) {
       case 'appStatus':
@@ -74,10 +74,10 @@ const app = {
     Callback = Name extends 'lockScreen'
       ? AppListenerLockScreenCallback
       : Name extends 'appStatus'
-        ? AppListenerAppStatusCallback
-        : Name extends 'tabRePress'
-          ? AppListenerTabRePressCallback
-          : never,
+      ? AppListenerAppStatusCallback
+      : Name extends 'tabRePress'
+      ? AppListenerTabRePressCallback
+      : never,
   >(name: Name, callback: Callback) {
     _listeners[name] = (_listeners[name] as []).filter((c) => c !== callback) as any;
   },

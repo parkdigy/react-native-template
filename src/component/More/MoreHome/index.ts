@@ -1,9 +1,4 @@
-import React from 'react';
-
-const MoreHome = LazyComponent(
-  React.lazy(() => import('./MoreHome')),
-  {fullScreen: true},
-);
+import MoreHome from './MoreHome.tsx';
 
 export default MoreHome;
 

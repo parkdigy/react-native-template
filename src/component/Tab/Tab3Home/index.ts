@@ -1,9 +1,4 @@
-import React from 'react';
-
-const Tab3Home = LazyComponent(
-  React.lazy(() => import('./Tab3Home')),
-  {fullScreen: true},
-);
+import Tab3Home from './Tab3Home.tsx';
 
 export default Tab3Home;
 

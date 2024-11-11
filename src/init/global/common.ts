@@ -5,7 +5,6 @@ import _storage from '../../common/storage';
 import {text as _text} from '../../common/text';
 import _util from '../../common/util';
 
-/* eslint-disable */
 declare global {
   var animations: typeof _animations;
   var api: typeof _api;
@@ -14,7 +13,6 @@ declare global {
   var text: typeof _text;
   var util: typeof _util;
 }
-/* eslint-enable */
 
 globalThis.animations = _animations;
 globalThis.api = _api;

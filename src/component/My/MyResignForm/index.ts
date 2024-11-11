@@ -1,9 +1,4 @@
-import React from 'react';
-
-const MyResignForm = LazyComponent(
-  React.lazy(() => import('./MyResignForm')),
-  {fullScreen: true},
-);
+import MyResignForm from './MyResignForm.tsx';
 
 export default MyResignForm;
 

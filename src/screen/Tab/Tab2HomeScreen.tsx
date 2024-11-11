@@ -1,22 +1,22 @@
 import React from 'react';
 import {ScreenProps} from '@types';
-import {TermsOfService} from '@comp';
-import {ScreenBase} from '../../@common';
+import {Tab2Home} from '@comp';
+import {ScreenBase} from '../@common';
 
-const TermsOfServiceFullScreen = ({navigation, route}: ScreenProps<'TermsOfService'>) => {
+export const Tab2HomeScreen = ({navigation, route}: ScreenProps<'Tab2Home'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: '이용약관'});
+    navigation.setOptions({title: '공지사항'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={TermsOfService} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={Tab2Home} topEdgeSafeArea navigation={navigation} route={route} />;
 };
 
-export default TermsOfServiceFullScreen;
+export default Tab2HomeScreen;

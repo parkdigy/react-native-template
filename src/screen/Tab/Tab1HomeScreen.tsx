@@ -1,13 +1,9 @@
-/********************************************************************************************************************
- * '더보기 > 공지사항 > 상세' 화면 Screen 컴포넌트
- * ******************************************************************************************************************/
-
 import React from 'react';
 import {ScreenProps} from '@types';
-import {NoticeInfo} from '@comp';
-import {ScreenBase} from '../../@common';
+import {Tab1Home} from '@comp';
+import {ScreenBase} from '../@common';
 
-const NoticeInfoScreen = ({navigation, route}: ScreenProps<'NoticeInfo'>) => {
+export const Tab1HomeScreen = ({navigation, route}: ScreenProps<'Tab1Home'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
@@ -20,7 +16,7 @@ const NoticeInfoScreen = ({navigation, route}: ScreenProps<'NoticeInfo'>) => {
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={NoticeInfo} navigation={navigation} route={route} />;
+  return <ScreenBase component={Tab1Home} topEdgeSafeArea navigation={navigation} route={route} />;
 };
 
-export default NoticeInfoScreen;
+export default Tab1HomeScreen;

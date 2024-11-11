@@ -1,22 +1,22 @@
 import React from 'react';
 import {ScreenProps} from '@types';
-import {MoreHome} from '@comp';
-import {ScreenBase} from '../../@common';
+import {MyNicknameChange} from '@comp';
+import {ScreenBase} from '../@common';
 
-const MoreHomeScreen = ({navigation, route}: ScreenProps<'MoreHome'>) => {
+export const MyNicknameChangeScreen = ({navigation, route}: ScreenProps<'MyNicknameChange'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: 'MY'});
+    navigation.setOptions({title: '이름 변경'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={MoreHome} topEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase component={MyNicknameChange} navigation={navigation} route={route} />;
 };
 
-export default MoreHomeScreen;
+export default MyNicknameChangeScreen;

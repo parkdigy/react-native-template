@@ -1,13 +1,13 @@
 /********************************************************************************************************************
  * 루트 App 컴포넌트
  * - src/index.ts 에서 사용
- * - Android : NavigationBar 의 높이를 계산한 후 AppCodePush 컴포넌트 표시
- * - iOS : AppCodePush 컴포넌트 바로 표시
+ * - Android : NavigationBar 의 높이를 계산한 후 AppEasUpdate 컴포넌트 표시
+ * - iOS : AppEasUpdate 컴포넌트 바로 표시
  * ******************************************************************************************************************/
 
 import React from 'react';
 import app from '@app';
-import AppCodePush from './AppCodePush';
+import AppEasUpdate from './AppEasUpdate';
 
 interface Props {
   notificationData?: Dict<string | object | number>;
@@ -34,7 +34,7 @@ const AppContainer = ({notificationData}: Props) => {
    * Render
    * ******************************************************************************************************************/
 
-  return initialized ? <AppCodePush /> : null;
+  return initialized ? <AppEasUpdate /> : null;
 };
 
 export default AppContainer;

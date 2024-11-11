@@ -156,9 +156,9 @@ const MyResignForm = ({navigation}: Props) => {
           visible={showConfirmDialog}
           reasons={finalReasons}
           onSuccess={() => {
-            app.navigate(navigation, 'MoreHome');
+            navigation.popTo('MoreHome');
             nextTick(() => {
-              app.navigate(navigation, 'Home');
+              navigation.navigate('Home');
             });
           }}
           onRequestClose={() => setShowConfirmDialog(false)}

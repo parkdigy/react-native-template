@@ -1,26 +1,26 @@
 /********************************************************************************************************************
- * '더보기 > 공지사항' 화면 Screen 컴포넌트
+ * '더보기 > 테마 설정' 화면 Screen 컴포넌트
  * ******************************************************************************************************************/
 
 import React from 'react';
 import {ScreenProps} from '@types';
-import {NoticeList} from '@comp';
-import {ScreenBase} from '../../@common';
+import {ThemeSettings} from '@comp';
+import {ScreenBase} from '../@common';
 
-const NoticeListScreen = ({navigation, route}: ScreenProps<'NoticeList'>) => {
+export const ThemeSettingsScreen = ({navigation, route}: ScreenProps<'ThemeSettings'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: '공지사항'});
+    navigation.setOptions({title: '테마 설정'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={NoticeList} navigation={navigation} route={route} />;
+  return <ScreenBase component={ThemeSettings} navigation={navigation} route={route} />;
 };
 
-export default NoticeListScreen;
+export default ThemeSettingsScreen;

@@ -85,11 +85,10 @@ export interface CustomComponentStyleProps
   pr?: ViewStyle['paddingRight'];
   pt?: ViewStyle['paddingTop'];
   pb?: ViewStyle['paddingBottom'];
-  bypassStyleProps?: string[];
 }
 
 export interface CustomComponentProps extends CustomComponentStyleProps {
-  [key: string]: any;
   component: React.ComponentType<any>;
   componentProps: Dict;
+  [key: string]: any;
 }

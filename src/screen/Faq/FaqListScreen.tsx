@@ -1,22 +1,26 @@
+/********************************************************************************************************************
+ * 'FAQ 목록' 화면 Screen 컴포넌트
+ * ******************************************************************************************************************/
+
 import React from 'react';
 import {ScreenProps} from '@types';
-import {MyNicknameChange} from '@comp';
-import {ScreenBase} from '../../@common';
+import {FaqList} from '@comp';
+import {ScreenBase} from '../@common';
 
-export const MyNicknameChangeScreen = ({navigation, route}: ScreenProps<'MyNicknameChange'>) => {
+export const FaqListScreen = ({navigation, route}: ScreenProps<'FaqList'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: '이름 변경'});
+    navigation.setOptions({title: 'FAQ'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={MyNicknameChange} navigation={navigation} route={route} />;
+  return <ScreenBase component={FaqList} navigation={navigation} route={route} />;
 };
 
-export default MyNicknameChangeScreen;
+export default FaqListScreen;

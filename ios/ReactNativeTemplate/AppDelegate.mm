@@ -1,10 +1,6 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
 #import "RNFBMessagingModule.h"
-#import <AppCenterReactNative.h>
-#import <AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNativeCrashes.h>
-#import <CodePush/CodePush.h>
 #import <React/RCTBundleURLProvider.h>
 #import <RNKakaoLogins.h>
 #import <Firebase.h>
@@ -25,10 +21,6 @@
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
-  [AppCenterReactNative register];
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
-
   return YES;
 }
 
@@ -39,11 +31,7 @@
 
 - (NSURL *)bundleURL
 {
-#if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
-#else
-  return [CodePush bundleURL];
-#endif
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.

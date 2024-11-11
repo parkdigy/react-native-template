@@ -37,13 +37,13 @@ export const AppLogText = () => {
         case app.AppStatus.RequiredAppUpdate:
           newLogText = '업데이트 필요';
           break;
-        case app.AppStatus.CodePushDownloading:
+        case app.AppStatus.EasUpdateDownloading:
           newLogText = '업데이트 다운로드중...';
           break;
-        case app.AppStatus.CodePushInstalling:
+        case app.AppStatus.EasUpdateInstalling:
           newLogText = '업데이트 설치중...';
           break;
-        case app.AppStatus.CodePushChecked:
+        case app.AppStatus.EasUpdateChecked:
           newLogText = '화면 그리는중...';
           break;
         case app.AppStatus.AppSplashHiding:

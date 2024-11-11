@@ -5,6 +5,7 @@
 import React from 'react';
 import {EventListenerCallback} from '@react-navigation/native';
 import {
+  BottomTabBarButtonProps,
   BottomTabNavigationEventMap,
   BottomTabNavigationOptions,
   createBottomTabNavigator,
@@ -43,14 +44,19 @@ const MainTab = () => {
    * Function
    * ******************************************************************************************************************/
 
+  const makeTabBarButton = useCallback((props: BottomTabBarButtonProps) => {
+    return <TouchableOpacity {...(props as any)} />;
+  }, []);
+
   const makeOptions = useCallback(
     (label: string, onIcon: ({focused}: {focused: boolean}) => React.ReactElement): BottomTabNavigationOptions => ({
       ...defaultTabScreenOptions,
       tabBarLabel: label,
       tabBarIcon: onIcon,
+      tabBarButton: makeTabBarButton,
       tabBarStyle: {opacity: lockScreen ? 0.5 : 1},
     }),
-    [lockScreen],
+    [lockScreen, makeTabBarButton],
   );
 
   /********************************************************************************************************************
@@ -153,6 +159,7 @@ const MainTab = () => {
       initialRouteName={currentTabNameRef.current}
       screenOptions={{
         headerShown: false,
+        animation: 'shift',
         tabBarActiveTintColor: theme.colors.primaryAccent,
         tabBarHideOnKeyboard: Platform.OS === 'android',
       }}>

@@ -93,12 +93,11 @@ export const AuthSns = ({
   const handleGooglePress = useCallback(async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {idToken} = await GoogleSignin.signIn();
-
-      if (idToken) {
+      const {data} = await GoogleSignin.signIn();
+      if (data?.idToken) {
         onLoading(true);
 
-        const googleCredential = FirebaseAuth.GoogleAuthProvider.credential(idToken);
+        const googleCredential = FirebaseAuth.GoogleAuthProvider.credential(data?.idToken);
 
         const authInfo = await FirebaseAuth().signInWithCredential(googleCredential);
 

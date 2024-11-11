@@ -1,9 +1,4 @@
-import React from 'react';
-
-const NoticeInfo = LazyComponent(
-  React.lazy(() => import('./NoticeInfo')),
-  {fullScreen: true},
-);
+import NoticeInfo from './NoticeInfo.tsx';
 
 export default NoticeInfo;
 

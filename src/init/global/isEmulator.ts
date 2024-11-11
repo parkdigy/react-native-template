@@ -35,10 +35,8 @@ if (!emulator) {
   }
 }
 
-/* eslint-disable */
 declare global {
   var isEmulator: boolean;
 }
-/* eslint-enable */
 
 globalThis.isEmulator = emulator;

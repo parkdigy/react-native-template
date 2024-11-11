@@ -6,9 +6,9 @@ export const AppStatus = {
   Loading: 'loading',
   LoadError: 'load_error',
   RequiredAppUpdate: 'required_app_update',
-  CodePushDownloading: 'code_push_downloading',
-  CodePushInstalling: 'code_push_installing',
-  CodePushChecked: 'code_push_checked',
+  EasUpdateDownloading: 'eas_update_downloading',
+  EasUpdateInstalling: 'eas_update_installing',
+  EasUpdateChecked: 'eas_update_checked',
   AppSplashHiding: 'app_splash_hiding',
   Auth: 'auth',
   Main: 'main',
@@ -18,10 +18,10 @@ export type AppStatus = ValueOf<typeof AppStatus>;
 export type AppListenerValue<Name extends AppListenerName> = Name extends 'lockScreen'
   ? boolean
   : Name extends 'appStatus'
-    ? AppStatus
-    : Name extends 'tabRepress'
-      ? keyof MainTabScreenList
-      : never;
+  ? AppStatus
+  : Name extends 'tabRepress'
+  ? keyof MainTabScreenList
+  : never;
 
 export type AppListenerAppStatusCallback = (appStatus: AppStatus) => void;
 export type AppListenerLockScreenCallback = (lockScreen: boolean) => void;

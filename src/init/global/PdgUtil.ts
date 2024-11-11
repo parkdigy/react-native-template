@@ -37,7 +37,6 @@ import {
   nextTick as _nextTick,
 } from '@pdg/util';
 
-/* eslint-disable */
 declare global {
   /** types */
   type ValueOf<T> = _ValueOf<T>;
@@ -81,7 +80,6 @@ declare global {
   /** delay */
   var nextTick: typeof _nextTick;
 }
-/* eslint-enable */
 
 /** compare */
 globalThis.empty = _empty;

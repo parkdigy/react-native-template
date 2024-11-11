@@ -5,7 +5,7 @@ export const AuthSnsIconButton = styled(IconButton)`
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
+  opacity: ${({disabled}: {disabled: boolean}) => (disabled ? 0.3 : 1)};
 `;
 
 export const AuthSnsActivityIndicatorContainer = styled(View)`

@@ -18,7 +18,6 @@ const _withStaticProps = <Props, Ref, T>(
   staticProps: T,
 ) => Object.assign(forwarded, staticProps);
 
-/* eslint-disable */
 declare global {
   type ReactNode = _ReactNode;
 
@@ -33,7 +32,6 @@ declare global {
   var useState: typeof useSafeState;
   var useMountedRef: typeof useMountedRefFunction;
 }
-/* eslint-enable */
 
 globalThis.withStaticProps = _withStaticProps;
 

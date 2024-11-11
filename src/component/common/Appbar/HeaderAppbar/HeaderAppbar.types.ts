@@ -1,9 +1,9 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {AppbarHeaderProps} from 'react-native-paper';
 import {ParamListBase} from '@react-navigation/native';
-import {NativeStackNavigationOptions, NativeStackNavigationProp} from '@react-navigation/native-stack/src/types';
-import {StackNavigationOptions, StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
-import {NavigationProp} from '@react-navigation/core/src/types';
+import {NativeStackNavigationOptions, NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {StackNavigationOptions, StackNavigationProp} from '@react-navigation/stack';
+import {NavigationProp} from '@react-navigation/core';
 import {AppbarCommands, AppbarProps} from '../Appbar';
 
 export interface HeaderAppbarCommands extends AppbarCommands {}

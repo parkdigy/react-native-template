@@ -1,6 +1,6 @@
 /********************************************************************************************************************
  * App 컴포넌트
- * - src/AppCodePush.tsx 에서 사용
+ * - src/AppEasUpdate.tsx 에서 사용
  * - AppContextProvider, GestureHandlerRootView, NavigationContainer, PaperProvider, ThemeProvider
  * ******************************************************************************************************************/
 

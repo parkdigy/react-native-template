@@ -1,9 +1,4 @@
-import React from 'react';
-
-const FaqList = LazyComponent(
-  React.lazy(() => import('./FaqList')),
-  {fullScreen: true},
-);
+import FaqList from './FaqList.tsx';
 
 export default FaqList;
 

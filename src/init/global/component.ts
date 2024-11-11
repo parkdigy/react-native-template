@@ -97,7 +97,6 @@ declare global {
   }
 }
 
-/* eslint-disable */
 declare global {
   /** react-native */
   var Animatable: typeof _Animatable;
@@ -203,7 +202,6 @@ declare global {
   var SkeletonPlaceholder: typeof _SkeletonPlaceholder;
   var ActiveDetector: typeof _ActiveDetector;
 }
-/* eslint-enable */
 
 globalThis.Animated = _Animated;
 globalThis.Animatable = _Animatable;

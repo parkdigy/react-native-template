@@ -1,26 +1,26 @@
 /********************************************************************************************************************
- * 'FAQ 목록' 화면 Screen 컴포넌트
+ * '더보기 > 공지사항 > 상세' 화면 Screen 컴포넌트
  * ******************************************************************************************************************/
 
 import React from 'react';
 import {ScreenProps} from '@types';
-import {FaqList} from '@comp';
-import {ScreenBase} from '../../@common';
+import {NoticeInfo} from '@comp';
+import {ScreenBase} from '../@common';
 
-const FaqListScreen = ({navigation, route}: ScreenProps<'FaqList'>) => {
+export const NoticeInfoScreen = ({navigation, route}: ScreenProps<'NoticeInfo'>) => {
   /********************************************************************************************************************
    * LayoutEffect
    * ******************************************************************************************************************/
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: 'FAQ'});
+    navigation.setOptions({title: '공지사항'});
   }, [navigation]);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={FaqList} navigation={navigation} route={route} />;
+  return <ScreenBase component={NoticeInfo} navigation={navigation} route={route} />;
 };
 
-export default FaqListScreen;
+export default NoticeInfoScreen;

@@ -1,9 +1,4 @@
-import React from 'react';
-
-const ThemeSettings = LazyComponent(
-  React.lazy(() => import('./ThemeSettings')),
-  {fullScreen: true},
-);
+import ThemeSettings from './ThemeSettings.tsx';
 
 export default ThemeSettings;
 

@@ -5,7 +5,6 @@
 import React from 'react';
 import {unstable_batchedUpdates, useWindowDimensions} from 'react-native';
 import Config from 'react-native-config';
-import codePush, {LocalPackage} from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
 import {Logo} from '@image';
 import {useAppState} from '@context';
@@ -28,7 +27,6 @@ const AuthHome = ({navigation}: Props) => {
    * State
    * ******************************************************************************************************************/
 
-  const [codePushMetaData, setCodePushMetaData] = useState<LocalPackage | null>(null);
   const [loadingType, setLoadingType] = useState<AuthSigninType>();
   const [snsLoading, setSnsLoading] = useState(false);
 
@@ -37,18 +35,6 @@ const AuthHome = ({navigation}: Props) => {
    * ******************************************************************************************************************/
 
   const loading = !!loadingType || snsLoading;
-
-  /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  useEffect(() => {
-    if (Config.APP_ENV !== 'production') {
-      codePush.getUpdateMetadata().then((data) => {
-        setCodePushMetaData(data);
-      });
-    }
-  }, []);
 
   /********************************************************************************************************************
    * Memo
@@ -160,7 +146,6 @@ const AuthHome = ({navigation}: Props) => {
           <View mt={10}>
             <Text_Right200 s={11}>
               {DeviceInfo.getVersion()} ({DeviceInfo.getBuildNumber()})
-              {codePushMetaData && <Text_Right200 s={11}> ({codePushMetaData.label})</Text_Right200>}
             </Text_Right200>
           </View>
         )}
@@ -178,17 +163,11 @@ const AuthHome = ({navigation}: Props) => {
         <Stack spacing={5} opacity={loading ? 0.5 : 1}>
           <Text_Accent center>로그인을 통해 {Config.APP_TITLE}의</Text_Accent>
           <Text_Accent center>
-            <Text_Primary
-              w={700}
-              center
-              onPress={loading ? undefined : () => app.navigate(navigation, 'TermsOfService')}>
+            <Text_Primary w={700} center onPress={loading ? undefined : () => navigation.navigate('TermsOfService')}>
               이용약관
             </Text_Primary>{' '}
             및{' '}
-            <Text_Primary
-              w={700}
-              center
-              onPress={loading ? undefined : () => app.navigate(navigation, 'TermsOfPrivacy')}>
+            <Text_Primary w={700} center onPress={loading ? undefined : () => navigation.navigate('TermsOfPrivacy')}>
               개인정보처리방침
             </Text_Primary>
             에 동의합니다.

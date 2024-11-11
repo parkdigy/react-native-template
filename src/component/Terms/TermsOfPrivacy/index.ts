@@ -1,9 +1,4 @@
-import React from 'react';
-
-const TermsOfPrivacy = LazyComponent(
-  React.lazy(() => import('./TermsOfPrivacy')),
-  {fullScreen: true},
-);
+import TermsOfPrivacy from './TermsOfPrivacy.tsx';
 
 export default TermsOfPrivacy;
 
