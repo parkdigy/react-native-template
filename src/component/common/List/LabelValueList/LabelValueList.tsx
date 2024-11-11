@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_Accent, Text_Right100} from '@style';
+import {Text_Accent, Text_Right100} from '../../Text';
 import {LabelValueListProps as Props} from './LabelValueList.types';
 
 const LabelValueList = ({size, labelWidth, items, ...props}: Props) => {

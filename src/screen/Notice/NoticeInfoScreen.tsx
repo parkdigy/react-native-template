@@ -20,7 +20,7 @@ export const NoticeInfoScreen = ({navigation, route}: ScreenProps<'NoticeInfo'>)
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={NoticeInfo} navigation={navigation} route={route} />;
+  return <ScreenBase component={NoticeInfo} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
 export default NoticeInfoScreen;

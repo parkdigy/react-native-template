@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {Text_Default} from '../../Text';
 import {ListViewItemProps as Props} from './ListViewItem.types';
 import {StyledContainerTouchableOpacity} from './ListViewItem.style';
 
@@ -57,7 +57,7 @@ const ListViewItem = ({
   return (
     <StyledContainerTouchableOpacity activeOpacity={activeOpacity} style={style} onPress={onPress}>
       <View flex={1}>{children}</View>
-      {/*<View style={{backgroundColor: 'yellow'}}>{children}</View>*/}
+      {/*<View style={{backgroundColor: 'word'}}>{children}</View>*/}
       {(trailingText || trailingIcon) && (
         <Stack row ml={10} spacing={7} center>
           {trailingText && (

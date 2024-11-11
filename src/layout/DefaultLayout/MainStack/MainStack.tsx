@@ -11,7 +11,17 @@ import {AdvertisingStatus, MainScreenList, ScreenProps} from '@types';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
 import {useAppState} from '@context';
-import {MyNicknameChangeScreen, MyResignFormScreen} from '@screen';
+import {
+  FaqListScreen,
+  MyNicknameChangeScreen,
+  MyResignFormScreen,
+  NoticeInfoScreen,
+  NoticeListScreen,
+  NotificationSettingsScreen,
+  TermsOfPrivacyScreen,
+  TermsOfServiceScreen,
+  ThemeSettingsScreen,
+} from '@screen';
 import AuthStack from '../AuthStack';
 import MainTab from './MainTab';
 import {Fcm} from './controls';
@@ -188,10 +198,6 @@ const MainStack = ({navigation}: ScreenProps) => {
           navigationBarColor: theme.colors.background,
         }}>
         <Stack.Screen name='MainTab' component={MainTab} options={{headerShown: false}} />
-        {/*<StackNavigator.Group screenOptions={{header: handleHeader, presentation: isIos ? 'modal' : undefined}}>*/}
-        {/*  <StackNavigator.Screen name='TermsOfService' component={TermsOfServiceScreen} />*/}
-        {/*  <StackNavigator.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />*/}
-        {/*</StackNavigator.Group>*/}
         {auth && (
           <Stack.Group screenOptions={{header: handleHeader}}>
             <Stack.Screen name='MyResignForm' component={MyResignFormScreen} />
@@ -205,6 +211,16 @@ const MainStack = ({navigation}: ScreenProps) => {
             options={{headerShown: false, presentation: 'fullScreenModal'}}
           />
         )}
+
+        <Stack.Group screenOptions={{header: handleHeader}}>
+          <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
+          <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />
+          <Stack.Screen name='NoticeList' component={NoticeListScreen} />
+          <Stack.Screen name='NoticeInfo' component={NoticeInfoScreen} />
+          <Stack.Screen name='FaqList' component={FaqListScreen} />
+          <Stack.Screen name='TermsOfService' component={TermsOfServiceScreen} />
+          <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />
+        </Stack.Group>
       </Stack.Navigator>
 
       <Dialog />

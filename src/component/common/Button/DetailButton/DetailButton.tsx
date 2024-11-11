@@ -13,7 +13,7 @@ export const DetailButton = ({children, ...props}: Props) => {
    * ******************************************************************************************************************/
   //
   return (
-    <Button mode='text' textColor={theme.colors.primary100} fontSize={13} textDecorationLine='underline' {...props}>
+    <Button mode='text' textColor={theme.colors.primary100} size={'sm'} textDecorationLine='underline' {...props}>
       {children || '자세히'}
     </Button>
   );

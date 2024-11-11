@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {FaqListDataItem} from '@const';
-import {Text_Accent, Text_Primary, Text_Primary100} from '@style';
 
 interface Props {
   info: FaqListDataItem;
@@ -38,7 +37,7 @@ const FaqListItem = ({info, active, onPress}: Props) => {
         <Stack row spacing={10}>
           <Icon name='alpha-q-circle' size={23} color='right100' />
           <Text_Accent lh={20} flex={1}>
-            <Text_Primary w={600}>[{info.category}]</Text_Primary> {info.title}
+            <Text_Primary bold>[{info.category}]</Text_Primary> {info.title}
           </Text_Accent>
           <View mr={-3}>
             <Icon name={active ? 'chevron-down' : 'chevron-up'} size={20} color='primary200' />

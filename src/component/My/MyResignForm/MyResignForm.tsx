@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {useAppState} from '@context';
-import {Text_Accent, Text_Default, Text_Primary} from '@style';
 import {MyResignFormProps as Props} from './MyResignForm.types';
 import {ConfirmDialog} from './controls';
 
@@ -74,13 +73,13 @@ const MyResignForm = ({navigation}: Props) => {
         <Stack spacing={28}>
           <Stack spacing={24}>
             <View>
-              <Text_Accent s={18} w={800} lh={27}>
-                <Text_Primary s={18} w={800} lh={27}>
+              <Text_Accent s={18} bold lh={27}>
+                <Text_Primary s={18} bold lh={27}>
                   {auth?.nickname}
                 </Text_Primary>
                 님,
               </Text_Accent>
-              <Text_Accent s={18} w={800} lh={27}>
+              <Text_Accent s={18} bold lh={27}>
                 회원 탈퇴 전 아래 내용을 확인해 주세요.
               </Text_Accent>
             </View>
@@ -109,7 +108,7 @@ const MyResignForm = ({navigation}: Props) => {
           <Divider />
 
           <Stack spacing={14}>
-            <Text_Accent s={18} w={800} lh={27}>
+            <Text_Accent s={18} bold lh={27}>
               회원 탈퇴 사유를 선택해 주세요.
             </Text_Accent>
             <View>
@@ -145,7 +144,7 @@ const MyResignForm = ({navigation}: Props) => {
             </View>
           </Stack>
 
-          <Button size='xl' color='error' fontWeight={700} disabled={!canSubmit} onPress={handleSubmit}>
+          <Button size='xl' color='error' bold disabled={!canSubmit} onPress={handleSubmit}>
             회원 탈퇴
           </Button>
         </Stack>

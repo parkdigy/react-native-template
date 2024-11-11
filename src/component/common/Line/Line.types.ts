@@ -1,11 +1,9 @@
-import {ViewStyle} from 'react-native';
-
 export interface LineProps
   extends PartialPick<
-    ViewStyle,
+    ViewProps,
     'width' | 'marginTop' | 'marginBottom' | 'marginLeft' | 'marginRight' | 'marginHorizontal' | 'marginVertical'
   > {
-  height?: ViewStyle['borderTopWidth'];
-  color?: ViewStyle['borderTopColor'];
-  style?: ViewStyle;
+  height?: ViewProps['borderTopWidth'];
+  color?: ViewProps['borderTopColor'];
+  style?: ViewProps['style'];
 }

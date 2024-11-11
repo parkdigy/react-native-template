@@ -90,23 +90,9 @@ export const MainTab3ScreenList: ScreenListToConst<MainTab3ScreenList> = {
 
 export type MainTabMoreScreenList = {
   MoreHome: NoParams;
-  ThemeSettings: NoParams;
-  NotificationSettings: NoParams;
-  NoticeList: NoParams;
-  NoticeInfo: NoticeInfoParam;
-  FaqList: NoParams;
-  TermsOfPrivacy: NoParams;
-  TermsOfService: NoParams;
 };
 export const MainTabMoreScreenList: ScreenListToConst<MainTabMoreScreenList> = {
   MoreHome: undefined,
-  ThemeSettings: undefined,
-  NotificationSettings: undefined,
-  NoticeList: undefined,
-  NoticeInfo: undefined,
-  FaqList: undefined,
-  TermsOfPrivacy: undefined,
-  TermsOfService: undefined,
 };
 
 /********************************************************************************************************************
@@ -137,16 +123,26 @@ export type MainScreenList = {
   MainTab: MainTabScreenList;
   MyResignForm: NoParams;
   MyNicknameChange: NoParams;
-  // TermsOfPrivacy: NoParams;
-  // TermsOfService: NoParams;
+  ThemeSettings: NoParams;
+  NotificationSettings: NoParams;
+  NoticeList: NoParams;
+  NoticeInfo: NoticeInfoParam;
+  FaqList: NoParams;
+  TermsOfPrivacy: NoParams;
+  TermsOfService: NoParams;
 };
 export const MainScreenList: ScreenListToConst<MainScreenList> = {
   AuthStack: AuthScreenList,
   MainTab: MainTabScreenList,
   MyResignForm: undefined,
   MyNicknameChange: undefined,
-  // TermsOfPrivacy: undefined,
-  // TermsOfService: undefined,
+  ThemeSettings: undefined,
+  NotificationSettings: undefined,
+  NoticeList: undefined,
+  NoticeInfo: undefined,
+  FaqList: undefined,
+  TermsOfPrivacy: undefined,
+  TermsOfService: undefined,
 };
 
 /********************************************************************************************************************
@@ -174,8 +170,8 @@ type StackValue<T, TK> = {
       ? undefined
       : T[K]
     : T[K] extends object
-      ? StackValue<T[K], TK>
-      : never;
+    ? StackValue<T[K], TK>
+    : never;
 }[keyof T & string];
 type FlatStack<T, TK = AllStackScreens<T>> = {
   [K in TK & string]: IsScreen<StackValue<T, K>> extends never ? undefined : StackValue<T, K>;
@@ -202,8 +198,8 @@ type GetScreenParentRouteName<
         ? ScreenName extends undefined
           ? K
           : ScreenName extends keyof T[K]
-            ? K
-            : never
+          ? K
+          : never
         : GetScreenParentRouteName<T[K], ScreenName>
       : never;
   },

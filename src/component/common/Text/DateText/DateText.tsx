@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {Text_Default} from '@style';
+import {Text_Default} from '../Text';
 import {DateTextProps as Props} from './DateText.types';
 
 const DateText: React.FC<Props> = ({value, dateSeparator, time, ...props}) => {

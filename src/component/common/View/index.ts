@@ -5,3 +5,6 @@ export * from './SafeAreaView';
 export * from './ScrollView';
 export * from './ShadowView';
 export * from './View';
+export * from './BottomContainerView';
+export * from './SlideFullScreenView';
+export * from './TopContainerView';

@@ -5,9 +5,7 @@ export interface AnimatableViewProps extends Omit<AnimatableProps<ViewStyle>, 'u
   notUseNativeDriver?: boolean;
 }
 
-export interface AnimatableTextProps extends Omit<AnimatableProps<TextStyle>, 'useNativeDriver'>, TextProps {
-  notUseNativeDriver?: boolean;
-}
+export interface AnimatableTextProps extends Omit<AnimatableProps<TextStyle>, 'useNativeDriver'>, TextProps {}
 
 export interface AnimatableImageProps extends Omit<AnimatableProps<ImageStyle>, 'useNativeDriver'>, ImageProps {
   notUseNativeDriver?: boolean;

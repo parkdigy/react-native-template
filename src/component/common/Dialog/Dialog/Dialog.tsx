@@ -1,8 +1,18 @@
 import React from 'react';
 import {useWindowDimensions} from 'react-native';
-import {FullScreenDialogProps} from '@ccomp';
-import {Text_Default} from '@style';
+import {IconCheck, IconInfo, IconQuestion} from '@asset-image';
+import {Text_Default} from '../../Text';
+import {FullScreenDialogProps} from '../FullScreenDialog';
 import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
+import {
+  __addRef,
+  __openAlert,
+  __openConfirm,
+  __openErrorAlert,
+  __openSuccessAlert,
+  __removeRef,
+  __setIsHiding,
+} from './Dialog.function';
 
 let dialogId = 0;
 
@@ -19,11 +29,6 @@ const Dialog = () => {
    * ******************************************************************************************************************/
 
   const theme = useTheme();
-
-  /********************************************************************************************************************
-   * Use
-   * ******************************************************************************************************************/
-
   const {width: windowWidth} = useWindowDimensions();
 
   /********************************************************************************************************************
@@ -112,9 +117,10 @@ const Dialog = () => {
    * ******************************************************************************************************************/
 
   useEffect(() => {
-    addRef(ref);
+    __addRef(ref);
     return () => {
-      removeRef(ref);
+      __removeRef(ref);
+      __setIsHiding(false);
     };
   }, []);
 
@@ -180,21 +186,27 @@ const Dialog = () => {
             buttonColor = props.color;
             break;
           default:
-            iconColor = props.color || (props.icon === 'check' ? theme.colors.primary : theme.colors.primary200);
+            iconColor = props.color || theme.colors.primary200;
             textColor = props.color || theme.colors.textAccent;
-            buttonColor = props.type === 'alert' ? 'primary200' : 'primary';
+            buttonColor = 'primary';
             break;
         }
 
-        const buttons: FullScreenDialogProps['buttons'] = [];
+        let buttons: FullScreenDialogProps['buttons'] = [];
         if (props.type === 'confirm') {
           buttons.push({
             label: props.cancelLabel || '취소',
-            color: ifUndefined(props.cancelButtonColor, 'white'),
+            color: ifUndefined(props.cancelButtonColor, 'secondary'),
             ...props.cancelButtonProps,
             onPress() {
               handleCancelPress(props);
-              hideComplete(props);
+              if (props.type) {
+                props.__hide = true;
+                __setIsHiding(true);
+                setDialogs((old) => [...old]);
+              } else {
+                hideComplete(props);
+              }
             },
           });
         }
@@ -205,90 +217,148 @@ const Dialog = () => {
           ...props.confirmButtonProps,
           onPress() {
             handleConfirmPress(props);
-            hideComplete(props);
+            if (props.type) {
+              props.__hide = true;
+              __setIsHiding(true);
+              setDialogs((old) => [...old]);
+            } else {
+              hideComplete(props);
+            }
           },
         });
+
+        if (props.reverseButtons) {
+          buttons = buttons.reverse();
+        }
+
+        const icon =
+          props.icon === 'check' ? (
+            <IconCheck width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+          ) : props.icon === 'info' ? (
+            <IconInfo width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+          ) : props.icon === 'question' ? (
+            <IconQuestion width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+          ) : (
+            props.icon
+          );
+
+        const contentTitle = props.contentTitle ? (
+          <>
+            {['string', 'number'].includes(typeof props.contentTitle) ? (
+              <Text_Default bold center lh={21} color={props.contentTitleColor || props.contentColor || textColor}>
+                {props.contentTitle}
+              </Text_Default>
+            ) : (
+              props.contentTitle
+            )}
+          </>
+        ) : null;
+
+        const content = ['string', 'number'].includes(typeof props.content) ? (
+          <Text_Default center lh={21} color={props.contentColor || textColor}>
+            {props.content}
+          </Text_Default>
+        ) : (
+          props.content
+        );
+
+        const subContent = props.subContent ? (
+          <Pressable
+            onLongPress={
+              props.subHiddenContent ? () => Dialog.openAlert({content: props.subHiddenContent}) : undefined
+            }>
+            {['string', 'number'].includes(typeof props.subContent) ? (
+              <Text_Default
+                s={12}
+                lh={21}
+                center
+                borderWidth={1}
+                borderRadius={10}
+                borderColor={textColor}
+                ph={10}
+                pv={5}
+                opacity={0.7}
+                color={props.subContentColor || textColor}
+                numberOfLines={5}
+                mt={10}>
+                {props.subContent}
+              </Text_Default>
+            ) : (
+              props.subContent
+            )}
+          </Pressable>
+        ) : null;
 
         return (
           <FullScreenDialog
             key={index}
+            preventBackClose={props.preventBackClose}
+            animation={props.type ? (props.__hide ? 'fadeOut' : 'fadeIn') : undefined}
+            duration={props.__hide ? 100 : 350}
+            onAnimationEnd={
+              props.type && props.__hide
+                ? () => {
+                    hideComplete(props);
+                  }
+                : undefined
+            }
+            contentAnimation={
+              props.type
+                ? {
+                    animation: props.type ? (props.__hide ? 'slideOutDown' : 'slideInUp') : undefined,
+                    duration: props.__hide ? 100 : 350,
+                    easing: props.__hide ? 'ease-in' : 'ease-out-back',
+                  }
+                : undefined
+            }
+            type={props.type}
             visible={true}
-            maxWidth={Math.min(props.maxWidth || windowWidth - 48, windowWidth - 48)}
+            maxWidth={Math.min(
+              props.maxWidth || windowWidth - (props.type === undefined ? 48 : 24),
+              windowWidth - (props.type === undefined ? 48 : 24),
+            )}
             minWidth={
               props.minWidth === undefined
                 ? Math.min(280, windowWidth - 48)
                 : Math.min(props.minWidth, windowWidth - 48)
             }
+            fullWidth={props.type !== undefined}
             hideCloseButton
             buttons={buttons}
+            horizontalButtons
             bottomView={props.bottomView}
             onRequestClose={() => {
-              handleConfirmPress(props);
-              hideComplete(props);
+              props.__hide = true;
+              __setIsHiding(true);
+              setDialogs((old) => [...old]);
+              // handleConfirmPress(props);
+              // hideComplete(props);
             }}>
-            <Stack
-              ph={ifUndefined(props.ph, 40)}
-              pv={ifUndefined(props.pv, 40)}
-              spacing={ifUndefined(props.spacing, 14)}
-              alignItems='center'>
-              {props.icon === 'check' && (
-                <View alignItems='center' justifyContent='center'>
-                  <View p={7} backgroundColor={theme.colors.primary400} borderRadius={30}>
-                    <Icon name='check' size={25} color='primary' />
-                  </View>
-                </View>
-              )}
-              {props.icon === 'info' && <Icon name='information' size={45} color={props.iconColor || iconColor} />}
-              {props.contentTitle && (
-                <>
-                  {['string', 'number'].includes(typeof props.contentTitle) ? (
-                    <Text_Default
-                      w={700}
-                      center
-                      lh={21}
-                      color={props.contentTitleColor || props.contentColor || textColor}>
-                      {props.contentTitle}
-                    </Text_Default>
-                  ) : (
-                    props.contentTitle
-                  )}
-                </>
-              )}
-              {['string', 'number'].includes(typeof props.content) ? (
-                <Text_Default w={500} center lh={21} color={props.contentColor || textColor}>
-                  {props.content}
-                </Text_Default>
-              ) : (
-                props.content
-              )}
-              {props.subContent && (
-                <Pressable
-                  onLongPress={
-                    props.subHiddenContent ? () => Dialog.openAlert({content: props.subHiddenContent}) : undefined
-                  }>
-                  {['string', 'number'].includes(typeof props.subContent) ? (
-                    <Text_Default
-                      s='sm'
-                      w={500}
-                      lh={21}
-                      center
-                      borderWidth={1}
-                      borderRadius={10}
-                      borderColor={textColor}
-                      ph={10}
-                      pv={5}
-                      opacity={0.7}
-                      color={props.subContentColor || textColor}
-                      numberOfLines={5}
-                      mt={10}>
-                      {props.subContent}
-                    </Text_Default>
-                  ) : (
-                    props.subContent
-                  )}
-                </Pressable>
-              )}
-            </Stack>
+            {props.type === undefined ? (
+              <Stack
+                ph={ifUndefined(props.ph, px.s40)}
+                pv={ifUndefined(props.pv, px.s40)}
+                spacing={ifUndefined(props.spacing, px.s14)}
+                alignItems='center'>
+                {icon}
+                {contentTitle}
+                {content}
+                {subContent}
+              </Stack>
+            ) : (
+              <Stack
+                ph={ifUndefined(props.ph, px.s18)}
+                pv={ifUndefined(props.pv, px.s30)}
+                spacing={ifUndefined(props.spacing, px.s20)}
+                alignItems='center'>
+                {icon}
+                <Stack spacing={px.s5} fullWidth>
+                  {contentTitle}
+                  {content}
+                  {subContent}
+                </Stack>
+              </Stack>
+            )}
           </FullScreenDialog>
         );
       })}
@@ -296,58 +366,9 @@ const Dialog = () => {
   );
 };
 
-let refs: React.RefObject<DialogInnerCommands>[] = [];
-
-const addRef = (ref: React.RefObject<DialogInnerCommands>) => {
-  refs.push(ref);
-};
-
-const removeRef = (ref: React.RefObject<DialogInnerCommands>) => {
-  refs = refs.filter((r) => r !== ref);
-};
-
-Dialog.openAlert = (props: DialogAlertProps): DialogCommands => {
-  if (refs.length > 0) {
-    const lastInstance = refs[refs.length - 1].current;
-    if (lastInstance) {
-      return lastInstance.openAlert(props);
-    }
-  }
-  throw Error('Dialog Instance Not Exists');
-};
-
-Dialog.openSuccessAlert = (
-  props: Pick<DialogAlertProps, 'contentTitle' | 'content' | 'subContent' | 'subHiddenContent' | 'onConfirm'>,
-): DialogCommands => {
-  if (refs.length > 0) {
-    const lastInstance = refs[refs.length - 1].current;
-    if (lastInstance) {
-      return lastInstance.openAlert({icon: 'check', ...props});
-    }
-  }
-  throw Error('Dialog Instance Not Exists');
-};
-
-Dialog.openErrorAlert = (
-  props: Pick<DialogAlertProps, 'contentTitle' | 'content' | 'subContent' | 'subHiddenContent' | 'onConfirm'>,
-): DialogCommands => {
-  if (refs.length > 0) {
-    const lastInstance = refs[refs.length - 1].current;
-    if (lastInstance) {
-      return lastInstance.openAlert({icon: 'info', ...props});
-    }
-  }
-  throw Error('Dialog Instance Not Exists');
-};
-
-Dialog.openConfirm = (props: DialogConfirmProps): DialogCommands => {
-  if (refs.length > 0) {
-    const lastInstance = refs[refs.length - 1].current;
-    if (lastInstance) {
-      return lastInstance.openConfirm(props);
-    }
-  }
-  throw Error('Dialog Instance Not Exists');
-};
+Dialog.openAlert = __openAlert;
+Dialog.openSuccessAlert = __openSuccessAlert;
+Dialog.openErrorAlert = __openErrorAlert;
+Dialog.openConfirm = __openConfirm;
 
 export default Dialog;

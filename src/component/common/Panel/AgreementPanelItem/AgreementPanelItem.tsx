@@ -1,6 +1,6 @@
 import React from 'react';
 import {useAutoUpdateRefState} from '@pdg/react-hook';
-import {Text_Default, Text_Primary} from '@style';
+import {Text_Default, Text_Primary} from '../../Text';
 import {AgreementPanelItemCommand, AgreementPanelItemProps as Props} from './AgreementPanelItem.types';
 
 export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Props>(

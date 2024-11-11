@@ -5,8 +5,9 @@ export type DialogPosition = 'top' | 'center' | 'bottom';
 type DialogButtonProps = Omit<ButtonProps, 'children' | 'onPress'>;
 
 interface DialogCommonProps {
+  __hide?: boolean;
   color?: 'primary' | 'error' | 'success' | string;
-  icon?: 'info' | 'check';
+  icon?: 'info' | 'check' | 'question' | ReactElement;
   iconColor?: string;
   minWidth?: number;
   maxWidth?: number;
@@ -27,10 +28,12 @@ interface DialogCommonProps {
   marginTop?: number;
   marginBottom?: number;
   buttonSize?: ButtonSize;
+  reverseButtons?: boolean;
   confirmLabel?: string;
   confirmButtonColor?: ButtonProps['color'];
   confirmButtonProps?: DialogButtonProps;
   bottomView?: ReactElement;
+  preventBackClose?: boolean;
   onConfirm?(): void;
 }
 export interface DialogProps extends DialogCommonProps {

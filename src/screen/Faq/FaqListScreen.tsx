@@ -20,7 +20,7 @@ export const FaqListScreen = ({navigation, route}: ScreenProps<'FaqList'>) => {
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={FaqList} navigation={navigation} route={route} />;
+  return <ScreenBase component={FaqList} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
 export default FaqListScreen;

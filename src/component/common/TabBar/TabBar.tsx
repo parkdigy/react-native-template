@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {Text_Default} from '../Text';
 import {TabBarProps as Props, TabBarItemValue} from './TabBar.types';
 
 function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initValue, onChange, ...props}: Props<T>) {
@@ -51,6 +51,7 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
             alignItems='center'
             justifyContent='center'
             disabled={info.disabled}
+            accessibilityLabel={info.label}
             {...props}
             onPress={() => setValue(info.value)}>
             {mode === 'default' ? (
@@ -58,7 +59,7 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
                 <View flexDirection='row' pb={14} position='relative'>
                   <Stack row center spacing={8}>
                     {active && info.activeIcon ? info.activeIcon : info.icon}
-                    <Text_Default w={600} color={active ? 'primary' : undefined}>
+                    <Text_Default c={active ? 'primary' : undefined} bold={active}>
                       {info.label}
                     </Text_Default>
                   </Stack>
@@ -94,7 +95,7 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
                 borderBottomWidth={1}>
                 <Stack row center spacing={8}>
                   {active && info.activeIcon ? info.activeIcon : info.icon}
-                  <Text_Default color={active ? 'primary100' : 'primary200'}>{info.label}</Text_Default>
+                  <Text_Default c={active ? 'primary100' : 'primary200'}>{info.label}</Text_Default>
                 </Stack>
               </View>
             )}

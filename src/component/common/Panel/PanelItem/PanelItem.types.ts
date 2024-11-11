@@ -1,5 +1,7 @@
+import React from 'react';
+
 export interface PanelItemProps extends Omit<ViewProps, 'children'> {
-  icon?: string;
+  icon?: string | React.JSX.Element;
   iconSize?: number;
   iconColor?: string;
   indicator?: boolean;
@@ -8,6 +10,7 @@ export interface PanelItemProps extends Omit<ViewProps, 'children'> {
   children?: Exclude<ReactNode, 'number'>;
   title?: Exclude<ReactNode, 'string'>;
   subTitle?: Exclude<ReactNode, 'string'>;
+  subTitleOpacity?: number;
   value?: Exclude<ReactNode, 'number'>;
   onPress?(): void;
 }

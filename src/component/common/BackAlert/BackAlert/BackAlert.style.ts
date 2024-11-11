@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import {Stack} from '../../Stack';
+import {Text} from '../../Text';
 
 export const StyledContainerStack = styled(Stack)`
   flex: 1;

@@ -5,16 +5,7 @@
 import React from 'react';
 import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {MainTabMoreScreenList, ScreenProps} from '@types';
-import {
-  FaqListScreen,
-  MoreHomeScreen,
-  NoticeInfoScreen,
-  NoticeListScreen,
-  NotificationSettingsScreen,
-  TermsOfPrivacyScreen,
-  TermsOfServiceScreen,
-  ThemeSettingsScreen,
-} from '@screen';
+import {MoreHomeScreen} from '@screen';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
 import {useAppState} from '@context';
@@ -44,13 +35,6 @@ const MainTabMoreStack = ({}: ScreenProps) => {
       initialRouteName='MoreHome'
       screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
       <Stack.Screen name='MoreHome' component={MoreHomeScreen} options={{headerShown: false}} />
-      <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
-      <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />
-      <Stack.Screen name='NoticeList' component={NoticeListScreen} />
-      <Stack.Screen name='NoticeInfo' component={NoticeInfoScreen} />
-      <Stack.Screen name='FaqList' component={FaqListScreen} />
-      <Stack.Screen name='TermsOfService' component={TermsOfServiceScreen} />
-      <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />
     </Stack.Navigator>
   );
 };

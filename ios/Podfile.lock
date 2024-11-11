@@ -10,6 +10,81 @@ PODS:
   - BVLinearGradient (2.8.3):
     - React-Core
   - DoubleConversion (1.1.6)
+  - EASClient (0.12.0):
+    - ExpoModulesCore
+  - EXConstants (17.0.2):
+    - ExpoModulesCore
+  - EXJSONUtils (0.13.1)
+  - EXManifests (0.14.3):
+    - ExpoModulesCore
+  - Expo (52.0.2):
+    - ExpoModulesCore
+  - ExpoAdapterGoogleSignIn (13.1.0):
+    - ExpoModulesCore
+    - GoogleSignIn (~> 7.1)
+    - React-Core
+  - ExpoAsset (11.0.1):
+    - ExpoModulesCore
+  - ExpoFileSystem (18.0.2):
+    - ExpoModulesCore
+  - ExpoFont (13.0.1):
+    - ExpoModulesCore
+  - ExpoKeepAwake (14.0.1):
+    - ExpoModulesCore
+  - ExpoModulesCore (2.0.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsinspector
+    - React-NativeModulesApple
+    - React-RCTAppDelegate
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - EXStructuredHeaders (3.8.0)
+  - EXUpdates (0.25.27):
+    - DoubleConversion
+    - EASClient
+    - EXManifests
+    - ExpoModulesCore
+    - EXStructuredHeaders
+    - EXUpdatesInterface
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - ReachabilitySwift
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - "sqlite3 (~> 3.45.3+1)"
+    - Yoga
+  - EXUpdatesInterface (0.16.2):
+    - ExpoModulesCore
   - FBLazyVector (0.76.1)
   - Firebase/Auth (11.4.0):
     - Firebase/CoreOnly
@@ -161,6 +236,7 @@ PODS:
     - FBLazyVector (= 0.76.1)
     - RCTRequired (= 0.76.1)
     - React-Core (= 0.76.1)
+  - ReachabilitySwift (5.2.4)
   - React (0.76.1):
     - React-Core (= 0.76.1)
     - React-Core/DevSupport (= 0.76.1)
@@ -2019,12 +2095,29 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
+  - "sqlite3 (3.45.3+1)":
+    - "sqlite3/common (= 3.45.3+1)"
+  - "sqlite3/common (3.45.3+1)"
   - Yoga (0.0.0)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EASClient (from `../node_modules/expo-eas-client/ios`)
+  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
+  - EXManifests (from `../node_modules/expo-manifests/ios`)
+  - Expo (from `../node_modules/expo`)
+  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
+  - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
+  - ExpoFont (from `../node_modules/expo-font/ios`)
+  - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
+  - EXUpdates (from `../node_modules/expo-updates/ios`)
+  - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -2139,8 +2232,10 @@ SPEC REPOS:
     - naveridlogin-sdk-ios
     - PromisesObjC
     - PromisesSwift
+    - ReachabilitySwift
     - RecaptchaInterop
     - SocketRocket
+    - sqlite3
 
 EXTERNAL SOURCES:
   boost:
@@ -2149,6 +2244,34 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EASClient:
+    :path: "../node_modules/expo-eas-client/ios"
+  EXConstants:
+    :path: "../node_modules/expo-constants/ios"
+  EXJSONUtils:
+    :path: "../node_modules/expo-json-utils/ios"
+  EXManifests:
+    :path: "../node_modules/expo-manifests/ios"
+  Expo:
+    :path: "../node_modules/expo"
+  ExpoAdapterGoogleSignIn:
+    :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
+  ExpoAsset:
+    :path: "../node_modules/expo-asset/ios"
+  ExpoFileSystem:
+    :path: "../node_modules/expo-file-system/ios"
+  ExpoFont:
+    :path: "../node_modules/expo-font/ios"
+  ExpoKeepAwake:
+    :path: "../node_modules/expo-keep-awake/ios"
+  ExpoModulesCore:
+    :path: "../node_modules/expo-modules-core"
+  EXStructuredHeaders:
+    :path: "../node_modules/expo-structured-headers/ios"
+  EXUpdates:
+    :path: "../node_modules/expo-updates/ios"
+  EXUpdatesInterface:
+    :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   fmt:
@@ -2321,6 +2444,20 @@ SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   BVLinearGradient: cb006ba232a1f3e4f341bb62c42d1098c284da70
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
+  EASClient: 95592393d6d1e60609f0afb373191d918c687b98
+  EXConstants: 814c62bdaa16899a0a59443bbc1b96d6ced9b985
+  EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
+  EXManifests: ebb7f551c340c0d06f3ecd9ae662e418bf68417c
+  Expo: 98c417737609ff9046146720ee7e8bd355e1c620
+  ExpoAdapterGoogleSignIn: 6393c1ad521f880f6e467bca40baf1e5dcaea4a3
+  ExpoAsset: 6f7a8887cbb9fb39fdb0808e7f6f74ba0e1ae9b6
+  ExpoFileSystem: 4661450cdff25243b6d94b03ef69a42070d174b4
+  ExpoFont: 12b0217e42ac97029d0f317f0486039a8508cf52
+  ExpoKeepAwake: 22173f45d767c7d37403fdf48292726901d69ce7
+  ExpoModulesCore: f4f8b6a12d4525fe6a751607b92f2c6865e1e991
+  EXStructuredHeaders: cb8d1f698e144f4c5547b4c4963e1552f5d2b457
+  EXUpdates: 5f22a8ed7846ad255b8b11e67abb461f6a06fdeb
+  EXUpdatesInterface: c3a9494c2173db6442c7d5ad4e5b984972760fd3
   FBLazyVector: 7075bb12898bc3998fd60f4b7ca422496cc2cdf7
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
   FirebaseAppCheckInterop: 1b9643ae2f1ee214488caa2f8e32b7bc2f0f3735
@@ -2354,6 +2491,7 @@ SPEC CHECKSUMS:
   RCTDeprecation: fde92935b3caa6cb65cbff9fbb7d3a9867ffb259
   RCTRequired: 75c6cee42d21c1530a6f204ba32ff57335d19007
   RCTTypeSafety: 7e6fe47bfb693c50d4669db1a480ca5331795f5b
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
   React: 8e73704cdd5c7f801936776d2fc434c605a7827b
   React-callinvoker: fa27d1e091e683de88f576e6a5d4efc171929a4c
   React-Core: 948deed7fa720eeb0d901ff9e45c3719767dab5f
@@ -2428,8 +2566,9 @@ SPEC CHECKSUMS:
   RNScreens: 38ae4d635c0d0adde928780d0fe7ccca5b395660
   RNSVG: b5087ac7a1b96b793cddb461b0e166e809a114b8
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: 83048fe4b4ce15018a5e9ccbf0b06bd76fc643d4
 
-PODFILE CHECKSUM: 87b0bca2444dbebb82e8c801aff2b3aaf8d4f0d1
+PODFILE CHECKSUM: 3682e6d02fcac4e0e5482eeec883b351106088e5
 
 COCOAPODS: 1.16.2

@@ -36,6 +36,23 @@ import {
   Text as _Text,
   TextProps as _TextProps,
   TextSize as _TextSize,
+  Text_Default as _Text_Default,
+  Text_Accent as _Text_Accent,
+  Text_ExtraAccent as _Text_ExtraAccent,
+  Text_Error as _Text_Error,
+  Text_Primary as _Text_Primary,
+  Text_Primary100 as _Text_Primary100,
+  Text_Primary200 as _Text_Primary200,
+  Text_Primary300 as _Text_Primary300,
+  Text_Primary400 as _Text_Primary400,
+  Text_PrimaryAccent as _Text_PrimaryAccent,
+  Text_Secondary as _Text_Secondary,
+  Text_Right100 as _Text_Right100,
+  Text_Right200 as _Text_Right200,
+  Text_Success as _Text_Success,
+  Text_White as _Text_White,
+  Text_Black as _Text_Black,
+  Text_Gray as _Text_Gray,
   TimerText as _TimerText,
   Button as _Button,
   ButtonProps as _ButtonProps,
@@ -149,6 +166,23 @@ declare global {
   type TextProps = _TextProps;
   type TextSize = _TextSize;
   var TextSize: typeof _TextSize;
+  var Text_Default: typeof _Text_Default;
+  var Text_Accent: typeof _Text_Accent;
+  var Text_ExtraAccent: typeof _Text_ExtraAccent;
+  var Text_Error: typeof _Text_Error;
+  var Text_Primary: typeof _Text_Primary;
+  var Text_Primary100: typeof _Text_Primary100;
+  var Text_Primary200: typeof _Text_Primary200;
+  var Text_Primary300: typeof _Text_Primary300;
+  var Text_Primary400: typeof _Text_Primary400;
+  var Text_PrimaryAccent: typeof _Text_PrimaryAccent;
+  var Text_Secondary: typeof _Text_Secondary;
+  var Text_Right100: typeof _Text_Right100;
+  var Text_Right200: typeof _Text_Right200;
+  var Text_Success: typeof _Text_Success;
+  var Text_White: typeof _Text_White;
+  var Text_Black: typeof _Text_Black;
+  var Text_Gray: typeof _Text_Gray;
   var TimerText: typeof _TimerText;
   var Button: typeof _Button;
   type ButtonProps = _ButtonProps;
@@ -237,6 +271,23 @@ globalThis.InfoPanelItem = _InfoPanelItem;
 globalThis.PanelValueList = _PanelValueList;
 globalThis.Text = _Text;
 globalThis.TextSize = _TextSize;
+globalThis.Text_Default = _Text_Default;
+globalThis.Text_Accent = _Text_Accent;
+globalThis.Text_ExtraAccent = _Text_ExtraAccent;
+globalThis.Text_Error = _Text_Error;
+globalThis.Text_Primary = _Text_Primary;
+globalThis.Text_Primary100 = _Text_Primary100;
+globalThis.Text_Primary200 = _Text_Primary200;
+globalThis.Text_Primary300 = _Text_Primary300;
+globalThis.Text_Primary400 = _Text_Primary400;
+globalThis.Text_PrimaryAccent = _Text_PrimaryAccent;
+globalThis.Text_Secondary = _Text_Secondary;
+globalThis.Text_Right100 = _Text_Right100;
+globalThis.Text_Right200 = _Text_Right200;
+globalThis.Text_Success = _Text_Success;
+globalThis.Text_White = _Text_White;
+globalThis.Text_Black = _Text_Black;
+globalThis.Text_Gray = _Text_Gray;
 globalThis.TimerText = _TimerText;
 globalThis.Button = _Button;
 globalThis.ButtonSize = _ButtonSize;

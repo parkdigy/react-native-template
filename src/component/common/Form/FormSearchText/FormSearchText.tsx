@@ -20,8 +20,6 @@ const FormSearchText = React.forwardRef<FormSearchTextCommands, Props>(
     },
     ref,
   ) => {
-    const theme = useTheme();
-
     /********************************************************************************************************************
      * State
      * ******************************************************************************************************************/
@@ -140,8 +138,9 @@ const FormSearchText = React.forwardRef<FormSearchTextCommands, Props>(
               mode='text'
               style={{alignItems: 'center', minWidth: 0}}
               contentStyle={{flex: 1, flexDirection: 'column'}}
-              labelStyle={{marginHorizontal: 18}}
-              backgroundColor={theme.colors.opacity05}
+              labelStyle={{marginHorizontal: px.s10}}
+              // backgroundColor={theme.colors.opacity05}
+              borderRadius={px.s15}
               onPress={() => Keyboard.dismiss()}
               {...cancelButtonProps}>
               취소

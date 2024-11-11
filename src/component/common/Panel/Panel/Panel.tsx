@@ -1,8 +1,21 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {IconAngleRight} from '@asset-image';
+import {Text_Default} from '../../Text';
 import {PanelProps as Props} from './Panel.types';
 
-const Panel = ({title, titleProps, itemPadding = 17, flat, children, moreTitle, onMorePress, ...props}: Props) => {
+const Panel = ({
+  titleIcon,
+  title,
+  titleProps,
+  itemPadding = px.s17,
+  flat,
+  children,
+  backgroundColor,
+  moreTitle,
+  hideMoreIndicator,
+  onMorePress,
+  ...props
+}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -15,21 +28,31 @@ const Panel = ({title, titleProps, itemPadding = 17, flat, children, moreTitle, 
 
   return (
     <View {...props}>
-      <View borderRadius={flat ? 0 : 15} backgroundColor={theme.colors.surface}>
+      <View borderRadius={flat ? 0 : 15} backgroundColor={ifUndefined(backgroundColor, theme.colors.surface)}>
         {title && (
-          <Stack row center ph={itemPadding} pt={itemPadding} pb={8} fullWidth>
+          <Stack row center ph={itemPadding} pt={itemPadding} pb={0} fullWidth>
             <View flex={1}>
-              <Text_Default s={17} w={700} {...titleProps}>
-                {title}
-              </Text_Default>
+              <Stack row center spacing={px.s8}>
+                {titleIcon}
+                <Text_Default s={16} bold c={theme.colors.panelTitle} {...titleProps}>
+                  {title}
+                </Text_Default>
+              </Stack>
             </View>
             {moreTitle && onMorePress && (
-              <TouchableOpacity opacity={0.6} mr={-5} onPress={onMorePress}>
-                <Stack row center spacing={3}>
-                  <Text_Default s={15} w={600}>
+              <TouchableOpacity
+                m={px.s_10}
+                mr={hideMoreIndicator ? -10 : -15}
+                p={px.s10}
+                accessibilityLabel={`${title} ${moreTitle}`}
+                onPress={onMorePress}>
+                <Stack row center spacing={px.s3}>
+                  <Text_Default s={13} opacity={0.6}>
                     {moreTitle}
                   </Text_Default>
-                  <Icon name='chevron-right' color={theme.colors.onSurface} size={22} />
+                  {!hideMoreIndicator && (
+                    <IconAngleRight fill={theme.colors.onSurface} width={px.s10} height={px.s10} />
+                  )}
                 </Stack>
               </TouchableOpacity>
             )}

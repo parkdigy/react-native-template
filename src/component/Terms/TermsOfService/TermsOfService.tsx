@@ -1,5 +1,4 @@
 import React from 'react';
-import {Text_Default} from '@style';
 import {TermsOfServiceProps as Props} from './TermsOfService.types';
 
 export const TermsOfService = ({}: Props) => {

@@ -6,10 +6,9 @@ import React from 'react';
 import {unstable_batchedUpdates, useWindowDimensions} from 'react-native';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
-import {Logo} from '@image';
+import {Logo} from '@asset-image';
 import {useAppState} from '@context';
 import {AuthSignInRequestData, AuthSigninType} from '@const';
-import {Text_Accent, Text_Primary, Text_Right200} from '@style';
 import {AppleUserInfo, AuthSns, GoogleUserInfo, KakaoUserInfo, NaverUserInfo} from './controls';
 import {AuthHomeProps as Props} from './AuthHome.types';
 
@@ -163,11 +162,11 @@ const AuthHome = ({navigation}: Props) => {
         <Stack spacing={5} opacity={loading ? 0.5 : 1}>
           <Text_Accent center>로그인을 통해 {Config.APP_TITLE}의</Text_Accent>
           <Text_Accent center>
-            <Text_Primary w={700} center onPress={loading ? undefined : () => navigation.navigate('TermsOfService')}>
+            <Text_Primary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfService')}>
               이용약관
             </Text_Primary>{' '}
             및{' '}
-            <Text_Primary w={700} center onPress={loading ? undefined : () => navigation.navigate('TermsOfPrivacy')}>
+            <Text_Primary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfPrivacy')}>
               개인정보처리방침
             </Text_Primary>
             에 동의합니다.

@@ -6,7 +6,6 @@ import React from 'react';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import {versionString} from '@pdg/util';
-import {Text_Accent, Text_Default, Text_Right100} from '@style';
 import {useAppState} from '@context';
 import {MoreHomeProps as Props} from './MoreHome.types';
 
@@ -75,7 +74,7 @@ const MoreHome = ({navigation}: Props) => {
             <View m={-10}>
               <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>
                 <Stack row center backgroundColor={theme.colors.onSurface} pv={6} ph={10} borderRadius={4}>
-                  <Text_Default s={13} w={600} color={theme.colors.surface}>
+                  <Text_Default s={13} bold color={theme.colors.surface}>
                     {auth ? '로그아웃' : '로그인'}
                   </Text_Default>
                 </Stack>

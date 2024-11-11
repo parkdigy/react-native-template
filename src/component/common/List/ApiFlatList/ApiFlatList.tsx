@@ -3,22 +3,16 @@
  * ******************************************************************************************************************/
 
 import React, {useRef} from 'react';
-import {
-  FlatList,
-  LayoutChangeEvent,
-  ListRenderItemInfo,
-  RefreshControl,
-  ScrollView,
-  ScrollViewProps,
-  unstable_batchedUpdates,
-} from 'react-native';
+import {FlatList, LayoutChangeEvent, ListRenderItemInfo, RefreshControl, unstable_batchedUpdates} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import {useIsFocused} from '@react-navigation/native';
 import {useAppState} from '@context';
 import {LoadingStatus} from '@const';
+import {ScrollViewProps} from '../../View/ScrollView';
 import {ApiFlatListProps as Props, ApiFlatListItem, ApiFlatListCommands} from './ApiFlatList.types';
 
 function ApiFlatList<T extends ApiFlatListItem>({
+  animated,
   perPageListItemCount,
   loadDelay = 500,
   emptyText,
@@ -30,6 +24,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   reloadListWhenActiveFromBackground,
   reloadListWhenActiveFromLongTermDeActive,
   ListHeaderComponent: InitListHeaderComponent,
+  ListFooterComponent,
   ListEmptyComponent: InitListEmptyComponent,
   disableRefresh,
   onLoadList,
@@ -42,6 +37,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   onReloadWhenActiveFromBackground,
   onReloadWhenActiveFromLongTermDeActive,
   onRefresh,
+  onEmptyComponent,
   ...props
 }: Props<T>) {
   /********************************************************************************************************************
@@ -207,8 +203,8 @@ function ApiFlatList<T extends ApiFlatListItem>({
                 isFirstOrRefreshLoading && newList.length === 0
                   ? Const.LoadingStatus.Empty
                   : newList.length < perPageListItemCount
-                    ? Const.LoadingStatus.Complete
-                    : Const.LoadingStatus.getSuccess(loadingStatus);
+                  ? Const.LoadingStatus.Complete
+                  : Const.LoadingStatus.getSuccess(loadingStatus);
 
               setRefreshing(false);
 
@@ -229,26 +225,20 @@ function ApiFlatList<T extends ApiFlatListItem>({
           };
 
           if (isFirstOrRefreshLoading) {
-            delayTimeout(
-              () => {
-                apply();
-              },
-              ifUndefined(loadDelay, 0),
-            );
+            delayTimeout(() => {
+              apply();
+            }, ifUndefined(loadDelay, 0));
           } else {
             apply();
           }
         })
         .catch(() => {
-          delayTimeout(
-            () => {
-              unstable_batchedUpdates(() => {
-                changeLoadingStatus(Const.LoadingStatus.getError(loadingStatus));
-                setRefreshing(false);
-              });
-            },
-            ifUndefined(errorDelay, 0),
-          );
+          delayTimeout(() => {
+            unstable_batchedUpdates(() => {
+              changeLoadingStatus(Const.LoadingStatus.getError(loadingStatus));
+              setRefreshing(false);
+            });
+          }, ifUndefined(errorDelay, 0));
         });
     },
     [
@@ -368,8 +358,8 @@ function ApiFlatList<T extends ApiFlatListItem>({
         setList(newList);
         changeLoadingStatus(newLoadingStatus);
       },
-      scrollToTop(animated = false) {
-        flatListRef.current?.scrollToOffset({offset: 0, animated});
+      scrollToTop(scrollAnimated = false) {
+        flatListRef.current?.scrollToOffset({offset: 0, animated: scrollAnimated});
       },
     }),
     [changeLoadingStatus, list, loadingStatus],
@@ -384,23 +374,31 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * ******************************************************************************************************************/
 
   const footerLoadingComponent = useMemo(
-    () =>
-      loadingStatus === Const.LoadingStatus.NextLoading ? (
-        <View>
-          <Divider />
-          <View mv={10}>
-            <ActivityIndicator />
+    () => (
+      <View>
+        {loadingStatus === Const.LoadingStatus.NextLoading ? (
+          <View>
+            <Divider />
+            <View mv={10}>
+              <ActivityIndicator />
+            </View>
           </View>
-        </View>
-      ) : loadingStatus === Const.LoadingStatus.NextError ? (
-        <View>
-          <Divider />
-          <View justifyContent='center' alignItems='center'>
-            <IconButton icon='refresh' onPress={() => changeLoadingStatus(Const.LoadingStatus.NextLoading)} />
+        ) : loadingStatus === Const.LoadingStatus.NextError ? (
+          <View>
+            <Divider />
+            <View justifyContent='center' alignItems='center'>
+              <IconButton
+                icon='refresh'
+                accessibilityLabel='재시도'
+                onPress={() => changeLoadingStatus(Const.LoadingStatus.NextLoading)}
+              />
+            </View>
           </View>
-        </View>
-      ) : null,
-    [changeLoadingStatus, loadingStatus],
+        ) : null}
+        {typeof ListFooterComponent === 'function' ? <ListFooterComponent /> : ListFooterComponent}
+      </View>
+    ),
+    [ListFooterComponent, changeLoadingStatus, loadingStatus],
   );
 
   const data = useMemo(
@@ -431,7 +429,9 @@ function ApiFlatList<T extends ApiFlatListItem>({
         );
       } else {
         return (
-          <View onLayout={(e) => setListHeaderHeight(e.nativeEvent.layout.height)}>{InitListHeaderComponent}</View>
+          <Animated.View onLayout={(e) => setListHeaderHeight(e.nativeEvent.layout.height)}>
+            {InitListHeaderComponent}
+          </Animated.View>
         );
       }
     } else {
@@ -442,24 +442,38 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const ListEmptyComponent = useMemo(() => {
     let height: number | undefined;
 
-    if (emptyHeight > 0 || ifUndefined(emptyMinHeight, 0) > 0) {
-      const maxHeight = Math.max(
-        parentHeight === undefined ? (flatListHeight || 0) - (listHeaderHeight || 0) : parentHeight - listHeaderHeight,
-        ifUndefined(emptyMinHeight, 0),
-      );
+    if (emptyMinHeight !== undefined) {
+      if (emptyHeight > 0 || ifUndefined(emptyMinHeight, 0) > 0) {
+        const maxHeight = Math.max(
+          parentHeight === undefined
+            ? (flatListHeight || 0) - (listHeaderHeight || 0)
+            : parentHeight - listHeaderHeight,
+          ifUndefined(emptyMinHeight, 0),
+        );
 
-      height = Math.max(maxHeight, Math.max(emptyHeight, ifUndefined(emptyMinHeight, 0)));
+        height = Math.max(maxHeight, Math.max(emptyHeight, ifUndefined(emptyMinHeight, 0)));
+        if (height > maxHeight) {
+          height = maxHeight;
+        }
+      }
+    } else {
+      const maxHeight =
+        parentHeight === undefined ? (flatListHeight || 0) - (listHeaderHeight || 0) : parentHeight - listHeaderHeight;
+
+      height = Math.max(maxHeight, emptyHeight);
       if (height > maxHeight) {
         height = maxHeight;
       }
     }
 
-    return (
-      <View height={height} alignItems='center' justifyContent='center'>
+    return onEmptyComponent ? (
+      onEmptyComponent()
+    ) : (
+      <View height={ifUndefined(height, 0) > 0 ? height : undefined} alignItems='center' justifyContent='center'>
         {InitListEmptyComponent ? (
-          <View pv={30} onLayout={(e) => setEmptyHeight(e.nativeEvent.layout.height)}>
+          <Animated.View style={{paddingVertical: 30}} onLayout={(e) => setEmptyHeight(e.nativeEvent.layout.height)}>
             {typeof InitListEmptyComponent === 'function' ? <InitListEmptyComponent /> : InitListEmptyComponent}
-          </View>
+          </Animated.View>
         ) : (
           <BackAlert
             icon='emptyList'
@@ -472,7 +486,16 @@ function ApiFlatList<T extends ApiFlatListItem>({
         )}
       </View>
     );
-  }, [InitListEmptyComponent, emptyHeight, emptyMinHeight, emptyText, flatListHeight, listHeaderHeight, parentHeight]);
+  }, [
+    InitListEmptyComponent,
+    emptyHeight,
+    emptyMinHeight,
+    emptyText,
+    flatListHeight,
+    listHeaderHeight,
+    onEmptyComponent,
+    parentHeight,
+  ]);
 
   const errorComponent = useMemo(() => {
     let height: number | undefined;
@@ -493,13 +516,15 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * Render
    * ******************************************************************************************************************/
 
+  const Control = animated ? Animated.FlatList : FlatList;
+
   return isFirstError ? (
     errorComponent
   ) : (
     <View flex={1}>
       <ActiveDetector onChange={(active) => (isActiveRef.current = active)} />
 
-      <FlatList
+      <Control
         ref={flatListRef}
         {...props}
         data={data}

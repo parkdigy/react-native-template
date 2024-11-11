@@ -8,6 +8,7 @@ const CustomComponent = React.forwardRef<any, Props>(
       component: Component,
       componentProps,
       style,
+      bypassStyleProps,
       row,
       wrap,
       flex,
@@ -281,20 +282,30 @@ const CustomComponent = React.forwardRef<any, Props>(
 
       Object.keys(stylePropValues).forEach((key) => {
         const value = stylePropValues[key];
-        if (value !== undefined) {
+        if (value !== undefined && (bypassStyleProps === undefined || !bypassStyleProps.includes(key))) {
           newCustomStyle[keyMap[key] || key] = value;
         }
       });
 
       return newCustomStyle;
-    }, [stylePropValues]);
+    }, [bypassStyleProps, stylePropValues]);
 
     const finalStyle = useMemo(
       () => [flexDirectionStyle, flexWrapStyle, customStyle, style],
       [flexDirectionStyle, flexWrapStyle, customStyle, style],
     );
 
-    return <Component ref={ref} style={finalStyle} {...componentProps} {...props} />;
+    const bypassProps = useMemo(() => {
+      const newBypassProps: Record<string, any> = {};
+      if (bypassStyleProps) {
+        (bypassStyleProps as string[]).forEach((key) => {
+          newBypassProps[key] = stylePropValues[key];
+        });
+      }
+      return newBypassProps;
+    }, [bypassStyleProps, stylePropValues]);
+
+    return <Component ref={ref} style={finalStyle} {...componentProps} {...props} {...bypassProps} />;
   },
 );
 

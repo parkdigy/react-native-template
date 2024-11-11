@@ -2,7 +2,8 @@ import React from 'react';
 import {NativeSyntheticEvent, TextInput as NativeTextInput, TextInputSubmitEditingEventData} from 'react-native';
 import {TextInput, TextInputProps} from 'react-native-paper';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {useFormState} from '@ccomp';
+import {useAppState} from '@context';
+import {_getBoldFontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
 import FormControl, {FormControlCommands} from '../FormControl';
 import {PaperBlueLightTheme, PaperBlueDarkTheme} from '../../../../theme';
@@ -29,7 +30,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       validPattern,
       invalidPattern,
       invalidPatternErrorText = '형식이 일치하지 않습니다.',
-      size = 'md',
+      size,
       paddingRight = 10,
       backgroundColor,
       style,
@@ -37,7 +38,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       fontFamily,
       fontSize,
       fontStyle,
-      fontWeight,
+      bold,
       letterSpacing,
       textAlign,
       textDecorationLine,
@@ -86,6 +87,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
 
     const appTheme = useTheme();
     const formState = useFormState();
+    const {fontFamily: appFontFamily} = useAppState();
 
     const theme = forceTheme === 'light' ? PaperBlueLightTheme : forceTheme === 'dark' ? PaperBlueDarkTheme : appTheme;
 
@@ -152,6 +154,12 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     }, [initError]);
 
     /********************************************************************************************************************
+     * Variable
+     * ******************************************************************************************************************/
+
+    const finalFontSize = ifUndefined(ifUndefined(fontSize, size), 14);
+
+    /********************************************************************************************************************
      * Memo
      * ******************************************************************************************************************/
 
@@ -172,9 +180,9 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     const customStyle = useMemo(() => {
       const newCustomStyle: Record<string, any> = {};
       newCustomStyle.color = color || theme.colors.onSurface;
-      fontFamily !== undefined && (newCustomStyle.fontFamily = fontFamily);
+      ifUndefined(fontFamily, appFontFamily) !== undefined &&
+        (newCustomStyle.fontFamily = ifUndefined(fontFamily, appFontFamily));
       fontStyle !== undefined && (newCustomStyle.fontStyle = fontStyle);
-      fontWeight !== undefined && (newCustomStyle.fontWeight = fontWeight);
       letterSpacing !== undefined && (newCustomStyle.letterSpacing = letterSpacing);
       textDecorationLine !== undefined && (newCustomStyle.textDecorationLine = textDecorationLine);
       textDecorationStyle !== undefined && (newCustomStyle.textDecorationStyle = textDecorationStyle);
@@ -185,15 +193,19 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       textTransform !== undefined && (newCustomStyle.textTransform = textTransform);
 
       newCustomStyle.textAlign = ifUndefined(textAlign, 'auto');
+      newCustomStyle.fonSize = finalFontSize;
+      if (newCustomStyle.fontFamily && bold) {
+        newCustomStyle.fontFamily = _getBoldFontFamily(newCustomStyle.fontFamily);
+      }
+
       return newCustomStyle;
     }, [
-      theme,
       color,
+      theme.colors.onSurface,
       fontFamily,
+      appFontFamily,
       fontStyle,
-      fontWeight,
       letterSpacing,
-      textAlign,
       textDecorationLine,
       textDecorationStyle,
       textDecorationColor,
@@ -201,19 +213,10 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       textShadowOffset,
       textShadowRadius,
       textTransform,
+      textAlign,
+      finalFontSize,
+      bold,
     ]);
-
-    const fontSizeStyle = useMemo(() => {
-      if (typeof size === 'number') {
-        return {
-          fontSize: ifUndefined(fontSize, size),
-        };
-      } else {
-        return {
-          fontSize: ifUndefined(fontSize, TextSize[size || 'md'].fontSize),
-        };
-      }
-    }, [fontSize, size]);
 
     const otherStyle: Props['style'] = useMemo(() => {
       const newOtherStyle: Props['style'] = {overflow: 'hidden', padding: 0};
@@ -227,8 +230,8 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     }, [height, disabled]);
 
     const finalStyle: Props['style'] = useMemo(
-      () => [customStyle, fontSizeStyle, otherStyle, style],
-      [customStyle, fontSizeStyle, otherStyle, style],
+      () => [customStyle, otherStyle, style],
+      [customStyle, otherStyle, style],
     );
 
     /********************************************************************************************************************
@@ -429,7 +432,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
             <TextInput.Icon
               icon='eye'
               color={theme.colors.gray}
-              size={fontSizeStyle.fontSize * 1.2}
+              size={finalFontSize * 1.2}
               style={{opacity: 0.7}}
               onPress={() => setVisiblePassword((old) => !old)}
             />
@@ -440,7 +443,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
           <TextInput.Icon
             icon='close-circle'
             color={theme.colors.gray}
-            size={fontSizeStyle.fontSize * 1.2}
+            size={finalFontSize * 1.2}
             style={{opacity: 0.7}}
             onPress={() => {
               innerValueRef.current = '';
@@ -465,8 +468,8 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
     }, [
       error,
       finalClearButtonMode,
+      finalFontSize,
       focused,
-      fontSizeStyle.fontSize,
       getFinalValue,
       right,
       showClear,

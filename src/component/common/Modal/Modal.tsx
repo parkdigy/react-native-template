@@ -2,7 +2,20 @@ import React from 'react';
 import {Modal as NativeModal, StatusBar} from 'react-native';
 import {ModalProps as Props} from './Modal.types';
 
-const Modal = ({animationType = 'slide', presentationStyle = 'formSheet', children, transparent, ...props}: Props) => {
+const Modal = ({
+  animationType = 'slide',
+  presentationStyle = 'formSheet',
+  children,
+  transparent,
+  animation,
+  delay,
+  duration,
+  easing,
+  animationEndDelay,
+  onAnimationBegin,
+  onAnimationEnd,
+  ...props
+}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -38,7 +51,16 @@ const Modal = ({animationType = 'slide', presentationStyle = 'formSheet', childr
       )}
 
       {finalPresentationStyle === 'overFullScreen' ? (
-        <View backgroundColor={theme.colors.opacity50} flex={1}>
+        <View
+          animation={animation}
+          duration={duration}
+          delay={delay}
+          easing={easing}
+          animationEndDelay={animationEndDelay}
+          onAnimationBegin={onAnimationBegin}
+          onAnimationEnd={onAnimationEnd}
+          backgroundColor={theme.dark ? theme.colors.opacityReverse70 : theme.colors.opacity50}
+          flex={1}>
           {children}
         </View>
       ) : (

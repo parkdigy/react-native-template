@@ -1,4 +1,5 @@
 import {ButtonProps as PaperButtonProps} from 'react-native-paper';
+import {StyleProp, TextStyle} from 'react-native';
 import {CustomComponentStyleProps} from '../../CustomComponent';
 import {TextSize} from '../../Text';
 
@@ -6,29 +7,33 @@ const DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE = 0.84;
 
 export const ButtonSize = {
   xs: {
-    fontSize: TextSize.xs.fontSize,
-    lineHeight: TextSize.xs.lineHeight,
-    marginVertical: Math.floor(TextSize.xs.fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10,
+    fontSize: TextSize['10'].fontSize * tabletSizeFactor,
+    lineHeight: TextSize['10'].lineHeight * tabletSizeFactor,
+    marginVertical:
+      (Math.floor(TextSize['10'].fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10) * tabletSizeFactor,
   },
   sm: {
-    fontSize: TextSize.sm.fontSize,
-    lineHeight: TextSize.sm.lineHeight,
-    marginVertical: Math.floor(TextSize.sm.fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10,
+    fontSize: TextSize['12'].fontSize * tabletSizeFactor,
+    lineHeight: TextSize['12'].lineHeight * tabletSizeFactor,
+    marginVertical:
+      (Math.floor(TextSize['12'].fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10) * tabletSizeFactor,
   },
   md: {
-    fontSize: TextSize.md.fontSize,
-    lineHeight: TextSize.md.lineHeight,
-    marginVertical: Math.floor(TextSize.md.fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10,
+    fontSize: TextSize['14'].fontSize * tabletSizeFactor,
+    lineHeight: TextSize['14'].lineHeight * tabletSizeFactor,
+    marginVertical:
+      (Math.floor(TextSize['14'].fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10) * tabletSizeFactor,
   },
   lg: {
-    fontSize: TextSize.lg.fontSize,
-    lineHeight: TextSize.lg.lineHeight,
-    marginVertical: Math.floor(TextSize.lg.fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10,
+    fontSize: TextSize['16'].fontSize * tabletSizeFactor,
+    lineHeight: TextSize['16'].lineHeight * tabletSizeFactor,
+    marginVertical:
+      (Math.floor(TextSize['16'].fontSize * DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE * 10) / 10) * tabletSizeFactor,
   },
   xl: {
-    fontSize: TextSize.lg.fontSize,
-    lineHeight: TextSize.lg.lineHeight,
-    marginVertical: 20,
+    fontSize: TextSize['18'].fontSize * tabletSizeFactor,
+    lineHeight: TextSize['18'].lineHeight * tabletSizeFactor,
+    marginVertical: px.s20,
   },
   // xl: {
   //   fontSize: TextSize.xl.fontSize,
@@ -54,16 +59,18 @@ export type ButtonColor =
   | 'info'
   | 'gray'
   | 'blueGray'
+  | 'purple'
   | 'white';
 
 export interface ButtonProps
-  extends Omit<PaperButtonProps, 'color' | 'mode' | 'elevation'>,
+  extends Omit<PaperButtonProps, 'color' | 'mode' | 'elevation' | 'labelStyle'>,
     CustomComponentStyleProps,
     PartialPick<
       TextProps,
-      'fontSize' | 'fontWeight' | 'textDecorationLine' | 'textDecorationStyle' | 'textDecorationColor' | 'lineHeight'
+      'textDecorationLine' | 'textDecorationStyle' | 'textDecorationColor' | 'lineHeight' | 'bold'
     > {
   mode?: Exclude<PaperButtonProps['mode'], 'elevated'>;
   size?: ButtonSize;
   color?: ButtonColor;
+  labelStyle?: StyleProp<Omit<TextStyle, 'fontSize' | 'fontWeight'>>;
 }

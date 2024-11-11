@@ -19,7 +19,7 @@ module.exports = {
           '@api': './src/common/api',
           '@storage': './src/common/storage',
           '@util': './src/common/util',
-          '@image': './src/@assets/image',
+          '@asset-image': './src/@assets/image',
         },
       },
     ],

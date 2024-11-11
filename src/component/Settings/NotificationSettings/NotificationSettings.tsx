@@ -1,7 +1,6 @@
 import React from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {useAppState} from '@context';
-import {Text_Accent, Text_Right100} from '@style';
 import {NotificationSettingsProps as Props} from './NotificationSettings.types';
 
 export const NotificationSettings = ({}: Props) => {
@@ -102,7 +101,7 @@ export const NotificationSettings = ({}: Props) => {
                 <>
                   {hasPushPermission ? (
                     <Stack row center justifyContent={'space-between'} height={42}>
-                      <Text_Accent w={600}>알림 받기</Text_Accent>
+                      <Text_Accent bold>알림 받기</Text_Accent>
                       <View alignItems='center' justifyContent='center'>
                         <FormSwitch
                           style={{opacity: isPushNotificationChanging ? 0.3 : undefined}}

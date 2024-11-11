@@ -3,6 +3,7 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
+import {IconAlertDiamond, IconNoData} from '@asset-image';
 import {BackAlertProps as Props} from './BackAlert.types';
 import {
   StyledButtonContainerView,
@@ -18,7 +19,7 @@ const BackAlert: React.FC<Props> = ({
   text,
   textColor,
   textFontSize,
-  textFontWeight,
+  textBold,
   retryButtonText,
   retryButtonProps,
   closeButtonText,
@@ -72,25 +73,15 @@ const BackAlert: React.FC<Props> = ({
     <StyledContainerStack style={style} spacing={10} pv={pv} onLayout={onLayout}>
       {icon && (
         <StyledIconContainerView>
-          {icon === 'emptyList' && (
-            <Icon name='sim-off-outline' size={50} color={iconColor || theme.colors.onSurface} />
-          )}
-          {icon === 'info' && (
-            <Icon name='alert-circle-outline' size={50} color={iconColor || theme.colors.onSurface} />
-          )}
-          {icon === 'error' && (
-            <Icon name='alert-circle-outline' size={50} color={iconColor || theme.colors.onSurface} />
+          {icon === 'emptyList' && <IconNoData width={40} height={40} fill={iconColor || theme.colors.onSurface} />}
+          {contains(['info', 'error'], icon) && (
+            <IconAlertDiamond width={40} height={40} fill={iconColor || theme.colors.onSurface} />
           )}
         </StyledIconContainerView>
       )}
       {text && (
         <StyledTextContainerView>
-          <StyledText
-            size='lg'
-            mt={6}
-            color={textColor}
-            fontSize={textFontSize}
-            fontWeight={ifUndefined(textFontWeight, 600)}>
+          <StyledText mt={6} color={textColor} fontSize={textFontSize} bold={textBold}>
             {text}
           </StyledText>
         </StyledTextContainerView>

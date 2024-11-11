@@ -40,6 +40,7 @@ const FaqList = ({}: Props) => {
   const [list, setList] = useState<FaqListData>();
   const [loadingStatus, setLoadingStatus] = useState<LoadingStatus>();
   const [keyword, setKeyword] = useState<string>();
+  const [listHeight, setListHeight] = useState<number>(0);
 
   /********************************************************************************************************************
    * Memo
@@ -157,7 +158,7 @@ const FaqList = ({}: Props) => {
     [activeId],
   );
 
-  const handleRenderLoading = useCallback(() => <FaqListLoading />, []);
+  const handleRenderLoading = useCallback(() => <FaqListLoading height={listHeight} />, [listHeight]);
 
   const handleCommands = useCallback((commands: ApiSectionListCommands | null) => {
     apiSectionListCommands.current = commands;
@@ -213,15 +214,15 @@ const FaqList = ({}: Props) => {
   return (
     <ApiSectionList
       reloadListWhenActiveFromLongTermDeActive
-      contentContainerStyle={{paddingBottom: 15}}
       perPageListItemCount={LIMIT}
-      emptyText='검색된 항목이 없습니다'
+      emptyText='일치하는 항목이 없습니다.'
       TopComponent={topComponent}
       ListFixedComponent={listFixedComponent}
       renderListItem={handleRenderListItem}
       renderLoading={handleRenderLoading}
       onLoadList={handleLoadList}
       onChangeLoadingStatus={setLoadingStatus}
+      onListHeight={setListHeight}
       onCommands={handleCommands}
     />
   );

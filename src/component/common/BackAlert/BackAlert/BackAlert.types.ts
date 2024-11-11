@@ -8,7 +8,7 @@ export interface BackAlertProps extends Pick<StackProps, 'pv' | 'onLayout'> {
   text?: string;
   textColor?: TextProps['color'];
   textFontSize?: TextProps['fontSize'];
-  textFontWeight?: TextProps['fontWeight'];
+  textBold?: boolean;
   retryButtonText?: string;
   retryButtonProps?: Omit<ButtonProps, 'children' | 'onPress'>;
   closeButtonText?: string;

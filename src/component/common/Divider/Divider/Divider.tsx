@@ -1,7 +1,7 @@
 import React from 'react';
 import {DividerProps as Props} from './Divider.types';
 
-const Divider = ({}: Props) => {
+const Divider = ({color, ...props}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -12,7 +12,7 @@ const Divider = ({}: Props) => {
    * Render
    * ******************************************************************************************************************/
 
-  return <View borderTopWidth={1} borderTopColor={theme.colors.divider} />;
+  return <View borderTopWidth={1} borderTopColor={ifUndefined(color, theme.colors.divider)} {...props} />;
 };
 
 export default Divider;

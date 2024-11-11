@@ -14,7 +14,6 @@ notifee.onBackgroundEvent(async () => {
 });
 
 function HeadlessCheck({isHeadless}) {
-  // ll('asdfasasdfasdf');
   const [notificationData, setNotificationData] = useState(undefined);
 
   useLayoutEffect(() => {

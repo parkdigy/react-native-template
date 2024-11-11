@@ -1,6 +1,6 @@
 import React from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {Text_Accent, Text_Right100} from '@style';
+import {Text_Accent, Text_Right100} from '../../Text';
 import FormControl, {FormControlCommands} from '../FormControl';
 import {FormSelectProps as Props, FormSelectCommands, FormSelectValue} from './FormSelect.types';
 

@@ -3,13 +3,16 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import {StyleProp, TextStyle} from 'react-native';
 import {Appbar as PaperAppbar} from 'react-native-paper';
-import {useAppState} from '@context';
+import {hasNotch} from 'react-native-device-info';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {IconAngleLeft} from '@asset-image';
+import {Text_Default} from '../../Text';
 import BlurView from '../../View/BlurView';
 import {AppbarProps as Props, AppbarCommands, AppbarProps} from './Appbar.types';
 
-const TITLE_STYLE: StyleProp<TextStyle> = {fontSize: 16, fontWeight: '700'};
+const TITLE_PROPS: Omit<TextProps, 'children'> = {fontSize: isTablet ? 14 : 16};
 
 const Appbar = React.forwardRef<AppbarCommands, Props>(
   (
@@ -35,7 +38,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * ******************************************************************************************************************/
 
     const theme = useTheme();
-    const {colorScheme, setColorScheme} = useAppState();
+    const navigation: StackNavigationProp<any> = useNavigation();
 
     /********************************************************************************************************************
      * State
@@ -97,9 +100,9 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * Event Handler
      * ******************************************************************************************************************/
 
-    const handleToggleColorSchemePress = useCallback(() => {
-      setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
-    }, [colorScheme, setColorScheme]);
+    // const handleToggleColorSchemePress = useCallback(() => {
+    //   setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
+    // }, [colorScheme, setColorScheme]);
 
     /********************************************************************************************************************
      * Render
@@ -118,12 +121,17 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
     );
 
     const finalContainerStyle: Props['containerStyle'] = useMemo(
-      () => [{backgroundColor: theme.colors.background}, containerStyle],
+      () => [
+        {backgroundColor: theme.colors.background},
+        containerStyle,
+        {paddingTop: isTablet && !hasNotch() ? 10 : 0},
+        // {paddingVertical: 20, backgroundColor: 'blue'},
+      ],
       [containerStyle, theme.colors.background],
     );
 
-    const titleStyle: StyleProp<TextStyle> = useMemo(
-      () => ({...TITLE_STYLE, color: theme.colors.textAccent}),
+    const titleProps: Omit<TextProps, 'children'> = useMemo(
+      () => ({...TITLE_PROPS, color: theme.colors.textAccent}),
       [theme.colors.textAccent],
     );
 
@@ -137,31 +145,51 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
       [containerMyAppBarStyle, finalBlur, theme.colors.background],
     );
 
+    const BackIcon = useCallback(() => {
+      return <IconAngleLeft fill={theme.colors.onSurface} style={{transform: [{scale: 0.5}]}} />;
+    }, [theme.colors.onSurface]);
+
     return (
       <Animated.View style={finalContainerStyle}>
         <Container {...ContainerProps}>
           <ContainerAppbar mode='small' elevated={false} style={finalContainerAppbarStyle} {...props}>
             {onBack && (type === 'default' || type === 'safe-area') && (
-              <PaperAppbar.BackAction
-                size={16}
-                style={{opacity: disabled ? 0.3 : 1}}
-                onPress={disabled ? undefined : onBack}
+              <PaperAppbar.Action
+                icon={BackIcon}
+                size={32}
+                style={{
+                  position: 'absolute',
+                  justifyContent: 'center',
+                  opacity: disabled ? 0.3 : 1,
+                }}
+                accessibilityLabel='뒤로가기'
+                disabled={disabled}
+                color={theme.colors.onSurface}
+                onPress={() => navigation.goBack()}
               />
             )}
             {typeof title === 'string' ? (
-              <PaperAppbar.Content disabled={disabled} title={title} titleStyle={titleStyle} />
-            ) : (
-              <PaperAppbar.Content disabled={disabled} title={title} />
-            )}
-            {__DEV__ && (
-              <PaperAppbar.Action
-                icon='compare'
-                size={20}
-                style={{opacity: disabled ? 0.3 : 1}}
-                color={theme.colors.textAccent}
-                onPress={disabled ? undefined : handleToggleColorSchemePress}
+              <PaperAppbar.Content
+                disabled={disabled}
+                style={{paddingVertical: 14, marginVertical: -14, pointerEvents: 'none'}}
+                title={
+                  <View alignItems='center'>
+                    <Text_Default {...titleProps}>{title}</Text_Default>
+                  </View>
+                }
               />
+            ) : (
+              <PaperAppbar.Content disabled={disabled} title={title} onPress={() => navigation.goBack()} />
             )}
+            {/*{__DEV__ && (*/}
+            {/*  <PaperAppbar.Action*/}
+            {/*    icon='brightness-6'*/}
+            {/*    size={20}*/}
+            {/*    style={{opacity: disabled ? 0.3 : 1}}*/}
+            {/*    color={theme.colors.textAccent}*/}
+            {/*    onPress={disabled ? undefined : handleToggleColorSchemePress}*/}
+            {/*  />*/}
+            {/*)}*/}
             {children}
             {(type === 'modal' || type === 'fullscreen-modal') && onClose && (
               <PaperAppbar.Action

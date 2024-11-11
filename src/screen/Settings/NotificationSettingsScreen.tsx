@@ -20,7 +20,7 @@ export const NotificationSettingsScreen = ({navigation, route}: ScreenProps<'Not
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={NotificationSettings} navigation={navigation} route={route} />;
+  return <ScreenBase component={NotificationSettings} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
 export default NotificationSettingsScreen;

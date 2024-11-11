@@ -28,6 +28,7 @@ import {AppAuthInfo, AppContextProvider, AppContextValue, AppForceColorScheme} f
 import {ConfigInfoData} from '@const';
 import {api} from '@api';
 import {DefaultLayout} from './layout';
+import {FontFamily} from '@types';
 
 interface Props {
   // 테마
@@ -76,6 +77,8 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   const [auth, setAuth] = useState<AppAuthInfo | undefined>(initAuth);
   // 설정 정보
   const [config, setConfig] = useState<ConfigInfoData>(initConfig);
+  // 폰트
+  const [fontFamily, _setFontFamily] = useState<FontFamily>(storage.getFontFamily());
   // 광고 ID 가져오는 중인지 여부
   const [adidLoading, setAdidLoading] = useState(true);
   // 광고 ID
@@ -165,6 +168,12 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   /********************************************************************************************************************
    * Function
    * ******************************************************************************************************************/
+
+  /** 폰트 설정 */
+  const setFontFamily = useCallback((newFontFamily: FontFamily) => {
+    _setFontFamily(newFontFamily);
+    storage.setFontFamily(newFontFamily);
+  }, []);
 
   /** 인증 정보 초기화 */
   const clearAuth = useCallback(async () => {
@@ -408,6 +417,8 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       config,
       setConfig,
       reloadConfig,
+      fontFamily,
+      setFontFamily,
       colorScheme,
       setColorScheme: onColorSchemeChange,
       forceColorScheme,
@@ -429,6 +440,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       config,
       finalSetOnAdultAuthSuccess,
       finalSetOnImpCertificationSuccess,
+      fontFamily,
       forceColorScheme,
       onAdultAuthSuccess,
       onColorSchemeChange,
@@ -436,6 +448,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       reloadAuth,
       reloadConfig,
       reloadFcmToken,
+      setFontFamily,
     ],
   );
 

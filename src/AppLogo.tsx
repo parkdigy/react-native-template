@@ -1,5 +1,5 @@
 import React from 'react';
-import {Logo} from '@image';
+import {Logo} from '@asset-image';
 
 export const AppLogo = () => {
   return <Logo width={100} height={100} />;

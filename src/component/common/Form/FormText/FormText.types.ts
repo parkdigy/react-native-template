@@ -21,7 +21,7 @@ export interface FormTextProps
       | 'fontFamily'
       | 'fontSize'
       | 'fontStyle'
-      | 'fontWeight'
+      | 'bold'
       | 'letterSpacing'
       | 'textDecorationLine'
       | 'textDecorationStyle'

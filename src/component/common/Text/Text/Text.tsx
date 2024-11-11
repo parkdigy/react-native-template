@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {Text as PaperText} from 'react-native-paper';
-import {TextStyle} from 'react-native';
+import {LayoutChangeEvent, TextStyle} from 'react-native';
+import {useAppState} from '@context';
+import {
+  _getBoldFontFamily,
+  _getFontFamilyColor,
+  _getFontFamilyDefaultLetterSpacing,
+  _getFontFamilySizeAdjustValue,
+  _getFontLineHeightAdjustValue,
+  FontFamily,
+} from '@types';
 import CustomComponent from '../../CustomComponent';
-import {DEFAULT_LINE_HEIGHT_SCALE, TextProps as Props, TextSize} from './Text.types';
+import {TextProps as Props} from './Text.types';
 
 const Text = ({
   center,
   size,
   s,
   fontSize,
-  fontWeight,
-  w,
+  bold,
   color,
   c,
   lineHeight,
@@ -27,9 +35,17 @@ const Text = ({
   textShadowOffset,
   textShadowRadius,
   textTransform,
+  maxFontSizeMultiplier = 1.2,
   autoAdjustFontSize,
   adjustsFontSizeToFit,
   numberOfLines,
+  singleLineCenter,
+  animation,
+  animationEndDelay,
+  noAutoTabletSize,
+  onAnimationEnd,
+  onLayout,
+  delay,
   ...props
 }: Props) => {
   /********************************************************************************************************************
@@ -37,10 +53,19 @@ const Text = ({
    * ******************************************************************************************************************/
 
   const theme = useTheme();
+  const {fontFamily: appFontFamily} = useAppState();
+
+  /********************************************************************************************************************
+   * State
+   * ******************************************************************************************************************/
+
+  const [containerHeight, setContainerHeight] = useState(0);
 
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
+
+  const finalFontWeight: TextStyle['fontWeight'] = useMemo(() => (bold ? 'bold' : undefined), [bold]);
 
   const customStyle = useMemo(() => {
     const newCustomStyle: Record<string, any> = {};
@@ -85,12 +110,37 @@ const Text = ({
           newCustomStyle.color = tc;
           break;
       }
+    } else {
+      newCustomStyle.color = theme.colors.onSurface;
     }
-    fontFamily !== undefined && (newCustomStyle.fontFamily = fontFamily);
+
+    newCustomStyle.fontFamily = ifUndefined(fontFamily, appFontFamily);
+    if (contains([undefined, 'default'], newCustomStyle.fontFamily)) {
+      newCustomStyle.fontFamily = FontFamily.Pretendard;
+    }
+    if (finalFontWeight === 'bold') {
+      newCustomStyle.fontFamily = _getBoldFontFamily(newCustomStyle.fontFamily);
+    }
+
+    if (newCustomStyle.color) {
+      newCustomStyle.color = _getFontFamilyColor(newCustomStyle.fontFamily, newCustomStyle.color, theme);
+    }
+
     fontStyle !== undefined && (newCustomStyle.fontStyle = fontStyle);
     letterSpacing !== undefined && (newCustomStyle.letterSpacing = letterSpacing);
+
+    newCustomStyle.fontSize =
+      (ifUndefined(ifUndefined(size, s), fontSize) || 14) * _getFontFamilySizeAdjustValue(newCustomStyle.fontFamily);
+
+    if (!noAutoTabletSize) {
+      newCustomStyle.fontSize *= tabletSizeFactor;
+    }
+
+    newCustomStyle.letterSpacing =
+      (newCustomStyle.letterSpacing || 0) +
+      _getFontFamilyDefaultLetterSpacing(newCustomStyle.fontFamily, newCustomStyle.fontSize);
+
     textAlign !== undefined && (newCustomStyle.textAlign = textAlign);
-    center && (newCustomStyle.textAlign = 'center');
     textDecorationLine !== undefined && (newCustomStyle.textDecorationLine = textDecorationLine);
     textDecorationStyle !== undefined && (newCustomStyle.textDecorationStyle = textDecorationStyle);
     textDecorationColor !== undefined && (newCustomStyle.textDecorationColor = textDecorationColor);
@@ -100,84 +150,86 @@ const Text = ({
     textTransform !== undefined && (newCustomStyle.textTransform = textTransform);
     return newCustomStyle;
   }, [
-    color,
+    appFontFamily,
     c,
+    color,
+    finalFontWeight,
     fontFamily,
+    fontSize,
     fontStyle,
     letterSpacing,
+    noAutoTabletSize,
+    s,
+    size,
     textAlign,
-    center,
+    textDecorationColor,
     textDecorationLine,
     textDecorationStyle,
-    textDecorationColor,
     textShadowColor,
     textShadowOffset,
     textShadowRadius,
     textTransform,
-    theme.colors,
+    theme,
   ]);
 
-  const baseFontSize = useMemo(() => {
-    const fs = ifUndefined(ifUndefined(size, s), fontSize) || 'md';
-    const ts = TextSize[fs as TextSize];
-    if (ts) {
-      return {fontSize: ts.fontSize, lineHeight: ts.lineHeight};
-    } else if (typeof fs === 'number') {
-      return {fontSize: fs, lineHeight: fs * DEFAULT_LINE_HEIGHT_SCALE};
-    } else {
-      return {fontSize: fs};
-    }
-  }, [size, s, fontSize]);
-
   const lineHeightStyle = useMemo(() => {
-    const newLh = ifUndefined(lineHeight, lh);
-    return ifNotUndefined(newLh, {lineHeight: newLh});
-  }, [lh, lineHeight]);
-
-  const finalFontWeight: TextStyle['fontWeight'] = useMemo(() => {
-    let fw: Props['fontWeight'];
-    if (style) {
-      if (Array.isArray(style)) {
-        fw = ifNullOrUndefined(ifNullOrUndefined(util.style.findFontWeight(style), fontWeight), w);
-      } else if (typeof style === 'object') {
-        fw = ifNullOrUndefined(ifNullOrUndefined(style.fontWeight, fontWeight), w);
-      }
-    } else {
-      fw = ifNullOrUndefined(fontWeight, w);
+    let newLh = ifUndefined(lineHeight, lh);
+    if (!noAutoTabletSize && newLh) {
+      newLh *= tabletSizeFactor;
     }
 
-    return (fw !== undefined ? (typeof fw === 'number' ? `${fw}` : fw) : fw) as TextStyle['fontWeight'];
-  }, [fontWeight, style, w]);
+    return {
+      lineHeight: ifUndefined(newLh, customStyle.fontSize * _getFontLineHeightAdjustValue(customStyle.fontFamily)),
+    };
+  }, [customStyle.fontFamily, customStyle.fontSize, lh, lineHeight, noAutoTabletSize]);
+
+  const paddingHeight = useMemo(() => {
+    if (singleLineCenter) {
+      const paddingTop = ifUndefined(
+        props.paddingTop,
+        ifUndefined(props.pt, ifUndefined(props.paddingVertical, ifUndefined(props.pv, 0))),
+      );
+      const paddingBottom = ifUndefined(
+        props.paddingBottom,
+        ifUndefined(props.pt, ifUndefined(props.paddingVertical, ifUndefined(props.pv, 0))),
+      );
+      return paddingTop + paddingBottom;
+    } else {
+      return 0;
+    }
+  }, [props.paddingBottom, props.paddingTop, props.paddingVertical, props.pt, props.pv, singleLineCenter]);
+
+  const textAlignStyle = useMemo(() => {
+    const newTextAlignStyle: CSSProperties = {};
+    if (center) {
+      newTextAlignStyle.textAlign = 'center';
+    } else if (singleLineCenter) {
+      ll(containerHeight - paddingHeight, lineHeightStyle.lineHeight * 2);
+      const isSingleLine = singleLineCenter ? containerHeight - paddingHeight < lineHeightStyle.lineHeight * 2 : false;
+      if (isSingleLine) {
+        newTextAlignStyle.textAlign = 'center';
+      }
+    }
+    return newTextAlignStyle;
+  }, [center, containerHeight, lineHeightStyle.lineHeight, paddingHeight, singleLineCenter]);
 
   const fontWeightStyle = useMemo(() => ({fontWeight: isAndroid ? undefined : finalFontWeight}), [finalFontWeight]);
 
-  const fontFamilyStyle = useMemo(() => {
-    // Light:300, Regular:400, Medium:500, SemiBold:600, Bold:700, ExtraBold:800, Black:900
-    if (Platform.OS === 'android') {
-      switch (finalFontWeight) {
-        case '300':
-          return {fontFamily: 'Pretendard-Light'};
-        case '500':
-          return {fontFamily: 'Pretendard-Medium'};
-        case '600':
-          return {fontFamily: 'Pretendard-SemiBold'};
-        case '700':
-          return {fontFamily: 'Pretendard-Bold'};
-        case '800':
-          return {fontFamily: 'Pretendard-ExtraBold'};
-        case '900':
-          return {fontFamily: 'Pretendard-Black'};
-        default:
-          return {fontFamily: 'Pretendard-Regular'};
-      }
-    } else {
-      return {fontFamily: 'Pretendard'};
-    }
-  }, [finalFontWeight]);
-
   const finalStyle = useMemo(
-    () => [baseFontSize, lineHeightStyle, fontWeightStyle, fontFamilyStyle, customStyle, style],
-    [customStyle, baseFontSize, lineHeightStyle, style, fontWeightStyle, fontFamilyStyle],
+    () => [fontWeightStyle, customStyle, lineHeightStyle, textAlignStyle, style],
+    [fontWeightStyle, customStyle, lineHeightStyle, textAlignStyle, style],
+  );
+
+  /********************************************************************************************************************
+   * Event Handler
+   * ******************************************************************************************************************/
+
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      setContainerHeight(event.nativeEvent.layout.height);
+      onLayout?.(event);
+    },
+    [onLayout],
   );
 
   /********************************************************************************************************************
@@ -186,10 +238,19 @@ const Text = ({
 
   return (
     <CustomComponent
-      component={PaperText}
+      component={animation ? Animatable.Text : PaperText}
+      animation={animation !== 'none' && animation ? animation : undefined}
+      delay={animation !== 'none' && animation ? delay : undefined}
       style={finalStyle}
+      maxFontSizeMultiplier={maxFontSizeMultiplier}
       adjustsFontSizeToFit={ifUndefined(adjustsFontSizeToFit, autoAdjustFontSize)}
       numberOfLines={ifUndefined(numberOfLines, autoAdjustFontSize ? 1 : undefined)}
+      onAnimationEnd={
+        onAnimationEnd && animationEndDelay
+          ? () => setTimeout(() => onAnimationEnd(), animationEndDelay)
+          : onAnimationEnd
+      }
+      onLayout={singleLineCenter ? handleLayout : onLayout}
       {...props}
     />
   );

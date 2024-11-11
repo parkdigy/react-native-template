@@ -5,8 +5,7 @@ import {appleAuth} from '@invertase/react-native-apple-authentication';
 import FirebaseAuth from '@react-native-firebase/auth';
 import NaverLogin from '@react-native-seoul/naver-login';
 import dayjs from 'dayjs';
-import {SnsApple, SnsGoogle, SnsKakao, SnsNaver} from '@image';
-import {Text_Accent} from '@style';
+import {SnsApple, SnsGoogle, SnsKakao, SnsNaver} from '@asset-image';
 import {AuthSnsProps as Props} from './AuthSns.types';
 import {AuthSnsActivityIndicatorContainer, AuthSnsIconButton} from './AuthSns.style';
 
@@ -168,7 +167,7 @@ export const AuthSns = ({
               <Divider />
             </View>
           )}
-          <Text_Accent w={600} center flex={titleLine ? undefined : 1}>
+          <Text_Accent bold center flex={titleLine ? undefined : 1}>
             {title}
           </Text_Accent>
           {titleLine && (

@@ -1,17 +1,18 @@
 import {TextProps as PaperTextProps} from 'react-native-paper';
+import {AnimatableProps} from 'react-native-animatable';
 import {TextStyle} from 'react-native';
 import {CustomComponentStyleProps} from '../../CustomComponent';
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.193;
 
 export const TextSize = {
-  xxs: {fontSize: 9, lineHeight: 9 * DEFAULT_LINE_HEIGHT_SCALE},
-  xs: {fontSize: 10, lineHeight: 10 * DEFAULT_LINE_HEIGHT_SCALE},
-  sm: {fontSize: 12, lineHeight: 12 * DEFAULT_LINE_HEIGHT_SCALE},
-  md: {fontSize: 14, lineHeight: 14 * DEFAULT_LINE_HEIGHT_SCALE},
-  lg: {fontSize: 16, lineHeight: 16 * DEFAULT_LINE_HEIGHT_SCALE},
-  xl: {fontSize: 18, lineHeight: 18 * DEFAULT_LINE_HEIGHT_SCALE},
-  xxl: {fontSize: 20, lineHeight: 20 * DEFAULT_LINE_HEIGHT_SCALE},
+  // xxs: {fontSize: 9, lineHeight: 9 * DEFAULT_LINE_HEIGHT_SCALE},
+  // xs: {fontSize: 10, lineHeight: 10 * DEFAULT_LINE_HEIGHT_SCALE},
+  // sm: {fontSize: 12, lineHeight: 12 * DEFAULT_LINE_HEIGHT_SCALE},
+  // md: {fontSize: 14, lineHeight: 14 * DEFAULT_LINE_HEIGHT_SCALE},
+  // lg: {fontSize: 16, lineHeight: 16 * DEFAULT_LINE_HEIGHT_SCALE},
+  // xl: {fontSize: 18, lineHeight: 18 * DEFAULT_LINE_HEIGHT_SCALE},
+  // xxl: {fontSize: 20, lineHeight: 20 * DEFAULT_LINE_HEIGHT_SCALE},
   9: {fontSize: 9, lineHeight: 9 * DEFAULT_LINE_HEIGHT_SCALE},
   10: {fontSize: 10, lineHeight: 10 * DEFAULT_LINE_HEIGHT_SCALE},
   11: {fontSize: 11, lineHeight: 11 * DEFAULT_LINE_HEIGHT_SCALE},
@@ -55,6 +56,7 @@ type TextColor =
   | 'info'
   | 'blueGray'
   | 'accent'
+  | 'extraAccent'
   | 'right100'
   | 'right200'
   | 'green100'
@@ -64,6 +66,8 @@ type TextColor =
   | 'white'
   | 'black'
   | 'gray'
+  | 'word'
+  | 'red'
   | TextStyle['color'];
 
 export interface TextProps
@@ -84,14 +88,20 @@ export interface TextProps
       | 'textShadowOffset'
       | 'textShadowRadius'
       | 'textTransform'
-    > {
+    >,
+    Omit<AnimatableProps<TextStyle>, 'animation' | 'useNativeDriver'> {
   center?: boolean;
   color?: TextColor;
   c?: TextColor;
   size?: TextSize | number;
   s?: TextSize | number;
-  fontWeight?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-  w?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  // fontWeight?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  // w?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
   lh?: TextStyle['lineHeight'];
+  bold?: boolean;
   autoAdjustFontSize?: boolean;
+  animation?: AnimatableProps<TextStyle>['animation'] | 'none';
+  animationEndDelay?: number;
+  noAutoTabletSize?: boolean;
+  singleLineCenter?: boolean;
 }

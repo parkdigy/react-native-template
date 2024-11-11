@@ -6,7 +6,7 @@ const KeyboardAwareContainerScrollView = React.forwardRef<NativeScrollView, Prop
   ({children, extraHeight, ...props}, ref) => {
     return (
       <KeyboardAwareScrollView ref={ref} extraHeight={ifUndefined(extraHeight, 70)} {...props}>
-        <View style={{paddingHorizontal: 24, paddingVertical: 16}}>{children}</View>
+        <View style={{paddingHorizontal: 15, paddingVertical: 15}}>{children}</View>
       </KeyboardAwareScrollView>
     );
   },

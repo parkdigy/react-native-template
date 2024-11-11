@@ -12,6 +12,8 @@ export interface FullScreenDialogButton {
 
 export interface FullScreenDialogProps
   extends Omit<ModalProps, 'presentationStyle' | 'transparent' | 'onRequestClose'> {
+  __hide?: boolean;
+  type?: 'alert' | 'confirm';
   keyboardAware?: boolean;
   keyboardAwareScrollViewRef?: RefObject<NativeScrollView>;
   keyboardAwareScrollViewProps?: Pick<KeyboardAwareScrollViewProps, 'extraHeight'>;
@@ -29,5 +31,11 @@ export interface FullScreenDialogProps
   statusBarStyle?: StatusBarStyle;
   bottomView?: ReactElement;
   buttons?: FullScreenDialogButton | FullScreenDialogButton[];
+  horizontalButtons?: boolean;
+  contentAnimation?: Pick<
+    ModalProps,
+    'animation' | 'duration' | 'delay' | 'easing' | 'animationEndDelay' | 'onAnimationBegin' | 'onAnimationEnd'
+  >;
+  preventBackClose?: boolean;
   onRequestClose?(): void;
 }

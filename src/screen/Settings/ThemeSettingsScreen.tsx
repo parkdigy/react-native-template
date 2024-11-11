@@ -20,7 +20,7 @@ export const ThemeSettingsScreen = ({navigation, route}: ScreenProps<'ThemeSetti
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={ThemeSettings} navigation={navigation} route={route} />;
+  return <ScreenBase component={ThemeSettings} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
 export default ThemeSettingsScreen;

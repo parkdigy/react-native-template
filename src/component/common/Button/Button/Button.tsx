@@ -1,5 +1,7 @@
 import React from 'react';
-import {Falsy, GestureResponderEvent, RecursiveArray, RegisteredStyle, TextStyle} from 'react-native';
+import {GestureResponderEvent} from 'react-native';
+import {useAppState} from '@context';
+import {_getBoldFontFamily, FontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
 import {ButtonProps as Props, ButtonSize} from './Button.types';
 
@@ -15,8 +17,8 @@ const Button = ({
   labelStyle,
   buttonColor,
   textColor,
-  fontSize,
-  fontWeight = 700,
+  maxFontSizeMultiplier = 1.2,
+  bold = true,
   textDecorationLine,
   textDecorationStyle,
   textDecorationColor,
@@ -35,6 +37,7 @@ const Button = ({
    * ******************************************************************************************************************/
 
   const theme = useTheme();
+  const {fontFamily} = useAppState();
 
   /********************************************************************************************************************
    * Function
@@ -87,6 +90,8 @@ const Button = ({
             return isOn ? theme.colors.onGray : theme.colors.gray;
           case 'blueGray':
             return isOn ? theme.colors.onBlueGray : theme.colors.blueGray;
+          case 'purple':
+            return isOn ? theme.colors.onPurple : theme.colors.purple;
           case 'white':
             return isOn ? theme.colors.onSurface : theme.dark ? theme.colors.black : theme.colors.white;
           default:
@@ -134,7 +139,7 @@ const Button = ({
 
   const finalStyle = useMemo(
     () => [
-      {borderRadius: ifUndefined(borderRadius, 10), backgroundColor: ifUndefined(backgroundColor, finalButtonColor)},
+      {borderRadius: ifUndefined(borderRadius, 50), backgroundColor: ifUndefined(backgroundColor, finalButtonColor)},
       loading || disabled ? {opacity: loading ? 0.6 : 0.3} : undefined,
       style,
     ],
@@ -142,56 +147,14 @@ const Button = ({
   );
 
   const finalLabelStyle = useMemo(() => {
-    let fw: Props['fontWeight'];
-    if (labelStyle) {
-      if (Array.isArray(labelStyle)) {
-        fw = ifNullOrUndefined(findFontWeight(labelStyle), fontWeight);
-      } else if (typeof labelStyle === 'object') {
-        fw = ifNullOrUndefined(labelStyle.fontWeight, fontWeight);
-      }
-    } else {
-      fw = fontWeight;
-    }
-
-    const finalFontWeight = (
-      fw !== undefined ? (typeof fw === 'number' ? `${fw}` : fw) : fw
-    ) as TextStyle['fontWeight'];
-
-    let fontFamily: TextStyle['fontFamily'];
-    if (Platform.OS === 'android') {
-      switch (finalFontWeight) {
-        case '300':
-          fontFamily = 'Pretendard-Light';
-          break;
-        case '500':
-          fontFamily = 'Pretendard-Medium';
-          break;
-        case '600':
-          fontFamily = 'Pretendard-SemiBold';
-          break;
-        case '700':
-          fontFamily = 'Pretendard-Bold';
-          break;
-        case '800':
-          fontFamily = 'Pretendard-ExtraBold';
-          break;
-        case '900':
-          fontFamily = 'Pretendard-Black';
-          break;
-        default:
-          fontFamily = 'Pretendard-Regular';
-          break;
-      }
-    } else {
-      fontFamily = 'Pretendard';
-    }
-
     return [
       ButtonSize[size || 'md'],
-      {fontFamily},
+      {
+        fontFamily: bold
+          ? _getBoldFontFamily(ifUndefined(fontFamily, FontFamily.Pretendard))
+          : ifUndefined(fontFamily, FontFamily.Pretendard),
+      },
       ifNotUndefined(height, {marginVertical: 0, lineHeight: height}),
-      ifNotUndefined(fontSize, {fontSize}),
-      ifNotUndefined(fontWeight, {fontWeight}),
       ifNotUndefined(textDecorationLine, {textDecorationLine}),
       ifNotUndefined(textDecorationStyle, {textDecorationStyle}),
       ifNotUndefined(textDecorationColor, {textDecorationColor}),
@@ -202,9 +165,9 @@ const Button = ({
     ];
   }, [
     size,
+    bold,
+    fontFamily,
     height,
-    fontSize,
-    fontWeight,
     textDecorationLine,
     textDecorationStyle,
     textDecorationColor,
@@ -252,6 +215,7 @@ const Button = ({
       style={finalStyle}
       loading={loading}
       disabled={disabled}
+      maxFontSizeMultiplier={maxFontSizeMultiplier}
       width={width}
       mh={mh}
       marginHorizontal={marginHorizontal}
@@ -263,23 +227,3 @@ const Button = ({
 };
 
 export default Button;
-
-/********************************************************************************************************************
- * findFontWeight
- * ******************************************************************************************************************/
-const findFontWeight = (s: RecursiveArray<Falsy | TextStyle | RegisteredStyle<TextStyle>>): TextStyle['fontWeight'] => {
-  let fw: TextStyle['fontWeight'];
-  for (const s2 of s.reverse()) {
-    if (Array.isArray(s2)) {
-      fw = findFontWeight(s2);
-    } else if (typeof s2 === 'object') {
-      if ((s2 as TextStyle).fontWeight !== undefined) {
-        fw = (s2 as TextStyle).fontWeight;
-      }
-    }
-    if (fw !== undefined) {
-      break;
-    }
-  }
-  return fw;
-};

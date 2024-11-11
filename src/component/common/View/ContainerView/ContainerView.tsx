@@ -7,8 +7,8 @@ const ContainerView = React.forwardRef<NativeView, Props>(({flex, ph, pv, ...pro
    * ******************************************************************************************************************/
 
   const finalFlex = useMemo(() => ifUndefined(flex, 1), [flex]);
-  const finalPh = useMemo(() => ifUndefined(ph, 24), [ph]);
-  const finalPv = useMemo(() => ifUndefined(pv, 16), [pv]);
+  const finalPh = useMemo(() => ifUndefined(ph, 15), [ph]);
+  const finalPv = useMemo(() => ifUndefined(pv, 15), [pv]);
 
   /********************************************************************************************************************
    * Render

@@ -5,7 +5,7 @@
 import React from 'react';
 import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {AuthScreenList} from '@types';
-import {AuthHomeScreen, TermsOfPrivacyFullScreen, TermsOfServiceFullScreen} from '@screen';
+import {AuthHomeScreen, TermsOfPrivacyScreen, TermsOfServiceScreen} from '@screen';
 import {HeaderAppbar} from '@ccomp';
 import {useAppListener} from '@app';
 import {useAppState} from '@context';
@@ -38,8 +38,8 @@ const AuthStack = () => {
         <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
           <Stack.Screen name='AuthHome' component={AuthHomeScreen} />
         </Stack.Group>
-        <Stack.Screen name='TermsOfService' component={TermsOfServiceFullScreen} />
-        <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyFullScreen} />
+        <Stack.Screen name='TermsOfService' component={TermsOfServiceScreen} />
+        <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />
       </Stack.Navigator>
 
       <Dialog />

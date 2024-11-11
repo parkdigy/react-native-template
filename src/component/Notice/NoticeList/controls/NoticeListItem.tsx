@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {NoticeListDataItem} from '@const';
-import {Text_Accent} from '@style';
 
 interface Props {
   info: NoticeListDataItem;
@@ -16,7 +15,7 @@ const NoticeListItem = ({info, onPress}: Props) => {
     <TouchableOpacity pv={20} onPress={onPress}>
       <Stack row center>
         <Stack flex={1} pr={16}>
-          <Text_Accent w={600} lh={18} numberOfLines={1}>
+          <Text_Accent bold lh={18} numberOfLines={1}>
             {info.title}
           </Text_Accent>
           <DateText fontSize={13} color='right100' lineHeight={16} value={info.notice_date} mt={6} />

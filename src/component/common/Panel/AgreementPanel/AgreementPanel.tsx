@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {Text_Default} from '../../Text';
 import AgreementPanelItem, {AgreementPanelItemCommand, AgreementPanelItemProps} from '../AgreementPanelItem';
 import {AgreementPanelProps as Props} from './AgreementPanel.types';
 

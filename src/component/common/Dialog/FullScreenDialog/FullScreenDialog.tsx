@@ -2,11 +2,12 @@ import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hasNotch} from 'react-native-device-info';
-import {Text_Default} from '@style';
+import {Text_Default} from '../../Text';
 import {FullScreenDialogProps as Props} from './FullScreenDialog.types';
 
 const FullScreenDialog = ({
   children,
+  type,
   keyboardAware,
   keyboardAwareScrollViewRef,
   keyboardAwareScrollViewProps,
@@ -24,7 +25,10 @@ const FullScreenDialog = ({
   disabledCloseButton,
   bottomView,
   buttons,
+  horizontalButtons,
   statusBarStyle,
+  contentAnimation,
+  preventBackClose,
   onRequestClose,
   ...props
 }: Props) => {
@@ -37,6 +41,12 @@ const FullScreenDialog = ({
   const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
+   * Ref
+   * ******************************************************************************************************************/
+
+  const oldIsLockScreen = useRef<boolean>();
+
+  /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
 
@@ -45,14 +55,36 @@ const FullScreenDialog = ({
   const [buttonsHeight, setButtonsHeight] = useState(0);
 
   /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEffect(() => {
+    return () => {
+      if (oldIsLockScreen.current !== undefined) {
+        app.setLockScreen(oldIsLockScreen.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (preventBackClose) {
+      if (oldIsLockScreen.current === undefined) {
+        oldIsLockScreen.current = app.getLockScreen();
+      }
+
+      app.setLockScreen(true);
+    }
+  }, [preventBackClose]);
+
+  /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
 
   const containerViewStyle: ViewProps['style'] = useMemo(
     () => ({
       flex: 1,
-      paddingTop: fullMax ? 0 : isIos && !hasNotch() ? safeAreaInsets.top + 16 : safeAreaInsets.top,
-      paddingBottom: fullMax ? 0 : isIos && !hasNotch() ? safeAreaInsets.bottom + 24 : safeAreaInsets.bottom,
+      paddingTop: fullMax ? 0 : isIos && !hasNotch() ? safeAreaInsets.top + 15 : safeAreaInsets.top,
+      paddingBottom: fullMax ? 0 : isIos && !hasNotch() ? safeAreaInsets.bottom + 15 : safeAreaInsets.bottom,
       paddingLeft: safeAreaInsets.left,
       paddingRight: safeAreaInsets.right,
       justifyContent: 'center',
@@ -77,19 +109,65 @@ const FullScreenDialog = ({
   );
 
   const contentMaxHeight = useMemo(
-    () => parentHeight - titleHeight - buttonsHeight - (Platform.OS === 'ios' ? 0 : 24),
+    () => parentHeight - titleHeight - buttonsHeight - (Platform.OS === 'ios' ? 0 : 15),
     [buttonsHeight, parentHeight, titleHeight],
   );
 
-  const content = useMemo(
-    () => (
+  const content = useMemo(() => {
+    const closeButton = !hideCloseButton ? (
+      <Button
+        flex={1}
+        color='secondary'
+        disabled={disabledCloseButton}
+        labelStyle={{paddingVertical: px.s5}}
+        borderRadius={0}
+        onPress={onRequestClose}>
+        닫기
+      </Button>
+    ) : null;
+
+    const finalButtons = buttons ? (
+      <>
+        {Array.isArray(buttons) ? (
+          buttons.map((button, idx) => (
+            <Button
+              key={idx}
+              size='sm'
+              flex={type === undefined || horizontalButtons ? 1 : undefined}
+              color={button.color}
+              disabled={button.disabled}
+              loading={button.loading}
+              labelStyle={{paddingVertical: type === undefined ? px.s5 : px.s3}}
+              borderRadius={type === undefined ? 0 : undefined}
+              onPress={button.onPress}>
+              {button.label}
+            </Button>
+          ))
+        ) : (
+          <Button
+            flex={type === undefined || horizontalButtons ? 1 : undefined}
+            size='sm'
+            color={buttons.color}
+            disabled={buttons.disabled}
+            loading={buttons.loading}
+            labelStyle={{paddingVertical: type === undefined ? px.s5 : px.s3}}
+            borderRadius={type === undefined ? 0 : undefined}
+            onPress={buttons.onPress}>
+            {buttons.label}
+          </Button>
+        )}
+      </>
+    ) : null;
+
+    return (
       <View
+        {...contentAnimation}
         flex={fullHeight ? 1 : undefined}
         alignItems='center'
         justifyContent='center'
         width={fullWidth ? '100%' : undefined}
-        ph={fullWidth ? (fullMax ? 0 : 24) : undefined}
-        pv={Platform.OS !== 'ios' ? (fullMax ? 0 : 24) : 0}>
+        ph={fullWidth ? (fullMax ? 0 : px.s15) : undefined}
+        pv={Platform.OS !== 'ios' ? (fullMax ? 0 : px.s15) : 0}>
         <View
           flex={fullHeight ? 1 : undefined}
           width='100%'
@@ -101,13 +179,13 @@ const FullScreenDialog = ({
           <View flex={fullHeight ? 1 : undefined}>
             {title && (
               <View
-                pv={18}
-                ph={16}
+                pv={px.s18}
+                ph={px.s16}
                 backgroundColor={ifUndefined(titleBackgroundColor, theme.colors.surface)}
                 justifyContent='center'
                 onLayout={(e) => setTitleHeight(e.nativeEvent.layout.height)}>
                 {typeof title === 'string' ? (
-                  <Text_Default s={16} w={600} color={ifUndefined(titleColor, theme.colors.textAccent)}>
+                  <Text_Default s={16} color={ifUndefined(titleColor, theme.colors.textAccent)}>
                     {title}
                   </Text_Default>
                 ) : (
@@ -123,76 +201,52 @@ const FullScreenDialog = ({
               {children}
             </View>
 
-            <Stack row center mb={-1} onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}>
-              {!hideCloseButton && (
-                <Button
-                  flex={1}
-                  color='white'
-                  disabled={disabledCloseButton}
-                  labelStyle={{paddingVertical: 5, color: theme.colors.onSurface, fontWeight: '700'}}
-                  borderRadius={0}
-                  onPress={onRequestClose}>
-                  닫기
-                </Button>
-              )}
-              {buttons && (
-                <>
-                  {Array.isArray(buttons) ? (
-                    buttons.map((button, idx) => (
-                      <Button
-                        key={idx}
-                        flex={1}
-                        color={button.color}
-                        disabled={button.disabled}
-                        loading={button.loading}
-                        labelStyle={{paddingVertical: 5, fontWeight: '700'}}
-                        borderRadius={0}
-                        onPress={button.onPress}>
-                        {button.label}
-                      </Button>
-                    ))
-                  ) : (
-                    <Button
-                      flex={1}
-                      color={buttons.color}
-                      disabled={buttons.disabled}
-                      loading={buttons.loading}
-                      labelStyle={{paddingVertical: 5, fontWeight: '700'}}
-                      borderRadius={0}
-                      onPress={buttons.onPress}>
-                      {buttons.label}
-                    </Button>
-                  )}
-                </>
-              )}
-            </Stack>
+            {type === undefined ? (
+              <Stack row center mb={px.s_1} onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}>
+                {closeButton}
+                {finalButtons}
+              </Stack>
+            ) : (
+              <Stack
+                row={horizontalButtons}
+                center={horizontalButtons}
+                fullWidth={horizontalButtons}
+                spacing={px.s10}
+                onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}
+                ph={px.s15}
+                pb={px.s15}>
+                {closeButton}
+                {finalButtons}
+              </Stack>
+            )}
           </View>
         </View>
         {bottomView}
       </View>
-    ),
-    [
-      bottomView,
-      buttons,
-      children,
-      contentMaxHeight,
-      disabledCloseButton,
-      finalMaxWidth,
-      finalMinWidth,
-      fullHeight,
-      fullMax,
-      fullWidth,
-      hideCloseButton,
-      onRequestClose,
-      theme.colors.background,
-      theme.colors.onSurface,
-      theme.colors.surface,
-      theme.colors.textAccent,
-      title,
-      titleBackgroundColor,
-      titleColor,
-    ],
-  );
+    );
+  }, [
+    hideCloseButton,
+    disabledCloseButton,
+    buttons,
+    type,
+    horizontalButtons,
+    contentAnimation,
+    fullHeight,
+    fullWidth,
+    fullMax,
+    finalMaxWidth,
+    finalMinWidth,
+    theme.colors.background,
+    theme.colors.surface,
+    theme.colors.textAccent,
+    title,
+    titleBackgroundColor,
+    titleColor,
+    contentMaxHeight,
+    children,
+    bottomView,
+    onRequestClose,
+  ]);
 
   /********************************************************************************************************************
    * Render
@@ -203,7 +257,11 @@ const FullScreenDialog = ({
       presentationStyle='overFullScreen'
       transparent
       animationType={ifUndefined(animationType, 'none')}
-      onRequestClose={onRequestClose}
+      onRequestClose={() => {
+        if (!preventBackClose) {
+          onRequestClose?.();
+        }
+      }}
       {...props}>
       {isIos && (
         <>
@@ -243,7 +301,7 @@ const FullScreenDialog = ({
           <View
             flex={1}
             alignItems='center'
-            justifyContent='center'
+            justifyContent={type === undefined ? 'center' : 'flex-end'}
             width={fullWidth ? '100%' : undefined}
             onLayout={(e) => setParentHeight(e.nativeEvent.layout.height)}>
             {content}

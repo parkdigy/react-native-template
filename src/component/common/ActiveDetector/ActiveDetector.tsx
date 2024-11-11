@@ -101,7 +101,7 @@ const ActiveDetector = ({
   useEffect(() => {
     setLastIsActive(isActive);
     const pastTime = pastTimeRef.current === 0 ? 0 : nowTime() - pastTimeRef.current;
-    onChange?.(isActive, pastTime);
+    onChange?.(isActive, pastTime, appState);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 

@@ -18,6 +18,7 @@ export interface ApiTabSectionListProps<T extends ApiSectionListItem, TAB extend
   > {
   tab: TAB;
   tabItems: ApiTabSectionListTabItems<TAB>;
+  reloadWhenTabChange?: boolean;
   renderListItem(tab: TAB, item: T, index: number): ReactElement;
   renderLoading?(tab: TAB): ReactElement | null;
   onChangeTab?(tab: TAB): void;

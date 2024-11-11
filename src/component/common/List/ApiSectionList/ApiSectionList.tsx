@@ -7,7 +7,7 @@ import {LayoutChangeEvent, RefreshControl, SectionList, SectionListData, Section
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingStatus} from '@const';
 import {useAppState} from '@context';
-import {ApiFlatListCommands} from '@ccomp';
+import {ApiFlatListCommands} from '../ApiFlatList';
 import {
   ApiSectionListProps as Props,
   ApiSectionListItem,
@@ -27,6 +27,7 @@ const _sections = [
 ];
 
 function ApiSectionList<T extends ApiSectionListItem>({
+  animated,
   perPageListItemCount,
   keyboardDismissMode,
   keyboardShouldPersistTaps,
@@ -53,6 +54,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   windowSize,
   onLoadList,
   onList,
+  onListHeight,
   onChangeLoadingStatus,
   onCommands,
   onRefresh,
@@ -77,6 +79,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const inactiveTimeRef = useRef(0);
   const apiFlatListCommands = useRef<ApiFlatListCommands>();
   const loadingStatusRef = useRef<LoadingStatus>(Const.LoadingStatus.FirstLoading);
+  const [headerSectionHeaderHeightResetTimeoutRef, setHeaderSectionHeaderHeightResetTimeout] = useTimeoutRef();
+  const [listSectionHeaderHeightResetTimeoutRef, setListSectionHeaderHeightResetTimeout] = useTimeoutRef();
 
   /********************************************************************************************************************
    * State
@@ -89,6 +93,17 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const [listSectionHeaderHeight, setListSectionHeaderHeight] = useState(0);
 
   /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  const listHeight = useMemo(() => {
+    return Math.max(
+      sectionListHeight - headerSectionHeaderHeight - headerSectionItemHeight - listSectionHeaderHeight,
+      0,
+    );
+  }, [headerSectionHeaderHeight, headerSectionItemHeight, listSectionHeaderHeight, sectionListHeight]);
+
+  /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
 
@@ -98,15 +113,10 @@ function ApiSectionList<T extends ApiSectionListItem>({
     }
   }, [appState, activeScreen]);
 
-  /********************************************************************************************************************
-   * Memo
-   * ******************************************************************************************************************/
-
-  const listHeight = useMemo(
-    () =>
-      Math.max(sectionListHeight - headerSectionHeaderHeight - headerSectionItemHeight - listSectionHeaderHeight, 0),
-    [headerSectionHeaderHeight, headerSectionItemHeight, listSectionHeaderHeight, sectionListHeight],
-  );
+  useEffect(() => {
+    onListHeight?.(listHeight);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listHeight]);
 
   /********************************************************************************************************************
    * Event Handler
@@ -139,9 +149,11 @@ function ApiSectionList<T extends ApiSectionListItem>({
       switch (section.title) {
         case ApiSectionListSection.Header: {
           if (!TopFixedComponent) {
-            nextTick(() => {
+            setHeaderSectionHeaderHeightResetTimeout(() => {
               setHeaderSectionHeaderHeight(0);
             });
+          } else {
+            clearTimeout(headerSectionHeaderHeightResetTimeoutRef.current);
           }
           return TopFixedComponent ? (
             <View key={1} onLayout={(e) => setHeaderSectionHeaderHeight(e.nativeEvent.layout.height)}>
@@ -151,9 +163,11 @@ function ApiSectionList<T extends ApiSectionListItem>({
         }
         case ApiSectionListSection.List: {
           if (!ListFixedComponent) {
-            nextTick(() => {
+            setListSectionHeaderHeightResetTimeout(() => {
               setListSectionHeaderHeight(0);
             });
+          } else {
+            clearTimeout(listSectionHeaderHeightResetTimeoutRef.current);
           }
           return ListFixedComponent ? (
             <View onLayout={(e) => setListSectionHeaderHeight(e.nativeEvent.layout.height)}>{ListFixedComponent}</View>
@@ -163,7 +177,14 @@ function ApiSectionList<T extends ApiSectionListItem>({
           return null;
       }
     },
-    [TopFixedComponent, ListFixedComponent],
+    [
+      TopFixedComponent,
+      setHeaderSectionHeaderHeightResetTimeout,
+      headerSectionHeaderHeightResetTimeoutRef,
+      ListFixedComponent,
+      setListSectionHeaderHeightResetTimeout,
+      listSectionHeaderHeightResetTimeoutRef,
+    ],
   );
 
   const handleRenderSectionFooter = useCallback(
@@ -214,7 +235,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
         }
         case ApiSectionListSection.List:
           return (
-            <View ph={ifUndefined(listPaddingHorizontal, 24)} mt={listMarginTop} minHeight={listMinHeight}>
+            <View ph={ifUndefined(listPaddingHorizontal, 15)} mt={listMarginTop} minHeight={listMinHeight}>
               <ApiFlatList
                 scrollEnabled={false}
                 initialNumToRender={initialNumToRender}
@@ -308,8 +329,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
       setList(newList: T[] | undefined, loadingStatus: LoadingStatus) {
         apiFlatListCommands.current?.setList(newList, loadingStatus);
       },
-      scrollToTop(animated = false) {
-        sectionListRef.current?.scrollToLocation({sectionIndex: 0, itemIndex: 0, animated});
+      scrollToTop(scrollAnimated = false) {
+        sectionListRef.current?.scrollToLocation({sectionIndex: 0, itemIndex: 0, animated: scrollAnimated});
       },
     };
   }, []);
@@ -332,8 +353,10 @@ function ApiSectionList<T extends ApiSectionListItem>({
    * Render
    * ******************************************************************************************************************/
 
+  const Control = animated ? Animated.SectionList : SectionList;
+
   return (
-    <SectionList
+    <Control
       ref={sectionListRef}
       sections={_sections}
       initialNumToRender={initialNumToRender}

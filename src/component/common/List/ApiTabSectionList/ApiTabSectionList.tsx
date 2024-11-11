@@ -12,6 +12,7 @@ import {ApiTabSectionListProps as Props} from './ApiTabSectionList.types';
 function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemValue>({
   tab: initTab,
   tabItems,
+  reloadWhenTabChange,
   renderListItem,
   renderLoading,
   onChangeTab,
@@ -63,27 +64,33 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
 
   const changeTab = useCallback(
     (newTab: TAB) => {
-      if (tabMustReloadRef.current[newTab]) {
-        apiSectionListCommands.current?.setList(undefined, LoadingStatus.FirstLoading);
+      if (reloadWhenTabChange) {
+        nextTick(() => {
+          apiSectionListCommands.current?.reloadList();
+        });
       } else {
-        let newLoadingStatus: LoadingStatus = LoadingStatus.FirstLoading;
-        if (tabLoadingStatusRef.current[newTab]) {
-          newLoadingStatus = tabLoadingStatusRef.current[newTab];
-          setLoadingStatus(loadingStatus);
-        }
-        apiSectionListCommands.current?.setList(tabListRef.current[newTab], newLoadingStatus);
+        if (tabMustReloadRef.current[newTab]) {
+          apiSectionListCommands.current?.setList(undefined, LoadingStatus.FirstLoading);
+        } else {
+          let newLoadingStatus: LoadingStatus = LoadingStatus.FirstLoading;
+          if (tabLoadingStatusRef.current[newTab]) {
+            newLoadingStatus = tabLoadingStatusRef.current[newTab];
+            setLoadingStatus(loadingStatus);
+          }
+          apiSectionListCommands.current?.setList(tabListRef.current[newTab], newLoadingStatus);
 
-        if (tabListRef.current[newTab] === undefined) {
-          nextTick(() => {
-            apiSectionListCommands.current?.reloadList();
-          });
+          if (tabListRef.current[newTab] === undefined) {
+            nextTick(() => {
+              apiSectionListCommands.current?.reloadList();
+            });
+          }
         }
       }
 
       setTab(newTab);
       onChangeTab?.(newTab);
     },
-    [loadingStatus, onChangeTab],
+    [loadingStatus, onChangeTab, reloadWhenTabChange],
   );
 
   /********************************************************************************************************************

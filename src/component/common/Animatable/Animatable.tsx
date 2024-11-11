@@ -6,8 +6,8 @@ const AnimatableView = ({notUseNativeDriver, ...props}: AnimatableViewProps) => 
   return <View useNativeDriver={!notUseNativeDriver} {...props} />;
 };
 
-const AnimatableText = ({notUseNativeDriver, ...props}: AnimatableTextProps) => {
-  return <Text useNativeDriver={!notUseNativeDriver} {...props} />;
+const AnimatableText = ({...props}: AnimatableTextProps) => {
+  return <Text {...props} />;
 };
 
 const AnimatableImage = ({notUseNativeDriver, ...props}: AnimatableImageProps) => {

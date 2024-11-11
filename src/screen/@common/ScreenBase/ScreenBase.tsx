@@ -5,11 +5,11 @@
 import React from 'react';
 import ErrorBoundary from 'react-native-error-boundary';
 import {Button, SafeAreaView, View, Stack, SafeAreaViewProps} from '@ccomp';
-import {Text_Gray} from '@style';
 import {ScreenBaseProps as Props} from './ScreenBase.types';
 
-type ExtractProps<TComponentOrTProps> =
-  TComponentOrTProps extends React.ComponentType<infer TProps> ? TProps : TComponentOrTProps;
+type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer TProps>
+  ? TProps
+  : TComponentOrTProps;
 
 const ErrorFallback = (props: {error: Error; resetError: Function}) => {
   return (

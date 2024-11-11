@@ -106,6 +106,8 @@ module.exports = {
     StyleSheet: 'readonly',
     isIos: 'readonly',
     isAndroid: 'readonly',
+    isTablet: 'readonly',
+    tabletSizeFactor: 'readonly',
 
     // adid
     DEFAULT_ADID: 'readonly',
@@ -120,11 +122,18 @@ module.exports = {
 
     // timeout
     delayTimeout: 'readonly',
+    clearTimeoutRef: 'readonly',
+    clearIntervalRef: 'readonly',
+    useTimeoutRef: 'readonly',
+    useIntervalRef: 'readonly',
 
     // color
     rgbToHex: 'readonly',
     lighten: 'readonly',
     darken: 'readonly',
+
+    // px
+    px: 'readonly',
 
     // isEmulator
     isEmulator: 'readonly',
@@ -229,6 +238,23 @@ module.exports = {
     Text: 'readonly',
     TextProps: 'readonly',
     TextSize: 'readonly',
+    Text_Default: 'readonly',
+    Text_Accent: 'readonly',
+    Text_ExtraAccent: 'readonly',
+    Text_Error: 'readonly',
+    Text_Primary: 'readonly',
+    Text_Primary100: 'readonly',
+    Text_Primary200: 'readonly',
+    Text_Primary300: 'readonly',
+    Text_Primary400: 'readonly',
+    Text_PrimaryAccent: 'readonly',
+    Text_Secondary: 'readonly',
+    Text_Right100: 'readonly',
+    Text_Right200: 'readonly',
+    Text_Success: 'readonly',
+    Text_White: 'readonly',
+    Text_Black: 'readonly',
+    Text_Gray: 'readonly',
     TimerText: 'readonly',
     Button: 'readonly',
     ButtonProps: 'readonly',

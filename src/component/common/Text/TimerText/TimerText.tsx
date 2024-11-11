@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {Text_Default} from '../Text';
 import {TimerTextProps as Props} from './TimerText.types';
 
 const DEFAULT_LIMIT_SECONDS = 60 * 5;

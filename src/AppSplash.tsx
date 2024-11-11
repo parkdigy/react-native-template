@@ -2,9 +2,9 @@ import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import app, {useAppListener} from '@app';
 import {ConfigInfoData} from '@const';
-import {Text_White} from '@style';
 import AppLogo from './AppLogo';
 import AppLogText from './AppLogText';
+import {Text_Default} from '@ccomp';
 
 interface Props {
   config?: ConfigInfoData;
@@ -102,12 +102,12 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
         {appStatus === app.AppStatus.LoadError ? (
           // 로드 에러
           <Stack spacing={16} mb={20}>
-            <Text c={theme.colors.white} s={13}>
+            <Text_Default c={theme.colors.white} s={13}>
               서버에 연결할 수 없습니다.
-            </Text>
+            </Text_Default>
             <Button
               backgroundColor={theme.colors.white}
-              labelStyle={{color: theme.colors.splashBackground, fontSize: 13, fontWeight: '700'}}
+              labelStyle={{color: theme.colors.splashBackground}}
               onPress={onErrorRetry}>
               재시도
             </Button>
@@ -119,7 +119,7 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
               <Text_White s={13}>앱을 최신 버전으로 업데이트 해야합니다.</Text_White>
               <Button
                 backgroundColor={theme.colors.primary}
-                labelStyle={{color: theme.colors.white, fontSize: 13, fontWeight: '700'}}
+                labelStyle={{color: theme.colors.white}}
                 onPress={() => app.openMarketStore(config).then(() => {})}>
                 최선 버전 설치하기
               </Button>

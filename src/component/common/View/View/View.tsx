@@ -6,6 +6,12 @@ import {ViewProps as Props} from './View.types';
 const View = React.forwardRef<NativeView, Props>(
   ({animation, delay, inline, width, fullWidth, style, animationEndDelay, onAnimationEnd, ...props}, ref) => {
     /********************************************************************************************************************
+     * Ref
+     * ******************************************************************************************************************/
+
+    const [endDelayTimeoutRef, setEndDelayTimeout] = useTimeoutRef();
+
+    /********************************************************************************************************************
      * Memo
      * ******************************************************************************************************************/
 
@@ -13,6 +19,15 @@ const View = React.forwardRef<NativeView, Props>(
       () => [style, inline ? {flexDirection: 'row', alignSelf: 'flex-start'} : undefined],
       [style, inline],
     );
+
+    /********************************************************************************************************************
+     * Effect
+     * ******************************************************************************************************************/
+
+    useEffect(() => {
+      clearTimeoutRef(endDelayTimeoutRef);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [animation]);
 
     /********************************************************************************************************************
      * Render
@@ -28,7 +43,7 @@ const View = React.forwardRef<NativeView, Props>(
         style={finalStyle}
         onAnimationEnd={
           onAnimationEnd && animationEndDelay
-            ? () => setTimeout(() => onAnimationEnd(), animationEndDelay)
+            ? () => setEndDelayTimeout(() => onAnimationEnd(), animationEndDelay)
             : onAnimationEnd
         }
         {...props}

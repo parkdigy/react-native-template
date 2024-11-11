@@ -1,6 +1,7 @@
-import {FlatListProps} from 'react-native';
-import {ReactElement} from 'react';
+import React, {ReactElement} from 'react';
+import {Animated, FlatListProps} from 'react-native';
 import {LoadingStatus} from '@const';
+import AnimatedProps = Animated.AnimatedProps;
 
 export interface ApiFlatListItem {
   id: number | string;
@@ -17,7 +18,7 @@ export interface ApiFlatListCommands<T extends ApiFlatListItem = ApiFlatListItem
 
 export interface ApiFlatListProps<T extends ApiFlatListItem>
   extends Omit<
-    FlatListProps<T>,
+    AnimatedProps<FlatListProps<T>>,
     | 'data'
     | 'keyExtractor'
     | 'refreshing'
@@ -28,6 +29,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
     | 'ListFooterComponentStyle'
     | 'onRefresh'
   > {
+  animated?: boolean;
   perPageListItemCount: number;
   loadDelay?: number;
   errorDelay?: number;
@@ -37,6 +39,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
   reloadListWhenActiveFromBackground?: boolean;
   reloadListWhenActiveFromLongTermDeActive?: boolean;
   disableRefresh?: boolean;
+  ListFooterComponent?: React.ComponentType<any> | React.ReactElement<unknown> | null;
   renderLoading?(): ReactElement | null;
   onLoadList(
     lastId: number | string | undefined,
@@ -49,4 +52,5 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
   onReloadWhenActiveFromBackground?(): void;
   onReloadWhenActiveFromLongTermDeActive?(): void;
   onRefresh?(): void;
+  onEmptyComponent?(): ReactElement | null;
 }

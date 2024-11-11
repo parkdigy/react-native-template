@@ -1,5 +1,4 @@
 import React from 'react';
-import {Text_Default} from '@style';
 import {TermsOfPrivacyProps as Props} from './TermsOfPrivacy.types';
 
 export const TermsOfPrivacy = ({}: Props) => {

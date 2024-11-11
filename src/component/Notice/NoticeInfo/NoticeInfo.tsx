@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {NoticeInfoData} from '@const';
-import {Text_Accent} from '@style';
 import {NoticeInfoProps as Props} from './NoticeInfo.types';
 
 const NoticeInfo = ({
@@ -37,7 +36,7 @@ const NoticeInfo = ({
           <Stack spacing={24}>
             <Stack spacing={12}>
               {title && (
-                <Text_Accent s={18} w={600} lh={24}>
+                <Text_Accent s={18} bold lh={24}>
                   {title}
                 </Text_Accent>
               )}
@@ -59,7 +58,7 @@ const NoticeInfo = ({
       <ContainerScrollView>
         <Stack spacing={24}>
           <Stack spacing={12}>
-            <Text_Accent s={18} w={600} lh={24}>
+            <Text_Accent s={18} bold lh={24}>
               {info.title}
             </Text_Accent>
             <DateText s={13} c='right100' lh={16} value={info.notice_date} />

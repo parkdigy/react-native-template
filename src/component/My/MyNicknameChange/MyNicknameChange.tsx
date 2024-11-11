@@ -1,7 +1,6 @@
 import React from 'react';
 import {useAppState} from '@context';
 import {FormCommands} from '@ccomp';
-import {Text_Accent, Text_Right100} from '@style';
 import {MyNicknameChangeProps as Props} from './MyNicknameChange.types';
 
 export const MyNicknameChange = ({navigation}: Props) => {
@@ -84,7 +83,7 @@ export const MyNicknameChange = ({navigation}: Props) => {
         <Stack spacing={24} pb={8}>
           <Stack spacing={8}>
             <Text_Right100 lh={18}>현재 닉네임</Text_Right100>
-            <Text_Accent w={600} lh={18}>
+            <Text_Accent bold lh={18}>
               {auth.nickname}
             </Text_Accent>
           </Stack>
@@ -111,7 +110,7 @@ export const MyNicknameChange = ({navigation}: Props) => {
 
             <Button
               size={'xl'}
-              fontWeight={700}
+              bold
               loading={submitting}
               disabled={ifUndefined(nickname, '') === ''}
               onPress={() => formRef.current?.submit()}>

@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import {Text_Default} from '@style';
+import {Text_Default} from '../../Text';
 import {ValueListProps as Props} from './ValueList.types';
 
 const ValueList = ({label, items, valueTextProps, ...props}: Props) => {

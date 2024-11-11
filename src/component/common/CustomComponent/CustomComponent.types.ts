@@ -33,24 +33,6 @@ export interface CustomComponentStyleProps
     | 'borderTopRightRadius'
     | 'borderBottomLeftRadius'
     | 'borderBottomRightRadius'
-    | 'margin'
-    | 'marginBottom'
-    | 'marginEnd'
-    | 'marginHorizontal'
-    | 'marginLeft'
-    | 'marginRight'
-    | 'marginStart'
-    | 'marginTop'
-    | 'marginVertical'
-    | 'padding'
-    | 'paddingBottom'
-    | 'paddingEnd'
-    | 'paddingHorizontal'
-    | 'paddingLeft'
-    | 'paddingRight'
-    | 'paddingStart'
-    | 'paddingTop'
-    | 'paddingVertical'
     | 'width'
     | 'height'
     | 'position'
@@ -71,24 +53,43 @@ export interface CustomComponentStyleProps
   > {
   row?: boolean;
   wrap?: boolean;
-  m?: ViewStyle['margin'];
-  mh?: ViewStyle['marginHorizontal'];
-  mv?: ViewStyle['marginVertical'];
-  ml?: ViewStyle['margin'];
-  mr?: ViewStyle['marginRight'];
-  mt?: ViewStyle['marginTop'];
-  mb?: ViewStyle['marginBottom'];
-  p?: ViewStyle['padding'];
-  ph?: ViewStyle['paddingHorizontal'];
-  pv?: ViewStyle['paddingVertical'];
-  pl?: ViewStyle['padding'];
-  pr?: ViewStyle['paddingRight'];
-  pt?: ViewStyle['paddingTop'];
-  pb?: ViewStyle['paddingBottom'];
+  margin?: number;
+  marginBottom?: number;
+  marginEnd?: number;
+  marginHorizontal?: number;
+  marginLeft?: number;
+  marginRight?: number;
+  marginStart?: number;
+  marginTop?: number;
+  marginVertical?: number;
+  padding?: number;
+  paddingBottom?: number;
+  paddingEnd?: number;
+  paddingHorizontal?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingStart?: number;
+  paddingTop?: number;
+  paddingVertical?: number;
+  m?: number;
+  mh?: number;
+  mv?: number;
+  ml?: number;
+  mr?: number;
+  mt?: number;
+  mb?: number;
+  p?: number;
+  ph?: number;
+  pv?: number;
+  pl?: number;
+  pr?: number;
+  pt?: number;
+  pb?: number;
+  bypassStyleProps?: string[];
 }
 
 export interface CustomComponentProps extends CustomComponentStyleProps {
+  [key: string]: any;
   component: React.ComponentType<any>;
   componentProps: Dict;
-  [key: string]: any;
 }

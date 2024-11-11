@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFirstSkipEffect} from '@pdg/react-hook';
-import {Text_Default} from '@style';
+import {Text_Default} from '../../Text';
 import {useFormState} from '../FormContext';
 import {FormControlProps as Props, FormControlCommands} from './FormControl.types';
 
@@ -143,7 +143,7 @@ function FormControl<T extends unknown>({
           {typeof helperText === 'string' ? (
             <Text_Default
               s={12}
-              color={error ? ifUndefined(errorHelperTextColor, theme.colors.error) : theme.colors.textRight200}>
+              c={error ? ifUndefined(errorHelperTextColor, theme.colors.error) : theme.colors.textRight200}>
               {helperText}
             </Text_Default>
           ) : (

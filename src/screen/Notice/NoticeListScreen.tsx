@@ -20,7 +20,7 @@ export const NoticeListScreen = ({navigation, route}: ScreenProps<'NoticeList'>)
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={NoticeList} navigation={navigation} route={route} />;
+  return <ScreenBase component={NoticeList} bottomEdgeSafeArea navigation={navigation} route={route} />;
 };
 
 export default NoticeListScreen;

@@ -1,7 +1,8 @@
-import {SectionListProps} from 'react-native';
+import {Animated, SectionListProps} from 'react-native';
 import {ReactElement} from 'react';
 import {LoadingStatus} from '@const';
 import {ApiFlatListProps} from '../ApiFlatList';
+import AnimatedProps = Animated.AnimatedProps;
 
 export const ApiSectionListSection = {
   Header: 'header',
@@ -25,7 +26,7 @@ export interface ApiSectionListItem {
 
 export interface ApiSectionListProps<T extends ApiSectionListItem>
   extends Omit<
-      SectionListProps<T | undefined>,
+      AnimatedProps<SectionListProps<T | undefined>>,
       'sections' | 'renderItem' | 'renderSectionHeader' | 'renderSectionFooter'
     >,
     Pick<
@@ -44,6 +45,7 @@ export interface ApiSectionListProps<T extends ApiSectionListItem>
       | 'onReloadWhenActiveFromBackground'
       | 'onReloadWhenActiveFromLongTermDeActive'
     > {
+  animated?: boolean;
   listPaddingHorizontal?: number;
   listMarginTop?: number;
   listMinHeight?: number;
@@ -53,5 +55,6 @@ export interface ApiSectionListProps<T extends ApiSectionListItem>
   ListFixedComponent?: ReactElement;
   renderListItem(item: T, index: number): ReactElement;
   onChangeLoadingStatus?(loadingStatus: LoadingStatus): void;
+  onListHeight?(listHeight: number): void;
   onCommands?(commands: ApiSectionListCommands): void;
 }

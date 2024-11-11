@@ -121,6 +121,8 @@ export default {
     purpleLine: '#B284FB',
     // splash
     splashBackground: '#100f11',
+    // panel
+    panelTitle: lighten('#bbbbbb', 5),
     // opacity
     opacity05: 'rgba(255, 255, 255, 0.05)',
     opacity10: 'rgba(255, 255, 255, 0.1)',

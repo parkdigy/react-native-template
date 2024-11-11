@@ -10,7 +10,7 @@ const ContainerScrollView = React.forwardRef<NativeScrollView, Props>(
         keyboardShouldPersistTaps={ifNullOrUndefined(keyboardShouldPersistTaps, 'handled')}
         style={[{flex: 1, overflow: overflow || 'visible', backgroundColor}, style]}
         {...props}>
-        <View style={{paddingHorizontal: 24, paddingVertical: 16}}>{children}</View>
+        <View style={{paddingHorizontal: 15, paddingVertical: 15}}>{children}</View>
       </ScrollView>
     );
   },

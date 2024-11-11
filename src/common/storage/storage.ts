@@ -2,6 +2,7 @@ import {MMKV} from 'react-native-mmkv';
 import {AuthSigninType, FaqListData, NoticeListData} from '@const';
 import {AppForceColorScheme} from '@context';
 import {StorageKey, StorageKeyValueType} from './storage.types';
+import {FontFamily} from '@types';
 
 const MmkvStorage = new MMKV();
 
@@ -33,13 +34,11 @@ const storage = {
   get<K extends StorageKey, RT = StorageKeyValueType<K>>(key: K): RT | undefined {
     switch (key) {
       case StorageKey.Theme:
+      case StorageKey.FontFamily:
         return this.getString(key) as RT;
       case StorageKey.Auth:
-        return this.getObject(key) as RT;
       case StorageKey.Fcm:
-        return this.getObject(key) as RT;
       case StorageKey.NoticeList:
-        return this.getObject(key) as RT;
       case StorageKey.FaqList:
         return this.getObject(key) as RT;
       default:
@@ -60,6 +59,18 @@ const storage = {
 
   getTheme() {
     return this.get(StorageKey.Theme);
+  },
+
+  /********************************************************************************************************************
+   * 폰트
+   * ******************************************************************************************************************/
+
+  setFontFamily(fontFamily: FontFamily) {
+    this.set(StorageKey.FontFamily, fontFamily);
+  },
+
+  getFontFamily() {
+    return this.get(StorageKey.FontFamily) || FontFamily.Pretendard;
   },
 
   /********************************************************************************************************************

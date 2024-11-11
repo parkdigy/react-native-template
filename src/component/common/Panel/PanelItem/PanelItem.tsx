@@ -1,16 +1,18 @@
 import React from 'react';
-import {Text_Default} from '@style';
+import {IconAngleRight} from '@asset-image';
+import {Text_Default} from '../../Text';
 import {PanelItemProps as Props} from './PanelItem.types';
 
 export const PanelItem = ({
   children,
   icon,
-  iconSize = 20,
+  iconSize = px.s20,
   iconColor,
   indicator,
   color: initColor,
   title,
   subTitle,
+  subTitleOpacity = 0.7,
   value,
   disabled,
   onPress,
@@ -23,24 +25,25 @@ export const PanelItem = ({
   const theme = useTheme();
 
   /********************************************************************************************************************
-   * Variable
+   * Memo
    * ******************************************************************************************************************/
 
-  const titleColor = ifUndefined(initColor, subTitle ? theme.colors.white : theme.colors.onSurface);
-  const titleFontWeight = subTitle ? 700 : 400;
-
-  const finalChildren = (
-    <View opacity={disabled ? 0.3 : 1}>
-      {(icon || title || subTitle || value || indicator) && (
-        <Stack row center spacing={10}>
-          {icon && <Icon name={icon} size={iconSize} color={ifUndefined(iconColor, theme.colors.onSurface)} />}
+  const content = useMemo(
+    () =>
+      (icon || title || subTitle || value || indicator) && (
+        <Stack row center spacing={px.s10}>
+          {icon && typeof icon === 'string' ? (
+            <Icon name={icon} size={iconSize} color={ifUndefined(iconColor, theme.colors.onSurface)} />
+          ) : (
+            icon
+          )}
           {(title || value) && (
-            <Stack row center justifyContent='space-between' flex={1} spacing={16}>
-              <Stack flex={1} spacing={5}>
+            <Stack row center justifyContent='space-between' flex={1} spacing={px.s16}>
+              <Stack flex={1} spacing={px.s5}>
                 {title && (
                   <>
                     {typeof title === 'string' ? (
-                      <Text_Default s={15} color={titleColor} fontWeight={titleFontWeight}>
+                      <Text_Default s={15} c={ifUndefined(initColor, theme.colors.onSurface)}>
                         {title}
                       </Text_Default>
                     ) : (
@@ -49,19 +52,47 @@ export const PanelItem = ({
                   </>
                 )}
                 {subTitle && (
-                  <>{typeof subTitle === 'string' ? <Text_Default s={12}>{subTitle}</Text_Default> : subTitle}</>
+                  <>
+                    {typeof subTitle === 'string' ? (
+                      <Text_Default s={12} opacity={subTitleOpacity}>
+                        {subTitle}
+                      </Text_Default>
+                    ) : (
+                      subTitle
+                    )}
+                  </>
                 )}
               </Stack>
-              {value && <View>{typeof value === 'string' ? <Text_Default s={13}>{value}</Text_Default> : value}</View>}
+              {value && (
+                <View>
+                  {typeof value === 'string' ? (
+                    <Text_Default s={12} opacity={0.8}>
+                      {value}
+                    </Text_Default>
+                  ) : (
+                    value
+                  )}
+                </View>
+              )}
             </Stack>
           )}
           {indicator && (
-            <View mr={-5} mv={-10}>
-              <Icon name='chevron-right' size={20} color={theme.colors.textRight100} />
+            <View mv={px.s_10}>
+              <IconAngleRight fill={theme.colors.onSurface} width={px.s10} height={px.s10} />
             </View>
           )}
         </Stack>
-      )}
+      ),
+    [icon, iconColor, iconSize, indicator, initColor, subTitle, subTitleOpacity, theme.colors.onSurface, title, value],
+  );
+
+  /********************************************************************************************************************
+   * Variable
+   * ******************************************************************************************************************/
+
+  const finalChildren = (
+    <View opacity={disabled ? 0.3 : 1}>
+      {content}
       {children}
     </View>
   );
