@@ -16,10 +16,6 @@ declare module 'react-native-config' {
     // test
     TEST_IOS_ADID: string | undefined;
     TEST_AOS_ADID: string | undefined;
-    // test codePush
-    TEST_CODE_PUSH: string | undefined;
-    TEST_CODE_PUSH_AND_KEY: string | undefined;
-    TEST_CODE_PUSH_IOS_KEY: string | undefined;
   }
 
   export const Config: NativeConfig;
