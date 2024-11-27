@@ -1,7 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -45,6 +44,9 @@ android {
         versionName appVersionName
         versionCode appVersionCode
         setProperty("archivesBaseName", applicationId + '_' + appVersionName + '_' + appVersionCode)
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
     }
     signingConfigs {
         debug {
@@ -140,6 +142,8 @@ project.ext.envConfigFiles = [
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 apply plugin: 'org.jetbrains.kotlin.android'
+
+tasks.register("prepareKotlinBuildScriptModel"){}
 
 // aab 파일 이동, native-debug-symbols.zip 생성
 tasks.register('clearBuildDirectory', Delete) {
