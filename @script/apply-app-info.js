@@ -14,16 +14,6 @@ if (!fs.existsSync(envPath)) {
 
 const env = parseEnv(envPath);
 
-if (!env.APP_CENTER_USERNAME) throw new Error('APP_CENTER_USERNAME 환경변수 값이 없습니다.');
-if (!env.APP_CENTER_APP_NAME_IOS) throw new Error('APP_CENTER_APP_NAME_IOS 환경변수 값이 없습니다.');
-if (!env.APP_CENTER_APP_SECRET_IOS) throw new Error('APP_CENTER_APP_SECRET_IOS 환경변수 값이 없습니다.');
-if (!env.CODE_PUSH_DEPLOYMENT_KEY_IOS_STAGING) throw new Error('CODE_PUSH_DEPLOYMENT_KEY_IOS_STAGING 환경변수 값이 없습니다.');
-if (!env.CODE_PUSH_DEPLOYMENT_KEY_IOS_PRODUCTION) throw new Error('CODE_PUSH_DEPLOYMENT_KEY_IOS_PRODUCTION 환경변수 값이 없습니다.');
-if (!env.APP_CENTER_APP_NAME_ANDROID) throw new Error('APP_CENTER_APP_NAME_ANDROID 환경변수 값이 없습니다.');
-if (!env.APP_CENTER_APP_SECRET_ANDROID) throw new Error('APP_CENTER_APP_SECRET_ANDROID 환경변수 값이 없습니다.');
-if (!env.CODE_PUSH_DEPLOYMENT_KEY_ANDROID_STAGING) throw new Error('CODE_PUSH_DEPLOYMENT_KEY_ANDROID_STAGING 환경변수 값이 없습니다.');
-if (!env.CODE_PUSH_DEPLOYMENT_KEY_ANDROID_PRODUCTION) throw new Error('CODE_PUSH_DEPLOYMENT_KEY_ANDROID_PRODUCTION 환경변수 값이 없습니다.');
-
 // 현재 프로젝트명 가져오기
 const currentProjectName = JSON.parse(fs.readFileSync(path.join(rootPath, 'app.json'))).name;
 if (!currentProjectName) {
@@ -36,46 +26,6 @@ const replaceExtContent = (filePath, startText, findText, endText, replaceText) 
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const newFileContent = replaceTextExt(fileContent, startText, findText, endText, replaceText);
   fs.writeFileSync(filePath, newFileContent);
-}
-
-/********************************************************************************************************************
- * package.json 파일 변경
- * ******************************************************************************************************************/
-const packageJsonPath = path.join(rootPath, 'package.json');
-if (fs.existsSync(packageJsonPath)) {
-  ll('(IOS) package.json 파일 변경');
-
-  const fileContent = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  Object.keys(fileContent.scripts).forEach(key => {
-    if (key === 'codepush:android:staging' || key === 'codepush:android:production') {
-      fileContent.scripts[key] = replaceTextExt(fileContent.scripts[key], 'appcenter codepush release-react -a ', '', ' -d', `${env.APP_CENTER_USERNAME}/${env.APP_CENTER_APP_NAME_ANDROID}`);
-    } else if (key === 'codepush:ios:staging' || key === 'codepush:ios:production') {
-      fileContent.scripts[key] = replaceTextExt(fileContent.scripts[key], 'appcenter codepush release-react -a ', '', ' -d', `${env.APP_CENTER_USERNAME}/${env.APP_CENTER_APP_NAME_IOS}`);
-    }
-  });
-  fs.writeFileSync(packageJsonPath, JSON.stringify(fileContent, null, 2));
-}
-
-/********************************************************************************************************************
- * (IOS) AppCenter-Config.plist 파일 생성
- * ************************************ ******************************************************************************/
-if (env.APP_CENTER_APP_SECRET_IOS) {
-  const appCenterConfigPlistPath = path.join(rootPath, 'ios', currentProjectName, 'AppCenter-Config.plist');
-  if (fs.existsSync(appCenterConfigPlistPath)) {
-    ll('(IOS) AppCenter-Config.plist 파일 수정');
-    fs.unlinkSync(appCenterConfigPlistPath);
-  } else {
-    ll('(IOS) AppCenter-Config.plist 파일 생성');
-  }
-  fs.writeFileSync(appCenterConfigPlistPath, `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>AppSecret</key>
-  <string>${env.APP_CENTER_APP_SECRET_IOS}</string>
-</dict>
-</plist>
-`);
 }
 
 /********************************************************************************************************************
@@ -172,38 +122,6 @@ if (fs.existsSync(infoPlistPath)) {
 const projectPbxprojPath = path.join(rootPath, 'ios', `${currentProjectName}.xcodeproj`, 'project.pbxproj');
 if (fs.existsSync(projectPbxprojPath)) {
   ll('(IOS) project.pbxproj 파일 변경');
-
-  let fileContent = fs.readFileSync(projectPbxprojPath, 'utf8');
-
-  let changed = false;
-  const valueFindStr = 'CODEPUSH_KEY = "';
-  let valueEnd = 0;
-
-  do {
-    let valueStart = fileContent.indexOf('CODEPUSH_KEY = "', valueEnd);
-    if (valueStart === -1) break;
-    valueStart += valueFindStr.length;
-
-    valueEnd = fileContent.indexOf('"', valueStart);
-    if (valueEnd === -1) break;
-
-    const configurationEnd = fileContent.lastIndexOf('*/ = {', valueStart);
-    if (configurationEnd === -1) break;
-
-    const configurationStart = fileContent.lastIndexOf('/* ', configurationEnd);
-    if (configurationStart === -1) break;
-
-    const configurationName = fileContent.substring(configurationStart + 3, configurationEnd).trim().toUpperCase();
-    if (configurationName === 'STAGING') {
-      fileContent = fileContent.substring(0, valueStart) + env.CODE_PUSH_DEPLOYMENT_KEY_IOS_STAGING + fileContent.substring(valueEnd);
-      changed = true;
-    } else if (configurationName === 'RELEASE') {
-      fileContent = fileContent.substring(0, valueStart) + env.CODE_PUSH_DEPLOYMENT_KEY_IOS_PRODUCTION + fileContent.substring(valueEnd);
-      changed = true;
-    }
-  } while(true);
-
-  fs.writeFileSync(projectPbxprojPath, fileContent);
 
   replaceExtContent(projectPbxprojPath, 'INFOPLIST_KEY_CFBundleDisplayName = "', '', '";', env.DISPLAY_NAME);
 }
@@ -317,22 +235,6 @@ if (fs.existsSync(stringsXmlPath)) {
 }
 
 /********************************************************************************************************************
- * (Android) appcenter-config.json 파일 생성/변경
- * ******************************************************************************************************************/
-const appCenterConfigJsonPath = path.join(rootPath, 'android', 'app', 'src', 'main', 'assets', 'appcenter-config.json');
-{
-  if (fs.existsSync(appCenterConfigJsonPath)) {
-    ll('(Android) appcenter-config.json 파일 수정');
-    fs.unlinkSync(appCenterConfigJsonPath);
-  } else {
-    ll('(Android) appcenter-config.json 파일 생성');
-  }
-  fs.writeFileSync(appCenterConfigJsonPath, `{
-  "app_secret": "${env.APP_CENTER_APP_SECRET_ANDROID}"
-}`);
-}
-
-/********************************************************************************************************************
  * (Android) gradle.properties 파일 변경
  * ******************************************************************************************************************/
 const gradlePropertiesPath = path.join(rootPath, 'android', 'gradle.properties');
@@ -340,10 +242,6 @@ if (fs.existsSync(gradlePropertiesPath)) {
   ll('(Android) gradle.properties 파일 변경');
 
   let fileContent = fs.readFileSync(gradlePropertiesPath, 'utf8');
-
-  fileContent = replaceTextExt(fileContent, 'CODEPUSH_DEPLOYMENT_KEY_DEBUG=', '', '\n', '');
-  fileContent = replaceTextExt(fileContent, 'CODEPUSH_DEPLOYMENT_KEY_STAGING=', '', '\n', env.CODE_PUSH_DEPLOYMENT_KEY_ANDROID_STAGING || '');
-  fileContent = replaceTextExt(fileContent, 'CODEPUSH_DEPLOYMENT_KEY_PRODUCTION=', '', '\n', env.CODE_PUSH_DEPLOYMENT_KEY_ANDROID_PRODUCTION || '');
 
   fs.writeFileSync(gradlePropertiesPath, fileContent);
 }
