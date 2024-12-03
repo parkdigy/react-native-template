@@ -1,4 +1,4 @@
-import NoticeInfo from './NoticeInfo.tsx';
+import NoticeInfo from './NoticeInfo';
 
 export default NoticeInfo;
 

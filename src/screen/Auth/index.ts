@@ -1,1 +1,1 @@
-export * from './AuthHomeScreen.tsx';
+export * from './AuthHomeScreen';

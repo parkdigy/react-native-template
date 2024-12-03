@@ -1,4 +1,4 @@
-import NoticeList from './NoticeList.tsx';
+import NoticeList from './NoticeList';
 
 export default NoticeList;
 

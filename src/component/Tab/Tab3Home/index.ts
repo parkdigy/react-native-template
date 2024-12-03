@@ -1,4 +1,4 @@
-import Tab3Home from './Tab3Home.tsx';
+import Tab3Home from './Tab3Home';
 
 export default Tab3Home;
 

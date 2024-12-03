@@ -2,6 +2,17 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "jsx": "react-native",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "preserveSymlinks": true,
     "baseUrl": "./",
     "typeRoots": ["src/@types"],
     "paths": {

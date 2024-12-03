@@ -1,4 +1,4 @@
-import TermsOfService from './TermsOfService.tsx';
+import TermsOfService from './TermsOfService';
 
 export default TermsOfService;
 

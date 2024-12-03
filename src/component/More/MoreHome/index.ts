@@ -1,4 +1,4 @@
-import MoreHome from './MoreHome.tsx';
+import MoreHome from './MoreHome';
 
 export default MoreHome;
 

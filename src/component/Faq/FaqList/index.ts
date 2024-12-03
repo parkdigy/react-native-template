@@ -1,4 +1,4 @@
-import FaqList from './FaqList.tsx';
+import FaqList from './FaqList';
 
 export default FaqList;
 

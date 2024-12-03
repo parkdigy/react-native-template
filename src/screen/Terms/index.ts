@@ -1,2 +1,2 @@
-export * from './TermsOfPrivacyScreen.tsx';
-export * from './TermsOfServiceScreen.tsx';
+export * from './TermsOfPrivacyScreen';
+export * from './TermsOfServiceScreen';

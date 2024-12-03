@@ -1,4 +1,4 @@
-import NotificationSettings from './NotificationSettings.tsx';
+import NotificationSettings from './NotificationSettings';
 
 export default NotificationSettings;
 

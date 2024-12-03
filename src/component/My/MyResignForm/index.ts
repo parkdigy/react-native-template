@@ -1,4 +1,4 @@
-import MyResignForm from './MyResignForm.tsx';
+import MyResignForm from './MyResignForm';
 
 export default MyResignForm;
 

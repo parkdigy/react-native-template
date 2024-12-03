@@ -1,4 +1,4 @@
-import TermsOfPrivacy from './TermsOfPrivacy.tsx';
+import TermsOfPrivacy from './TermsOfPrivacy';
 
 export default TermsOfPrivacy;
 

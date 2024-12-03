@@ -1,4 +1,4 @@
-import Tab1Home from './Tab1Home.tsx';
+import Tab1Home from './Tab1Home';
 
 export default Tab1Home;
 

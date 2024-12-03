@@ -1,4 +1,4 @@
-import AuthHome from './AuthHome.tsx';
+import AuthHome from './AuthHome';
 
 export default AuthHome;
 

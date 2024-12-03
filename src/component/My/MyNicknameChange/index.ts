@@ -1,4 +1,4 @@
-import MyNicknameChange from './MyNicknameChange.tsx';
+import MyNicknameChange from './MyNicknameChange';
 
 export default MyNicknameChange;
 

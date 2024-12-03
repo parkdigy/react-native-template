@@ -1,4 +1,4 @@
-import ThemeSettings from './ThemeSettings.tsx';
+import ThemeSettings from './ThemeSettings';
 
 export default ThemeSettings;
 
