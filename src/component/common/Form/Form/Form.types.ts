@@ -16,7 +16,7 @@ export interface FormCommands {
 
 export interface FormProps {
   children: ReactNode;
-  parentScrollView?: React.RefObject<NativeScrollView>;
+  parentScrollView?: React.RefObject<NativeScrollView | null>;
   flex?: number;
   onSubmit?(data: Dict): void;
   onSubmitError?(errorFormControls: FormContextControlWithName[]): void;

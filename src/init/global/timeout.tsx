@@ -15,8 +15,8 @@ declare global {
   function delayTimeout(callback: () => void, delay: number): number;
   function delayTimeout(callback: () => void, startTime: number, delay: number): number;
 
-  function clearTimeoutRef(ref: React.MutableRefObject<NodeJS.Timeout | undefined>): void;
-  function clearIntervalRef(ref: React.MutableRefObject<NodeJS.Timeout | undefined>): void;
+  function clearTimeoutRef(ref: React.RefObject<NodeJS.Timeout | undefined>): void;
+  function clearIntervalRef(ref: React.RefObject<NodeJS.Timeout | undefined>): void;
 
   function useTimeoutRef(): UseTimeoutReturnValue;
   function useIntervalRef(): UseIntervalReturnValue;
@@ -64,7 +64,7 @@ globalThis.clearIntervalRef = (ref) => {
  * ******************************************************************************************************************/
 
 const useTimeout = (): UseTimeoutReturnValue => {
-  const ref = useRef<NodeJS.Timeout>();
+  const ref = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {
@@ -91,7 +91,7 @@ globalThis.useTimeoutRef = useTimeout;
  * ******************************************************************************************************************/
 
 const useInterval = (): UseIntervalReturnValue => {
-  const ref = useRef<NodeJS.Timeout>();
+  const ref = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {

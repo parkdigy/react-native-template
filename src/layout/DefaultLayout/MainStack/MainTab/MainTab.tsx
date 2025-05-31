@@ -17,6 +17,7 @@ import MainTab1Stack from './MainTab1Stack';
 import MainTab2Stack from './MainTab2Stack';
 import MainTab3Stack from './MainTab3Stack';
 import MainTabMoreStack from './MainTabMoreStack';
+import styled from 'styled-components/native';
 
 const Tab = createBottomTabNavigator<MainTabScreenList>();
 
@@ -65,24 +66,25 @@ const MainTab = () => {
 
   const handleHomeTabBarIcon = useCallback(
     ({focused}: {focused: boolean}) => (
-      <Icon name='home' size={28} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
+      <StyledIcon name='home-outline' size={25} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
     ),
     [theme],
   );
 
   const handleTab1TabBarIcon = useCallback(
     ({focused}: {focused: boolean}) => (
-      <Icon name='star-outline' size={28} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
+      <StyledIcon name='dice-outline' size={25} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
     ),
     [theme],
   );
 
   const handleTab2TabBarIcon = useCallback(
     ({focused}: {focused: boolean}) => (
-      <Icon
-        name='plus-circle-outline'
+      <StyledIcon
+        name='add-circle-outline'
         size={28}
         color={focused ? theme.colors.primaryAccent : theme.colors.onSurface}
+        style={{marginBottom: -2}}
       />
     ),
     [theme],
@@ -90,14 +92,18 @@ const MainTab = () => {
 
   const handleTab3TabBarIcon = useCallback(
     ({focused}: {focused: boolean}) => (
-      <Icon name='atom' size={28} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
+      <StyledIcon name='bag-outline' size={25} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
     ),
     [theme],
   );
 
   const handleMoreTabBarIcon = useCallback(
     ({focused}: {focused: boolean}) => (
-      <Icon name='dots-horizontal' size={28} color={focused ? theme.colors.primaryAccent : theme.colors.onSurface} />
+      <StyledIcon
+        name='ellipsis-horizontal-outline'
+        size={25}
+        color={focused ? theme.colors.primaryAccent : theme.colors.onSurface}
+      />
     ),
     [theme],
   );
@@ -173,3 +179,11 @@ const MainTab = () => {
 };
 
 export default MainTab;
+
+/********************************************************************************************************************
+ * Styled Components
+ * ******************************************************************************************************************/
+
+const StyledIcon = styled(Icon)`
+  margin-top: -5px;
+`;

@@ -58,7 +58,7 @@ export default {
     onBlueGrayContainer: '#122a36',
     // surface
     surface: '#18161c',
-    onSurface: '#bbbbbb', // 기본 텍스트
+    onSurface: '#bbb', // 기본 텍스트
     surfaceVariant: 'rgb(224, 226, 236)',
     onSurfaceVariant: 'rgb(67, 71, 78)',
     // surface disabled

@@ -1,14 +1,14 @@
 import React from 'react';
 import {Text_Default} from '../../Text';
 import {ListViewItemProps as Props} from './ListViewItem.types';
-import {StyledContainerTouchableOpacity} from './ListViewItem.style';
+import styled from 'styled-components/native';
 
 const ListViewItem = ({
   children,
   activeOpacity = 1,
   trailingText,
   trailingIcon,
-  trailingIconName = 'chevron-right',
+  trailingIconName = 'chevron-forward',
   trailingIconSize = 17,
   trailingIconColor = '#afafaf',
   onPress,
@@ -75,3 +75,13 @@ const ListViewItem = ({
 };
 
 export default ListViewItem;
+
+/********************************************************************************************************************
+ * Styled Components
+ * ******************************************************************************************************************/
+
+export const StyledContainerTouchableOpacity = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 15px;
+`;

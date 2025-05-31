@@ -2,12 +2,15 @@ import React from 'react';
 import {getProfile as kakaoGetProfile, login as kakaoLogin} from '@react-native-seoul/kakao-login';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-import FirebaseAuth from '@react-native-firebase/auth';
+import {getAuth, GoogleAuthProvider, AppleAuthProvider} from '@react-native-firebase/auth';
 import NaverLogin from '@react-native-seoul/naver-login';
 import dayjs from 'dayjs';
 import {SnsApple, SnsGoogle, SnsKakao, SnsNaver} from '@asset-image';
 import {AuthSnsProps as Props} from './AuthSns.types';
-import {AuthSnsActivityIndicatorContainer, AuthSnsIconButton} from './AuthSns.style';
+import styled from 'styled-components/native';
+import {IconButton} from 'react-native-paper';
+
+const firebaseAuth = getAuth();
 
 export const AuthSns = ({
   title,
@@ -96,11 +99,11 @@ export const AuthSns = ({
       if (data?.idToken) {
         onLoading(true);
 
-        const googleCredential = FirebaseAuth.GoogleAuthProvider.credential(data?.idToken);
+        const googleCredential = GoogleAuthProvider.credential(data?.idToken);
 
-        const authInfo = await FirebaseAuth().signInWithCredential(googleCredential);
+        const authInfo = await firebaseAuth.signInWithCredential(googleCredential);
 
-        const googleIdToken = await FirebaseAuth().currentUser?.getIdToken();
+        const googleIdToken = await firebaseAuth.currentUser?.getIdToken();
         if (googleIdToken) {
           onLoading(false);
           onGoogleLogin({
@@ -131,11 +134,11 @@ export const AuthSns = ({
         onLoading(true);
 
         const {identityToken, nonce} = appleAuthRequestResponse;
-        const appleCredential = FirebaseAuth.AppleAuthProvider.credential(identityToken, nonce);
+        const appleCredential = AppleAuthProvider.credential(identityToken, nonce);
 
-        const authInfo = await FirebaseAuth().signInWithCredential(appleCredential);
+        const authInfo = await firebaseAuth.signInWithCredential(appleCredential);
 
-        const appleIdToken = await FirebaseAuth().currentUser?.getIdToken();
+        const appleIdToken = await firebaseAuth.currentUser?.getIdToken();
 
         if (appleIdToken) {
           onLoading(false);
@@ -203,7 +206,7 @@ export const AuthSns = ({
             </AuthSnsActivityIndicatorContainer>
           )}
         </View>
-        {isIos && appleAuth.isSupported && (
+        {appleAuth.isSupported && (
           <View>
             <AuthSnsIconButton icon={SnsApple} disabled={loading} onPress={handleApplePress} />
             {loadingType === 'APPLE' && (
@@ -219,3 +222,24 @@ export const AuthSns = ({
 };
 
 export default AuthSns;
+
+/********************************************************************************************************************
+ * Styled Components
+ * ******************************************************************************************************************/
+
+export const AuthSnsIconButton = styled(IconButton)`
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  opacity: ${({disabled}: {disabled: boolean}) => (disabled ? 0.3 : 1)};
+`;
+
+export const AuthSnsActivityIndicatorContainer = styled(View)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+`;

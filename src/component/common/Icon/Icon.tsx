@@ -1,4 +1,4 @@
-import VectorIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import VectorIcon from '@react-native-vector-icons/ionicons';
 
 import React from 'react';
 import {IconProps as Props} from './Icon.types';

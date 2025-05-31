@@ -1,7 +1,8 @@
-package domain.reactnativetemplate;
+package domain.reactnativetemplate
 import android.content.res.Configuration
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
+
 import android.app.Application
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
@@ -20,8 +21,7 @@ class MainApplication : Application(), ReactApplication {
         override fun getPackages(): List<ReactPackage> =
             PackageList(this).packages.apply {
               // Packages that cannot be autolinked yet can be added manually here, for example:
-              // add(MyReactNativePackage())
-                add(RNUtilPackage());
+               add(RNUtilPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

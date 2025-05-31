@@ -1,7 +1,9 @@
 import React from 'react';
-import messaging from '@react-native-firebase/messaging';
+import {getMessaging, AuthorizationStatus} from '@react-native-firebase/messaging';
 import {useAppState} from '@context';
 import {NotificationSettingsProps as Props} from './NotificationSettings.types';
+
+const messaging = getMessaging();
 
 export const NotificationSettings = ({}: Props) => {
   /********************************************************************************************************************
@@ -16,20 +18,13 @@ export const NotificationSettings = ({}: Props) => {
    * ******************************************************************************************************************/
 
   useEffect(() => {
-    messaging()
-      .hasPermission()
-      .then((permissionStatus) => {
-        if (
-          !contains(
-            [messaging.AuthorizationStatus.NOT_DETERMINED, messaging.AuthorizationStatus.DENIED],
-            permissionStatus,
-          )
-        ) {
-          setHasPushPermission(true);
-        } else {
-          setHasPushPermission(false);
-        }
-      });
+    messaging.hasPermission().then((permissionStatus) => {
+      if (!contains([AuthorizationStatus.NOT_DETERMINED, AuthorizationStatus.DENIED], permissionStatus)) {
+        setHasPushPermission(true);
+      } else {
+        setHasPushPermission(false);
+      }
+    });
   }, []);
 
   /********************************************************************************************************************
@@ -66,16 +61,11 @@ export const NotificationSettings = ({}: Props) => {
 
   const handleActiveChange = useCallback((active: boolean, pastTime: number) => {
     if (active && pastTime > 10) {
-      messaging()
-        .hasPermission()
-        .then((permissionStatus) => {
-          setHasPushPermission(
-            !contains(
-              [messaging.AuthorizationStatus.NOT_DETERMINED, messaging.AuthorizationStatus.DENIED],
-              permissionStatus,
-            ),
-          );
-        });
+      messaging.hasPermission().then((permissionStatus) => {
+        setHasPushPermission(
+          !contains([AuthorizationStatus.NOT_DETERMINED, AuthorizationStatus.DENIED], permissionStatus),
+        );
+      });
     }
   }, []);
 

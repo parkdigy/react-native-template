@@ -5,7 +5,7 @@
 import React from 'react';
 import {unstable_batchedUpdates} from 'react-native';
 import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
-import messaging from '@react-native-firebase/messaging';
+import {getMessaging} from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {AdvertisingStatus, MainScreenList, ScreenProps} from '@types';
 import {HeaderAppbar} from '@ccomp';
@@ -25,6 +25,8 @@ import {
 import AuthStack from '../AuthStack';
 import MainTab from './MainTab';
 import {Fcm} from './controls';
+
+const messaging = getMessaging();
 
 const Stack = createNativeStackNavigator<MainScreenList>();
 
@@ -101,19 +103,17 @@ const MainStack = ({navigation}: ScreenProps) => {
   }, []);
 
   useEffect(() => {
-    messaging().onNotificationOpenedApp((remoteMessage) => {
+    messaging.onNotificationOpenedApp((remoteMessage) => {
       if (remoteMessage.data) {
         app.notification.processData(navigation, remoteMessage.data);
       }
     });
 
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage && remoteMessage.data) {
-          app.notification.processData(navigation, remoteMessage.data);
-        }
-      });
+    messaging.getInitialNotification().then((remoteMessage) => {
+      if (remoteMessage && remoteMessage.data) {
+        app.notification.processData(navigation, remoteMessage.data);
+      }
+    });
 
     const unsubscribeList: (() => void)[] = [];
 
@@ -145,7 +145,7 @@ const MainStack = ({navigation}: ScreenProps) => {
     });
 
     unsubscribeList.push(
-      messaging().onMessage(async (remoteMessage) => {
+      messaging.onMessage(async (remoteMessage) => {
         if (remoteMessage.notification && remoteMessage.notification.body) {
           await app.notification.show(
             remoteMessage.notification.body.replace(/\n/g, '<br>'),

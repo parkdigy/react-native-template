@@ -30,7 +30,7 @@ const FormCheckbox = React.forwardRef<FormCheckboxCommands, Props>(
      * Ref
      * ******************************************************************************************************************/
 
-    const commandsRef = useRef<FormCheckboxCommands>();
+    const commandsRef = useRef<FormCheckboxCommands>(null);
 
     /********************************************************************************************************************
      * State
@@ -140,7 +140,7 @@ const FormCheckbox = React.forwardRef<FormCheckboxCommands, Props>(
                   }
                   alignItems='center'
                   justifyContent='center'>
-                  <Icon name='check-bold' size={15} color={theme.colors.bgPrimary} />
+                  <Icon name='checkmark-outline' size={15} color={theme.colors.bgPrimary} />
                 </View>
                 {typeof children === 'string' ? (
                   <Text_Default color={isError ? 'error' : 'accent'}>{children}</Text_Default>

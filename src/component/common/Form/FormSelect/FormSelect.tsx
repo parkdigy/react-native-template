@@ -12,7 +12,7 @@ const FormSelect = React.forwardRef<FormSelectCommands, Props>(
      * Ref
      * ******************************************************************************************************************/
 
-    const commandsRef = useRef<FormSelectCommands>();
+    const commandsRef = useRef<FormSelectCommands>(null);
 
     /********************************************************************************************************************
      * State

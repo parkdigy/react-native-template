@@ -1,4 +1,5 @@
 import {ColorValue, GestureResponderEvent, ViewProps, ViewStyle} from 'react-native';
+import {IconProps} from '../../Icon';
 
 export interface ListViewItemProps
   extends Pick<
@@ -17,9 +18,9 @@ export interface ListViewItemProps
   activeOpacity?: number;
   trailingText?: string;
   trailingIcon?: boolean;
-  trailingIconName?: string;
-  trailingIconSize?: number;
-  trailingIconColor?: ColorValue | number;
+  trailingIconName?: IconProps['name'];
+  trailingIconSize?: IconProps['size'];
+  trailingIconColor?: IconProps['color'];
   skeleton?: boolean;
   onPress?(event: GestureResponderEvent): void;
 }

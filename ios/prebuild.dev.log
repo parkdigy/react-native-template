@@ -1,0 +1,6 @@
+Starting build scheme Pre-actions
+remove GeneratedDotEnv.m
+Warning: unknown environment variable SWIFT_DEBUG_INFORMATION_FORMAT
+Warning: unknown environment variable SWIFT_DEBUG_INFORMATION_VERSION
+reading env file from /Users/youngchulpark/@Project/@pdg/react-native-template/ios/.. and writing .config to /Users/youngchulpark/@Project/@pdg/react-native-template/ios/tmp.xcconfig
+going to read env file from root folder /Users/youngchulpark/@Project/@pdg/react-native-template/ios/..

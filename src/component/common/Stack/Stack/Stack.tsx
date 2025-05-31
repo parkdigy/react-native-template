@@ -8,7 +8,10 @@ function flattenChildren(children: Props['children'], keys: (string | number)[] 
   return childrenArray.reduce((flatChildren: ReactChildArray, child: any, index: number) => {
     if ((child as React.ReactElement).type === React.Fragment) {
       return flatChildren.concat(
-        flattenChildren((child as React.ReactElement).props.children, keys.concat(child.key || index)),
+        flattenChildren(
+          ((child as React.ReactElement).props as React.FragmentProps).children,
+          keys.concat(child.key || index),
+        ),
       );
     }
     if (React.isValidElement(child)) {

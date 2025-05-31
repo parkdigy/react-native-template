@@ -204,7 +204,6 @@ const Text = ({
     if (center) {
       newTextAlignStyle.textAlign = 'center';
     } else if (singleLineCenter) {
-      ll(containerHeight - paddingHeight, lineHeightStyle.lineHeight * 2);
       const isSingleLine = singleLineCenter ? containerHeight - paddingHeight < lineHeightStyle.lineHeight * 2 : false;
       if (isSingleLine) {
         newTextAlignStyle.textAlign = 'center';

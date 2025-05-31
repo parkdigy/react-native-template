@@ -8,6 +8,7 @@ import DeviceInfo from 'react-native-device-info';
 import {versionString} from '@pdg/util';
 import {useAppState} from '@context';
 import {MoreHomeProps as Props} from './MoreHome.types';
+import {Text_Default} from '@ccomp';
 
 const MoreHome = ({navigation}: Props) => {
   /********************************************************************************************************************
@@ -101,13 +102,13 @@ const MoreHome = ({navigation}: Props) => {
           <Panel>
             <PanelItem
               title='공지사항'
-              icon='alert-circle-outline'
+              icon='megaphone-outline'
               indicator
               onPress={() => navigation.navigate('NoticeList')}
             />
             <PanelItem
               title='FAQ'
-              icon='help-circle-outline'
+              icon='chatbubbles-outline'
               indicator
               onPress={() => navigation.navigate('FaqList')}
             />
@@ -117,14 +118,14 @@ const MoreHome = ({navigation}: Props) => {
           <Panel>
             <PanelItem
               title='테마설정'
-              icon='brightness-6'
+              icon='contrast'
               indicator
               onPress={() => navigation.navigate('ThemeSettings')}
             />
             {auth && (
               <PanelItem
                 title='알림설정'
-                icon='bell-outline'
+                icon='notifications-outline'
                 indicator
                 onPress={() => navigation.navigate('NotificationSettings')}
               />
@@ -176,11 +177,11 @@ const MoreHome = ({navigation}: Props) => {
           <Panel>
             <PanelItem>
               <Stack spacing={6}>
-                <Text_Default s={13}>대표 : Representative</Text_Default>
-                <Text_Default s={13}>상호명 : Business Name</Text_Default>
-                <Text_Default s={13}>주소 : Address</Text_Default>
-                <Text_Default s={13}>사업자등록번호 : 000-00-00000</Text_Default>
-                <Text_Default s={13}>메일주소 : Email Address</Text_Default>
+                <Text_Default s={13}>대표: Representative</Text_Default>
+                <Text_Default s={13}>회사명: Business Name</Text_Default>
+                <Text_Default s={13}>주소: Address</Text_Default>
+                <Text_Default s={13}>사업자등록번호: 000-00-00000</Text_Default>
+                <Text_Default s={13}>메일주소: Email Address</Text_Default>
               </Stack>
             </PanelItem>
           </Panel>

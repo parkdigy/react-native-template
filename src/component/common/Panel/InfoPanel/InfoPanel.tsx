@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text_Primary} from '../../Text';
 import {InfoPanelProps as Props} from './InfoPanel.types';
+import {InfoPanelItemProps} from '@ccomp';
 
 export const InfoPanel = ({title, children, ...props}: Props) => {
   /********************************************************************************************************************
@@ -32,7 +33,7 @@ export const InfoPanel = ({title, children, ...props}: Props) => {
                   throw new Error('InfoPanel 에는 InfoPanelItem 만 포함될 수 있습니다.');
                 }
 
-                const {children: itemChildren, ...itemProps} = child.props;
+                const {children: itemChildren, ...itemProps} = child.props as InfoPanelItemProps;
                 return (
                   <View key={idx}>
                     <InfoPanelItem {...itemProps}>{itemChildren}</InfoPanelItem>

@@ -146,8 +146,8 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
     );
 
     const BackIcon = useCallback(() => {
-      return <IconAngleLeft fill={theme.colors.onSurface} style={{transform: [{scale: 0.5}]}} />;
-    }, [theme.colors.onSurface]);
+      return <IconAngleLeft fill={theme.colors.textAccent} style={{transform: [{scale: 0.5}]}} />;
+    }, [theme.colors.textAccent]);
 
     return (
       <Animated.View style={finalContainerStyle}>

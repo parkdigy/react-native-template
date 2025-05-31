@@ -83,14 +83,16 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
 		</dict>
@@ -99,13 +101,12 @@
 	<string>위치에 접근할 수 있도록 허용버튼을 눌러주세요.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>사진앨범에 접근하도록 허용버튼을 눌러주세요.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진앨범에 접근하도록 허용버튼을 눌러주세요.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>IDFA에 접근하도록 허용버튼을 눌러주세요.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>MaterialCommunityIcons.ttf</string>
+		<string>Lucide.ttf</string>
+		<string>Ionicons.ttf</string>
 		<string>Pretendard-Black.otf</string>
 		<string>Pretendard-Bold.otf</string>
 		<string>Pretendard-ExtraBold.otf</string>
@@ -129,12 +130,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

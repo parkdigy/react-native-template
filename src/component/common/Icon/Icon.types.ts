@@ -1,4 +1,7 @@
-import {IconProps as VectorIconProps} from 'react-native-vector-icons/Icon';
+import VectorIcon from '@react-native-vector-icons/ionicons';
+import {ComponentProps} from 'react';
+
+type VectorIconProps = ComponentProps<typeof VectorIcon>;
 
 export interface IconProps extends Omit<VectorIconProps, 'color'> {
   color?:

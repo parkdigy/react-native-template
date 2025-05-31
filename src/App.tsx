@@ -17,11 +17,11 @@ import {
   // eslint-disable-next-line react-native/split-platform-components
   PermissionsAndroid,
 } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import {getMessaging, AuthorizationStatus} from '@react-native-firebase/messaging';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import DeviceInfo, {getBuildNumber, getManufacturerSync, getModel} from 'react-native-device-info';
 import Config from 'react-native-config';
-import FirebaseAuth from '@react-native-firebase/auth';
+import {getAuth} from '@react-native-firebase/auth';
 import NaverLogin from '@react-native-seoul/naver-login';
 import {logout as KakaoLogout} from '@react-native-seoul/kakao-login';
 import {AppAuthInfo, AppContextProvider, AppContextValue, AppForceColorScheme} from '@context';
@@ -29,6 +29,9 @@ import {ConfigInfoData} from '@const';
 import {api} from '@api';
 import {DefaultLayout} from './layout';
 import {FontFamily} from '@types';
+
+const firebaseAuth = getAuth();
+const messaging = getMessaging();
 
 interface Props {
   // 테마
@@ -188,7 +191,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
             break;
           case 'GOOGLE':
           case 'APPLE':
-            await FirebaseAuth().signOut();
+            await firebaseAuth.signOut();
             break;
         }
       } catch (err) {}
@@ -250,7 +253,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
           if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
             // 구글, 애플 로그인
             // Firebase 에서 idToken 을 가져옴
-            const idToken = await FirebaseAuth().currentUser?.getIdToken();
+            const idToken = await firebaseAuth.currentUser?.getIdToken();
             if (idToken) {
               if (authData.authType === 'GOOGLE') {
                 goLoad({google_id_token: idToken});
@@ -314,22 +317,22 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       if (auth?.user_key) {
         const getToken = async () => {
           try {
-            let permissionStatus = await messaging().hasPermission();
+            let permissionStatus = await messaging.hasPermission();
             switch (permissionStatus) {
-              case messaging.AuthorizationStatus.DENIED:
+              case AuthorizationStatus.DENIED:
                 if (isIos && openSettings) {
                   await Linking.openSettings();
                 }
                 return false;
-              case messaging.AuthorizationStatus.NOT_DETERMINED:
-                permissionStatus = await messaging().requestPermission();
+              case AuthorizationStatus.NOT_DETERMINED:
+                permissionStatus = await messaging.requestPermission();
                 break;
             }
 
             switch (permissionStatus) {
-              case messaging.AuthorizationStatus.AUTHORIZED:
-              case messaging.AuthorizationStatus.PROVISIONAL:
-                const fcmToken = await messaging().getToken();
+              case AuthorizationStatus.AUTHORIZED:
+              case AuthorizationStatus.PROVISIONAL:
+                const fcmToken = await messaging.getToken();
                 const osVersion = `${Platform.Version}`;
                 const buildNumber = getBuildNumber();
 

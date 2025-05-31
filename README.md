@@ -11,7 +11,7 @@
   node @script/init-project.js
   node @script/apply-app-info.js
   ```
-- ```@script/init-project.js``` 는 반드시 **한번만** 실행해야합니다. 
+- ```@script/init-project.js``` 는 반드시 **한번만** 실행해야합니다.
 - 프로젝트 초기화 후 ```app.env``` 파일의 ```PROJECT_NAME```, ```DISPLAY_NAME```, ```IOS_BUNDLE_ID```, ```ANDROID_PACKAGE_NAME``` 정보는 절대로 수정하면 안되며, 나머지 정보는 수정 후 ```@script/apply-app-info.js``` 를 실행하여 적용가능합니다.
 
 ### 2. Firebase 설정
@@ -45,16 +45,23 @@ npm run generate:bootsplash
 - ```.env.example``` 파일을 복사하여 ```.env.development``` 파일을 생성하고 정보를 수정합니다.
 
 - 배포용 환경 설정 파일 : ```.env.staging```, ```.env.production```
-- 
+-
 ## WebStorm Run/Debug Configuration
-- iOS 설정 시 Arguments 에 다음 값을 추가합니다.
+- iOS 설정 시 `Arguments` 에 다음 값을 추가합니다.
   ```
   --scheme ReactNativeTemplateDev
   ```
   
-- Android 설정 시 Arguments 에 다음 값을 추가합니다.
+- iOS 설정 시 `Environment variables` 에 다음 값을 추가합니다.
+  ```
+  LANG=en_US.UTF-8
+  ```
+
+- Android 설정 시 `Arguments` 에 다음 값을 추가합니다.
   ```
   --mode debug
   ```
 
 - Before launch 의 ```Start React Native Bundler``` 더블 클릭하여, ```Command``` 값을 ```npm script``` 로 바꾸고, ```Script``` 를 ```start``` 로 설정합니다.
+
+## Expo Update 사용 시

@@ -3,8 +3,10 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import messaging from '@react-native-firebase/messaging';
+import {getMessaging, AuthorizationStatus} from '@react-native-firebase/messaging';
 import {useAppState} from '@context';
+
+const messaging = getMessaging();
 
 export const Fcm: React.FC = () => {
   /********************************************************************************************************************
@@ -46,20 +48,13 @@ export const Fcm: React.FC = () => {
 
   const handleActiveFromBackground = useCallback(() => {
     if (!fcmLoaded.current) {
-      messaging()
-        .hasPermission()
-        .then((permissionStatus) => {
-          if (
-            !contains(
-              [messaging.AuthorizationStatus.NOT_DETERMINED, messaging.AuthorizationStatus.DENIED],
-              permissionStatus,
-            )
-          ) {
-            reloadFcmToken().then((loaded) => {
-              fcmLoaded.current = loaded;
-            });
-          }
-        });
+      messaging.hasPermission().then((permissionStatus) => {
+        if (!contains([AuthorizationStatus.NOT_DETERMINED, AuthorizationStatus.DENIED], permissionStatus)) {
+          reloadFcmToken().then((loaded) => {
+            fcmLoaded.current = loaded;
+          });
+        }
+      });
     }
   }, [reloadFcmToken]);
 

@@ -78,12 +78,24 @@ export const PanelItem = ({
           )}
           {indicator && (
             <View mv={px.s_10}>
-              <IconAngleRight fill={theme.colors.onSurface} width={px.s10} height={px.s10} />
+              <IconAngleRight fill={theme.colors.textAccent} width={px.s10} height={px.s10} />
             </View>
           )}
         </Stack>
       ),
-    [icon, iconColor, iconSize, indicator, initColor, subTitle, subTitleOpacity, theme.colors.onSurface, title, value],
+    [
+      icon,
+      iconColor,
+      iconSize,
+      indicator,
+      initColor,
+      subTitle,
+      subTitleOpacity,
+      theme.colors.onSurface,
+      theme.colors.textAccent,
+      title,
+      value,
+    ],
   );
 
   /********************************************************************************************************************

@@ -153,7 +153,11 @@ function FormControl<T extends unknown>({
       )}
       {error !== false && error !== true && notEmpty(error) && !hideErrorText && (
         <Stack mt={10} row center spacing={5}>
-          <Icon name='information' size={14} color={ifUndefined(errorHelperTextColor, theme.colors.error)} />
+          <Icon
+            name='information-circle-outline'
+            size={14}
+            color={ifUndefined(errorHelperTextColor, theme.colors.error)}
+          />
           <Text_Default s={12} lh={14} c={ifUndefined(errorHelperTextColor, theme.colors.error)}>
             {error}
           </Text_Default>

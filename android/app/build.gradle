@@ -6,18 +6,22 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 react {
     autolinkLibrariesWithApp()
-    //
+
+    ext {
+        hermesEnabled = (findProperty('expo.jsEngine') ?: "hermes") == "hermes"
+    }
+
     // Added by install-expo-modules
     entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", rootDir.getAbsoluteFile().getParentFile().getAbsolutePath(), "android", "absolute"].execute(null, rootDir).text.trim())
     cliFile = new File(["node", "--print", "require.resolve('@expo/cli')"].execute(null, rootDir).text.trim())
     bundleCommand = "export:embed"
 }
 
+def enableProguardInReleaseBuilds = true
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+
 def appVersionName = "1.0.0"
 def appVersionCode = 1
-
-def enableProguardInReleaseBuilds = true
-def jscFlavor = 'org.webkit:android-jsc:+'
 
 def outputDirectory = "${layout.projectDirectory.asFile.absolutePath}/../@dist"
 project.mkdir outputDirectory
@@ -57,9 +61,9 @@ android {
         }
         release {
             storeFile file('release.keystore')
-            storePassword 'dlfemdgkwk'
+            storePassword 'android'
             keyAlias 'release_key'
-            keyPassword 'dlfemdgkwk'
+            keyPassword 'android'
         }
     }
     buildTypes {
@@ -112,13 +116,9 @@ android {
 }
 
 dependencies {
+    // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-
-    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.android.installreferrer:installreferrer:2.2")
-    implementation("androidx.ads:ads-identifier:1.0.0-alpha05")
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.2.0'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -127,70 +127,60 @@ dependencies {
     }
 }
 
-project.ext.vectoricons = [
-     iconFontNames: [ 'MaterialCommunityIcons.ttf' ]
- ]
-
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
 project.ext.envConfigFiles = [
-  debug: ".env.development",
-  staging: ".env.staging",
-  release: ".env.production",
+        debug: ".env.development",
+        staging: ".env.staging",
+        release: ".env.production",
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
-apply plugin: 'org.jetbrains.kotlin.android'
-
-tasks.register("prepareKotlinBuildScriptModel"){}
-
 // aab 파일 이동, native-debug-symbols.zip 생성
 tasks.register('clearBuildDirectory', Delete) {
-   delete buildDirectory
+    delete buildDirectory
 }
 tasks.register('bundleStaging_post_genereNativeDebugSymbols', Exec) {
     workingDir buildDirectory.dir('intermediates/merged_native_libs/staging/mergeStagingNativeLibs/out/lib')
-   commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
+    commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
 }
 tasks.register('bundleStaging_post_moveFile', Exec) {
-   commandLine 'mv', "${outputStagingPath}/${outputStagingFileName}", destDirectory
+    commandLine 'mv', "${outputStagingPath}/${outputStagingFileName}", destDirectory
 }
 tasks.register('bundleRelease_post_genereNativeDebugSymbols', Exec) {
-   workingDir buildDirectory.dir('intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib')
-   commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
+    workingDir buildDirectory.dir('intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib')
+    commandLine 'zip', '-r', "${destDirectory}/native-debug-symbols.zip", './'
 }
 tasks.register('bundleRelease_post_moveFile', Exec) {
-   commandLine 'mv', "${outputReleasePath}/${outputReleaseFileName}", destDirectory
+    commandLine 'mv', "${outputReleasePath}/${outputReleaseFileName}", destDirectory
 }
 
 gradle.projectsEvaluated {
-   tasks.named('bundleStaging') {
-       dependsOn('clearBuildDirectory')
+    tasks.named('bundleStaging') {
+        dependsOn('clearBuildDirectory')
 
-       shouldRunAfter
+        shouldRunAfter
 
-       outputStagingPath = outputStagingPath.replaceAll('/apk/', '/bundle/')
-       outputStagingFileName = outputStagingFileName.replaceAll('.apk', '.aab')
+        outputStagingPath = outputStagingPath.replaceAll('/apk/', '/bundle/')
+        outputStagingFileName = outputStagingFileName.replaceAll('.apk', '.aab')
 
-       destDirectory = "${outputDirectory}/staging/${appVersionName}_${appVersionCode}"
-       project.mkdir destDirectory
+        destDirectory = "${outputDirectory}/staging/${appVersionName}_${appVersionCode}"
+        project.mkdir destDirectory
 
-       finalizedBy('bundleStaging_post_genereNativeDebugSymbols')
-       finalizedBy('bundleStaging_post_moveFile')
-   }
-   tasks.named('bundleRelease') {
-       dependsOn('clearBuildDirectory')
+        finalizedBy('bundleStaging_post_genereNativeDebugSymbols')
+        finalizedBy('bundleStaging_post_moveFile')
+    }
+    tasks.named('bundleRelease') {
+        dependsOn('clearBuildDirectory')
 
-       shouldRunAfter
+        shouldRunAfter
 
-       outputReleasePath = outputReleasePath.replaceAll('/apk/', '/bundle/')
-       outputReleaseFileName = outputReleaseFileName.replaceAll('.apk', '.aab')
+        outputReleasePath = outputReleasePath.replaceAll('/apk/', '/bundle/')
+        outputReleaseFileName = outputReleaseFileName.replaceAll('.apk', '.aab')
 
-       destDirectory = "${outputDirectory}/release/${appVersionName}_${appVersionCode}"
-       project.mkdir destDirectory
+        destDirectory = "${outputDirectory}/release/${appVersionName}_${appVersionCode}"
+        project.mkdir destDirectory
 
-       finalizedBy('bundleRelease_post_genereNativeDebugSymbols')
-       finalizedBy('bundleRelease_post_moveFile')
-   }
+        finalizedBy('bundleRelease_post_genereNativeDebugSymbols')
+        finalizedBy('bundleRelease_post_moveFile')
+    }
 }

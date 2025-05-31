@@ -36,14 +36,10 @@
 -keep interface androidx.** { *; }
 -keep class androidx.** { *; }
 
-# airbnb
--keep interface com.airbnb.lottie.** { *; }
--keep class com.airbnb.lottie.** { *; }
-
 # R8
--keepattributes LineNumberTable,SourceFile
--renamesourcefileattribute SourceFile
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
--if interface * { @retrofit2.http.* public *** *(...); }
--keep,allowoptimization,allowshrinking,allowobfuscation class <3>
--keep,allowobfuscation,allowshrinking class retrofit2.Response
+#-keepattributes LineNumberTable,SourceFile
+#-renamesourcefileattribute SourceFile
+#-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+#-if interface * { @retrofit2.http.* public *** *(...); }
+#-keep,allowoptimization,allowshrinking,allowobfuscation class <3>
+#-keep,allowobfuscation,allowshrinking class retrofit2.Response

@@ -34,7 +34,7 @@ export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, 
      * ******************************************************************************************************************/
 
     const mountedRef = useMountedRef();
-    const oldIsLockScreen = useRef<boolean>();
+    const oldIsLockScreen = useRef<boolean>(false);
 
     /********************************************************************************************************************
      * State

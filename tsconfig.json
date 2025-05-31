@@ -29,8 +29,5 @@
       "@util": ["src/common/util"],
       "@asset-image": ["src/@assets/image"]
     },
-    "types": [
-      "@types/styled-components-react-native"
-    ]
   },
 }

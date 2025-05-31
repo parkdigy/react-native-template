@@ -1,48 +1,7 @@
 module.exports = {
   root: true,
   extends: '@react-native',
-  // env: {
-  //   'react-native/react-native': true,
-  // },
-  // parser: '@typescript-eslint/parser',
-  // parserOptions: {
-  //   ecmaFeatures: {
-  //     jsx: true,
-  //   },
-  // },
-  // root: true,
-  // plugins: ['@typescript-eslint', 'import', 'react'],
-  // extends: [
-  //   '@react-native-community',
-  //   'plugin:react/recommended',
-  //   'plugin:@typescript-eslint/eslint-recommended',
-  //   'plugin:@typescript-eslint/recommended',
-  //   'plugin:import/recommended',
-  //   'plugin:import/typescript',
-  // ],
-  // settings: {
-  //   'import/resolver': {
-  //     typescript: {
-  //       directory: './src',
-  //     },
-  //   },
-  // },
   rules: {
-    // 'prettier/prettier': [
-    //   'error',
-    //   {
-    //     printWidth: 120,
-    //     tabWidth: 2,
-    //     arrowParens: 'always',
-    //     bracketSameLine: true,
-    //     bracketSpacing: false,
-    //     singleQuote: true,
-    //     jsxSingleQuote: true,
-    //     useTabs: false,
-    //     trailingComma: 'all',
-    //     semi: true,
-    //   },
-    // ],
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-namespace': 'off',
@@ -63,17 +22,10 @@ module.exports = {
     'react-native/no-color-literals': 'error',
     'react-native/no-single-element-style-arrays': 'error',
     'eslint-comments/no-unlimited-disable': 'off',
-    // 'import/no-unresolved': 'error',
     'import/extensions': 'off',
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'import/export': 'off',
-    // 'import/order': [
-    //   'error',
-    //   {
-    //     groups: ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'unknown'],
-    //   },
-    // ],
   },
   globals: {
     // @react-navigation

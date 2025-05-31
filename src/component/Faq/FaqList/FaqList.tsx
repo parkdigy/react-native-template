@@ -27,7 +27,7 @@ const FaqList = ({}: Props) => {
    * Ref
    * ******************************************************************************************************************/
 
-  const apiSectionListCommands = useRef<ApiSectionListCommands | null>();
+  const apiSectionListCommands = useRef<ApiSectionListCommands>(null);
   const keywordRef = useRef<FormSearchTextCommands>(null);
 
   /********************************************************************************************************************

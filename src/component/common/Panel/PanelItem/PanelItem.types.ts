@@ -1,7 +1,8 @@
 import React from 'react';
+import {IconProps} from '../../Icon';
 
 export interface PanelItemProps extends Omit<ViewProps, 'children'> {
-  icon?: string | React.JSX.Element;
+  icon?: IconProps['name'] | React.JSX.Element;
   iconSize?: number;
   iconColor?: string;
   indicator?: boolean;

@@ -10,7 +10,7 @@ import BootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {ThemeProvider} from 'styled-components/native';
-import FirebaseAuth from '@react-native-firebase/auth';
+import {getAuth} from '@react-native-firebase/auth';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import DeviceInfo from 'react-native-device-info';
 import notifee from '@notifee/react-native';
@@ -21,6 +21,8 @@ import App from './App';
 import {AppStatus} from './common/app/app.types';
 import AppSplash from './AppSplash';
 import {NavigationDarkTheme, NavigationLightTheme, PaperBlueDarkTheme, PaperBlueLightTheme} from './theme';
+
+const firebaseAuth = getAuth();
 
 // 개발용 : Cover Screen 강제 표시
 const FORCE_SHOW_COVER_SCREEN = false;
@@ -170,7 +172,7 @@ const AppEasUpdate = () => {
       if (contains(['GOOGLE', 'APPLE'], authData.authType)) {
         // 구글, 애플 로그인
         // Firebase 에서 idToken 을 가져옴
-        const idToken = await FirebaseAuth().currentUser?.getIdToken();
+        const idToken = await firebaseAuth.currentUser?.getIdToken();
         if (idToken) {
           if (authData.authType === 'GOOGLE') {
             goLoadInfo({google_id_token: idToken});
