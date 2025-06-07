@@ -92,18 +92,18 @@ const replaceContent = (filePath, findText, _replaceText) => {
 
   // 내용 변경할 파일
   const podfilePath = path.join(basePath, 'Podfile');
-  const appDelegatePath = path.join(oldProjectDir, 'AppDelegate.mm');
+  const appDelegatePath = path.join(oldProjectDir, 'AppDelegate.swift');
   const xcodeProjectPbxprojPath = path.join(oldXcodeProjectDir, 'project.pbxproj');
   const xcodeWorkspaceContentsPath = path.join(oldXcodeWorkspaceDir, 'contents.xcworkspacedata');
 
   // 내용 변경하고 이름 변경할 파일
   const oldDevSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${currentProjectName}Dev.xcscheme`);
   const oldStagingSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${currentProjectName}Staging.xcscheme`);
-  const oldProdSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${currentProjectName}Prod.xcscheme`);
+  const oldReleaseSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${currentProjectName}Release.xcscheme`);
 
   const newDevSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${env.PROJECT_NAME}Dev.xcscheme`);
   const newStagingSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${env.PROJECT_NAME}Staging.xcscheme`);
-  const newProdSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${env.PROJECT_NAME}Prod.xcscheme`);
+  const newReleaseSchemePath = path.join(oldXcodeProjectDir, 'xcshareddata', 'xcschemes', `${env.PROJECT_NAME}Release.xcscheme`);
 
   // 이름 변경할 파일
   const oldEntitlementsPath = path.join(oldProjectDir, `${currentProjectName}.entitlements`);
@@ -113,7 +113,7 @@ const replaceContent = (filePath, findText, _replaceText) => {
   checkDirExists([oldProjectDir, oldXcodeProjectDir, oldXcodeWorkspaceDir]);
 
   // 파일 있는지 여부 검사
-  checkFileExists([podfilePath, appDelegatePath, xcodeProjectPbxprojPath, xcodeWorkspaceContentsPath, oldDevSchemePath, oldStagingSchemePath, oldProdSchemePath]);
+  checkFileExists([podfilePath, appDelegatePath, xcodeProjectPbxprojPath, xcodeWorkspaceContentsPath, oldDevSchemePath, oldStagingSchemePath, oldReleaseSchemePath]);
 
   // Podfile 변경
   replaceExtContent(podfilePath, `target '`, currentProjectName, `' do`, env.PROJECT_NAME);
@@ -135,8 +135,8 @@ const replaceContent = (filePath, findText, _replaceText) => {
   // Project.xcodeproj/xcshareddata/xcschemes/ProjectStaging.xcscheme 변경
   replaceContent(oldStagingSchemePath, currentProjectName, env.PROJECT_NAME);
 
-  // Project.xcodeproj/xcshareddata/xcschemes/ProjectProd.xcscheme 변경
-  replaceContent(oldProdSchemePath, currentProjectName, env.PROJECT_NAME);
+  // Project.xcodeproj/xcshareddata/xcschemes/ProjectRelease.xcscheme 변경
+  replaceContent(oldReleaseSchemePath, currentProjectName, env.PROJECT_NAME);
 
   // Project/Project.entitlements 파일명 변경
   ll('Project/Project.entitlements 파일명 변경');
@@ -146,7 +146,7 @@ const replaceContent = (filePath, findText, _replaceText) => {
   ll('Project.xcodeproj/xcshareddata/xcschemes 폴더의 파일명 변경');
   fs.renameSync(oldDevSchemePath, newDevSchemePath);
   fs.renameSync(oldStagingSchemePath, newStagingSchemePath);
-  fs.renameSync(oldProdSchemePath, newProdSchemePath);
+  fs.renameSync(oldReleaseSchemePath, newReleaseSchemePath);
 
   // xcuserdata 디렉토리 삭제
   ll('xcuserdata 디렉토리 삭제');

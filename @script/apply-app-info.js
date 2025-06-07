@@ -150,11 +150,11 @@ if (fs.existsSync(entitlementsPath)) {
 }
 
 /********************************************************************************************************************
- * (IOS) AppDelegatem.mm 파일 변경
+ * (IOS) AppDelegatem.swift 파일 변경
  * ******************************************************************************************************************/
-const appDelegatePath = path.join(rootPath, 'ios', currentProjectName, 'AppDelegate.mm');
+const appDelegatePath = path.join(rootPath, 'ios', currentProjectName, 'AppDelegate.swift');
 if (fs.existsSync(packageJsonPath)) {
-  ll('(IOS) AppDelegate.mm 파일 변경');
+  ll('(IOS) AppDelegate.swift 파일 변경');
 
   let fileContent = fs.readFileSync(appDelegatePath, 'utf8');
 
