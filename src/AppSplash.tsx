@@ -116,7 +116,7 @@ export const AppSplash = ({config, updatingPercent, componentReady, onErrorRetry
           appStatus === app.AppStatus.RequiredAppUpdate && (
             // 앱 강제 업데이트
             <Stack spacing={16} mb={20}>
-              <Text_White s={13}>앱을 최신 버전으로 업데이트 해야합니다.</Text_White>
+              <TWhite s={13}>앱을 최신 버전으로 업데이트 해야합니다.</TWhite>
               <Button
                 backgroundColor={theme.colors.primary}
                 labelStyle={{color: theme.colors.white}}

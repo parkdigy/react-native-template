@@ -36,9 +36,9 @@ const FaqListItem = ({info, active, onPress}: Props) => {
       <TouchableOpacity pv={20} onPress={handlePress}>
         <Stack row spacing={10}>
           <Icon name='help-circle-outline' size={23} color='right100' />
-          <Text_Accent lh={20} flex={1}>
-            <Text_Primary bold>[{info.category}]</Text_Primary> {info.title}
-          </Text_Accent>
+          <TAccent lh={20} flex={1}>
+            <TPrimary bold>[{info.category}]</TPrimary> {info.title}
+          </TAccent>
           <View mr={-3}>
             <Icon name={active ? 'chevron-down' : 'chevron-up'} size={20} color='primary200' />
           </View>
@@ -48,9 +48,9 @@ const FaqListItem = ({info, active, onPress}: Props) => {
         <View>
           <Stack row ph={16} pv={20} spacing={10} backgroundColor={theme.colors.bgAppList}>
             <Icon name='information-circle-outline' size={23} color='primary' />
-            <Text_Primary100 flex={1} lh={20}>
+            <TPrimary100 flex={1} lh={20}>
               {info.content}
-            </Text_Primary100>
+            </TPrimary100>
           </Stack>
         </View>
       )}

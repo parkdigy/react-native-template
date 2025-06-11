@@ -61,9 +61,9 @@ export const AppLogText = () => {
    * ******************************************************************************************************************/
 
   return logText ? (
-    <Text_Accent s={11} mt={10}>
+    <TAccent s={11} mt={10}>
       {logText}
-    </Text_Accent>
+    </TAccent>
   ) : null;
 };
 

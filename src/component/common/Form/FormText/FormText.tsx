@@ -3,7 +3,7 @@ import {NativeSyntheticEvent, TextInput as NativeTextInput, TextInputSubmitEditi
 import {TextInput, TextInputProps} from 'react-native-paper';
 import {useFirstSkipEffect} from '@pdg/react-hook';
 import {useAppState} from '@context';
-import {_getBoldFontFamily} from '@types';
+import {_getFontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
 import FormControl, {FormControlCommands} from '../FormControl';
 import {PaperBlueLightTheme, PaperBlueDarkTheme} from '../../../../theme';
@@ -37,6 +37,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       color,
       fontFamily,
       fontSize,
+      fontWeight,
       fontStyle,
       bold,
       letterSpacing,
@@ -177,6 +178,8 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
      * Memo - Style
      * ******************************************************************************************************************/
 
+    const finalFontWeight = useMemo(() => (bold ? 'bold' : fontWeight), [bold, fontWeight]);
+
     const customStyle = useMemo(() => {
       const newCustomStyle: Record<string, any> = {};
       newCustomStyle.color = color || theme.colors.onSurface;
@@ -194,8 +197,8 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
 
       newCustomStyle.textAlign = ifUndefined(textAlign, 'auto');
       newCustomStyle.fonSize = finalFontSize;
-      if (newCustomStyle.fontFamily && bold) {
-        newCustomStyle.fontFamily = _getBoldFontFamily(newCustomStyle.fontFamily);
+      if (newCustomStyle.fontFamily && finalFontWeight) {
+        newCustomStyle.fontFamily = _getFontFamily(newCustomStyle.fontFamily, finalFontWeight);
       }
 
       return newCustomStyle;
@@ -215,7 +218,7 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
       textTransform,
       textAlign,
       finalFontSize,
-      bold,
+      finalFontWeight,
     ]);
 
     const otherStyle: Props['style'] = useMemo(() => {

@@ -86,12 +86,12 @@ export const NotificationSettings = ({}: Props) => {
           <>
             {/* Push 알림 설정 */}
             <View>
-              <Text_Right100 lh={42}>Push 알림 설정</Text_Right100>
+              <TRight100 lh={42}>Push 알림 설정</TRight100>
               {hasPushPermission !== undefined && (
                 <>
                   {hasPushPermission ? (
                     <Stack row center justifyContent={'space-between'} height={42}>
-                      <Text_Accent bold>알림 받기</Text_Accent>
+                      <TAccent bold>알림 받기</TAccent>
                       <View alignItems='center' justifyContent='center'>
                         <FormSwitch
                           style={{opacity: isPushNotificationChanging ? 0.3 : undefined}}

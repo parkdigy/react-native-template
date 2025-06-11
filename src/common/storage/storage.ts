@@ -2,7 +2,7 @@ import {MMKV} from 'react-native-mmkv';
 import {AuthSigninType, FaqListData, NoticeListData} from '@const';
 import {AppForceColorScheme} from '@context';
 import {StorageKey, StorageKeyValueType} from './storage.types';
-import {FontFamily} from '@types';
+import {DefaultFontFamily, FontFamily} from '@types';
 
 const MmkvStorage = new MMKV();
 
@@ -70,7 +70,7 @@ const storage = {
   },
 
   getFontFamily() {
-    return this.get(StorageKey.FontFamily) || FontFamily.Pretendard;
+    return this.get(StorageKey.FontFamily) || DefaultFontFamily;
   },
 
   /********************************************************************************************************************

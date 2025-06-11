@@ -1,14 +1,14 @@
 import React, {CSSProperties} from 'react';
 import {Text as PaperText} from 'react-native-paper';
-import {LayoutChangeEvent, TextStyle} from 'react-native';
+import {LayoutChangeEvent} from 'react-native';
 import {useAppState} from '@context';
 import {
-  _getBoldFontFamily,
+  _getFontFamily,
   _getFontFamilyColor,
   _getFontFamilyDefaultLetterSpacing,
   _getFontFamilySizeAdjustValue,
   _getFontLineHeightAdjustValue,
-  FontFamily,
+  DefaultFontFamily,
 } from '@types';
 import CustomComponent from '../../CustomComponent';
 import {TextProps as Props} from './Text.types';
@@ -23,6 +23,8 @@ const Text = ({
   c,
   lineHeight,
   lh,
+  fontWeight,
+  w,
   fontFamily,
   fontStyle,
   style,
@@ -65,7 +67,10 @@ const Text = ({
    * Memo
    * ******************************************************************************************************************/
 
-  const finalFontWeight: TextStyle['fontWeight'] = useMemo(() => (bold ? 'bold' : undefined), [bold]);
+  const finalFontWeight: Props['fontWeight'] = useMemo(
+    () => (bold ? 'bold' : ifUndefined(fontWeight, w)),
+    [bold, fontWeight, w],
+  );
 
   const customStyle = useMemo(() => {
     const newCustomStyle: Record<string, any> = {};
@@ -116,10 +121,10 @@ const Text = ({
 
     newCustomStyle.fontFamily = ifUndefined(fontFamily, appFontFamily);
     if (contains([undefined, 'default'], newCustomStyle.fontFamily)) {
-      newCustomStyle.fontFamily = FontFamily.Pretendard;
+      newCustomStyle.fontFamily = DefaultFontFamily;
     }
-    if (finalFontWeight === 'bold') {
-      newCustomStyle.fontFamily = _getBoldFontFamily(newCustomStyle.fontFamily);
+    if (finalFontWeight) {
+      newCustomStyle.fontFamily = _getFontFamily(newCustomStyle.fontFamily, finalFontWeight);
     }
 
     if (newCustomStyle.color) {

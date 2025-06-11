@@ -5,9 +5,9 @@ export const TermsOfPrivacy = ({}: Props) => {
   return (
     <ContainerScrollView>
       {new Array(50).fill(0).map((_, i) => (
-        <Text_Default s={13} key={i} lineHeight={18}>
+        <T s={13} key={i} lineHeight={18}>
           개인정보처리방침
-        </Text_Default>
+        </T>
       ))}
     </ContainerScrollView>
   );

@@ -20,6 +20,7 @@ export interface FormTextProps
       | 'color'
       | 'fontFamily'
       | 'fontSize'
+      | 'fontWeight'
       | 'fontStyle'
       | 'bold'
       | 'letterSpacing'

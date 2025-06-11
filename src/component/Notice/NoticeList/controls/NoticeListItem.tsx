@@ -15,9 +15,9 @@ const NoticeListItem = ({info, onPress}: Props) => {
     <TouchableOpacity pv={20} onPress={onPress}>
       <Stack row center>
         <Stack flex={1} pr={16}>
-          <Text_Accent bold lh={18} numberOfLines={1}>
+          <TAccent bold lh={18} numberOfLines={1}>
             {info.title}
-          </Text_Accent>
+          </TAccent>
           <DateText fontSize={13} color='right100' lineHeight={16} value={info.notice_date} mt={6} />
         </Stack>
         <View mr={-5}>

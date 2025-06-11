@@ -36,9 +36,9 @@ const NoticeInfo = ({
           <Stack spacing={24}>
             <Stack spacing={12}>
               {title && (
-                <Text_Accent s={18} bold lh={24}>
+                <TAccent s={18} bold lh={24}>
                   {title}
-                </Text_Accent>
+                </TAccent>
               )}
               {notice_date && <DateText s={13} c='right100' lh={16} value={notice_date} />}
             </Stack>
@@ -58,9 +58,9 @@ const NoticeInfo = ({
       <ContainerScrollView>
         <Stack spacing={24}>
           <Stack spacing={12}>
-            <Text_Accent s={18} bold lh={24}>
+            <TAccent s={18} bold lh={24}>
               {info.title}
-            </Text_Accent>
+            </TAccent>
             <DateText s={13} c='right100' lh={16} value={info.notice_date} />
           </Stack>
           <Divider />

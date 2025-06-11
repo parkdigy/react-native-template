@@ -52,7 +52,7 @@ const MoreHome = ({navigation}: Props) => {
   const handleSignOutPress = useCallback(() => {
     Dialog.openConfirm({
       icon: 'info',
-      content: <Text_Accent>로그아웃 하시겠습니까?</Text_Accent>,
+      content: <TAccent>로그아웃 하시겠습니까?</TAccent>,
       cancelLabel: '취소',
       confirmLabel: '로그아웃',
       onConfirm() {
@@ -137,24 +137,24 @@ const MoreHome = ({navigation}: Props) => {
             <PanelItem
               title='설치버전'
               value={
-                <Text_Right100>
+                <TRight100>
                   {DeviceInfo.getVersion()}
                   {Config.APP_ENV !== 'production' && (
                     <>
-                      <Text_Right100> ({DeviceInfo.getBuildNumber()})</Text_Right100>
+                      <TRight100> ({DeviceInfo.getBuildNumber()})</TRight100>
                     </>
                   )}
-                </Text_Right100>
+                </TRight100>
               }
             />
             <PanelItem
               title='최신버전'
               value={
                 <Stack row center spacing={10}>
-                  <Text_Right100>
+                  <TRight100>
                     {config.app_version}
-                    {Config.APP_ENV !== 'production' && <Text_Right100> ({config.app_build_number})</Text_Right100>}
-                  </Text_Right100>
+                    {Config.APP_ENV !== 'production' && <TRight100> ({config.app_build_number})</TRight100>}
+                  </TRight100>
                 </Stack>
               }
             />

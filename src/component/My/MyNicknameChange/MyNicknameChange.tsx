@@ -82,10 +82,10 @@ export const MyNicknameChange = ({navigation}: Props) => {
       <Form ref={formRef} parentScrollView={scrollViewRef} onSubmit={handleFormSubmit}>
         <Stack spacing={24} pb={8}>
           <Stack spacing={8}>
-            <Text_Right100 lh={18}>현재 닉네임</Text_Right100>
-            <Text_Accent bold lh={18}>
+            <TRight100 lh={18}>현재 닉네임</TRight100>
+            <TAccent bold lh={18}>
               {auth.nickname}
-            </Text_Accent>
+            </TAccent>
           </Stack>
 
           <Divider />

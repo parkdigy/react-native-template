@@ -16,8 +16,8 @@ const ErrorFallback = (props: {error: Error; resetError: Function}) => {
     <View flex={1} alignItems={'center'} justifyContent={'center'} p={20}>
       <Stack spacing={20}>
         <View>
-          <Text_Gray center>예상치 못한 오류가 발생했습니다.</Text_Gray>
-          <Text_Gray center>잠시 후 재시도 해주세요.</Text_Gray>
+          <TGray center>예상치 못한 오류가 발생했습니다.</TGray>
+          <TGray center>잠시 후 재시도 해주세요.</TGray>
         </View>
         <Button onPress={() => props.resetError()}>재시도</Button>
       </Stack>

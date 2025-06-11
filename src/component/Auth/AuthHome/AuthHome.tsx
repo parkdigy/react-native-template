@@ -143,9 +143,9 @@ const AuthHome = ({navigation}: Props) => {
         <Logo width={logoSize.width} height={logoSize.height} />
         {Config.APP_ENV !== 'production' && (
           <View mt={10}>
-            <Text_Right200 s={11}>
+            <TRight200 s={11}>
               {DeviceInfo.getVersion()} ({DeviceInfo.getBuildNumber()})
-            </Text_Right200>
+            </TRight200>
           </View>
         )}
       </View>
@@ -160,17 +160,17 @@ const AuthHome = ({navigation}: Props) => {
           onAppleLogin={handleAppleLogin}
         />
         <Stack spacing={5} opacity={loading ? 0.5 : 1}>
-          <Text_Accent center>로그인을 통해 {Config.APP_TITLE}의</Text_Accent>
-          <Text_Accent center>
-            <Text_Primary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfService')}>
+          <TAccent center>로그인을 통해 {Config.APP_TITLE}의</TAccent>
+          <TAccent center>
+            <TPrimary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfService')}>
               이용약관
-            </Text_Primary>{' '}
+            </TPrimary>{' '}
             및{' '}
-            <Text_Primary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfPrivacy')}>
+            <TPrimary bold center onPress={loading ? undefined : () => navigation.navigate('TermsOfPrivacy')}>
               개인정보처리방침
-            </Text_Primary>
+            </TPrimary>
             에 동의합니다.
-          </Text_Accent>
+          </TAccent>
         </Stack>
       </Stack>
     </ContainerView>

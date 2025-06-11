@@ -86,10 +86,10 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
       titleBackgroundColor={theme.colors.error}>
       <Stack ph={24} pv={24} spacing={16}>
         <Stack>
-          <Text_Accent>
-            회원 탈퇴 후 <Text_Error bold>복구가 불가능합니다.</Text_Error>
-          </Text_Accent>
-          <Text_Accent>정말 탈퇴 하시겠습니까?</Text_Accent>
+          <TAccent>
+            회원 탈퇴 후 <TError bold>복구가 불가능합니다.</TError>
+          </TAccent>
+          <TAccent>정말 탈퇴 하시겠습니까?</TAccent>
         </Stack>
       </Stack>
     </FullScreenDialog>

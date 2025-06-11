@@ -68,7 +68,7 @@ export interface ButtonProps
     CustomComponentStyleProps,
     PartialPick<
       TextProps,
-      'textDecorationLine' | 'textDecorationStyle' | 'textDecorationColor' | 'lineHeight' | 'bold'
+      'textDecorationLine' | 'textDecorationStyle' | 'textDecorationColor' | 'lineHeight' | 'bold' | 'fontWeight'
     > {
   icon?: IconProps['name'] | Exclude<Pick<PaperButtonProps, 'icon'>, 'string'>;
   mode?: Exclude<PaperButtonProps['mode'], 'elevated'>;

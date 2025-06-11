@@ -175,9 +175,9 @@ export const AuthSns = ({
               <Divider />
             </View>
           )}
-          <Text_Accent bold center flex={titleLine ? undefined : 1}>
+          <TAccent bold center flex={titleLine ? undefined : 1}>
             {title}
-          </Text_Accent>
+          </TAccent>
           {titleLine && (
             <View flex={1}>
               <Divider />

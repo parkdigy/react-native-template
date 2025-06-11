@@ -95,8 +95,8 @@ export interface TextProps
   c?: TextColor;
   size?: TextSize | number;
   s?: TextSize | number;
-  // fontWeight?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-  // w?: TextStyle['fontWeight'] | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  fontWeight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 'bold';
+  w?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 'bold';
   lh?: TextStyle['lineHeight'];
   bold?: boolean;
   autoAdjustFontSize?: boolean;

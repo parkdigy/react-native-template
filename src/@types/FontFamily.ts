@@ -1,42 +1,37 @@
 import {DEFAULT_LINE_HEIGHT_SCALE} from '../component/common/Text/Text/Text.types';
 
-export const InternalFontFamily = {} as const;
-export type InternalFontFamily = ValueOf<typeof InternalFontFamily>;
-
-export const InternalFontFamilyBold = {} as const;
-export type InternalFontFamilyBold = ValueOf<typeof InternalFontFamilyBold>;
-
 export const FontFamily = {
-  Pretendard: isIos ? 'Pretendard' : 'Pretendard-Regular',
+  Pretendard: {
+    100: isIos ? 'Pretendard' : 'Pretendard-ExtraLight',
+    200: isIos ? 'Pretendard' : 'Pretendard-ExtraLight',
+    300: isIos ? 'Pretendard' : 'Pretendard-Light',
+    400: isIos ? 'Pretendard' : 'Pretendard-Regular',
+    500: isIos ? 'Pretendard' : 'Pretendard-Medium',
+    600: isIos ? 'Pretendard' : 'Pretendard-SemiBold',
+    700: isIos ? 'Pretendard' : 'Pretendard-Bold',
+    800: isIos ? 'Pretendard' : 'Pretendard-ExtraBold',
+    900: isIos ? 'Pretendard' : 'Pretendard-Black',
+  },
 } as const;
-export type FontFamily = ValueOf<typeof FontFamily>;
+export type FontFamily = keyof typeof FontFamily;
 
-export const FontFamilyBold = {
-  Pretendard: isIos ? 'Pretendard' : 'Pretendard-Bold',
-} as const;
-export type FontFamilyBold = ValueOf<typeof FontFamilyBold>;
+export const DefaultFontFamily: FontFamily = 'Pretendard';
 
-export function _getBoldFontFamily(fontFamily: FontFamily | InternalFontFamily | undefined) {
-  switch (fontFamily) {
-    case FontFamily.Pretendard:
-      return FontFamilyBold.Pretendard;
-    default:
-      return fontFamily;
-  }
+export function _getFontFamily(
+  fontFamily: FontFamily = DefaultFontFamily,
+  fontWeight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 'bold' = 400,
+) {
+  return FontFamily[fontFamily][fontWeight === 'bold' ? 700 : fontWeight];
 }
 
-export function _getFontFamilySizeAdjustValue(
-  fontFamily: FontFamily | FontFamilyBold | InternalFontFamily | InternalFontFamilyBold,
-) {
+export function _getFontFamilySizeAdjustValue(fontFamily: FontFamily) {
   switch (fontFamily) {
     default:
       return 1;
   }
 }
 
-export function _getFontLineHeightAdjustValue(
-  fontFamily: FontFamily | FontFamilyBold | InternalFontFamily | InternalFontFamilyBold,
-) {
+export function _getFontLineHeightAdjustValue(fontFamily: FontFamily) {
   switch (fontFamily) {
     default:
       return DEFAULT_LINE_HEIGHT_SCALE;
@@ -44,7 +39,7 @@ export function _getFontLineHeightAdjustValue(
 }
 
 export function _getFontFamilyDefaultLetterSpacing(
-  fontFamily: FontFamily | FontFamilyBold | InternalFontFamily | InternalFontFamilyBold,
+  fontFamily: FontFamily,
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   fontSize: number,
 ) {
@@ -54,11 +49,7 @@ export function _getFontFamilyDefaultLetterSpacing(
   }
 }
 
-export function _getFontFamilyColor(
-  fontFamily: FontFamily | FontFamilyBold | InternalFontFamily | InternalFontFamilyBold,
-  color: string,
-  theme: ReactNativePaperTheme,
-) {
+export function _getFontFamilyColor(fontFamily: FontFamily, color: string, theme: ReactNativePaperTheme) {
   switch (color) {
     case theme.colors.onSurface:
     case theme.colors.textAccent:

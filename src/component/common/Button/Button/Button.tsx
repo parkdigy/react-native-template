@@ -1,7 +1,7 @@
 import React from 'react';
 import {GestureResponderEvent} from 'react-native';
 import {useAppState} from '@context';
-import {_getBoldFontFamily, FontFamily} from '@types';
+import {_getFontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
 import {ButtonProps as Props, ButtonSize} from './Button.types';
 
@@ -18,7 +18,7 @@ const Button = ({
   buttonColor,
   textColor,
   maxFontSizeMultiplier = 1.2,
-  bold = true,
+  fontWeight = 700,
   textDecorationLine,
   textDecorationStyle,
   textDecorationColor,
@@ -150,9 +150,7 @@ const Button = ({
     return [
       ButtonSize[size || 'md'],
       {
-        fontFamily: bold
-          ? _getBoldFontFamily(ifUndefined(fontFamily, FontFamily.Pretendard))
-          : ifUndefined(fontFamily, FontFamily.Pretendard),
+        fontFamily: fontWeight !== 400 ? _getFontFamily(fontFamily, fontWeight) : fontFamily,
       },
       ifNotUndefined(height, {marginVertical: 0, lineHeight: height}),
       ifNotUndefined(textDecorationLine, {textDecorationLine}),
@@ -165,7 +163,7 @@ const Button = ({
     ];
   }, [
     size,
-    bold,
+    fontWeight,
     fontFamily,
     height,
     textDecorationLine,
