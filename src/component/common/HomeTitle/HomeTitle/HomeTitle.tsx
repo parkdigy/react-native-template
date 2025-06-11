@@ -3,18 +3,49 @@ import {Text_Accent} from '../../Text';
 import TopContainerView from '../../View/TopContainerView';
 import HomeTitleRight from '../HomeTitleRight';
 import {HomeTitleProps as Props} from './HomeTitle.types';
+import {IconButton} from 'react-native-paper';
+import {useAppState} from '@context';
 
-const HomeTitle = ({children, right, inTopContainer, ...props}: Props) => {
+const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props) => {
+  /********************************************************************************************************************
+   * Use
+   * ******************************************************************************************************************/
+
+  const theme = useTheme();
+  const {colorScheme, setColorScheme} = useAppState();
+
+  /********************************************************************************************************************
+   * Function
+   * ******************************************************************************************************************/
+
+  const ToggleColorSchemeIcon = useCallback(
+    (iconProps: any) => <Icon name='invert-mode' {...iconProps} color={theme.colors.textAccent} />,
+    [theme.colors.textAccent],
+  );
+
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
 
+  const right = useMemo(() => {
+    return __DEV__
+      ? ifUndefined(
+          initRight,
+          <IconButton
+            icon={ToggleColorSchemeIcon}
+            style={{marginRight: -3}}
+            onPress={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
+          />,
+        )
+      : initRight;
+  }, [ToggleColorSchemeIcon, colorScheme, initRight, setColorScheme]);
+
   const content = useMemo(
     () => (
-      <Stack row center>
+      <Stack row center minHeight={53}>
         <View flex={1}>
           {typeof children === 'string' ? (
-            <Text_Accent s={18} lh={30}>
+            <Text_Accent s={px.s18} lh={px.s30} ml={5} bold>
               {children}
             </Text_Accent>
           ) : (
@@ -38,11 +69,9 @@ const HomeTitle = ({children, right, inTopContainer, ...props}: Props) => {
    * ******************************************************************************************************************/
 
   return inTopContainer ? (
-    <View pv={10} {...props}>
-      {content}
-    </View>
+    <View {...props}>{content}</View>
   ) : (
-    <TopContainerView inSafeArea show noAnimation pv={10} {...props}>
+    <TopContainerView inSafeArea show noAnimation {...props}>
       {content}
     </TopContainerView>
   );

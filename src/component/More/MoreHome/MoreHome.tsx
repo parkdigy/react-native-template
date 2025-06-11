@@ -71,6 +71,7 @@ const MoreHome = ({navigation}: Props) => {
     <ContainerScrollView ref={containerScrollViewRef} overflow='hidden'>
       <Stack spacing={24}>
         <HomeTitle
+          inTopContainer
           right={
             <View m={-10}>
               <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>

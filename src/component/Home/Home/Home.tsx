@@ -12,9 +12,7 @@ const Home = ({}: Props) => {
 
   return (
     <ContainerScrollView overflow='hidden'>
-      <Stack spacing={24}>
-        <HomeTitle>Home</HomeTitle>
-      </Stack>
+      <HomeTitle inTopContainer>Home</HomeTitle>
     </ContainerScrollView>
   );
 };
