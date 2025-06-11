@@ -26,6 +26,7 @@ export interface AppContextValue {
   colorScheme: ColorSchemeName;
   forceColorScheme: AppForceColorScheme;
   setColorScheme(colorScheme: ColorSchemeName): void;
+  toggleColorScheme(): void;
   setForceColorScheme(forceColorScheme: AppForceColorScheme): void;
   // 공통 스택 네비게이션 옵션
   commonStackNavigationOptions: NativeStackNavigationOptions;

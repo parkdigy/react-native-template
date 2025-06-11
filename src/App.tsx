@@ -276,6 +276,11 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
     [setAuth, clearAuth],
   );
 
+  /** 테마 토글 */
+  const toggleColorScheme = useCallback(() => {
+    onColorSchemeChange(colorScheme === 'light' ? 'dark' : 'light');
+  }, [colorScheme, onColorSchemeChange]);
+
   /** 테마 변경 */
   const changeForceColorScheme = useCallback(
     (newForceColorScheme: AppForceColorScheme) => {
@@ -424,6 +429,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       setFontFamily,
       colorScheme,
       setColorScheme: onColorSchemeChange,
+      toggleColorScheme,
       forceColorScheme,
       setForceColorScheme: changeForceColorScheme,
       onAdultAuthSuccess,
@@ -452,6 +458,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       reloadConfig,
       reloadFcmToken,
       setFontFamily,
+      toggleColorScheme,
     ],
   );
 
