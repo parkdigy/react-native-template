@@ -156,7 +156,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
 
     const BackIcon = useCallback((iconProps: any) => <Icon name='chevron-back-outline' {...iconProps} />, []);
 
-    const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='invert-mode' {...iconProps} />, []);
+    const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='contrast-outline' {...iconProps} />, []);
 
     return (
       <Animated.View style={finalContainerStyle}>
