@@ -1,4 +1,4 @@
-import {ColorValue, GestureResponderEvent, ViewProps, ViewStyle} from 'react-native';
+import {GestureResponderEvent, ViewProps, ViewStyle} from 'react-native';
 import {IconProps} from '../../Icon';
 
 export interface ListViewItemProps

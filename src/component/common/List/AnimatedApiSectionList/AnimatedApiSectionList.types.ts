@@ -1,16 +1,17 @@
-import {SectionListProps} from 'react-native';
+import {Animated, SectionListProps} from 'react-native';
 import {ReactElement} from 'react';
 import {LoadingStatus} from '@const';
-import {ApiFlatListProps} from '../ApiFlatList';
+import {AnimatedApiFlatListProps} from '../AnimatedApiFlatList';
+import AnimatedProps = Animated.AnimatedProps;
 
-export const ApiSectionListSection = {
+export const AnimatedApiSectionListSection = {
   Header: 'header',
   List: 'list',
 } as const;
 
-export type ApiSectionListSection = ValueOf<typeof ApiSectionListSection>;
+export type AnimatedApiSectionListSection = ValueOf<typeof AnimatedApiSectionListSection>;
 
-export interface ApiSectionListCommands<T extends ApiSectionListItem = ApiSectionListItem> {
+export interface AnimatedApiSectionListCommands<T extends AnimatedApiSectionListItem = AnimatedApiSectionListItem> {
   reloadList(): void;
   refreshList(): void;
   getLoadingStatus(): LoadingStatus;
@@ -19,17 +20,17 @@ export interface ApiSectionListCommands<T extends ApiSectionListItem = ApiSectio
   scrollToTop(animated?: boolean): void;
 }
 
-export interface ApiSectionListItem {
+export interface AnimatedApiSectionListItem {
   id: number | string;
 }
 
-export interface ApiSectionListProps<T extends ApiSectionListItem>
+export interface AnimatedApiSectionListProps<T extends AnimatedApiSectionListItem>
   extends Omit<
-      SectionListProps<T | undefined>,
+      AnimatedProps<SectionListProps<T | undefined>>,
       'sections' | 'renderItem' | 'renderSectionHeader' | 'renderSectionFooter'
     >,
     Pick<
-      ApiFlatListProps<T>,
+      AnimatedApiFlatListProps<T>,
       | 'perPageListItemCount'
       | 'loadDelay'
       | 'disableRefresh'
@@ -54,5 +55,5 @@ export interface ApiSectionListProps<T extends ApiSectionListItem>
   renderListItem(item: T, index: number): ReactElement;
   onChangeLoadingStatus?(loadingStatus: LoadingStatus): void;
   onListHeight?(listHeight: number): void;
-  onCommands?(commands: ApiSectionListCommands): void;
+  onCommands?(commands: AnimatedApiSectionListCommands): void;
 }

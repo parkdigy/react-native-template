@@ -13,7 +13,7 @@ export default {
       return el.map((child) => this.removeFragment(child));
     } else if (React.isValidElement(el)) {
       if (this.isFragment(el)) {
-        const children: ReactElement | ReactElement[] = el.props.children;
+        const children: ReactElement | ReactElement[] = (el.props as any).children;
         if (children) {
           return this.removeFragment(children);
         } else {

@@ -7,4 +7,5 @@ export interface ValueListProps extends Omit<StackProps, 'children'> {
   label?: ReactElement;
   valueTextProps?: Omit<TextProps, 'children'>;
   items?: ValueListItems;
+  centerVertical?: boolean;
 }

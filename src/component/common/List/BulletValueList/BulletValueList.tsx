@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {BulletValueListProps as Props} from './BulletValueList.types';
+import {View} from 'react-native';
 
 const BulletValueList = ({bulletProps, ...props}: Props) => {
   /********************************************************************************************************************
@@ -17,7 +18,11 @@ const BulletValueList = ({bulletProps, ...props}: Props) => {
    * ******************************************************************************************************************/
 
   const label = useMemo(
-    () => <Icon name='circle-small' color={theme.colors.onSurface} size={16} {...bulletProps} />,
+    () => (
+      <View style={{marginTop: 6}}>
+        <Icon name='ellipse' color={theme.colors.onSurface} size={5} {...bulletProps} />
+      </View>
+    ),
     [bulletProps, theme.colors.onSurface],
   );
 

@@ -36,8 +36,8 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
      * ******************************************************************************************************************/
 
     const lastKeyboardHeightRef = useRef(0);
-    const innerScrollViewRef = useRef<NativeScrollView>();
-    const scrollViewTargetRef = useRef<NativeView>();
+    const innerScrollViewRef = useRef<NativeScrollView>(null);
+    const scrollViewTargetRef = useRef<NativeView>(null);
     const scrollViewBottomMarginRef = useRef(0);
     const scrollYRef = useRef(0);
     const contentHeightRef = useRef(0);
@@ -224,7 +224,7 @@ const KeyboardAwareScrollView = React.forwardRef<NativeScrollView, Props>(
               ref.current = r;
             }
           }
-          innerScrollViewRef.current = r || undefined;
+          innerScrollViewRef.current = r;
         }}
         animated
         scrollEventThrottle={ifUndefined(scrollEventThrottle, 16)}

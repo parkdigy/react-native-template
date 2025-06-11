@@ -2,6 +2,7 @@ import {ButtonProps as PaperButtonProps} from 'react-native-paper';
 import {StyleProp, TextStyle} from 'react-native';
 import {CustomComponentStyleProps} from '../../CustomComponent';
 import {TextSize} from '../../Text';
+import {IconProps} from '../../Icon';
 
 const DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE = 0.84;
 
@@ -63,12 +64,13 @@ export type ButtonColor =
   | 'white';
 
 export interface ButtonProps
-  extends Omit<PaperButtonProps, 'color' | 'mode' | 'elevation' | 'labelStyle'>,
+  extends Omit<PaperButtonProps, 'color' | 'mode' | 'elevation' | 'labelStyle' | 'icon'>,
     CustomComponentStyleProps,
     PartialPick<
       TextProps,
       'textDecorationLine' | 'textDecorationStyle' | 'textDecorationColor' | 'lineHeight' | 'bold'
     > {
+  icon?: IconProps['name'] | Exclude<Pick<PaperButtonProps, 'icon'>, 'string'>;
   mode?: Exclude<PaperButtonProps['mode'], 'elevated'>;
   size?: ButtonSize;
   color?: ButtonColor;

@@ -46,7 +46,7 @@ const FormToggleButtonGroup = ToForwardRefExoticComponent(
      * Ref
      * ******************************************************************************************************************/
 
-    const commandsRef = useRef<FormToggleButtonGroupCommands<T, Multiple>>();
+    const commandsRef = useRef<FormToggleButtonGroupCommands<T, Multiple>>(null);
     const scrollViewRef = useRef<NativeScrollView>(null);
 
     /********************************************************************************************************************

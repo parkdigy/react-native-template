@@ -161,6 +161,11 @@ export const AuthSns = ({
    * Render
    * ******************************************************************************************************************/
 
+  const SnsKakaoIconSource = useCallback(() => <SnsKakao />, []);
+  const SnsNaverIconSource = useCallback(() => <SnsNaver />, []);
+  const SnsGoogleIconSource = useCallback(() => <SnsGoogle />, []);
+  const SnsAppleIconSource = useCallback(() => <SnsApple />, []);
+
   return (
     <View {...props}>
       {title && (
@@ -183,7 +188,7 @@ export const AuthSns = ({
 
       <View row alignItems='center' justifyContent='space-between' ph={10} opacity={loading ? 0.5 : undefined}>
         <View>
-          <AuthSnsIconButton icon={SnsKakao} disabled={loading} onPress={handleKakaoPress} />
+          <AuthSnsIconButton icon={SnsKakaoIconSource} disabled={loading} onPress={handleKakaoPress} />
           {loadingType === 'KAKAO' && (
             <AuthSnsActivityIndicatorContainer>
               <ActivityIndicator />
@@ -191,7 +196,7 @@ export const AuthSns = ({
           )}
         </View>
         <View>
-          <AuthSnsIconButton icon={SnsNaver} disabled={loading} onPress={handleNaverPress} />
+          <AuthSnsIconButton icon={SnsNaverIconSource} disabled={loading} onPress={handleNaverPress} />
           {loadingType === 'NAVER' && (
             <AuthSnsActivityIndicatorContainer>
               <ActivityIndicator />
@@ -199,7 +204,7 @@ export const AuthSns = ({
           )}
         </View>
         <View>
-          <AuthSnsIconButton icon={SnsGoogle} disabled={loading} onPress={handleGooglePress} />
+          <AuthSnsIconButton icon={SnsGoogleIconSource} disabled={loading} onPress={handleGooglePress} />
           {loadingType === 'GOOGLE' && (
             <AuthSnsActivityIndicatorContainer>
               <ActivityIndicator />
@@ -208,7 +213,7 @@ export const AuthSns = ({
         </View>
         {appleAuth.isSupported && (
           <View>
-            <AuthSnsIconButton icon={SnsApple} disabled={loading} onPress={handleApplePress} />
+            <AuthSnsIconButton icon={SnsAppleIconSource} disabled={loading} onPress={handleApplePress} />
             {loadingType === 'APPLE' && (
               <AuthSnsActivityIndicatorContainer>
                 <ActivityIndicator />
@@ -231,7 +236,7 @@ export const AuthSnsIconButton = styled(IconButton)`
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  opacity: ${({disabled}: {disabled: boolean}) => (disabled ? 0.3 : 1)};
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
 
 export const AuthSnsActivityIndicatorContainer = styled(View)`

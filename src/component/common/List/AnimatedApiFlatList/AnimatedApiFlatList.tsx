@@ -3,15 +3,27 @@
  * ******************************************************************************************************************/
 
 import React, {useRef} from 'react';
-import {FlatList, LayoutChangeEvent, ListRenderItemInfo, RefreshControl, unstable_batchedUpdates} from 'react-native';
+import {
+  Animated,
+  FlatList,
+  LayoutChangeEvent,
+  ListRenderItemInfo,
+  RefreshControl,
+  unstable_batchedUpdates,
+} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import {useIsFocused} from '@react-navigation/native';
 import {useAppState} from '@context';
 import {LoadingStatus} from '@const';
 import {ScrollViewProps} from '../../View/ScrollView';
-import {ApiFlatListProps as Props, ApiFlatListItem, ApiFlatListCommands} from './ApiFlatList.types';
+import {
+  AnimatedApiFlatListProps as Props,
+  AnimatedApiFlatListItem,
+  AnimatedApiFlatListCommands,
+} from './AnimatedApiFlatList.types';
+import WithAnimatedObject = Animated.WithAnimatedObject;
 
-function ApiFlatList<T extends ApiFlatListItem>({
+function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
   perPageListItemCount,
   loadDelay = 500,
   emptyText,
@@ -334,7 +346,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * Commands
    * ******************************************************************************************************************/
 
-  const commands: ApiFlatListCommands<T> = useMemo(
+  const commands: AnimatedApiFlatListCommands<T> = useMemo(
     () => ({
       reload() {
         if (!Const.LoadingStatus.isLoading(loadingStatus)) {
@@ -521,10 +533,10 @@ function ApiFlatList<T extends ApiFlatListItem>({
     <View flex={1}>
       <ActiveDetector onChange={(active) => (isActiveRef.current = active)} />
 
-      <FlatList
+      <Animated.FlatList
         ref={flatListRef}
         {...props}
-        data={data}
+        data={data as WithAnimatedObject<T[]>}
         keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
         keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
         keyExtractor={keyExtractor}
@@ -544,4 +556,4 @@ function ApiFlatList<T extends ApiFlatListItem>({
   );
 }
 
-export default ApiFlatList;
+export default AnimatedApiFlatList;

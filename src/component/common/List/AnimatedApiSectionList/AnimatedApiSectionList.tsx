@@ -7,26 +7,26 @@ import {LayoutChangeEvent, RefreshControl, SectionList, SectionListData, Section
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingStatus} from '@const';
 import {useAppState} from '@context';
-import ApiFlatList, {ApiFlatListCommands} from '../ApiFlatList';
+import AnimatedApiFlatList, {AnimatedApiFlatListCommands} from '../AnimatedApiFlatList';
 import {
-  ApiSectionListProps as Props,
-  ApiSectionListItem,
-  ApiSectionListSection,
-  ApiSectionListCommands,
-} from './ApiSectionList.types';
+  AnimatedApiSectionListProps as Props,
+  AnimatedApiSectionListItem,
+  AnimatedApiSectionListSection,
+  AnimatedApiSectionListCommands,
+} from './AnimatedApiSectionList.types';
 
 const _sections = [
   {
-    title: ApiSectionListSection.Header,
+    title: AnimatedApiSectionListSection.Header,
     data: [undefined],
   },
   {
-    title: ApiSectionListSection.List,
+    title: AnimatedApiSectionListSection.List,
     data: [undefined],
   },
 ];
 
-function ApiSectionList<T extends ApiSectionListItem>({
+function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   perPageListItemCount,
   keyboardDismissMode,
   keyboardShouldPersistTaps,
@@ -76,7 +76,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
 
   const sectionListRef = useRef<SectionList>(null);
   const inactiveTimeRef = useRef(0);
-  const apiFlatListCommands = useRef<ApiFlatListCommands>(null);
+  const apiFlatListCommands = useRef<AnimatedApiFlatListCommands>(null);
   const loadingStatusRef = useRef<LoadingStatus>(Const.LoadingStatus.FirstLoading);
   const [headerSectionHeaderHeightResetTimeoutRef, setHeaderSectionHeaderHeightResetTimeout] = useTimeoutRef();
   const [listSectionHeaderHeightResetTimeoutRef, setListSectionHeaderHeightResetTimeout] = useTimeoutRef();
@@ -146,7 +146,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const handleRenderSectionHeader = useCallback(
     ({section}: {section: SectionListData<T | undefined>}) => {
       switch (section.title) {
-        case ApiSectionListSection.Header: {
+        case AnimatedApiSectionListSection.Header: {
           if (!TopFixedComponent) {
             setHeaderSectionHeaderHeightResetTimeout(() => {
               setHeaderSectionHeaderHeight(0);
@@ -160,7 +160,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
             </View>
           ) : null;
         }
-        case ApiSectionListSection.List: {
+        case AnimatedApiSectionListSection.List: {
           if (!ListFixedComponent) {
             setListSectionHeaderHeightResetTimeout(() => {
               setListSectionHeaderHeight(0);
@@ -189,7 +189,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const handleRenderSectionFooter = useCallback(
     ({section}: {section: SectionListData<T | undefined>}) => {
       switch (section.title) {
-        case ApiSectionListSection.Header:
+        case AnimatedApiSectionListSection.Header:
           return ifUndefined(TopFooterComponent, null);
         default:
           return null;
@@ -198,7 +198,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
     [TopFooterComponent],
   );
 
-  const handleApiFlatListChangeLoadingStatus = useCallback(
+  const handleAnimatedApiFlatListChangeLoadingStatus = useCallback(
     (loadingStatus: LoadingStatus) => {
       onChangeLoadingStatus?.(loadingStatus);
       loadingStatusRef.current = loadingStatus;
@@ -210,7 +210,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
     [onChangeLoadingStatus, refreshing],
   );
 
-  const handleApiFlatListChangeCommands = useCallback((commands: ApiFlatListCommands<T>) => {
+  const handleAnimatedApiFlatListChangeCommands = useCallback((commands: AnimatedApiFlatListCommands<T>) => {
     apiFlatListCommands.current = commands;
   }, []);
 
@@ -227,15 +227,15 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const handleRenderItem = useCallback(
     (info: SectionListRenderItemInfo<T | undefined>) => {
       switch (info.section.title) {
-        case ApiSectionListSection.Header: {
+        case AnimatedApiSectionListSection.Header: {
           return TopComponent ? (
             <View onLayout={(e) => setHeaderSectionItemHeight(e.nativeEvent.layout.height)}>{TopComponent}</View>
           ) : null;
         }
-        case ApiSectionListSection.List:
+        case AnimatedApiSectionListSection.List:
           return (
             <View ph={ifUndefined(listPaddingHorizontal, 15)} mt={listMarginTop} minHeight={listMinHeight}>
-              <ApiFlatList
+              <AnimatedApiFlatList
                 scrollEnabled={false}
                 initialNumToRender={initialNumToRender}
                 windowSize={windowSize}
@@ -257,8 +257,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
                 renderItem={(v) => renderListItem(v.item, v.index)}
                 renderLoading={renderLoading}
                 onList={handleList}
-                onChangeLoadingStatus={handleApiFlatListChangeLoadingStatus}
-                onCommands={handleApiFlatListChangeCommands}
+                onChangeLoadingStatus={handleAnimatedApiFlatListChangeLoadingStatus}
+                onCommands={handleAnimatedApiFlatListChangeCommands}
                 onReloadWhenActiveFromBackground={onReloadWhenActiveFromBackground}
                 onReloadWhenActiveFromLongTermDeActive={onReloadWhenActiveFromLongTermDeActive}
               />
@@ -290,8 +290,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
       onLoadList,
       renderLoading,
       handleList,
-      handleApiFlatListChangeLoadingStatus,
-      handleApiFlatListChangeCommands,
+      handleAnimatedApiFlatListChangeLoadingStatus,
+      handleAnimatedApiFlatListChangeCommands,
       onReloadWhenActiveFromBackground,
       onReloadWhenActiveFromLongTermDeActive,
       TopComponent,
@@ -311,7 +311,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
    * Commands
    * ******************************************************************************************************************/
 
-  const commands: ApiSectionListCommands = useMemo(() => {
+  const commands: AnimatedApiSectionListCommands = useMemo(() => {
     return {
       reloadList() {
         apiFlatListCommands.current?.reload();
@@ -353,7 +353,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
    * ******************************************************************************************************************/
 
   return (
-    <SectionList
+    <Animated.SectionList
       ref={sectionListRef}
       sections={_sections}
       initialNumToRender={initialNumToRender}
@@ -373,4 +373,4 @@ function ApiSectionList<T extends ApiSectionListItem>({
   );
 }
 
-export default ApiSectionList;
+export default AnimatedApiSectionList;

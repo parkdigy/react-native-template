@@ -97,7 +97,9 @@ import {
   DateText as _DateText,
   AutoHeightWebView as _AutoHeightWebView,
   ApiFlatList as _ApiFlatList,
+  AnimatedApiFlatList as _AnimatedApiFlatList,
   ApiSectionList as _ApiSectionList,
+  AnimatedApiSectionList as _AnimatedApiSectionList,
   ApiTabSectionList as _ApiTabSectionList,
   ApiInfoView as _ApiInfoView,
   SkeletonPlaceholder as _SkeletonPlaceholder,
@@ -230,7 +232,9 @@ declare global {
   var DateText: typeof _DateText;
   var AutoHeightWebView: typeof _AutoHeightWebView;
   var ApiFlatList: typeof _ApiFlatList;
+  var AnimatedApiFlatList: typeof _AnimatedApiFlatList;
   var ApiSectionList: typeof _ApiSectionList;
+  var AnimatedApiSectionList: typeof _AnimatedApiSectionList;
   var ApiTabSectionList: typeof _ApiTabSectionList;
   var ApiInfoView: typeof _ApiInfoView;
   var SkeletonPlaceholder: typeof _SkeletonPlaceholder;
@@ -331,7 +335,9 @@ globalThis.ApiErrorBackAlert = _ApiErrorBackAlert;
 globalThis.DateText = _DateText;
 globalThis.AutoHeightWebView = _AutoHeightWebView;
 globalThis.ApiFlatList = _ApiFlatList;
+globalThis.AnimatedApiFlatList = _AnimatedApiFlatList;
 globalThis.ApiSectionList = _ApiSectionList;
+globalThis.AnimatedApiSectionList = _AnimatedApiSectionList;
 globalThis.ApiTabSectionList = _ApiTabSectionList;
 globalThis.ApiInfoView = _ApiInfoView;
 globalThis.SkeletonPlaceholder = _SkeletonPlaceholder;

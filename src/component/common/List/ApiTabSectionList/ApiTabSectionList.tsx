@@ -32,7 +32,7 @@ function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemV
    * Ref
    * ******************************************************************************************************************/
 
-  const apiSectionListCommands = useRef<ApiSectionListCommands>();
+  const apiSectionListCommands = useRef<ApiSectionListCommands>(null);
   const tabListRef = useRef<Dict<T[] | undefined>>({});
   const tabLoadingStatusRef = useRef<Dict<LoadingStatus>>({});
   const tabMustReloadRef = useRef<Dict<boolean>>({});

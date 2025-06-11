@@ -186,7 +186,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
             {formatAlphabet && (
               <Stack row spacing={4} center>
                 <Icon
-                  name='check-bold'
+                  name='checkmark-outline'
                   size={14}
                   color={
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
@@ -200,7 +200,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
             {formatNumeric && (
               <Stack row spacing={4} center>
                 <Icon
-                  name='check-bold'
+                  name='checkmark-outline'
                   size={14}
                   color={
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
@@ -214,7 +214,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
             {formatSpecialChar && (
               <Stack row spacing={4} center>
                 <Icon
-                  name='check-bold'
+                  name='checkmark-outline'
                   size={14}
                   color={
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200
@@ -228,7 +228,7 @@ const FormPassword = React.forwardRef<FormPasswordCommands, Props>(
             {formatLength !== undefined && (
               <Stack row spacing={4} center>
                 <Icon
-                  name='check-bold'
+                  name='checkmark-outline'
                   size={14}
                   color={
                     isContainAlphabet ? theme.colors.primary : error ? theme.colors.error : theme.colors.textRight200

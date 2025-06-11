@@ -97,8 +97,8 @@ const FormText = React.forwardRef<FormTextCommands, Props>(
 
     const innerRef = useRef<NativeTextInput | null>(null);
     const innerValueRef = useRef<string | undefined>(initValue);
-    const commandsRef = useRef<FormTextCommands>();
-    const validateTimeoutRef = useRef<number>();
+    const commandsRef = useRef<FormTextCommands>(null);
+    const validateTimeoutRef = useRef<number>(undefined);
 
     /********************************************************************************************************************
      * Function

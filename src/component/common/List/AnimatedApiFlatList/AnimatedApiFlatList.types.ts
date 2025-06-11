@@ -1,12 +1,13 @@
 import React, {ReactElement} from 'react';
-import {FlatListProps} from 'react-native';
+import {Animated, FlatListProps} from 'react-native';
 import {LoadingStatus} from '@const';
+import AnimatedProps = Animated.AnimatedProps;
 
-export interface ApiFlatListItem {
+export interface AnimatedApiFlatListItem {
   id: number | string;
 }
 
-export interface ApiFlatListCommands<T extends ApiFlatListItem = ApiFlatListItem> {
+export interface AnimatedApiFlatListCommands<T extends AnimatedApiFlatListItem = AnimatedApiFlatListItem> {
   reload(): void;
   refresh(): void;
   getLoadingStatus(): LoadingStatus;
@@ -15,9 +16,9 @@ export interface ApiFlatListCommands<T extends ApiFlatListItem = ApiFlatListItem
   scrollToTop(animated?: boolean): void;
 }
 
-export interface ApiFlatListProps<T extends ApiFlatListItem>
+export interface AnimatedApiFlatListProps<T extends AnimatedApiFlatListItem>
   extends Omit<
-    FlatListProps<T>,
+    AnimatedProps<FlatListProps<T>>,
     | 'data'
     | 'keyExtractor'
     | 'refreshing'
@@ -46,7 +47,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
   ): Promise<T[]>;
   onList?(list: T[] | undefined, loadingStatus: LoadingStatus): void;
   onChangeLoadingStatus?(loadingStatus: LoadingStatus): void;
-  onCommands?(commands: ApiFlatListCommands): void;
+  onCommands?(commands: AnimatedApiFlatListCommands): void;
   onReloadWhenActiveFromBackground?(): void;
   onReloadWhenActiveFromLongTermDeActive?(): void;
   onRefresh?(): void;

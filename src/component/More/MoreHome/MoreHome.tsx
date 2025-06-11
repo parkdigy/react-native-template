@@ -160,7 +160,10 @@ const MoreHome = ({navigation}: Props) => {
             />
             {versionString(DeviceInfo.getBuildNumber(), 10, 10) < versionString(config.app_build_number, 10, 10) && (
               <PanelItem>
-                <Button mode='outlined' icon={isIos ? 'apple' : 'google-play'} onPress={() => app.openMarketStore()}>
+                <Button
+                  mode='outlined'
+                  icon={isIos ? 'logo-apple' : 'logo-google-playstore'}
+                  onPress={() => app.openMarketStore()}>
                   최신 버전 다운로드
                 </Button>
               </PanelItem>

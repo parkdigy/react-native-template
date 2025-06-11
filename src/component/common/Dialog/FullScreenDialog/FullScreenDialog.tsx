@@ -44,7 +44,7 @@ const FullScreenDialog = ({
    * Ref
    * ******************************************************************************************************************/
 
-  const oldIsLockScreen = useRef<boolean>();
+  const oldIsLockScreenRef = useRef<boolean>(undefined);
 
   /********************************************************************************************************************
    * State
@@ -60,16 +60,16 @@ const FullScreenDialog = ({
 
   useEffect(() => {
     return () => {
-      if (oldIsLockScreen.current !== undefined) {
-        app.setLockScreen(oldIsLockScreen.current);
+      if (oldIsLockScreenRef.current !== undefined) {
+        app.setLockScreen(oldIsLockScreenRef.current);
       }
     };
   }, []);
 
   useEffect(() => {
     if (preventBackClose) {
-      if (oldIsLockScreen.current === undefined) {
-        oldIsLockScreen.current = app.getLockScreen();
+      if (oldIsLockScreenRef.current === undefined) {
+        oldIsLockScreenRef.current = app.getLockScreen();
       }
 
       app.setLockScreen(true);
