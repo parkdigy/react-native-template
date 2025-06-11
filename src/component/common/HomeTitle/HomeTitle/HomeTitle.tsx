@@ -3,7 +3,6 @@ import {Text_Accent} from '../../Text';
 import TopContainerView from '../../View/TopContainerView';
 import HomeTitleRight from '../HomeTitleRight';
 import {HomeTitleProps as Props} from './HomeTitle.types';
-import {IconButton} from 'react-native-paper';
 import {useAppState} from '@context';
 
 const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props) => {
@@ -11,17 +10,7 @@ const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props
    * Use
    * ******************************************************************************************************************/
 
-  const theme = useTheme();
   const {colorScheme, setColorScheme} = useAppState();
-
-  /********************************************************************************************************************
-   * Function
-   * ******************************************************************************************************************/
-
-  const ToggleColorSchemeIcon = useCallback(
-    (iconProps: any) => <Icon name='invert-mode' {...iconProps} color={theme.colors.textAccent} />,
-    [theme.colors.textAccent],
-  );
 
   /********************************************************************************************************************
    * Memo
@@ -32,13 +21,14 @@ const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props
       ? ifUndefined(
           initRight,
           <IconButton
-            icon={ToggleColorSchemeIcon}
-            style={{marginRight: -3}}
+            name='contrast-outline'
+            color='accent'
+            marginRight={-3}
             onPress={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
           />,
         )
       : initRight;
-  }, [ToggleColorSchemeIcon, colorScheme, initRight, setColorScheme]);
+  }, [colorScheme, initRight, setColorScheme]);
 
   const content = useMemo(
     () => (

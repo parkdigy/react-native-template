@@ -2,9 +2,18 @@ import VectorIcon from '@react-native-vector-icons/ionicons';
 
 import React from 'react';
 import {IconProps as Props} from './Icon.types';
+import CustomComponent from '../CustomComponent';
 
 const Icon = ({color, ...props}: Props) => {
+  /********************************************************************************************************************
+   * Use
+   * ******************************************************************************************************************/
+
   const theme = useTheme();
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
 
   const finalColor = useMemo(() => {
     if (color !== undefined) {
@@ -61,7 +70,11 @@ const Icon = ({color, ...props}: Props) => {
     }
   }, [color, theme]);
 
-  return <VectorIcon color={finalColor} {...props} />;
+  /********************************************************************************************************************
+   * Render
+   * ******************************************************************************************************************/
+
+  return <CustomComponent component={VectorIcon} color={finalColor} {...props} />;
 };
 
 export default React.memo(Icon);

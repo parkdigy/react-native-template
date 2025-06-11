@@ -59,6 +59,7 @@ import {
   ButtonSize as _ButtonSize,
   SubmitButton as _SubmitButton,
   DetailButton as _DetailButton,
+  IconButton as _IconButton,
   Icon as _Icon,
   Divider as _Divider,
   DividerSkeletonPlaceholder as _DividerSkeletonPlaceholder,
@@ -193,6 +194,7 @@ declare global {
   var Icon: typeof _Icon;
   var SubmitButton: typeof _SubmitButton;
   var DetailButton: typeof _DetailButton;
+  var IconButton: typeof _IconButton;
   var Divider: typeof _Divider;
   var DividerSkeletonPlaceholder: typeof _DividerSkeletonPlaceholder;
   var AutoResizeImage: typeof _AutoResizeImage;
@@ -297,6 +299,7 @@ globalThis.Button = _Button;
 globalThis.ButtonSize = _ButtonSize;
 globalThis.SubmitButton = _SubmitButton;
 globalThis.DetailButton = _DetailButton;
+globalThis.IconButton = _IconButton;
 globalThis.Icon = _Icon;
 globalThis.Divider = _Divider;
 globalThis.DividerSkeletonPlaceholder = _DividerSkeletonPlaceholder;

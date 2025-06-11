@@ -1,11 +1,11 @@
 import VectorIcon from '@react-native-vector-icons/ionicons';
 import {ComponentProps} from 'react';
+import {ColorValue} from 'react-native';
 
 type VectorIconProps = ComponentProps<typeof VectorIcon>;
 
 export interface IconProps extends Omit<VectorIconProps, 'color'> {
   color?:
-    | VectorIconProps['color']
     | 'primary'
     | 'primary100'
     | 'primary200'
@@ -27,5 +27,6 @@ export interface IconProps extends Omit<VectorIconProps, 'color'> {
     | 'green200'
     | 'green300'
     | 'green400'
-    | 'yellow';
+    | 'yellow'
+    | ColorValue;
 }

@@ -213,6 +213,7 @@ module.exports = {
     ButtonSize: 'readonly',
     SubmitButton: 'readonly',
     DetailButton: 'readonly',
+    IconButton: 'readonly',
     Icon: 'readonly',
     Divider: 'readonly',
     DividerSkeletonPlaceholder: 'readonly',

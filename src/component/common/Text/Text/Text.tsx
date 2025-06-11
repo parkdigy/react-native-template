@@ -1,6 +1,6 @@
 import React, {CSSProperties} from 'react';
 import {Text as PaperText} from 'react-native-paper';
-import {LayoutChangeEvent} from 'react-native';
+import {LayoutChangeEvent, StyleProp, TextStyle} from 'react-native';
 import {useAppState} from '@context';
 import {
   _getFontFamily,
@@ -67,10 +67,83 @@ const Text = ({
    * Memo
    * ******************************************************************************************************************/
 
-  const finalFontWeight: Props['fontWeight'] = useMemo(
-    () => (bold ? 'bold' : ifUndefined(fontWeight, w)),
-    [bold, fontWeight, w],
-  );
+  const finalFontWeight: Props['fontWeight'] = useMemo(() => {
+    let styleFontWeight: StyleProp<TextStyle['fontWeight']> | undefined;
+    let finalStyleFontWeight: Props['fontWeight'] | undefined;
+
+    function extractFontWeight(obj: any) {
+      if (obj && typeof obj === 'object') {
+        if (Array.isArray(obj)) {
+          for (const item of obj) {
+            extractFontWeight(item);
+          }
+        } else if ('fontWeight' in obj) {
+          styleFontWeight = obj.fontWeight;
+        }
+      }
+    }
+    extractFontWeight(style);
+
+    if (styleFontWeight !== undefined) {
+      switch (styleFontWeight) {
+        case null:
+        case false:
+        case '':
+          finalStyleFontWeight = undefined;
+          break;
+        case 100:
+        case '100':
+        case 'thin':
+          finalStyleFontWeight = 100;
+          break;
+        case 200:
+        case '200':
+        case 'ultralight':
+          finalStyleFontWeight = 200;
+          break;
+        case 300:
+        case '300':
+        case 'light':
+          finalStyleFontWeight = 300;
+          break;
+        case 400:
+        case '400':
+        case 'normal':
+        case 'regular':
+        case 'condensed':
+          finalStyleFontWeight = 400;
+          break;
+        case 500:
+        case '500':
+        case 'medium':
+          finalStyleFontWeight = 500;
+          break;
+        case 600:
+        case '600':
+        case 'semibold':
+          finalStyleFontWeight = 600;
+          break;
+        case 700:
+        case '700':
+        case 'bold':
+        case 'condensedBold':
+          finalStyleFontWeight = 700;
+          break;
+        case 800:
+        case '800':
+        case 'heavy':
+          finalStyleFontWeight = 800;
+          break;
+        case 900:
+        case '900':
+        case 'black':
+          finalStyleFontWeight = 900;
+          break;
+      }
+    }
+
+    return bold ? 'bold' : ifUndefined(fontWeight, ifUndefined(w, finalStyleFontWeight));
+  }, [bold, fontWeight, style, w]);
 
   const customStyle = useMemo(() => {
     const newCustomStyle: Record<string, any> = {};
