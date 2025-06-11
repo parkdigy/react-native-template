@@ -39,7 +39,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * ******************************************************************************************************************/
 
     const theme = useTheme();
-    const {colorScheme, setColorScheme} = useAppState();
+    const {toggleColorScheme} = useAppState();
     const navigation: StackNavigationProp<any> = useNavigation();
 
     /********************************************************************************************************************
@@ -105,10 +105,6 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
     /********************************************************************************************************************
      * Event Handler
      * ******************************************************************************************************************/
-
-    const handleToggleColorSchemePress = useCallback(() => {
-      setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
-    }, [colorScheme, setColorScheme]);
 
     const handleLeftLayout = useCallback((e: LayoutChangeEvent) => {
       setLeftWidth(e.nativeEvent.layout.width);
@@ -205,7 +201,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
                   style={{opacity: disabled ? 0.3 : 1, marginHorizontal: 0}}
                   color={theme.colors.textAccent}
                   accessibilityLabel='테마변경'
-                  onPress={disabled ? undefined : handleToggleColorSchemePress}
+                  onPress={disabled ? undefined : toggleColorScheme}
                 />
               )}
               {children}

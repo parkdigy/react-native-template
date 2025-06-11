@@ -22,23 +22,25 @@ export const HeaderBlurView = ({children, animation}: Props) => {
    * Render
    * ******************************************************************************************************************/
 
-  return safeAreaInsets.top > 0 ? (
+  return safeAreaInsets.top > 0 || children ? (
     <View height={contentHeight}>
-      <Animated.View
-        style={{
-          opacity: animation ? animation.value.interpolate(animation.interpolation) : 1,
-        }}>
-        <BlurView
+      {isIos && (
+        <Animated.View
           style={{
             position: 'absolute',
             top: 0,
             width: '100%',
-            height: safeAreaInsets.top + contentHeight,
-          }}
-          blurType={theme.dark ? 'dark' : 'light'}
-          reducedTransparencyFallbackColor={theme.colors.background}
-        />
-      </Animated.View>
+            opacity: animation ? animation.value.interpolate(animation.interpolation) : 1,
+          }}>
+          <BlurView
+            style={{
+              height: safeAreaInsets.top + contentHeight,
+            }}
+            blurType={theme.dark ? 'dark' : 'light'}
+            reducedTransparencyFallbackColor={theme.colors.background}
+          />
+        </Animated.View>
+      )}
       <View
         position='absolute'
         width='100%'

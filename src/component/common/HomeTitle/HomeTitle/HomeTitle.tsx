@@ -10,7 +10,7 @@ const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props
    * Use
    * ******************************************************************************************************************/
 
-  const {colorScheme, setColorScheme} = useAppState();
+  const {toggleColorScheme} = useAppState();
 
   /********************************************************************************************************************
    * Memo
@@ -20,15 +20,10 @@ const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props
     return __DEV__
       ? ifUndefined(
           initRight,
-          <IconButton
-            name='contrast-outline'
-            color='accent'
-            marginRight={-3}
-            onPress={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}
-          />,
+          <IconButton name='contrast-outline' color='accent' marginRight={-3} onPress={toggleColorScheme} />,
         )
       : initRight;
-  }, [colorScheme, initRight, setColorScheme]);
+  }, [initRight, toggleColorScheme]);
 
   const content = useMemo(
     () => (
