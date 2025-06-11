@@ -209,15 +209,15 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
                 />
               )}
               {children}
-              {/*{(type === 'modal' || type === 'fullscreen-modal') && onClose && (*/}
-              <PaperAppbar.Action
-                icon='close'
-                color={theme.colors.textAccent}
-                accessibilityLabel='닫기'
-                style={{opacity: disabled ? 0.3 : 1, marginHorizontal: 0}}
-                onPress={disabled ? undefined : onClose}
-              />
-              {/*)}*/}
+              {(type === 'modal' || type === 'fullscreen-modal') && onClose && (
+                <PaperAppbar.Action
+                  icon='close'
+                  color={theme.colors.textAccent}
+                  accessibilityLabel='닫기'
+                  style={{opacity: disabled ? 0.3 : 1, marginHorizontal: 0}}
+                  onPress={disabled ? undefined : onClose}
+                />
+              )}
             </Stack>
           </ContainerAppbar>
           {subContent}
