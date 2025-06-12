@@ -154,6 +154,7 @@ module.exports = {
 
     // component - react-native
     NativeTextInput: 'readonly',
+    NativeText: 'readonly',
     NativeView: 'readonly',
     NativeScrollView: 'readonly',
     NativeTouchableOpacity: 'readonly',

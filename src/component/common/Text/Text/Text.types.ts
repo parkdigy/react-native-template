@@ -1,6 +1,5 @@
-import {TextProps as PaperTextProps} from 'react-native-paper';
 import {AnimatableProps} from 'react-native-animatable';
-import {TextStyle} from 'react-native';
+import {TextProps as NativeTextProps, TextStyle} from 'react-native';
 import {CustomComponentStyleProps} from '../../CustomComponent';
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.193;
@@ -71,7 +70,7 @@ type TextColor =
   | TextStyle['color'];
 
 export interface TextProps
-  extends PaperTextProps<string>,
+  extends NativeTextProps,
     CustomComponentStyleProps,
     Pick<
       TextStyle,

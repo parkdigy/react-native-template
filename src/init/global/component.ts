@@ -1,6 +1,7 @@
 import {
   Animated as _Animated,
   TextInput as _NativeTextInput,
+  Text as _NativeText,
   View as _NativeView,
   TouchableOpacity as _NativeTouchableOpacity,
   Pressable as _NativePressable,
@@ -128,6 +129,8 @@ declare global {
 
   var NativeTextInput: typeof _NativeTextInput;
   type NativeTextInput = _NativeTextInput;
+  var NativeText: typeof _NativeText;
+  type NativeText = _NativeText;
   var NativeView: typeof _NativeView;
   type NativeView = _NativeView;
   var NativeScrollView: typeof _NativeScrollView;
@@ -247,6 +250,7 @@ globalThis.Animated = _Animated;
 globalThis.Animatable = _Animatable;
 
 globalThis.NativeTextInput = _NativeTextInput;
+globalThis.NativeText = _NativeText;
 globalThis.NativeView = _NativeView;
 globalThis.NativeScrollView = _NativeScrollView;
 globalThis.NativeTouchableOpacity = _NativeTouchableOpacity;
