@@ -12,6 +12,7 @@ module.exports = function (api) {
           alias: {
             '@types': './src/@types',
             '@style': './src/@style',
+            '@theme': './src/theme',
             '@comp': './src/component',
             '@ccomp': './src/component/common',
             '@screen': './src/screen',

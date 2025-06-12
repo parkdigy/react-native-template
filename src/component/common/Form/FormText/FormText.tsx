@@ -6,8 +6,8 @@ import {useAppState} from '@context';
 import {_getFontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
 import FormControl, {FormControlCommands} from '../FormControl';
-import {PaperBlueLightTheme, PaperBlueDarkTheme} from '../../../../theme';
 import {FormTextProps as Props, FormTextCommands, FormTextValue} from './FormText.types';
+import {PaperBlueDarkTheme, PaperBlueLightTheme} from '@theme';
 
 const FormText = React.forwardRef<FormTextCommands, Props>(
   (

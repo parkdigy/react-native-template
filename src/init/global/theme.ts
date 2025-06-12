@@ -1,5 +1,5 @@
 import {useTheme as _useTheme} from 'react-native-paper';
-import {PaperBlueLightTheme} from '../../theme';
+import {PaperBlueLightTheme} from '@theme';
 
 declare global {
   type ReactNativePaperTheme = typeof PaperBlueLightTheme;
