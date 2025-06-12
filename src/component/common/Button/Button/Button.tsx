@@ -153,6 +153,7 @@ const Button = ({
       {
         fontFamily: fontWeight !== 400 ? _getFontFamily(fontFamily, fontWeight) : fontFamily,
       },
+      isIos ? {fontWeight} : undefined,
       ifNotUndefined(height, {marginVertical: 0, lineHeight: height}),
       ifNotUndefined(textDecorationLine, {textDecorationLine}),
       ifNotUndefined(textDecorationStyle, {textDecorationStyle}),
@@ -193,12 +194,12 @@ const Button = ({
   const handleIcon = useCallback(
     ({color: iconColor}: {color: string}) => {
       if (typeof icon === 'string') {
-        return <Icon name={icon} color={iconColor} size={18} />;
+        return <Icon name={icon} color={iconColor} size={ButtonSize[size].fontSize * 1.2} />;
       } else {
         return undefined;
       }
     },
-    [icon],
+    [icon, size],
   );
 
   /********************************************************************************************************************
