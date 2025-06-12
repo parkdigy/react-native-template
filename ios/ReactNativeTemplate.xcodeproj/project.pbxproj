@@ -25,6 +25,7 @@
 		E3C1E52E88CA095FE54578A2 /* Pods_ReactNativeTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC10A9360580C5E281CF095 /* Pods_ReactNativeTemplate.framework */; };
 		E72DB6D982A54E109198BFF6 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5AF25B94D3A846F089616FF1 /* Pretendard-SemiBold.otf */; };
 		E936893916BF85706719B07F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		0ED7A3DA91AB435A863739C1 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = E4241478DBF6483E9E6245CF /* Pretendard-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		DD5ACAD8EBCB48FA98830D74 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ReactNativeTemplate/BootSplash.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F93F1475EB7840078055F5C5 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../src/@assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		E4241478DBF6483E9E6245CF /* Pretendard-Thin.otf */ = {isa = PBXFileReference; name = "Pretendard-Thin.otf"; path = "../src/@assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				F93F1475EB7840078055F5C5 /* Pretendard-Medium.otf */,
 				0BB44B6EB0D24917AC11322B /* Pretendard-Regular.otf */,
 				5AF25B94D3A846F089616FF1 /* Pretendard-SemiBold.otf */,
+				E4241478DBF6483E9E6245CF /* Pretendard-Thin.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				474D8FD30D0A473B984F3D67 /* Pretendard-Medium.otf in Resources */,
 				0E469DAA38544028B054B0E0 /* Pretendard-Regular.otf in Resources */,
 				E72DB6D982A54E109198BFF6 /* Pretendard-SemiBold.otf in Resources */,
+				0ED7A3DA91AB435A863739C1 /* Pretendard-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

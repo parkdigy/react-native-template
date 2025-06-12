@@ -7,16 +7,16 @@ export default {
     transparent: 'transparent',
     // primary
     primary: '#2368E7',
-    onPrimary: '#ffffff',
+    onPrimary: '#FFFFFF',
     primaryContainer: 'rgb(212, 227, 255)',
     onPrimaryContainer: 'rgb(0, 28, 58)',
     primaryAccent: '#083B99',
     primary100: '#4D607C',
-    onPrimary100: '#ffffff',
+    onPrimary100: '#FFFFFF',
     primary200: '#8B9CB6',
-    onPrimary200: '#ffffff',
+    onPrimary200: '#FFFFFF',
     primary300: '#BCC7D8',
-    onPrimary300: '#ffffff',
+    onPrimary300: '#FFFFFF',
     primary400: '#D8DFEA',
     onPrimary400: '#696969',
     primary500: '#E6EAF1',
@@ -28,36 +28,36 @@ export default {
     onSecondaryContainer: 'rgb(17, 28, 43)',
     // tertiary
     tertiary: '#5c5b7d',
-    onTertiary: '#ffffff',
+    onTertiary: '#FFFFFF',
     tertiaryContainer: '#e3dfff',
     onTertiaryContainer: '#191836',
     // error
     error: '#EF1E1E',
-    onError: '#ffffff',
+    onError: '#FFFFFF',
     errorContainer: 'rgb(255, 218, 214)',
     onErrorContainer: 'rgb(65, 0, 2)',
     // warning
     warning: '#ff8800',
-    onWarning: '#ffffff',
+    onWarning: '#FFFFFF',
     warningContainer: '#fff56d',
     onWarningContainer: '#7f0800',
     // success
     success: '#00b300',
-    onSuccess: '#ffffff',
+    onSuccess: '#FFFFFF',
     successContainer: '#b2ffb2',
     onSuccessContainer: '#003300',
     // gray
     gray: '#6c757d',
-    onGray: '#ffffff',
+    onGray: '#FFFFFF',
     grayContainer: '#d2dbe3',
     onGrayContainer: '#1f2830',
     // blue gray
     blueGray: '#78909C',
-    onBlueGray: '#ffffff',
+    onBlueGray: '#FFFFFF',
     blueGrayContainer: '#c4dce8',
     onBlueGrayContainer: '#122a36',
     // surface
-    surface: '#ffffff',
+    surface: '#FFFFFF',
     onSurface: '#696969', // 기본 텍스트
     surfaceVariant: 'rgb(224, 226, 236)',
     onSurfaceVariant: 'rgb(67, 71, 78)',
@@ -87,32 +87,32 @@ export default {
     // scrim
     scrim: 'rgb(0, 0, 0)',
     // white
-    white: '#ffffff',
+    white: '#FFFFFF',
     // black
     black: '#000000',
     // background
     background: '#F3F5F8',
-    onBackground: 'rgb(26, 28, 30)',
-    bgPrimary: '#fff',
+    onBackground: '#1A1C1EFF',
+    bgPrimary: '#FFFFFF',
     bgAppList: '#EBEEF2',
     bgPagination: '#D6D6D6',
     bgHomeIndicator: '#000000',
-    bgModal: 'rgba(0,0,0,.5)',
+    bgModal: 'rgba(255, 255, 255, 0.5)',
     // divider
-    divider: 'rgba(0, 0, 0, 0.05)',
+    divider: 'rgba(0, 0, 0, 0.1)',
     // text
     textAccent: '#222222',
     textRight100: '#999999',
     textRight200: '#bbbbbb',
     // green
     green100: '#8DF9F9',
-    onGreen100: '#ffffff',
+    onGreen100: '#FFFFFF',
     green200: '#2CDDDD',
-    onGreen200: '#ffffff',
+    onGreen200: '#FFFFFF',
     green300: '#00B0B0',
-    onGreen300: '#ffffff',
+    onGreen300: '#FFFFFF',
     green400: '#027A7A',
-    onGreen400: '#ffffff',
+    onGreen400: '#FFFFFF',
     // yellow
     yellow: '#FFD72B',
     // purple

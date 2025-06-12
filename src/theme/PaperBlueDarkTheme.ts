@@ -92,14 +92,14 @@ export default {
     black: '#000000',
     // background
     background: '#100f11',
-    onBackground: 'rgb(26, 28, 30)',
+    onBackground: '#eee',
     bgPrimary: '#000',
     bgAppList: '#1E1F20',
     bgPagination: '#292929',
     bgHomeIndicator: '#FFFFFF',
-    bgModal: 'rgba(0,0,0,.5)',
+    bgModal: 'rgba(0, 0, 0, 0.5)',
     // divider
-    divider: 'rgba(255, 255, 255, 0.05)',
+    divider: 'rgba(255, 255, 255, 0.1)',
     // text
     textAccent: '#DDDDDD',
     textRight100: '#666666',

@@ -2,7 +2,7 @@ import {DEFAULT_LINE_HEIGHT_SCALE} from '../component/common/Text/Text/Text.type
 
 export const FontFamily = {
   Pretendard: {
-    100: isIos ? 'Pretendard' : 'Pretendard-ExtraLight',
+    100: isIos ? 'Pretendard' : 'Pretendard-Thin',
     200: isIos ? 'Pretendard' : 'Pretendard-ExtraLight',
     300: isIos ? 'Pretendard' : 'Pretendard-Light',
     400: isIos ? 'Pretendard' : 'Pretendard-Regular',

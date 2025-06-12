@@ -32,6 +32,10 @@
     {
       "path": "src/@assets/fonts/Pretendard-SemiBold.otf",
       "sha1": "916a62152b7fd08ff43d239de04303a465521fe6"
+    },
+    {
+      "path": "src/@assets/fonts/Pretendard-Thin.otf",
+      "sha1": "72cf55b4d2ea4adc75123f33ca839c10cabfaab4"
     }
   ]
 }
