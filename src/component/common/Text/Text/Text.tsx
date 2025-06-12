@@ -201,6 +201,9 @@ const Text = React.forwardRef<NativeText, Props>(
       }
       if (finalFontWeight) {
         newCustomStyle.fontFamily = _getFontFamily(newCustomStyle.fontFamily, finalFontWeight);
+        if (finalFontWeight !== 'bold' && finalFontWeight >= 600) {
+          ll(finalFontWeight, newCustomStyle.fontFamily);
+        }
       }
 
       if (newCustomStyle.color) {
@@ -298,10 +301,19 @@ const Text = React.forwardRef<NativeText, Props>(
     const fontWeightStyle = useMemo(() => ({fontWeight: isAndroid ? undefined : finalFontWeight}), [finalFontWeight]);
 
     const finalStyle = useMemo(
-      () => [fontWeightStyle, customStyle, lineHeightStyle, textAlignStyle, style],
-      [fontWeightStyle, customStyle, lineHeightStyle, textAlignStyle, style],
+      () => [
+        customStyle,
+        lineHeightStyle,
+        textAlignStyle,
+        style,
+        fontWeightStyle,
+      ] /** 반드시 fontWeightStyle 이 style 다음에 와야 함 */,
+      [customStyle, lineHeightStyle, textAlignStyle, style, fontWeightStyle],
     );
 
+    if (finalFontWeight && (finalFontWeight === 'bold' || finalFontWeight >= 700)) {
+      ll(finalFontWeight, fontWeightStyle.fontWeight, finalStyle);
+    }
     /********************************************************************************************************************
      * Event Handler
      * ******************************************************************************************************************/
