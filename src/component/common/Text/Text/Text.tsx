@@ -201,9 +201,6 @@ const Text = React.forwardRef<NativeText, Props>(
       }
       if (finalFontWeight) {
         newCustomStyle.fontFamily = _getFontFamily(newCustomStyle.fontFamily, finalFontWeight);
-        if (finalFontWeight !== 'bold' && finalFontWeight >= 600) {
-          ll(finalFontWeight, newCustomStyle.fontFamily);
-        }
       }
 
       if (newCustomStyle.color) {
