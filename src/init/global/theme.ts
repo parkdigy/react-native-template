@@ -1,14 +1,14 @@
 import {useTheme as _useTheme} from 'react-native-paper';
-import {PaperBlueLightTheme} from '@theme';
+import {PaperBlueDarkTheme, PaperBlueLightTheme} from '@theme';
 
 declare global {
   type ReactNativePaperTheme = typeof PaperBlueLightTheme;
   type StyledReactNativePaperTheme = {theme: ReactNativePaperTheme};
-  function useTheme(): ReactNativePaperTheme;
+  function useTheme(dark?: boolean): ReactNativePaperTheme;
 }
 
-globalThis.useTheme = () => {
-  return _useTheme();
+globalThis.useTheme = (dark?: boolean) => {
+  return dark === true ? PaperBlueDarkTheme : dark === false ? PaperBlueLightTheme : _useTheme();
 };
 
 export {};

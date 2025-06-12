@@ -10,6 +10,7 @@ const Button = ({
   size = 'md',
   mode = 'contained',
   color = 'primary',
+  dark,
   icon,
   borderColor,
   backgroundColor,
@@ -36,7 +37,7 @@ const Button = ({
    * Use
    * ******************************************************************************************************************/
 
-  const theme = useTheme();
+  const theme = useTheme(dark);
   const {fontFamily} = useAppState();
 
   /********************************************************************************************************************
@@ -208,6 +209,7 @@ const Button = ({
     <CustomComponent
       component={PaperButton}
       mode={mode}
+      dark={dark}
       borderColor={finalBorderColor}
       labelStyle={finalLabelStyle}
       style={finalStyle}
