@@ -311,9 +311,6 @@ const Text = React.forwardRef<NativeText, Props>(
       [customStyle, lineHeightStyle, textAlignStyle, style, fontWeightStyle],
     );
 
-    if (finalFontWeight && (finalFontWeight === 'bold' || finalFontWeight >= 700)) {
-      ll(finalFontWeight, fontWeightStyle.fontWeight, finalStyle);
-    }
     /********************************************************************************************************************
      * Event Handler
      * ******************************************************************************************************************/
