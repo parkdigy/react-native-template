@@ -103,6 +103,8 @@
 	<string>사진앨범에 접근하도록 허용버튼을 눌러주세요.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>IDFA에 접근하도록 허용버튼을 눌러주세요.</string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lucide.ttf</string>
