@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import {FirstLetter, UpperLetter} from '@pdg/util';
+import {FirstLetter, UpperLetter} from '@pdg/types';
 
 /********************************************************************************************************************
  * params

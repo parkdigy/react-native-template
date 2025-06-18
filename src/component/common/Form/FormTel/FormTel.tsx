@@ -1,5 +1,4 @@
 import React from 'react';
-import {telNoAutoDash} from '@pdg/util';
 import {FormTextCommands} from '../FormText';
 import {FormTelProps as Props, FormTelCommands, FormTelValue} from './FormTel.types';
 
@@ -37,7 +36,7 @@ const FormTel = React.forwardRef<FormTelCommands, Props>(
 
     const handleValue = useCallback(
       (value: FormTelValue | undefined) => {
-        const newValue = notEmpty(value) ? telNoAutoDash(value.replace(/[^0-9]/gi, '')) : value;
+        const newValue = notEmpty(value) ? util.format.telNo(value.replace(/[^0-9]/gi, '')) : value;
         return onValue ? onValue(newValue) : newValue;
       },
       [onValue],

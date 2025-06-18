@@ -5,7 +5,6 @@
 import React from 'react';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
-import {versionString} from '@pdg/util';
 import {useAppState} from '@context';
 import {MoreHomeProps as Props} from './MoreHome.types';
 import {Text_Default} from '@ccomp';
@@ -159,7 +158,8 @@ const MoreHome = ({navigation}: Props) => {
                 </Stack>
               }
             />
-            {versionString(DeviceInfo.getBuildNumber(), 10, 10) < versionString(config.app_build_number, 10, 10) && (
+            {util.format.version(DeviceInfo.getBuildNumber(), 10, 10) <
+              util.format.version(config.app_build_number, 10, 10) && (
               <PanelItem>
                 <Button
                   mode='outlined'

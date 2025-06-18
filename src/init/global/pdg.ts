@@ -1,5 +1,4 @@
 import {
-  /** types */
   ValueOf as _ValueOf,
   Dict as _Dict,
   Arr as _Arr,
@@ -11,7 +10,8 @@ import {
   PartialOmit as _PartialOmit,
   RequiredPick as _RequiredPick,
   RequiredOmit as _RequiredOmit,
-  /** compare */
+} from '@pdg/types';
+import {
   empty as _empty,
   notEmpty as _notEmpty,
   equal as _equal,
@@ -23,19 +23,9 @@ import {
   ifNullOrUndefined as _ifNullOrUndefined,
   ifNotNullAndUndefined as _ifNotNullAndUndefined,
   isEmail as _isEmail,
-  /** date */
-  now as _now,
-  nowJs as _nowJs,
-  nowTime as _nowTime,
-  /** data */
-  lv as _lv,
-  vl as _vl,
-  copy as _copy,
-  /** number */
-  numberFormat as _numberFormat,
-  /** delay */
-  nextTick as _nextTick,
-} from '@pdg/util';
+} from '@pdg/compare';
+import {now as _now, nowJs as _nowJs, nowTime as _nowTime} from '@pdg/date-time';
+import {lv as _lv, vl as _vl, copy as _copy} from '@pdg/data';
 
 declare global {
   /** types */
@@ -73,12 +63,6 @@ declare global {
   var lv: typeof _lv;
   var vl: typeof _vl;
   var copy: typeof _copy;
-
-  /** number */
-  var numberFormat: typeof _numberFormat;
-
-  /** delay */
-  var nextTick: typeof _nextTick;
 }
 
 /** compare */
@@ -103,11 +87,5 @@ globalThis.nowTime = _nowTime;
 globalThis.lv = _lv;
 globalThis.vl = _vl;
 globalThis.copy = _copy;
-
-/** number */
-globalThis.numberFormat = _numberFormat;
-
-/** delay */
-globalThis.nextTick = _nextTick;
 
 export {};
