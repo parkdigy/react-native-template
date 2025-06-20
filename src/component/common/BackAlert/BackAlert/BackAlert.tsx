@@ -22,6 +22,7 @@ const BackAlert: React.FC<Props> = ({
   closeButtonProps,
   style,
   pv,
+  noFullHeight,
   onRetryPress,
   onClosePress,
   onLayout,
@@ -66,7 +67,13 @@ const BackAlert: React.FC<Props> = ({
    * ******************************************************************************************************************/
 
   return (
-    <StyledContainerStack style={style} spacing={10} pv={pv} onLayout={onLayout}>
+    <StyledContainerStack
+      style={style}
+      spacing={10}
+      pv={pv}
+      flex={noFullHeight ? undefined : 1}
+      height={noFullHeight ? undefined : '100%'}
+      onLayout={onLayout}>
       {icon && (
         <StyledIconContainerView>
           {icon === 'emptyList' && <IconNoData width={40} height={40} fill={iconColor || theme.colors.onSurface} />}
@@ -112,8 +119,6 @@ export default BackAlert;
  * ******************************************************************************************************************/
 
 export const StyledContainerStack = styled(Stack)`
-  flex: 1;
-  height: 100%;
   justify-content: center;
 `;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {LinkTextProps as Props} from './LinkText.types';
 import {Text} from '../Text';
 
-export const LinkText = ({text, links, style, onPressLink, ...props}: Props) => {
+export const LinkText = ({text, links, style, linkStyle, onPressLink, ...props}: Props) => {
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
@@ -11,10 +11,19 @@ export const LinkText = ({text, links, style, onPressLink, ...props}: Props) => 
     let renderText = text;
 
     for (const link of links) {
-      const texts = [...link.subTexts, link.text];
-      for (const v of texts) {
-        // renderText 에서 text 찾아서 모두 ||| 로 감싸도록 변경
-        renderText = renderText.replaceAll(v, `[[[#${link.text}|${v}]]]`);
+      const texts = [link.text, ...link.subTexts];
+      for (const replaceText of texts) {
+        // renderText 에서 replaceText 찾아서 모두 [[[ | ]]] 로 감싸도록 변경
+        renderText = renderText
+          .split(/\[\[\[([^\]]+)\]\]\]/g)
+          .map((v) => {
+            if (v.startsWith('#') && v.includes('|')) {
+              return `[[[${v}]]]`;
+            } else {
+              return v.replaceAll(replaceText, `[[[#${link.text}|${replaceText}]]]`);
+            }
+          })
+          .join('');
       }
     }
 
@@ -27,21 +36,21 @@ export const LinkText = ({text, links, style, onPressLink, ...props}: Props) => 
 
   return (
     <Text {...props}>
-      {renderTexts.map((text, idx) => {
+      {renderTexts.map((t, idx) => {
         let isLink = false;
         let linkText: string | undefined;
         let finalText: string;
-        if (text.startsWith('#') && text.includes('|')) {
-          const link = text.substring(1).split('|');
+        if (t.startsWith('#') && t.includes('|')) {
+          const link = t.substring(1).split('|');
           isLink = true;
           linkText = link[0];
           finalText = link[1];
         } else {
-          finalText = text;
+          finalText = t;
         }
 
         return isLink && notEmpty(linkText) ? (
-          <Text key={idx} {...props} style={[style, styles.link]} onPress={() => onPressLink(linkText)}>
+          <Text key={idx} {...props} style={[style, linkStyle]} onPress={() => onPressLink(linkText)}>
             {finalText}
           </Text>
         ) : (
@@ -55,14 +64,3 @@ export const LinkText = ({text, links, style, onPressLink, ...props}: Props) => 
 };
 
 export default LinkText;
-
-/********************************************************************************************************************
- * Styles
- * ******************************************************************************************************************/
-
-const styles = StyleSheet.create({
-  link: {
-    textDecorationLine: 'underline',
-    fontWeight: 500,
-  },
-});

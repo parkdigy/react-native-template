@@ -9,8 +9,8 @@ export const API_BASE_URL =
   Platform.OS === 'android'
     ? (isEmulator ? Config.API_BASE_URL_SIMULATOR : Config.API_BASE_URL).replace('http://localhost', 'http://10.0.2.2')
     : isEmulator
-      ? Config.API_BASE_URL_SIMULATOR
-      : Config.API_BASE_URL;
+    ? Config.API_BASE_URL_SIMULATOR
+    : Config.API_BASE_URL;
 
 export const API_AUTH_SIGN_IN_PATH = 'auth/signin';
 
@@ -43,8 +43,11 @@ const defaultOption: ApiOption = {
       const authData = storage.getAuth();
       if (empty(config.headers.Cookie)) {
         config.headers.Cookie = `${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`;
-      } else if (!config.headers.Cookie.includes(`${API_AUTH_COOKIE_NAME}=`)) {
-        config.headers.Cookie += `;${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`;
+      } else if (
+        typeof config.headers.Cookie === 'string' &&
+        !(config.headers.Cookie as string).includes(`${API_AUTH_COOKIE_NAME}=`)
+      ) {
+        (config.headers.Cookie as string) += `;${API_AUTH_COOKIE_NAME}=${ifNullOrUndefined(authData?.authKey, '')};`;
       }
 
       if (config.data instanceof FormData) {

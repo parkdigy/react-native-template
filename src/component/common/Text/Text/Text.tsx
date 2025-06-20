@@ -92,7 +92,7 @@ const Text = React.forwardRef<NativeText, Props>(
           case null:
           case false:
           case '':
-            finalStyleFontWeight = undefined;
+            finalStyleFontWeight = 400;
             break;
           case 100:
           case '100':
@@ -145,7 +145,7 @@ const Text = React.forwardRef<NativeText, Props>(
         }
       }
 
-      return bold ? 'bold' : ifUndefined(fontWeight, ifUndefined(w, finalStyleFontWeight));
+      return bold ? 'bold' : ifUndefined(ifUndefined(fontWeight, ifUndefined(w, finalStyleFontWeight)), 400);
     }, [bold, fontWeight, style, w]);
 
     const customStyle = useMemo(() => {

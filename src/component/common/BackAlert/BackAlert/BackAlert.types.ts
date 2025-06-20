@@ -13,6 +13,7 @@ export interface BackAlertProps extends Pick<StackProps, 'pv' | 'onLayout'> {
   retryButtonProps?: Omit<ButtonProps, 'children' | 'onPress'>;
   closeButtonText?: string;
   closeButtonProps?: Omit<ButtonProps, 'children' | 'onPress'>;
+  noFullHeight?: boolean;
   style?: ViewStyle;
   onRetryPress?: (e: GestureResponderEvent) => void;
   onClosePress?: (e: GestureResponderEvent) => void;

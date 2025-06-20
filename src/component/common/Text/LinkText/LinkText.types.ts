@@ -26,5 +26,6 @@ export interface LinkTextProps
   > {
   text: string;
   links: LinkTextLink[];
+  linkStyle: TextProps['style'];
   onPressLink(text: string): void;
 }

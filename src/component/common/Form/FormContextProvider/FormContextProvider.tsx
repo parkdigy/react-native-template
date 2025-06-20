@@ -17,7 +17,7 @@ const FormContextProvider = ({children, parentScrollView}: Props) => {
   const getFinalValue = useCallback((type: FormControlType, value: unknown) => {
     switch (type) {
       case 'number':
-        return notEmpty(value) && typeof value === 'string' ? value.replace(/[^0-9.]/g, '') : value;
+        return notEmpty(value) && typeof value === 'string' ? (value as string).replace(/[^0-9.]/g, '') : value;
       default:
         return value;
     }
@@ -35,7 +35,8 @@ const FormContextProvider = ({children, parentScrollView}: Props) => {
     Commands extends FormControlCommands<unknown> = FormControlCommands<unknown>,
   >(name: string) {
     return controlsRef.current[name] as FormContextControlWithName<Commands>;
-  }, []);
+  },
+  []);
 
   const getControlValue = useCallback((name: string): unknown => {
     return controlsRef.current[name]?.commands?.getValue();
