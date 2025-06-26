@@ -10,8 +10,9 @@ import {useNavigation} from '@react-navigation/native';
 import {Text_Default} from '../../Text';
 import BlurView from '../../View/BlurView';
 import {AppbarProps as Props, AppbarCommands, AppbarProps} from './Appbar.types';
-import {useAppState} from '@context';
 import {LayoutChangeEvent} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useAppState} from '@context';
 
 const TITLE_PROPS: Omit<TextProps, 'children'> = {fontSize: isTablet ? px.s16 : px.s18, bold: true};
 
@@ -19,6 +20,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
   (
     {
       title,
+      hideTitle,
       blur: initBlur,
       type = 'default',
       height = 38,
@@ -40,6 +42,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
 
     const theme = useTheme();
     const {toggleColorScheme} = useAppState();
+    const safeAreaInsets = useSafeAreaInsets();
     const navigation: StackNavigationProp<any> = useNavigation();
 
     /********************************************************************************************************************
@@ -132,11 +135,11 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
 
     const finalContainerStyle: Props['containerStyle'] = useMemo(
       () => [
-        {backgroundColor: theme.colors.background},
+        {backgroundColor: finalBlur ? 'transparent' : theme.colors.background},
         containerStyle,
         {paddingTop: isTablet && !hasNotch() ? 10 : 0},
       ],
-      [containerStyle, theme.colors.background],
+      [containerStyle, finalBlur, theme.colors.background],
     );
 
     const titleProps: Omit<TextProps, 'children'> = useMemo(
@@ -158,9 +161,16 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
 
     const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='contrast-outline' {...iconProps} />, []);
 
+    const hasContent = !!(
+      (title && !hideTitle) ||
+      (onBack && (type === 'default' || type === 'safe-area')) ||
+      children
+    );
+
     return (
       <Animated.View style={finalContainerStyle}>
-        <Container {...ContainerProps}>
+        <Container {...ContainerProps} style={StyleSheet.absoluteFill} />
+        {hasContent ? (
           <ContainerAppbar mode='small' elevated={false} style={finalContainerAppbarStyle} {...props}>
             <Stack row onLayout={handleLeftLayout} position='absolute' left={0} marginLeft={5}>
               {onBack && (type === 'default' || type === 'safe-area') && (
@@ -216,8 +226,10 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
               )}
             </Stack>
           </ContainerAppbar>
-          {subContent}
-        </Container>
+        ) : (
+          <View height={safeAreaInsets.top} />
+        )}
+        {subContent}
       </Animated.View>
     );
   },

@@ -2,7 +2,8 @@ import React from 'react';
 import {IconAngleRight} from '@asset-image';
 import {Text_Default} from '../../Text';
 import {PanelProps as Props} from './Panel.types';
-import {PanelDividerProps, PanelItemProps} from '@ccomp';
+import {ColorButtonColors, PanelDividerProps, PanelItemProps} from '@ccomp';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Panel = ({
   titleIcon,
@@ -14,6 +15,7 @@ const Panel = ({
   backgroundColor,
   moreTitle,
   hideMoreIndicator,
+  gradientBorderWidth,
   onMorePress,
   ...props
 }: Props) => {
@@ -23,12 +25,58 @@ const Panel = ({
 
   const theme = useTheme();
 
+  const [loadGradientBorder, setLoadGradientBorder] = useState(false);
+  const [gradientBorderMargin, setGradientBorderMargin] = useState(0);
+  const [showGradientBorder, setShowGradientBorder] = useState(false);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEffect(() => {
+    if (gradientBorderWidth) {
+      setLoadGradientBorder(true);
+      setGradientBorderMargin(-gradientBorderWidth);
+      setShowGradientBorder(true);
+    } else {
+      setShowGradientBorder(false);
+    }
+  }, [gradientBorderWidth]);
+
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
   return (
     <View {...props}>
+      {loadGradientBorder && (
+        <View
+          animation={showGradientBorder ? 'fadeIn' : 'fadeOut'}
+          duration={1000}
+          style={{
+            position: 'absolute',
+            left: gradientBorderMargin,
+            right: gradientBorderMargin,
+            top: gradientBorderMargin,
+            bottom: gradientBorderMargin,
+            borderRadius: 15,
+            overflow: 'hidden',
+          }}
+          onAnimationEnd={() => {
+            if (!showGradientBorder) {
+              setLoadGradientBorder(false);
+            }
+          }}>
+          <LinearGradient
+            colors={ColorButtonColors.jshine}
+            useAngle
+            angle={150}
+            angleCenter={{x: 0.5, y: 0.5}}
+            style={{flex: 1}}
+          />
+        </View>
+      )}
+
       <View borderRadius={flat ? 0 : 15} backgroundColor={ifUndefined(backgroundColor, theme.colors.surface)}>
         {title && (
           <Stack row center ph={itemPadding} pt={itemPadding} pb={0} fullWidth>

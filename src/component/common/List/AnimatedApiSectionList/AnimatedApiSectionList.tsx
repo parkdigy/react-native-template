@@ -14,6 +14,7 @@ import {
   AnimatedApiSectionListSection,
   AnimatedApiSectionListCommands,
 } from './AnimatedApiSectionList.types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const _sections = [
   {
@@ -40,6 +41,8 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   listPaddingHorizontal,
   listMarginTop,
   listMinHeight,
+  contentInset,
+  safeAreaInsetTop,
   TopFixedComponent,
   TopComponent,
   TopFooterComponent,
@@ -69,6 +72,7 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   const theme = useTheme();
   const {appState} = useAppState();
   const activeScreen = useIsFocused();
+  const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
    * Ref
@@ -101,6 +105,19 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
       0,
     );
   }, [headerSectionHeaderHeight, headerSectionItemHeight, listSectionHeaderHeight, sectionListHeight]);
+
+  const finalContentInset = useMemo(() => {
+    if (safeAreaInsetTop) {
+      return {
+        top: safeAreaInsets.top,
+        bottom: contentInset?.bottom || 0,
+        left: contentInset?.left || 0,
+        right: contentInset?.right || 0,
+      };
+    } else {
+      return contentInset;
+    }
+  }, [contentInset, safeAreaInsetTop, safeAreaInsets.top]);
 
   /********************************************************************************************************************
    * Effect
@@ -359,6 +376,7 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
       initialNumToRender={initialNumToRender}
       windowSize={windowSize}
       stickySectionHeadersEnabled={true}
+      contentInset={finalContentInset}
       keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
       keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
       renderItem={handleRenderItem}

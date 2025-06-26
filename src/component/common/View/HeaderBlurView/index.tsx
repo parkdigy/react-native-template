@@ -11,5 +11,6 @@ export * from './HeaderBlurView.types';
  * renderHeaderBlurView
  * ******************************************************************************************************************/
 
-export const renderHeaderBlurView = (animation?: HeaderBlurViewProps['animation'], content?: ReactNode) => () =>
-  <HeaderBlurView animation={animation}>{content}</HeaderBlurView>;
+export const renderHeaderBlurView = (animation?: HeaderBlurViewProps['animation'], content?: ReactNode) => () => {
+  return <HeaderBlurView animation={animation}>{content}</HeaderBlurView>;
+};

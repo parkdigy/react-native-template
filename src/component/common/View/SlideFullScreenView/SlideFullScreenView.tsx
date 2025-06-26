@@ -1,7 +1,6 @@
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hasNotch} from 'react-native-device-info';
-import {CloseIconButton} from '../../Button/CloseIconButton';
 import {SlideFullScreenViewCommand, SlideFullScreenViewProps as Props} from './SlideFullScreenView.types';
 
 export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, Props>(
@@ -14,6 +13,7 @@ export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, 
       safeArea,
       overflow,
       showClose,
+      closeColor,
       preventBackClose,
       children,
       onShown,
@@ -137,7 +137,8 @@ export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, 
           right={px.s5}
           style={!showClose && isCloseAnimatingEnd ? {transform: [{translateX: 100}]} : undefined}
           onAnimationEnd={() => setIsCloseAnimatingEnd(true)}>
-          <CloseIconButton onPress={onRequestClose || hide} />
+          {/*<CloseIconButton iconColor={closeColor} size={17} onPress={onRequestClose || hide} />*/}
+          <IconButton name='close' size={px.s30} color={closeColor} onPress={onRequestClose || hide} />
         </View>
       </View>
     );

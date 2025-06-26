@@ -12,7 +12,7 @@ export interface HeaderAppbarProps
   extends Pick<NativeStackHeaderProps, 'back' | 'route'>,
     Omit<AppbarHeaderProps, 'ref' | 'children'>,
     PartialPick<AppbarHeaderProps, 'children'>,
-    Pick<AppbarProps, 'containerStyle' | 'blur' | 'subContent' | 'disabled'> {
+    Pick<AppbarProps, 'containerStyle' | 'blur' | 'subContent' | 'disabled' | 'hideTitle'> {
   options: NativeStackNavigationOptions | StackNavigationOptions;
   navigation:
     | NativeStackNavigationProp<ParamListBase>

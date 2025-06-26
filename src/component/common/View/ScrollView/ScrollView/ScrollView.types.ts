@@ -4,4 +4,5 @@ import {CustomComponentStyleProps} from '../../../CustomComponent';
 export interface ScrollViewProps extends NativeScrollViewProps, Omit<CustomComponentStyleProps, 'row'> {
   topBackgroundColor?: CustomComponentStyleProps['backgroundColor'];
   animated?: boolean;
+  safeAreaInsetTop?: boolean;
 }

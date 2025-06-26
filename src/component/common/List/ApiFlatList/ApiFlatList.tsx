@@ -10,6 +10,7 @@ import {useAppState} from '@context';
 import {LoadingStatus} from '@const';
 import {ScrollViewProps} from '../../View/ScrollView';
 import {ApiFlatListProps as Props, ApiFlatListItem, ApiFlatListCommands} from './ApiFlatList.types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function ApiFlatList<T extends ApiFlatListItem>({
   perPageListItemCount,
@@ -22,6 +23,8 @@ function ApiFlatList<T extends ApiFlatListItem>({
   keyboardShouldPersistTaps,
   reloadListWhenActiveFromBackground,
   reloadListWhenActiveFromLongTermDeActive,
+  contentInset,
+  safeAreaInsetTop,
   ListHeaderComponent: InitListHeaderComponent,
   ListFooterComponent,
   ListEmptyComponent: InitListEmptyComponent,
@@ -46,6 +49,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const theme = useTheme();
   const {appState} = useAppState();
   const activeScreen = useIsFocused();
+  const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
    * Ref
@@ -73,6 +77,23 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const [list, setList] = useState<T[]>();
   const [emptyHeight, setEmptyHeight] = useState(0);
   const [errorHeight, setErrorHeight] = useState(0);
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  const finalContentInset = useMemo(() => {
+    if (safeAreaInsetTop) {
+      return {
+        top: safeAreaInsets.top,
+        bottom: contentInset?.bottom || 0,
+        left: contentInset?.left || 0,
+        right: contentInset?.right || 0,
+      };
+    } else {
+      return contentInset;
+    }
+  }, [contentInset, safeAreaInsetTop, safeAreaInsets.top]);
 
   /********************************************************************************************************************
    * Effect
@@ -525,6 +546,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
         ref={flatListRef}
         {...props}
         data={data}
+        contentInset={finalContentInset}
         keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
         keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
         keyExtractor={keyExtractor}

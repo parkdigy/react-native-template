@@ -8,6 +8,7 @@ export interface SlideFullScreenViewProps {
   children?: ReactNode;
   show?: boolean;
   showClose?: boolean;
+  closeColor?: string;
   backgroundColor?: string;
   overflow?: ViewProps['overflow'];
   safeArea?: boolean;

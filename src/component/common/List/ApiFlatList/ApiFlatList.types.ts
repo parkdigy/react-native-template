@@ -34,6 +34,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
   emptyText?: string;
   emptyMinHeight?: number;
   parentHeight?: number;
+  safeAreaInsetTop?: boolean;
   reloadListWhenActiveFromBackground?: boolean;
   reloadListWhenActiveFromLongTermDeActive?: boolean;
   disableRefresh?: boolean;

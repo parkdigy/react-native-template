@@ -14,6 +14,7 @@ import {
   ApiSectionListSection,
   ApiSectionListCommands,
 } from './ApiSectionList.types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const _sections = [
   {
@@ -40,6 +41,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
   listPaddingHorizontal,
   listMarginTop,
   listMinHeight,
+  contentInset,
+  safeAreaInsetTop,
   TopFixedComponent,
   TopComponent,
   TopFooterComponent,
@@ -69,6 +72,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
   const theme = useTheme();
   const {appState} = useAppState();
   const activeScreen = useIsFocused();
+  const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
    * Ref
@@ -116,6 +120,23 @@ function ApiSectionList<T extends ApiSectionListItem>({
     onListHeight?.(listHeight);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listHeight]);
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  const finalContentInset = useMemo(() => {
+    if (safeAreaInsetTop) {
+      return {
+        top: safeAreaInsets.top,
+        bottom: contentInset?.bottom || 0,
+        left: contentInset?.left || 0,
+        right: contentInset?.right || 0,
+      };
+    } else {
+      return contentInset;
+    }
+  }, [contentInset, safeAreaInsetTop, safeAreaInsets.top]);
 
   /********************************************************************************************************************
    * Event Handler
@@ -356,6 +377,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
     <SectionList
       ref={sectionListRef}
       sections={_sections}
+      contentInset={finalContentInset}
       initialNumToRender={initialNumToRender}
       windowSize={windowSize}
       stickySectionHeadersEnabled={true}

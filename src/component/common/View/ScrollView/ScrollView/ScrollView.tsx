@@ -3,31 +3,59 @@ import {useWindowDimensions} from 'react-native';
 import {ScrollView as NativeScrollView} from 'react-native-gesture-handler';
 import CustomComponent from '../../../CustomComponent';
 import {ScrollViewProps as Props} from './ScrollView.types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const ScrollView = React.forwardRef<NativeScrollView, Props>(
   (
     {
-      overflow = 'visible',
       animated,
       topBackgroundColor,
       keyboardDismissMode,
       keyboardShouldPersistTaps,
       children,
+      contentInset,
+      safeAreaInsetTop,
       ...props
     },
     ref,
   ) => {
+    /********************************************************************************************************************
+     * Use
+     * ******************************************************************************************************************/
+
     const theme = useTheme();
     const {height: windowHeight} = useWindowDimensions();
+    const safeAreaInset = useSafeAreaInsets();
+
+    /********************************************************************************************************************
+     * Memo
+     * ******************************************************************************************************************/
+
+    const finalContentInset: Props['contentInset'] | undefined = useMemo(() => {
+      if (safeAreaInsetTop) {
+        return {
+          top: safeAreaInset.top,
+          bottom: contentInset?.bottom ?? 0,
+          left: contentInset?.left ?? 0,
+          right: contentInset?.right ?? 0,
+        };
+      } else {
+        return contentInset;
+      }
+    }, [contentInset, safeAreaInset.top, safeAreaInsetTop]);
+
+    /********************************************************************************************************************
+     * Render
+     * ******************************************************************************************************************/
 
     return (
       <CustomComponent
         ref={ref}
-        overflow={overflow}
         component={animated ? Animated.ScrollView : NativeScrollView}
         keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
         keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
         indicatorStyle={theme.dark ? 'white' : 'black'}
+        contentInset={finalContentInset}
         {...props}>
         {topBackgroundColor !== undefined && (
           <View

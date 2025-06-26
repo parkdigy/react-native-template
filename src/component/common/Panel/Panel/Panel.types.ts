@@ -8,5 +8,6 @@ export interface PanelProps extends ViewProps {
   flat?: boolean;
   moreTitle?: string;
   hideMoreIndicator?: boolean;
+  gradientBorderWidth?: number;
   onMorePress?(): void;
 }

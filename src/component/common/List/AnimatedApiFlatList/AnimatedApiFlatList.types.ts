@@ -35,6 +35,7 @@ export interface AnimatedApiFlatListProps<T extends AnimatedApiFlatListItem>
   emptyText?: string;
   emptyMinHeight?: number;
   parentHeight?: number;
+  safeAreaInsetTop?: boolean;
   reloadListWhenActiveFromBackground?: boolean;
   reloadListWhenActiveFromLongTermDeActive?: boolean;
   disableRefresh?: boolean;

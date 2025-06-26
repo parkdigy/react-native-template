@@ -2,7 +2,7 @@ import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BottomContainerViewProps as Props} from './BottomContainerView.types';
 
-export const BottomContainerView = ({show, inSafeArea, hidden, ...props}: Props) => {
+export const BottomContainerView = ({show, inSafeArea, noAnimation, hidden, ...props}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -15,7 +15,7 @@ export const BottomContainerView = ({show, inSafeArea, hidden, ...props}: Props)
 
   return (
     <View
-      animation={hidden ? 'none' : show ? 'fadeInUp' : 'fadeOutDown'}
+      animation={noAnimation ? undefined : hidden ? 'none' : show ? 'fadeInUp' : 'fadeOutDown'}
       opacity={hidden ? 0 : 1}
       duration={500}
       easing='ease-in-out-back'

@@ -23,13 +23,16 @@ export const HeaderBlurView = ({children, animation}: Props) => {
    * ******************************************************************************************************************/
 
   return safeAreaInsets.top > 0 || children ? (
-    <View height={contentHeight}>
+    <View height={contentHeight} backgroundColor={'transparent'}>
       {isIos && (
         <Animated.View
           style={{
             position: 'absolute',
             top: 0,
-            width: '100%',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 200,
             opacity: animation ? animation.value.interpolate(animation.interpolation) : 1,
           }}>
           <BlurView

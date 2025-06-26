@@ -7,6 +7,7 @@ export interface AppbarCommands {
 
 export interface AppbarProps extends Partial<Omit<PaperAppbarProps, 'ref'>> {
   title: ReactNode | string;
+  hideTitle?: boolean;
   type?: 'default' | 'safe-area' | 'modal' | 'fullscreen-modal';
   height?: number;
   modalHeight?: number;
