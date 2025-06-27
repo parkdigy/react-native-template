@@ -68,23 +68,17 @@ const MoreHome = ({navigation}: Props) => {
 
   return (
     <ContainerScrollView ref={containerScrollViewRef} overflow='hidden'>
-      <Stack spacing={24}>
-        <HomeTitle
-          inTopContainer
-          right={
-            <View m={-10}>
-              <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>
-                <Stack row center backgroundColor={theme.colors.onSurface} pv={6} ph={10} borderRadius={4}>
-                  <Text_Default s={13} bold color={theme.colors.surface}>
-                    {auth ? '로그아웃' : '로그인'}
-                  </Text_Default>
-                </Stack>
-              </TouchableOpacity>
-            </View>
-          }>
-          더보기
-        </HomeTitle>
+      <View alignItems='flex-end'>
+        <TouchableOpacity onPress={auth ? handleSignOutPress : handleSigninPress} p={10}>
+          <Stack row center backgroundColor={theme.colors.onSurface} pv={6} ph={10} borderRadius={4}>
+            <Text_Default s={13} bold color={theme.colors.surface}>
+              {auth ? '로그아웃' : '로그인'}
+            </Text_Default>
+          </Stack>
+        </TouchableOpacity>
+      </View>
 
+      <Stack spacing={24}>
         {/* 내 프로필 */}
         <Stack spacing={16}>
           {auth && (

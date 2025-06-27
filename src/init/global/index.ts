@@ -13,4 +13,5 @@ import './log';
 import './common';
 import './timeout';
 import './theme';
+import './safeArea';
 import './useAutosizeContent';

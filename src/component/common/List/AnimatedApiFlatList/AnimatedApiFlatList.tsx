@@ -22,7 +22,6 @@ import {
   AnimatedApiFlatListCommands,
 } from './AnimatedApiFlatList.types';
 import WithAnimatedObject = Animated.WithAnimatedObject;
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
   perPageListItemCount,
@@ -33,10 +32,9 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
   parentHeight,
   keyboardDismissMode,
   keyboardShouldPersistTaps,
-  contentInset,
-  safeAreaInsetTop,
   reloadListWhenActiveFromBackground,
   reloadListWhenActiveFromLongTermDeActive,
+  refreshControlOffset,
   ListHeaderComponent: InitListHeaderComponent,
   ListFooterComponent,
   ListEmptyComponent: InitListEmptyComponent,
@@ -61,7 +59,6 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
   const theme = useTheme();
   const {appState} = useAppState();
   const activeScreen = useIsFocused();
-  const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
    * Ref
@@ -168,19 +165,6 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
       });
     }
   }, [list, loadingStatus]);
-
-  const finalContentInset = useMemo(() => {
-    if (safeAreaInsetTop) {
-      return {
-        top: safeAreaInsets.top,
-        bottom: contentInset?.bottom || 0,
-        left: contentInset?.left || 0,
-        right: contentInset?.right || 0,
-      };
-    } else {
-      return contentInset;
-    }
-  }, [contentInset, safeAreaInsetTop, safeAreaInsets.top]);
 
   /********************************************************************************************************************
    * Event Handler
@@ -434,18 +418,25 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
     [isFirstLoading, isRefreshLoading, list],
   );
 
-  const refreshControl = useMemo(
-    () =>
-      isFirstError || isFirstLoading ? undefined : (
-        <RefreshControl
-          tintColor={theme.colors.textAccent}
-          enabled={!isNextLoading}
-          refreshing={refreshing}
-          onRefresh={isNextLoading ? undefined : handleRefresh}
-        />
-      ),
-    [handleRefresh, isFirstError, isFirstLoading, isNextLoading, refreshing, theme.colors.textAccent],
-  );
+  const refreshControl = useMemo(() => {
+    return isFirstError || isFirstLoading ? undefined : (
+      <RefreshControl
+        tintColor={theme.colors.textAccent}
+        enabled={!isNextLoading}
+        refreshing={refreshing}
+        progressViewOffset={refreshControlOffset}
+        onRefresh={isNextLoading ? undefined : handleRefresh}
+      />
+    );
+  }, [
+    handleRefresh,
+    isFirstError,
+    isFirstLoading,
+    isNextLoading,
+    refreshControlOffset,
+    refreshing,
+    theme.colors.textAccent,
+  ]);
 
   const ListHeaderComponent = useMemo(() => {
     if (InitListHeaderComponent) {
@@ -554,7 +545,6 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
         ref={flatListRef}
         {...props}
         data={data as WithAnimatedObject<T[]>}
-        contentInset={finalContentInset}
         keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
         keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
         keyExtractor={keyExtractor}

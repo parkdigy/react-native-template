@@ -1,5 +1,4 @@
 import React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import app, {useAppListener} from '@app';
 import {ConfigInfoData} from '@const';
 import AppLogo from './AppLogo';

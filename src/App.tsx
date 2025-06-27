@@ -29,6 +29,8 @@ import {ConfigInfoData} from '@const';
 import {api} from '@api';
 import {DefaultLayout} from './layout';
 import {FontFamily} from '@types';
+import {useAppListener} from '@app';
+import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 
 const firebaseAuth = getAuth();
 const messaging = getMessaging();
@@ -53,7 +55,7 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
    * Use
    * ******************************************************************************************************************/
 
-  const theme = useTheme();
+  const lockScreen = useAppListener('lockScreen');
 
   /********************************************************************************************************************
    * Ref
@@ -106,10 +108,12 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
    * Memo
    * ******************************************************************************************************************/
 
-  const commonStackNavigationOptions = useMemo(
-    () => ({navigationBarColor: theme.colors.surface}),
-    [theme.colors.surface],
-  );
+  const commonStackNavigationOptions = useMemo(() => {
+    return {
+      headerShown: false,
+      gestureEnabled: !lockScreen,
+    } as NativeStackNavigationOptions;
+  }, [lockScreen]);
 
   /********************************************************************************************************************
    * Effect
@@ -148,12 +152,12 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
   useEffect(() => {
     let backHandler: NativeEventSubscription | undefined;
 
-    const lockScreenHandler = (lockScreen: boolean) => {
+    const lockScreenHandler = (newLockScreen: boolean) => {
       if (backHandler) {
         backHandler.remove();
         backHandler = undefined;
       }
-      if (lockScreen) {
+      if (newLockScreen) {
         backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
       }
     };

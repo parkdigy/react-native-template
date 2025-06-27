@@ -8,19 +8,16 @@ import {ThemeSettings} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const ThemeSettingsScreen = ({navigation, route}: ScreenProps<'ThemeSettings'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: '테마 설정'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={ThemeSettings} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='테마 설정'
+      header='blur'
+      component={ThemeSettings}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default ThemeSettingsScreen;

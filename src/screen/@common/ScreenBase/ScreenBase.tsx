@@ -6,6 +6,7 @@ import React from 'react';
 import ErrorBoundary from 'react-native-error-boundary';
 import {Button, SafeAreaView, View, Stack, SafeAreaViewProps} from '@ccomp';
 import {ScreenBaseProps as Props} from './ScreenBase.types';
+import {StackHeaderProps, StackNavigationOptions} from '@react-navigation/stack';
 
 type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer TProps>
   ? TProps
@@ -26,6 +27,8 @@ const ErrorFallback = (props: {error: Error; resetError: Function}) => {
 };
 
 function ScreenBase<C extends React.ComponentType<any>, CP = ExtractProps<C>>({
+  title,
+  header,
   navigation,
   route,
   component,
@@ -58,6 +61,38 @@ function ScreenBase<C extends React.ComponentType<any>, CP = ExtractProps<C>>({
       return safeAreaViewProps;
     }
   }, [bottomEdgeSafeArea, safeAreaViewProps, topEdgeSafeArea]);
+
+  /********************************************************************************************************************
+   * Header
+   * ******************************************************************************************************************/
+
+  const getHeader = useCallback(
+    (props: StackHeaderProps) => {
+      return header ? (
+        <HeaderAppbar
+          {...props}
+          blur={contains(['blur', 'blur-hide-title'], header)}
+          hideTitle={contains(['hide-title', 'blur-hide-title'], header)}
+        />
+      ) : null;
+    },
+    [header],
+  );
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEffect(() => {
+    const options: Partial<StackNavigationOptions> = {
+      headerShown: !!header,
+      header: (props) => getHeader(props),
+    };
+    if (title !== undefined) {
+      options.title = title;
+    }
+    navigation.setOptions(options);
+  }, [getHeader, header, navigation, title]);
 
   /********************************************************************************************************************
    * Render

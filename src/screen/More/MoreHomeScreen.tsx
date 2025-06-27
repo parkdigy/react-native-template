@@ -4,19 +4,7 @@ import {MoreHome} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const MoreHomeScreen = ({navigation, route}: ScreenProps<'MoreHome'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: 'MY'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={MoreHome} topEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase title='더보기' header='blur' component={MoreHome} navigation={navigation} route={route} />;
 };
 
 export default MoreHomeScreen;

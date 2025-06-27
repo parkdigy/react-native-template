@@ -18,7 +18,6 @@ const DefaultLayout = () => {
 
   const theme = useTheme();
   const appStatus = useAppListener('appStatus');
-  const lockScreen = useAppListener('lockScreen');
   const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
@@ -36,7 +35,7 @@ const DefaultLayout = () => {
       case app.AppStatus.Main:
         nextTick(() => {
           app.navigationBar.fullScreen(false);
-          app.navigationBar.set(theme.colors.surface, theme.dark ? 'light' : 'dark');
+          app.navigationBar.set('transparent', theme.dark ? 'light' : 'dark');
         });
         break;
     }
@@ -67,8 +66,7 @@ const DefaultLayout = () => {
         />
       )}
 
-      <Stack.Navigator
-        screenOptions={{...commonStackNavigationOptions, headerShown: false, gestureEnabled: !lockScreen}}>
+      <Stack.Navigator screenOptions={commonStackNavigationOptions}>
         <Stack.Screen name='Root' component={RootStack} />
       </Stack.Navigator>
     </>

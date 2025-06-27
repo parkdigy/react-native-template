@@ -35,9 +35,9 @@ export interface AnimatedApiFlatListProps<T extends AnimatedApiFlatListItem>
   emptyText?: string;
   emptyMinHeight?: number;
   parentHeight?: number;
-  safeAreaInsetTop?: boolean;
   reloadListWhenActiveFromBackground?: boolean;
   reloadListWhenActiveFromLongTermDeActive?: boolean;
+  refreshControlOffset?: number;
   disableRefresh?: boolean;
   ListFooterComponent?: React.ComponentType<any> | React.ReactElement<unknown> | null;
   renderLoading?(): ReactElement | null;

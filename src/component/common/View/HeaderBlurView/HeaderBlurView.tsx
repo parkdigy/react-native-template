@@ -1,7 +1,6 @@
 import React from 'react';
 import {HeaderBlurViewProps as Props} from './HeaderBlurView.types';
 import {BlurView} from '@react-native-community/blur';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Animated} from 'react-native';
 
 export const HeaderBlurView = ({children, animation}: Props) => {

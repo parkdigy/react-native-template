@@ -14,7 +14,6 @@ import {
   AnimatedApiSectionListSection,
   AnimatedApiSectionListCommands,
 } from './AnimatedApiSectionList.types';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const _sections = [
   {
@@ -38,11 +37,10 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   disableRefresh,
   reloadListWhenActiveFromBackground,
   reloadListWhenActiveFromLongTermDeActive,
+  refreshControlOffset,
   listPaddingHorizontal,
   listMarginTop,
   listMinHeight,
-  contentInset,
-  safeAreaInsetTop,
   TopFixedComponent,
   TopComponent,
   TopFooterComponent,
@@ -72,7 +70,6 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   const theme = useTheme();
   const {appState} = useAppState();
   const activeScreen = useIsFocused();
-  const safeAreaInsets = useSafeAreaInsets();
 
   /********************************************************************************************************************
    * Ref
@@ -105,19 +102,6 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
       0,
     );
   }, [headerSectionHeaderHeight, headerSectionItemHeight, listSectionHeaderHeight, sectionListHeight]);
-
-  const finalContentInset = useMemo(() => {
-    if (safeAreaInsetTop) {
-      return {
-        top: safeAreaInsets.top,
-        bottom: contentInset?.bottom || 0,
-        left: contentInset?.left || 0,
-        right: contentInset?.right || 0,
-      };
-    } else {
-      return contentInset;
-    }
-  }, [contentInset, safeAreaInsetTop, safeAreaInsets.top]);
 
   /********************************************************************************************************************
    * Effect
@@ -361,8 +345,15 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
    * ******************************************************************************************************************/
 
   const refreshControl = useMemo(
-    () => <RefreshControl tintColor={theme.colors.textAccent} refreshing={refreshing} onRefresh={handleRefresh} />,
-    [handleRefresh, refreshing, theme.colors.textAccent],
+    () => (
+      <RefreshControl
+        tintColor={theme.colors.textAccent}
+        refreshing={refreshing}
+        progressViewOffset={refreshControlOffset}
+        onRefresh={handleRefresh}
+      />
+    ),
+    [handleRefresh, refreshControlOffset, refreshing, theme.colors.textAccent],
   );
 
   /********************************************************************************************************************
@@ -376,7 +367,6 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
       initialNumToRender={initialNumToRender}
       windowSize={windowSize}
       stickySectionHeadersEnabled={true}
-      contentInset={finalContentInset}
       keyboardDismissMode={ifUndefined(keyboardDismissMode, 'interactive')}
       keyboardShouldPersistTaps={ifUndefined(keyboardShouldPersistTaps, 'handled')}
       renderItem={handleRenderItem}

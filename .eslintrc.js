@@ -98,6 +98,9 @@ module.exports = {
     StyledReactNativePaperTheme: 'readonly',
     useTheme: 'readonly',
 
+    // safeArea
+    useSafeAreaInsets: 'readonly',
+
     // Const
     Const: 'readonly',
 
@@ -195,6 +198,7 @@ module.exports = {
     TAccent: 'readonly',
     TExtraAccent: 'readonly',
     TError: 'readonly',
+    TWarning: 'readonly',
     TPrimary: 'readonly',
     TPrimary100: 'readonly',
     TPrimary200: 'readonly',
@@ -212,6 +216,7 @@ module.exports = {
     Button: 'readonly',
     ButtonProps: 'readonly',
     ButtonSize: 'readonly',
+    ColorButton: 'readonly',
     SubmitButton: 'readonly',
     DetailButton: 'readonly',
     IconButton: 'readonly',

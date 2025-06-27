@@ -1,6 +1,5 @@
 import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hasNotch} from 'react-native-device-info';
 import {Text_Default} from '../../Text';
 import {FullScreenDialogProps as Props} from './FullScreenDialog.types';

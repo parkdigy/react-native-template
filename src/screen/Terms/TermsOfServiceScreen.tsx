@@ -4,19 +4,16 @@ import {TermsOfService} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const TermsOfServiceScreen = ({navigation, route}: ScreenProps<'TermsOfService'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: '이용약관'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={TermsOfService} navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='이용약관'
+      header='blur'
+      component={TermsOfService}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default TermsOfServiceScreen;

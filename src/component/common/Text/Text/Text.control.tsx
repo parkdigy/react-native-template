@@ -15,6 +15,10 @@ export const Text_Error = (props: Omit<TextProps, 'color' | 'c'>) => {
   return <Text {...props} c='error' />;
 };
 
+export const Text_Warning = (props: Omit<TextProps, 'color' | 'c'>) => {
+  return <Text {...props} c='warning' />;
+};
+
 export const Text_Primary = (props: Omit<TextProps, 'color' | 'c'>) => {
   return <Text {...props} c='primary' />;
 };

@@ -13,6 +13,7 @@ import {AppbarProps as Props, AppbarCommands, AppbarProps} from './Appbar.types'
 import {LayoutChangeEvent} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppState} from '@context';
+import {useAutoUpdateState} from '@pdg/react-hook';
 
 const TITLE_PROPS: Omit<TextProps, 'children'> = {fontSize: isTablet ? px.s16 : px.s18, bold: true};
 
@@ -49,17 +50,9 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * State
      * ******************************************************************************************************************/
 
-    const [blur, setBlur] = useState(initBlur);
+    const [blur, setBlur] = useAutoUpdateState(isIos && initBlur);
     const [leftWidth, setLeftWidth] = useState(0);
     const [rightWidth, setRightWidth] = useState(0);
-
-    /********************************************************************************************************************
-     * Effect
-     * ******************************************************************************************************************/
-
-    useEffect(() => {
-      setBlur(initBlur);
-    }, [initBlur]);
 
     /********************************************************************************************************************
      * Commands
@@ -68,10 +61,10 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
     const commands = useMemo((): AppbarCommands => {
       return {
         setBlur(value: boolean) {
-          setBlur(value);
+          setBlur(isIos && value);
         },
       };
-    }, []);
+    }, [setBlur]);
 
     useEffect(() => {
       if (ref) {
@@ -101,8 +94,6 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
       [type, height, modalHeight, style],
     );
 
-    const finalBlur = useMemo(() => isIos && blur, [blur]);
-
     const contentPaddingHorizontal = useMemo(() => Math.max(leftWidth, rightWidth), [leftWidth, rightWidth]);
 
     /********************************************************************************************************************
@@ -126,20 +117,20 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
       [type],
     );
 
-    const Container = useMemo(() => (finalBlur ? BlurView : View), [finalBlur]);
+    const Container = useMemo(() => (blur ? BlurView : View), [blur]);
 
     const ContainerProps = useMemo(
-      () => (finalBlur ? undefined : {style: {backgroundColor: theme.colors.background}}),
-      [theme, finalBlur],
+      () => (blur ? undefined : {style: {backgroundColor: theme.colors.background}}),
+      [theme, blur],
     );
 
     const finalContainerStyle: Props['containerStyle'] = useMemo(
       () => [
-        {backgroundColor: finalBlur ? 'transparent' : theme.colors.background},
+        {backgroundColor: blur ? 'transparent' : theme.colors.background},
         containerStyle,
         {paddingTop: isTablet && !hasNotch() ? 10 : 0},
       ],
-      [containerStyle, finalBlur, theme.colors.background],
+      [containerStyle, blur, theme.colors.background],
     );
 
     const titleProps: Omit<TextProps, 'children'> = useMemo(
@@ -151,10 +142,10 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
       () => [
         containerMyAppBarStyle,
         {
-          backgroundColor: finalBlur ? 'transparent' : theme.colors.background,
+          backgroundColor: blur ? 'transparent' : theme.colors.background,
         },
       ],
-      [containerMyAppBarStyle, finalBlur, theme.colors.background],
+      [containerMyAppBarStyle, blur, theme.colors.background],
     );
 
     const BackIcon = useCallback((iconProps: any) => <Icon name='chevron-back-outline' {...iconProps} />, []);
@@ -162,14 +153,16 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
     const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='contrast-outline' {...iconProps} />, []);
 
     const hasContent = !!(
-      (title && !hideTitle) ||
+      (notEmpty(title) && !hideTitle) ||
       (onBack && (type === 'default' || type === 'safe-area')) ||
+      ((type === 'modal' || type === 'fullscreen-modal') && onClose) ||
       children
     );
 
     return (
       <Animated.View style={finalContainerStyle}>
         <Container {...ContainerProps} style={StyleSheet.absoluteFill} />
+
         {hasContent ? (
           <ContainerAppbar mode='small' elevated={false} style={finalContainerAppbarStyle} {...props}>
             <Stack row onLayout={handleLeftLayout} position='absolute' left={0} marginLeft={5}>
@@ -202,9 +195,9 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
                 }
               />
             ) : (
-              <PaperAppbar.Content disabled={disabled} title={title} onPress={() => navigation.goBack()} />
+              <PaperAppbar.Content disabled={disabled} title={title} />
             )}
-            <Stack row onLayout={handleRightLayout} position='absolute' right={0} marginRight={5}>
+            <Stack row onLayout={handleRightLayout} position='absolute' right={0} marginRight={10}>
               {__DEV__ && (
                 <PaperAppbar.Action
                   icon={ToggleColorSchemeIcon}

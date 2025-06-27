@@ -3,7 +3,6 @@ import {useWindowDimensions} from 'react-native';
 import {ScrollView as NativeScrollView} from 'react-native-gesture-handler';
 import CustomComponent from '../../../CustomComponent';
 import {ScrollViewProps as Props} from './ScrollView.types';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const ScrollView = React.forwardRef<NativeScrollView, Props>(
   (

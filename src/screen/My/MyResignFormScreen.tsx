@@ -4,19 +4,16 @@ import {MyResignForm} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const MyResignFormScreen = ({navigation, route}: ScreenProps<'MyResignForm'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: '회원 탈퇴'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={MyResignForm} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='회원 탈퇴'
+      header='blur'
+      component={MyResignForm}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default MyResignFormScreen;

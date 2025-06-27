@@ -4,12 +4,10 @@
 
 import React from 'react';
 import {unstable_batchedUpdates} from 'react-native';
-import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {getMessaging} from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {AdvertisingStatus, MainScreenList, ScreenProps} from '@types';
-import {HeaderAppbar} from '@ccomp';
-import {useAppListener} from '@app';
 import {useAppState} from '@context';
 import {
   FaqListScreen,
@@ -35,9 +33,7 @@ const MainStack = ({navigation}: ScreenProps) => {
    * Use
    * ******************************************************************************************************************/
 
-  const theme = useTheme();
   const {commonStackNavigationOptions, auth, adid, setAdid, setAdidLoading, reloadAuth} = useAppState();
-  const lockScreen = useAppListener('lockScreen');
 
   /********************************************************************************************************************
    * LayoutEffect
@@ -179,8 +175,6 @@ const MainStack = ({navigation}: ScreenProps) => {
     }
   }, [adid, loadAdid]);
 
-  const handleHeader = useCallback((props: NativeStackHeaderProps) => <HeaderAppbar {...props} />, []);
-
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
@@ -190,29 +184,17 @@ const MainStack = ({navigation}: ScreenProps) => {
       <ActiveDetector onActiveFromBackground={handleActiveFromBackground} />
       <Fcm />
 
-      <Stack.Navigator
-        initialRouteName='MainTab'
-        screenOptions={{
-          ...commonStackNavigationOptions,
-          gestureEnabled: !lockScreen,
-          navigationBarColor: theme.colors.background,
-        }}>
-        <Stack.Screen name='MainTab' component={MainTab} options={{headerShown: false}} />
+      <Stack.Navigator initialRouteName='MainTab' screenOptions={commonStackNavigationOptions}>
+        <Stack.Screen name='MainTab' component={MainTab} />
         {auth && (
-          <Stack.Group screenOptions={{header: handleHeader}}>
+          <Stack.Group>
             <Stack.Screen name='MyResignForm' component={MyResignFormScreen} />
             <Stack.Screen name='MyNicknameChange' component={MyNicknameChangeScreen} />
           </Stack.Group>
         )}
-        {!auth && (
-          <Stack.Screen
-            name='AuthStack'
-            component={AuthStack}
-            options={{headerShown: false, presentation: 'fullScreenModal'}}
-          />
-        )}
+        {!auth && <Stack.Screen name='AuthStack' component={AuthStack} options={{presentation: 'fullScreenModal'}} />}
 
-        <Stack.Group screenOptions={{header: handleHeader}}>
+        <Stack.Group>
           <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
           <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />
           <Stack.Screen name='NoticeList' component={NoticeListScreen} />

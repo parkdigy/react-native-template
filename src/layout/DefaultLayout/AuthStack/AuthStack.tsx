@@ -3,11 +3,9 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthScreenList} from '@types';
 import {AuthHomeScreen, TermsOfPrivacyScreen, TermsOfServiceScreen} from '@screen';
-import {HeaderAppbar} from '@ccomp';
-import {useAppListener} from '@app';
 import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<AuthScreenList>();
@@ -17,14 +15,7 @@ const AuthStack = () => {
    * Use
    * ******************************************************************************************************************/
 
-  const lockScreen = useAppListener('lockScreen');
   const {commonStackNavigationOptions} = useAppState();
-
-  /********************************************************************************************************************
-   * Event Handler
-   * ******************************************************************************************************************/
-
-  const handleHeader = useCallback((props: NativeStackHeaderProps) => <HeaderAppbar {...props} />, []);
 
   /********************************************************************************************************************
    * Render
@@ -32,9 +23,7 @@ const AuthStack = () => {
 
   return (
     <>
-      <Stack.Navigator
-        initialRouteName='AuthHome'
-        screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
+      <Stack.Navigator initialRouteName='AuthHome' screenOptions={commonStackNavigationOptions}>
         <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
           <Stack.Screen name='AuthHome' component={AuthHomeScreen} />
         </Stack.Group>

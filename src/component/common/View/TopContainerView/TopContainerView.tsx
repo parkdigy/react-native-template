@@ -1,5 +1,4 @@
 import React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {hasNotch} from 'react-native-device-info';
 import {TopContainerViewProps as Props} from './TopContainerView.types';
 

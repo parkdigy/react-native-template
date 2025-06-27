@@ -41,6 +41,7 @@ import {
   Text_Accent as _Text_Accent,
   Text_ExtraAccent as _Text_ExtraAccent,
   Text_Error as _Text_Error,
+  Text_Warning as _Text_Warning,
   Text_Primary as _Text_Primary,
   Text_Primary100 as _Text_Primary100,
   Text_Primary200 as _Text_Primary200,
@@ -58,6 +59,7 @@ import {
   Button as _Button,
   ButtonProps as _ButtonProps,
   ButtonSize as _ButtonSize,
+  ColorButton as _ColorButton,
   SubmitButton as _SubmitButton,
   DetailButton as _DetailButton,
   IconButton as _IconButton,
@@ -176,6 +178,7 @@ declare global {
   var TAccent: typeof _Text_Accent;
   var TExtraAccent: typeof _Text_ExtraAccent;
   var TError: typeof _Text_Error;
+  var TWarning: typeof _Text_Warning;
   var TPrimary: typeof _Text_Primary;
   var TPrimary100: typeof _Text_Primary100;
   var TPrimary200: typeof _Text_Primary200;
@@ -195,6 +198,7 @@ declare global {
   type ButtonSize = _ButtonSize;
   var ButtonSize: typeof _ButtonSize;
   var Icon: typeof _Icon;
+  var ColorButton: typeof _ColorButton;
   var SubmitButton: typeof _SubmitButton;
   var DetailButton: typeof _DetailButton;
   var IconButton: typeof _IconButton;
@@ -285,6 +289,7 @@ globalThis.T = _Text_Default;
 globalThis.TAccent = _Text_Accent;
 globalThis.TExtraAccent = _Text_ExtraAccent;
 globalThis.TError = _Text_Error;
+globalThis.TWarning = _Text_Warning;
 globalThis.TPrimary = _Text_Primary;
 globalThis.TPrimary100 = _Text_Primary100;
 globalThis.TPrimary200 = _Text_Primary200;
@@ -301,6 +306,7 @@ globalThis.TGray = _Text_Gray;
 globalThis.TimerText = _TimerText;
 globalThis.Button = _Button;
 globalThis.ButtonSize = _ButtonSize;
+globalThis.ColorButton = _ColorButton;
 globalThis.SubmitButton = _SubmitButton;
 globalThis.DetailButton = _DetailButton;
 globalThis.IconButton = _IconButton;

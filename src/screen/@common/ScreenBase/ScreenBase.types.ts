@@ -2,11 +2,14 @@ import React from 'react';
 import {ScreenProps} from '@types';
 import {SafeAreaViewProps} from '@ccomp';
 
-type ExtractProps<TComponentOrTProps> =
-  TComponentOrTProps extends React.ComponentType<infer TProps> ? TProps : TComponentOrTProps;
+type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer TProps>
+  ? TProps
+  : TComponentOrTProps;
 
 export interface ScreenBaseProps<C extends React.ComponentType<any>, CP = Omit<ExtractProps<C>, 'navigation' | 'route'>>
   extends ScreenProps {
+  title?: string;
+  header: false | true | 'blur' | 'hide-title' | 'blur-hide-title';
   component: C;
   componentProps?: CP;
   safeArea?: boolean; // SafeAreaView 컴포넌트 사용 여부

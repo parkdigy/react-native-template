@@ -48,7 +48,7 @@ export interface AnimatedApiSectionListProps<T extends AnimatedApiSectionListIte
   listPaddingHorizontal?: number;
   listMarginTop?: number;
   listMinHeight?: number;
-  safeAreaInsetTop?: boolean;
+  refreshControlOffset?: number;
   TopFixedComponent?: ReactElement;
   TopComponent?: ReactElement;
   TopFooterComponent?: ReactElement;

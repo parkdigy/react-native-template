@@ -8,19 +8,16 @@ import {NotificationSettings} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const NotificationSettingsScreen = ({navigation, route}: ScreenProps<'NotificationSettings'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: '알림 설정'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={NotificationSettings} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='알림 설정'
+      header='blur'
+      component={NotificationSettings}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default NotificationSettingsScreen;

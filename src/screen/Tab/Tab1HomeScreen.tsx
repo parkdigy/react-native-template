@@ -4,19 +4,7 @@ import {Tab1Home} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const Tab1HomeScreen = ({navigation, route}: ScreenProps<'Tab1Home'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: '공지사항'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={Tab1Home} topEdgeSafeArea navigation={navigation} route={route} />;
+  return <ScreenBase title='Tab 1' header='blur' component={Tab1Home} navigation={navigation} route={route} />;
 };
 
 export default Tab1HomeScreen;

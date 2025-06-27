@@ -8,19 +8,16 @@ import {FaqList} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const FaqListScreen = ({navigation, route}: ScreenProps<'FaqList'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: 'FAQ'});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={FaqList} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='FAQ'
+      header='blur'
+      component={FaqList}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default FaqListScreen;

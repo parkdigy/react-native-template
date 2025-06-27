@@ -16,7 +16,16 @@ export const MyNicknameChangeScreen = ({navigation, route}: ScreenProps<'MyNickn
    * Render
    * ******************************************************************************************************************/
 
-  return <ScreenBase component={MyNicknameChange} navigation={navigation} route={route} />;
+  return (
+    <ScreenBase
+      title='이름 변경'
+      header='blur'
+      component={MyNicknameChange}
+      bottomEdgeSafeArea
+      navigation={navigation}
+      route={route}
+    />
+  );
 };
 
 export default MyNicknameChangeScreen;

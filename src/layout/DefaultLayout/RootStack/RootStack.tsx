@@ -5,8 +5,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootScreenList} from '@types';
-import {useAppListener} from '@app';
 import MainStack from '../MainStack';
+import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<RootScreenList>();
 
@@ -15,19 +15,14 @@ const RootStack = () => {
    * Use
    * ******************************************************************************************************************/
 
-  const lockScreen = useAppListener('lockScreen');
+  const {commonStackNavigationOptions} = useAppState();
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
   return (
-    <Stack.Navigator
-      initialRouteName='Main'
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: lockScreen,
-      }}>
+    <Stack.Navigator initialRouteName='Main' screenOptions={commonStackNavigationOptions}>
       <Stack.Group>
         <Stack.Screen name='Main' component={MainStack} />
       </Stack.Group>

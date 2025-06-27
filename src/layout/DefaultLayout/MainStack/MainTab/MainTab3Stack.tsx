@@ -1,9 +1,7 @@
 import React from 'react';
-import {createNativeStackNavigator, NativeStackHeaderProps} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainTab3ScreenList, ScreenProps} from '@types';
 import {Tab3HomeScreen} from '@screen';
-import {HeaderAppbar} from '@ccomp';
-import {useAppListener} from '@app';
 import {useAppState} from '@context';
 
 const Stack = createNativeStackNavigator<MainTab3ScreenList>();
@@ -13,24 +11,15 @@ const MainTab3Stack = ({}: ScreenProps) => {
    * Use
    * ******************************************************************************************************************/
 
-  const lockScreen = useAppListener('lockScreen');
   const {commonStackNavigationOptions} = useAppState();
-
-  /********************************************************************************************************************
-   * Event Handler
-   * ******************************************************************************************************************/
-
-  const handleHeader = useCallback((props: NativeStackHeaderProps) => <HeaderAppbar {...props} />, []);
 
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
 
   return (
-    <Stack.Navigator
-      initialRouteName='Tab3Home'
-      screenOptions={{...commonStackNavigationOptions, header: handleHeader, gestureEnabled: !lockScreen}}>
-      <Stack.Screen name='Tab3Home' component={Tab3HomeScreen} options={{headerShown: false}} />
+    <Stack.Navigator initialRouteName='Tab3Home' screenOptions={commonStackNavigationOptions}>
+      <Stack.Screen name='Tab3Home' component={Tab3HomeScreen} />
     </Stack.Navigator>
   );
 };

@@ -4,19 +4,9 @@ import {AuthHome} from '@comp';
 import {ScreenBase} from '../@common';
 
 export const AuthHomeScreen = ({navigation, route}: ScreenProps<'AuthHome'>) => {
-  /********************************************************************************************************************
-   * LayoutEffect
-   * ******************************************************************************************************************/
-
-  useLayoutEffect(() => {
-    navigation.setOptions({title: ''});
-  }, [navigation]);
-
-  /********************************************************************************************************************
-   * Render
-   * ******************************************************************************************************************/
-
-  return <ScreenBase component={AuthHome} bottomEdgeSafeArea navigation={navigation} route={route} />;
+  return (
+    <ScreenBase header='hide-title' component={AuthHome} bottomEdgeSafeArea navigation={navigation} route={route} />
+  );
 };
 
 export default AuthHomeScreen;
