@@ -11,7 +11,6 @@ import {Text_Default} from '../../Text';
 import BlurView from '../../View/BlurView';
 import {AppbarProps as Props, AppbarCommands, AppbarProps} from './Appbar.types';
 import {LayoutChangeEvent} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppState} from '@context';
 import {useAutoUpdateState} from '@pdg/react-hook';
 

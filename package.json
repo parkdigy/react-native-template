@@ -53,7 +53,7 @@
     "@pdg/data": "^1.0.1",
     "@pdg/date-time": "^1.0.2",
     "@pdg/formatting": "^1.0.5",
-    "@pdg/react-hook": "1.0.30",
+    "@pdg/react-hook": "1.0.31",
     "@pdg/types": "^1.0.2",
     "@react-native-community/blur": "4.4.1",
     "@react-native-community/cli": "18.0.0",
