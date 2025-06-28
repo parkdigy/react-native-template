@@ -1,6 +1,7 @@
 import React from 'react';
 import {hasNotch} from 'react-native-device-info';
 import {SlideFullScreenViewCommand, SlideFullScreenViewProps as Props} from './SlideFullScreenView.types';
+import {useForwardLayoutRef} from '@pdg/react-hook';
 
 export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, Props>(
   (
@@ -91,27 +92,10 @@ export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, 
      * Commands
      * ******************************************************************************************************************/
 
-    useEffect(() => {
-      if (ref) {
-        const command: SlideFullScreenViewCommand = {
-          hide,
-        };
-
-        if (typeof ref === 'function') {
-          ref(command);
-        } else {
-          ref.current = command;
-        }
-
-        return () => {
-          if (typeof ref === 'function') {
-            ref(null);
-          } else {
-            ref.current = null;
-          }
-        };
-      }
-    }, [ref, hide]);
+    useForwardLayoutRef(
+      ref,
+      useMemo<SlideFullScreenViewCommand>(() => ({hide}), [hide]),
+    );
 
     /********************************************************************************************************************
      * Render

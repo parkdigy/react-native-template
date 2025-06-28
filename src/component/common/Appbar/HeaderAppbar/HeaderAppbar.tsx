@@ -7,6 +7,7 @@ import {getHeaderTitle} from '@react-navigation/elements';
 import {useAppListener} from '@app';
 import Appbar, {AppbarCommands, AppbarProps} from '../Appbar';
 import {HeaderAppbarProps as Props, HeaderAppbarCommands} from './HeaderAppbar.types';
+import {useForwardLayoutRef} from '@pdg/react-hook';
 
 const HeaderAppbar = React.forwardRef<HeaderAppbarCommands, Props>(
   ({back, navigation, options, height = 38, disabled, modalHeight = 60, children, blur: initBlur, ...props}, ref) => {
@@ -30,32 +31,16 @@ const HeaderAppbar = React.forwardRef<HeaderAppbarCommands, Props>(
      * Commands
      * ******************************************************************************************************************/
 
-    const commands = useMemo((): AppbarCommands => {
-      return {
-        setBlur(value: boolean) {
-          setBlur(value);
-        },
-      };
-    }, []);
-
-    useEffect(() => {
-      if (ref) {
-        if (typeof ref === 'function') {
-          ref(commands);
-        } else {
-          ref.current = commands;
-        }
-      }
-      return () => {
-        if (ref) {
-          if (typeof ref === 'function') {
-            ref(null);
-          } else {
-            ref.current = null;
-          }
-        }
-      };
-    }, [ref, commands]);
+    useForwardLayoutRef(
+      ref,
+      useMemo<AppbarCommands>(() => {
+        return {
+          setBlur(value: boolean) {
+            setBlur(value);
+          },
+        };
+      }, []),
+    );
 
     /********************************************************************************************************************
      * Memo

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {ApiInfoViewProps as Props, ApiInfoViewCommands} from './ApiInfoView.types';
+import {useForwardLayoutRef} from '@pdg/react-hook';
 
 interface WithForwardRefType<T = any> extends React.FC<Props<T>> {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -83,17 +84,10 @@ const ApiInfoView: WithForwardRefType = React.forwardRef<ApiInfoViewCommands, Pr
      * Commands
      * ******************************************************************************************************************/
 
-    const commands = useMemo(() => ({reload: () => loadInfo(true)}), [loadInfo]);
-
-    useEffect(() => {
-      if (ref) {
-        if (typeof ref === 'function') {
-          ref(commands);
-        } else {
-          ref.current = commands;
-        }
-      }
-    }, [commands, ref]);
+    useForwardLayoutRef(
+      ref,
+      useMemo<ApiInfoViewCommands>(() => ({reload: () => loadInfo(true)}), [loadInfo]),
+    );
 
     /********************************************************************************************************************
      * Render

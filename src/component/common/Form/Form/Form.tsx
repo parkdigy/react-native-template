@@ -2,6 +2,7 @@ import React from 'react';
 import {FormContextValue, useFormState} from '../FormContext';
 import FormContextProvider from '../FormContextProvider';
 import {FormProps as Props, FormCommands} from './Form.types';
+import {useForwardLayoutRef} from '@pdg/react-hook';
 
 const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubmit, onSubmitError}, ref) => {
   /********************************************************************************************************************
@@ -12,53 +13,46 @@ const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubm
     useFormState() as FormContextValue;
 
   /********************************************************************************************************************
-   * Memo
+   * Commands
    * ******************************************************************************************************************/
 
-  const commands: FormCommands = useMemo(
-    () => ({
-      focus: focusControl,
-      getControl,
-      submit() {
-        const submitResult = submit((errorFormControls) => {
-          onSubmitError?.(errorFormControls);
-        });
-        if (submitResult) {
-          Keyboard.dismiss();
-          onSubmit?.(submitResult);
-        }
-      },
-      getValue: getControlValue,
-      getValues: getControlValues,
-      setError: setErrorControl,
-      validate: validateControl,
-    }),
-    [
-      focusControl,
-      getControl,
-      getControlValue,
-      getControlValues,
-      onSubmit,
-      onSubmitError,
-      setErrorControl,
-      submit,
-      validateControl,
-    ],
+  useForwardLayoutRef(
+    ref,
+    useMemo<FormCommands>(
+      () => ({
+        focus: focusControl,
+        getControl,
+        submit() {
+          const submitResult = submit((errorFormControls) => {
+            onSubmitError?.(errorFormControls);
+          });
+          if (submitResult) {
+            Keyboard.dismiss();
+            onSubmit?.(submitResult);
+          }
+        },
+        getValue: getControlValue,
+        getValues: getControlValues,
+        setError: setErrorControl,
+        validate: validateControl,
+      }),
+      [
+        focusControl,
+        getControl,
+        getControlValue,
+        getControlValues,
+        onSubmit,
+        onSubmitError,
+        setErrorControl,
+        submit,
+        validateControl,
+      ],
+    ),
   );
 
   /********************************************************************************************************************
-   * Effect
+   * Render
    * ******************************************************************************************************************/
-
-  useEffect(() => {
-    if (ref) {
-      if (typeof ref === 'function') {
-        ref(commands);
-      } else {
-        ref.current = commands;
-      }
-    }
-  }, [commands, ref]);
 
   return <View flex={flex}>{children}</View>;
 });

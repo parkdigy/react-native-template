@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAutoUpdateRefState} from '@pdg/react-hook';
+import {useAutoUpdateRefState, useForwardLayoutRef} from '@pdg/react-hook';
 import {Text_Default, Text_Primary} from '../../Text';
 import {AgreementPanelItemCommand, AgreementPanelItemProps as Props} from './AgreementPanelItem.types';
 
@@ -20,9 +20,14 @@ export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Pr
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
 
-    useEffect(() => {
-      if (ref) {
-        const command: AgreementPanelItemCommand = {
+    /********************************************************************************************************************
+     * Commands
+     * ******************************************************************************************************************/
+
+    useForwardLayoutRef(
+      ref,
+      useMemo<AgreementPanelItemCommand>(
+        () => ({
           getName() {
             return name;
           },
@@ -30,24 +35,10 @@ export const AgreementPanelItem = React.forwardRef<AgreementPanelItemCommand, Pr
             return checkedRef.current;
           },
           setChecked,
-        };
-
-        if (typeof ref === 'function') {
-          ref(command);
-        } else {
-          ref.current = command;
-        }
-      }
-      return () => {
-        if (ref) {
-          if (typeof ref === 'function') {
-            ref(null);
-          } else {
-            ref.current = null;
-          }
-        }
-      };
-    }, [checkedRef, name, ref, setChecked]);
+        }),
+        [checkedRef, name, setChecked],
+      ),
+    );
 
     /********************************************************************************************************************
      * Render

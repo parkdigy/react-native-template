@@ -12,7 +12,7 @@ import BlurView from '../../View/BlurView';
 import {AppbarProps as Props, AppbarCommands, AppbarProps} from './Appbar.types';
 import {LayoutChangeEvent} from 'react-native';
 import {useAppState} from '@context';
-import {useAutoUpdateState} from '@pdg/react-hook';
+import {useAutoUpdateState, useForwardLayoutRef} from '@pdg/react-hook';
 
 const TITLE_PROPS: Omit<TextProps, 'children'> = {fontSize: isTablet ? px.s16 : px.s18, bold: true};
 
@@ -57,32 +57,16 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * Commands
      * ******************************************************************************************************************/
 
-    const commands = useMemo((): AppbarCommands => {
-      return {
-        setBlur(value: boolean) {
-          setBlur(isIos && value);
-        },
-      };
-    }, [setBlur]);
-
-    useEffect(() => {
-      if (ref) {
-        if (typeof ref === 'function') {
-          ref(commands);
-        } else {
-          ref.current = commands;
-        }
-      }
-      return () => {
-        if (ref) {
-          if (typeof ref === 'function') {
-            ref(null);
-          } else {
-            ref.current = null;
-          }
-        }
-      };
-    }, [ref, commands]);
+    useForwardLayoutRef(
+      ref,
+      useMemo<AppbarCommands>(() => {
+        return {
+          setBlur(value: boolean) {
+            setBlur(isIos && value);
+          },
+        };
+      }, [setBlur]),
+    );
 
     /********************************************************************************************************************
      * Memo
