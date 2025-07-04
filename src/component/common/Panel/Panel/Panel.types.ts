@@ -1,4 +1,5 @@
 import React from 'react';
+import {ColorButtonColors} from '../../Button';
 
 export interface PanelProps extends ViewProps {
   titleIcon?: React.JSX.Element;
@@ -8,6 +9,7 @@ export interface PanelProps extends ViewProps {
   flat?: boolean;
   moreTitle?: string;
   hideMoreIndicator?: boolean;
+  gradientBorderColor?: ColorButtonColors;
   gradientBorderWidth?: number;
   onMorePress?(): void;
 }

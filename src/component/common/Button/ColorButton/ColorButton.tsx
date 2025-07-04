@@ -11,6 +11,7 @@ const ColorButton = ({
   iconRight,
   disabled,
   children,
+  hideLabel,
   flex,
   height,
   rotateBackground,
@@ -84,7 +85,12 @@ const ColorButton = ({
    * ******************************************************************************************************************/
 
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress} onLongPress={onLongPress} flex={flex}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      flex={flex}
+      opacity={disabled ? 0.5 : 1}>
       <View
         center
         height={height}
@@ -114,9 +120,11 @@ const ColorButton = ({
           pr={paddingHorizontal + extraPaddingRight}
           justifyContent={labelAlign === 'left' ? 'flex-start' : labelAlign === 'right' ? 'flex-end' : 'center'}>
           {icon && !iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
-          <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
-            {children}
-          </T>
+          {!hideLabel && (
+            <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
+              {children}
+            </T>
+          )}
           {icon && iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
         </Stack>
       </View>

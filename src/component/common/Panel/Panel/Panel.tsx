@@ -2,8 +2,10 @@ import React from 'react';
 import {IconAngleRight} from '@asset-image';
 import {Text_Default} from '../../Text';
 import {PanelProps as Props} from './Panel.types';
-import {ColorButtonColors, PanelDividerProps, PanelItemProps} from '@ccomp';
 import LinearGradient from 'react-native-linear-gradient';
+import {ColorButtonColors} from '../../Button/ColorButton';
+import {PanelItemProps} from '../PanelItem';
+import {PanelDividerProps} from '../PanelDivider';
 
 const Panel = ({
   titleIcon,
@@ -13,8 +15,12 @@ const Panel = ({
   flat,
   children,
   backgroundColor,
+  borderWidth,
+  borderColor,
+  borderRadius = 15,
   moreTitle,
   hideMoreIndicator,
+  gradientBorderColor = 'jshine',
   gradientBorderWidth,
   onMorePress,
   ...props
@@ -59,7 +65,7 @@ const Panel = ({
             right: gradientBorderMargin,
             top: gradientBorderMargin,
             bottom: gradientBorderMargin,
-            borderRadius: 15,
+            borderRadius: flat ? 0 : borderRadius,
             overflow: 'hidden',
           }}
           onAnimationEnd={() => {
@@ -68,7 +74,7 @@ const Panel = ({
             }
           }}>
           <LinearGradient
-            colors={ColorButtonColors.jshine}
+            colors={ColorButtonColors[gradientBorderColor]}
             useAngle
             angle={150}
             angleCenter={{x: 0.5, y: 0.5}}
@@ -77,7 +83,11 @@ const Panel = ({
         </View>
       )}
 
-      <View borderRadius={flat ? 0 : 15} backgroundColor={ifUndefined(backgroundColor, theme.colors.surface)}>
+      <View
+        borderWidth={borderWidth}
+        borderColor={borderColor}
+        borderRadius={flat ? 0 : borderRadius}
+        backgroundColor={ifUndefined(backgroundColor, theme.colors.surface)}>
         {title && (
           <Stack row center ph={itemPadding} pt={itemPadding} pb={0} fullWidth>
             <View flex={1}>
