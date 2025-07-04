@@ -3,7 +3,6 @@
  * ******************************************************************************************************************/
 
 import React from 'react';
-import {IconAlertDiamond, IconNoData} from '@asset-image';
 import {BackAlertProps as Props} from './BackAlert.types';
 import styled from 'styled-components/native';
 import {Stack} from '../../Stack';
@@ -76,9 +75,21 @@ const BackAlert: React.FC<Props> = ({
       onLayout={onLayout}>
       {icon && (
         <StyledIconContainerView>
-          {icon === 'emptyList' && <IconNoData width={40} height={40} fill={iconColor || theme.colors.onSurface} />}
+          {icon === 'no_data' && (
+            <Icon
+              name='alert-circle'
+              size={px.s45}
+              color={iconColor || theme.colors.onSurface}
+              style={{marginVertical: px.s_5}}
+            />
+          )}
           {contains(['info', 'error'], icon) && (
-            <IconAlertDiamond width={40} height={40} fill={iconColor || theme.colors.onSurface} />
+            <Icon
+              name='alert-circle'
+              size={px.s45}
+              color={iconColor || theme.colors.onSurface}
+              style={{marginVertical: px.s_5}}
+            />
           )}
         </StyledIconContainerView>
       )}

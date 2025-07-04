@@ -3,7 +3,7 @@ import {ButtonProps} from '../../Button';
 import {StackProps} from '../../Stack';
 
 export interface BackAlertProps extends Pick<StackProps, 'pv' | 'onLayout'> {
-  icon?: 'emptyList' | 'info' | 'error';
+  icon?: 'info' | 'error' | 'no_data';
   iconColor?: string;
   text?: string;
   textColor?: TextProps['color'];

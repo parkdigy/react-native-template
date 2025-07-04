@@ -495,7 +495,7 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
           </Animated.View>
         ) : (
           <BackAlert
-            icon='emptyList'
+            icon='no_data'
             pv={30}
             text={ifUndefined(emptyText, '등록된 정보가 없습니다')}
             onLayout={(e) => {
