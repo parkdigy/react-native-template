@@ -46,7 +46,7 @@ const Modal = ({
       presentationStyle={finalPresentationStyle}
       transparent={transparent}
       {...props}>
-      {isIos && (presentationStyle === 'pageSheet' || presentationStyle === 'formSheet' || 'overFullScreen') && (
+      {isIos && contains(['pageSheet', 'formSheet', 'overFullScreen'], finalPresentationStyle) && (
         <StatusBar animated barStyle={'light-content'} />
       )}
 

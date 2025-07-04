@@ -2,6 +2,7 @@ import React from 'react';
 import {hasNotch} from 'react-native-device-info';
 import {SlideFullScreenViewCommand, SlideFullScreenViewProps as Props} from './SlideFullScreenView.types';
 import {useForwardLayoutRef} from '@pdg/react-hook';
+import {CloseIconButton} from '../../Button/CloseIconButton';
 
 export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, Props>(
   (
@@ -120,8 +121,7 @@ export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, 
           right={px.s5}
           style={!showClose && isCloseAnimatingEnd ? {transform: [{translateX: 100}]} : undefined}
           onAnimationEnd={() => setIsCloseAnimatingEnd(true)}>
-          {/*<CloseIconButton iconColor={closeColor} size={17} onPress={onRequestClose || hide} />*/}
-          <IconButton name='close' size={px.s30} color={closeColor} onPress={onRequestClose || hide} />
+          <CloseIconButton iconColor={closeColor} onPress={onRequestClose || hide} />
         </View>
       </View>
     );

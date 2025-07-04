@@ -1,6 +1,4 @@
 import React from 'react';
-import {IconAngleRight} from '@asset-image';
-import {Text_Default} from '../../Text';
 import {PanelItemProps as Props} from './PanelItem.types';
 
 export const PanelItem = ({
@@ -43,9 +41,9 @@ export const PanelItem = ({
                 {title && (
                   <>
                     {typeof title === 'string' ? (
-                      <Text_Default s={15} c={ifUndefined(initColor, theme.colors.onSurface)}>
+                      <T s={15} c={ifUndefined(initColor, theme.colors.textAccent)}>
                         {title}
-                      </Text_Default>
+                      </T>
                     ) : (
                       title
                     )}
@@ -54,9 +52,9 @@ export const PanelItem = ({
                 {subTitle && (
                   <>
                     {typeof subTitle === 'string' ? (
-                      <Text_Default s={12} opacity={subTitleOpacity}>
+                      <T s={12} opacity={subTitleOpacity}>
                         {subTitle}
-                      </Text_Default>
+                      </T>
                     ) : (
                       subTitle
                     )}
@@ -66,9 +64,9 @@ export const PanelItem = ({
               {value && (
                 <View>
                   {typeof value === 'string' ? (
-                    <Text_Default s={12} opacity={0.8}>
+                    <T s={12} opacity={0.8}>
                       {value}
-                    </Text_Default>
+                    </T>
                   ) : (
                     value
                   )}
@@ -78,7 +76,12 @@ export const PanelItem = ({
           )}
           {indicator && (
             <View mv={px.s_10}>
-              <IconAngleRight fill={theme.colors.textAccent} width={px.s10} height={px.s10} />
+              <Icon
+                name='chevron-forward'
+                color={theme.colors.onSurface}
+                size={px.s15}
+                style={{opacity: 0.5, marginRight: -px.s2}}
+              />
             </View>
           )}
         </Stack>

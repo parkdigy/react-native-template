@@ -1,5 +1,4 @@
 import React from 'react';
-import {IconAngleRight} from '@asset-image';
 import {Text_Default} from '../../Text';
 import {PanelProps as Props} from './Panel.types';
 import LinearGradient from 'react-native-linear-gradient';
@@ -110,7 +109,12 @@ const Panel = ({
                     {moreTitle}
                   </Text_Default>
                   {!hideMoreIndicator && (
-                    <IconAngleRight fill={theme.colors.onSurface} width={px.s10} height={px.s10} />
+                    <Icon
+                      name='chevron-forward'
+                      color={theme.colors.onSurface}
+                      size={px.s15}
+                      style={{opacity: 0.5, marginRight: 3}}
+                    />
                   )}
                 </Stack>
               </TouchableOpacity>

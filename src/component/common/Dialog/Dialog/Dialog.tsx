@@ -1,7 +1,5 @@
 import React from 'react';
 import {useWindowDimensions} from 'react-native';
-import {IconCheck, IconInfo, IconQuestion} from '@asset-image';
-import {Text_Default} from '../../Text';
 import {FullScreenDialogProps} from '../FullScreenDialog';
 import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
 import {
@@ -97,7 +95,7 @@ const Dialog = () => {
   const commandOpenConfirm = useCallback(
     (props: DialogConfirmProps) => {
       dialogId += 1;
-      setDialogs((old) => [...old, {...props, type: 'confirm', id: dialogId, hide: false}]);
+      setDialogs((old) => [...old, {...props, type: 'confirm', id: dialogId, hide: false, icon: 'question'}]);
       return makeReturnCommands(dialogId);
     },
     [makeReturnCommands],
@@ -186,7 +184,7 @@ const Dialog = () => {
             buttonColor = props.color;
             break;
           default:
-            iconColor = props.color || theme.colors.primary200;
+            iconColor = props.color || theme.colors.onSurface;
             textColor = props.color || theme.colors.textAccent;
             buttonColor = 'primary';
             break;
@@ -233,11 +231,11 @@ const Dialog = () => {
 
         const icon =
           props.icon === 'check' ? (
-            <IconCheck width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+            <Icon name='checkmark-circle' size={px.s45} color={props.iconColor || iconColor} />
           ) : props.icon === 'info' ? (
-            <IconInfo width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+            <Icon name='information-circle' size={px.s45} color={props.iconColor || iconColor} />
           ) : props.icon === 'question' ? (
-            <IconQuestion width={px.s35} height={px.s35} fill={props.iconColor || iconColor} />
+            <Icon name='help-circle' size={px.s45} color={props.iconColor || iconColor} />
           ) : (
             props.icon
           );
@@ -245,9 +243,9 @@ const Dialog = () => {
         const contentTitle = props.contentTitle ? (
           <>
             {['string', 'number'].includes(typeof props.contentTitle) ? (
-              <Text_Default bold center lh={21} color={props.contentTitleColor || props.contentColor || textColor}>
+              <T bold center s={15} lh={22} color={props.contentTitleColor || props.contentColor || textColor}>
                 {props.contentTitle}
-              </Text_Default>
+              </T>
             ) : (
               props.contentTitle
             )}
@@ -255,9 +253,9 @@ const Dialog = () => {
         ) : null;
 
         const content = ['string', 'number'].includes(typeof props.content) ? (
-          <Text_Default center lh={21} color={props.contentColor || textColor}>
+          <T center s={15} lh={22} color={props.contentColor || textColor}>
             {props.content}
-          </Text_Default>
+          </T>
         ) : (
           props.content
         );
@@ -268,7 +266,7 @@ const Dialog = () => {
               props.subHiddenContent ? () => Dialog.openAlert({content: props.subHiddenContent}) : undefined
             }>
             {['string', 'number'].includes(typeof props.subContent) ? (
-              <Text_Default
+              <T
                 s={12}
                 lh={21}
                 center
@@ -282,7 +280,7 @@ const Dialog = () => {
                 numberOfLines={5}
                 mt={10}>
                 {props.subContent}
-              </Text_Default>
+              </T>
             ) : (
               props.subContent
             )}

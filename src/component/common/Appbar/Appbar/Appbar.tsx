@@ -96,7 +96,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
      * ******************************************************************************************************************/
 
     const ContainerAppbar = useMemo(
-      () => (type === 'modal' || type === 'safe-area' ? PaperAppbar : PaperAppbar.Header),
+      () => (contains(isIos ? ['modal', 'safe-area'] : ['safe-area'], type) ? PaperAppbar : PaperAppbar.Header),
       [type],
     );
 

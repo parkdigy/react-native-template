@@ -1,9 +1,8 @@
 import React from 'react';
 import {IconButton} from 'react-native-paper';
-import {IconClose} from '@asset-image';
 import {CloseIconButtonProps as Props} from './CloseIconButton.types';
 
-export const CloseIconButton = ({size = 20, iconColor, opacity, onPress}: Props) => {
+export const CloseIconButton = ({size = px.s30, iconColor, opacity, onPress}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -15,15 +14,7 @@ export const CloseIconButton = ({size = 20, iconColor, opacity, onPress}: Props)
    * ******************************************************************************************************************/
 
   const icon = useCallback(() => {
-    return (
-      <IconClose
-        width={size}
-        height={size}
-        fill={ifUndefined(iconColor, theme.colors.onSurface)}
-        strokeWidth={2}
-        opacity={opacity}
-      />
-    );
+    return <Icon name='close' size={size} color={ifUndefined(iconColor, theme.colors.onSurface)} style={{opacity}} />;
   }, [iconColor, opacity, size, theme.colors.onSurface]);
 
   /********************************************************************************************************************

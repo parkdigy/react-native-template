@@ -51,6 +51,7 @@ const HeaderAppbar = React.forwardRef<HeaderAppbarCommands, Props>(
       switch (options.presentation) {
         case 'modal':
         case 'formSheet':
+        case 'pageSheet':
           return 'modal';
         case 'fullScreenModal':
         case 'transparentModal':

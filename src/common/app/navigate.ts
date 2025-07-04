@@ -180,18 +180,20 @@ function navigate<PScreenName extends OptionalParamValueKeyOfScreenList | ParamV
       };
       makeScreenList(routes as Params);
 
-      const navigateScreenList = (goScreenList: {screen?: string; params?: Dict}[]) => {
-        if (goScreenList.length > 0) {
-          const data = goScreenList.shift();
-          if (contains(['Root', 'Main'], data?.screen)) {
-            navigateScreenList(goScreenList);
+      let data: Dict = {};
+      for (let i = screenList.length - 1; i >= 0; i -= 1) {
+        const screenItem = screenList[i];
+        if (i === screenList.length - 1) {
+          data.screen = screenItem.screen;
+          data.params = screenItem.params;
+        } else {
+          if (screenItem.screen === 'Root') {
+            navigation.navigate('Root', data);
           } else {
-            navigation.navigate(data?.screen as string, data?.params);
-            navigateScreenList(goScreenList);
+            data = {screen: screenItem.screen, params: data};
           }
         }
-      };
-      navigateScreenList(screenList);
+      }
 
       return true;
     }
