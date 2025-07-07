@@ -99,10 +99,6 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
         return 'system';
     }
   });
-  // 성인인증 성공 콜백
-  const [onAdultAuthSuccess, setOnAdultAuthSuccess] = useState<() => void>();
-  // 아임포트 본인인증 성공 콜백
-  const [onImpCertificationSuccess, setOnImpCertificationSuccess] = useState<(impUid: string) => void>();
 
   /********************************************************************************************************************
    * Memo
@@ -398,16 +394,6 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
     [auth],
   );
 
-  /** 성인인증 성공 콜백 설정 */
-  const finalSetOnAdultAuthSuccess = useCallback((onSuccess: (() => void) | undefined) => {
-    setOnAdultAuthSuccess(() => onSuccess);
-  }, []);
-
-  /** 아임포트 본인인증 성공 콜백 설정 */
-  const finalSetOnImpCertificationSuccess = useCallback((onSuccess: ((impUid: string) => void) | undefined) => {
-    setOnImpCertificationSuccess(() => onSuccess);
-  }, []);
-
   /********************************************************************************************************************
    * AppContext Value
    * ******************************************************************************************************************/
@@ -436,10 +422,6 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       toggleColorScheme,
       forceColorScheme,
       setForceColorScheme: changeForceColorScheme,
-      onAdultAuthSuccess,
-      setOnAdultAuthSuccess: finalSetOnAdultAuthSuccess,
-      onImpCertificationSuccess,
-      setOnImpCertificationSuccess: finalSetOnImpCertificationSuccess,
     }),
     [
       adid,
@@ -451,13 +433,9 @@ const App = ({colorScheme, initAuth, initConfig, onColorSchemeChange, onActiveFr
       colorScheme,
       commonStackNavigationOptions,
       config,
-      finalSetOnAdultAuthSuccess,
-      finalSetOnImpCertificationSuccess,
       fontFamily,
       forceColorScheme,
-      onAdultAuthSuccess,
       onColorSchemeChange,
-      onImpCertificationSuccess,
       reloadAuth,
       reloadConfig,
       reloadFcmToken,
