@@ -13,6 +13,7 @@ import {ApiFlatListProps as Props, ApiFlatListItem, ApiFlatListCommands} from '.
 
 function ApiFlatList<T extends ApiFlatListItem>({
   perPageListItemCount,
+  firstLoadDelay = 500,
   loadDelay = 500,
   emptyText,
   emptyMinHeight,
@@ -52,6 +53,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * Ref
    * ******************************************************************************************************************/
 
+  const isFirstLoadRef = useRef(true);
   const isActiveRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
   const inactiveTimeRef = useRef(0);
@@ -66,7 +68,6 @@ function ApiFlatList<T extends ApiFlatListItem>({
 
   const [lastAppState, setLastAppState] = useState(appState);
   const [lastActiveScreen, setLastActiveScreen] = useState(activeScreen);
-
   const [listHeaderHeight, setListHeaderHeight] = useState(0);
   const [flatListHeight, setFlatListHeight] = useState<number>();
   const [loadingStatus, _setLoadingStatus] = useState<LoadingStatus>(Const.LoadingStatus.FirstLoading);
@@ -127,23 +128,20 @@ function ApiFlatList<T extends ApiFlatListItem>({
    * ******************************************************************************************************************/
 
   const isLoading = useMemo(() => LoadingStatus.isLoading(loadingStatus), [loadingStatus]);
-
   const isFirstLoading = useMemo(() => loadingStatus === Const.LoadingStatus.FirstLoading, [loadingStatus]);
-
   const isFirstOrRefreshLoading = useMemo(
     () => Const.LoadingStatus.isFirstOrRefreshLoading(loadingStatus),
     [loadingStatus],
   );
-
   const isNextLoading = useMemo(() => loadingStatus === Const.LoadingStatus.NextLoading, [loadingStatus]);
-
   const isRefreshLoading = useMemo(() => loadingStatus === Const.LoadingStatus.RefreshLoading, [loadingStatus]);
-
   const isFirstError = useMemo(() => loadingStatus === Const.LoadingStatus.FirstError, [loadingStatus]);
-
   const isComplete = useMemo(() => loadingStatus === Const.LoadingStatus.Complete, [loadingStatus]);
-
   const isEmpty = useMemo(() => loadingStatus === Const.LoadingStatus.Empty, [loadingStatus]);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
 
   useEffect(() => {
     if (LoadingStatus.isSuccess(loadingStatus) || loadingStatus === LoadingStatus.Empty) {
@@ -193,6 +191,7 @@ function ApiFlatList<T extends ApiFlatListItem>({
           const apply = () => {
             unstable_batchedUpdates(() => {
               lastLoadTimeRef.current = nowTime();
+              isFirstLoadRef.current = false;
               setList(
                 loadingStatus === Const.LoadingStatus.NextLoading
                   ? (old) => (old ? [...old, ...newList] : newList)
@@ -225,9 +224,12 @@ function ApiFlatList<T extends ApiFlatListItem>({
           };
 
           if (isFirstOrRefreshLoading) {
-            delayTimeout(() => {
-              apply();
-            }, ifUndefined(loadDelay, 0));
+            delayTimeout(
+              () => {
+                apply();
+              },
+              isFirstLoadRef.current ? firstLoadDelay : loadDelay,
+            );
           } else {
             apply();
           }
@@ -238,12 +240,13 @@ function ApiFlatList<T extends ApiFlatListItem>({
               changeLoadingStatus(Const.LoadingStatus.getError(loadingStatus));
               setRefreshing(false);
             });
-          }, ifUndefined(errorDelay, 0));
+          }, errorDelay);
         });
     },
     [
       changeLoadingStatus,
       errorDelay,
+      firstLoadDelay,
       isFirstOrRefreshLoading,
       list?.length,
       loadDelay,

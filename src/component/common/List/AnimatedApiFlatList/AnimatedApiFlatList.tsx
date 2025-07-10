@@ -25,6 +25,7 @@ import WithAnimatedObject = Animated.WithAnimatedObject;
 
 function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
   perPageListItemCount,
+  firstLoadDelay = 500,
   loadDelay = 500,
   emptyText,
   emptyMinHeight,
@@ -64,6 +65,7 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
    * Ref
    * ******************************************************************************************************************/
 
+  const isFirstLoadRef = useRef(true);
   const isActiveRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
   const inactiveTimeRef = useRef(0);
@@ -205,6 +207,7 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
           const apply = () => {
             unstable_batchedUpdates(() => {
               lastLoadTimeRef.current = nowTime();
+              isFirstLoadRef.current = false;
               setList(
                 loadingStatus === Const.LoadingStatus.NextLoading
                   ? (old) => (old ? [...old, ...newList] : newList)
@@ -237,9 +240,12 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
           };
 
           if (isFirstOrRefreshLoading) {
-            delayTimeout(() => {
-              apply();
-            }, ifUndefined(loadDelay, 0));
+            delayTimeout(
+              () => {
+                apply();
+              },
+              isFirstLoadRef.current ? firstLoadDelay : loadDelay,
+            );
           } else {
             apply();
           }
@@ -250,12 +256,13 @@ function AnimatedApiFlatList<T extends AnimatedApiFlatListItem>({
               changeLoadingStatus(Const.LoadingStatus.getError(loadingStatus));
               setRefreshing(false);
             });
-          }, ifUndefined(errorDelay, 0));
+          }, errorDelay);
         });
     },
     [
       changeLoadingStatus,
       errorDelay,
+      firstLoadDelay,
       isFirstOrRefreshLoading,
       list?.length,
       loadDelay,

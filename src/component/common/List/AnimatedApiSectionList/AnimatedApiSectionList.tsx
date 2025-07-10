@@ -30,6 +30,7 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
   perPageListItemCount,
   keyboardDismissMode,
   keyboardShouldPersistTaps,
+  firstLoadDelay = 500,
   loadDelay = 500,
   errorDelay = 500,
   emptyText,
@@ -241,6 +242,7 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
                 initialNumToRender={initialNumToRender}
                 windowSize={windowSize}
                 disableRefresh
+                firstLoadDelay={firstLoadDelay}
                 loadDelay={loadDelay}
                 errorDelay={errorDelay}
                 keyboardDismissMode={keyboardDismissMode}
@@ -275,6 +277,7 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
       listMinHeight,
       initialNumToRender,
       windowSize,
+      firstLoadDelay,
       loadDelay,
       errorDelay,
       keyboardDismissMode,

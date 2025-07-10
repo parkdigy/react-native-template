@@ -29,6 +29,7 @@ export interface ApiFlatListProps<T extends ApiFlatListItem>
     | 'onRefresh'
   > {
   perPageListItemCount: number;
+  firstLoadDelay?: number;
   loadDelay?: number;
   errorDelay?: number;
   emptyText?: string;

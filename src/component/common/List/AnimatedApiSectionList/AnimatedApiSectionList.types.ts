@@ -32,6 +32,7 @@ export interface AnimatedApiSectionListProps<T extends AnimatedApiSectionListIte
     Pick<
       AnimatedApiFlatListProps<T>,
       | 'perPageListItemCount'
+      | 'firstLoadDelay'
       | 'loadDelay'
       | 'disableRefresh'
       | 'errorDelay'

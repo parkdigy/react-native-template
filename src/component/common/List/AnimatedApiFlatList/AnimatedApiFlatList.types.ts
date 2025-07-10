@@ -30,6 +30,7 @@ export interface AnimatedApiFlatListProps<T extends AnimatedApiFlatListItem>
     | 'onRefresh'
   > {
   perPageListItemCount: number;
+  firstLoadDelay?: number;
   loadDelay?: number;
   errorDelay?: number;
   emptyText?: string;
