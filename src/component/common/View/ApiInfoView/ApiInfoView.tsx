@@ -12,7 +12,16 @@ interface WithForwardRefType<T = any> extends React.FC<Props<T>> {
 }
 
 const ApiInfoView: WithForwardRefType = React.forwardRef<ApiInfoViewCommands, Props>(
-  ({loadDelay = 500, onLoadInfo, renderInfo, renderLoading, renderError}, ref) => {
+  (
+    {firstLoadDelay = 500, loadDelay = 500, onLoadStart, onLoadEnd, onLoadInfo, renderInfo, renderLoading, renderError},
+    ref,
+  ) => {
+    /********************************************************************************************************************
+     * Ref
+     * ******************************************************************************************************************/
+
+    const isFirstLoadRef = useRef(true);
+
     /********************************************************************************************************************
      * State
      * ******************************************************************************************************************/
@@ -36,15 +45,27 @@ const ApiInfoView: WithForwardRefType = React.forwardRef<ApiInfoViewCommands, Pr
           setLoading(true);
         }
         setError(false);
+        onLoadStart?.();
 
-        delayTimeout(() => {
-          onLoadInfo()
-            .then((newInfo) => setInfo(newInfo))
-            .catch(() => setError(true))
-            .finally(() => setLoading(false));
-        }, loadDelay);
+        delayTimeout(
+          () => {
+            onLoadInfo()
+              .then((newInfo) => {
+                if (isFirstLoadRef.current) {
+                  isFirstLoadRef.current = false;
+                }
+                setInfo(newInfo);
+              })
+              .catch(() => setError(true))
+              .finally(() => {
+                setLoading(false);
+                onLoadEnd?.();
+              });
+          },
+          reload ? 0 : isFirstLoadRef.current ? firstLoadDelay : loadDelay,
+        );
       },
-      [loadDelay, onLoadInfo],
+      [firstLoadDelay, loadDelay, onLoadEnd, onLoadInfo, onLoadStart],
     );
 
     /********************************************************************************************************************

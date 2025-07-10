@@ -1,5 +1,5 @@
 import React from 'react';
-import {DialogAlertProps, DialogCommands, DialogConfirmProps, DialogInnerCommands} from '../Dialog';
+import {DialogAlertProps, DialogCommands, DialogConfirmProps, DialogInnerCommands, DialogOnlyProps} from '../Dialog';
 
 let refs: React.RefObject<DialogInnerCommands>[] = [];
 let isHiding = false;
@@ -16,7 +16,7 @@ export function __setIsHiding(isHidingValue: boolean) {
   isHiding = isHidingValue;
 }
 
-export function __open(props: DialogProps): DialogCommands {
+export function __open(props: DialogOnlyProps): DialogCommands {
   if (refs.length > (isHiding ? 1 : 0)) {
     const lastInstance = refs[refs.length - (isHiding ? 2 : 1)].current;
     if (lastInstance) {

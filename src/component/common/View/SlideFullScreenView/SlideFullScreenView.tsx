@@ -1,7 +1,7 @@
 import React from 'react';
 import {hasNotch} from 'react-native-device-info';
 import {SlideFullScreenViewCommand, SlideFullScreenViewProps as Props} from './SlideFullScreenView.types';
-import {useForwardLayoutRef} from '@pdg/react-hook';
+import {useForwardLayoutRef, useMountedRef} from '@pdg/react-hook';
 import {CloseIconButton} from '../../Button/CloseIconButton';
 
 export const SlideFullScreenView = React.forwardRef<SlideFullScreenViewCommand, Props>(

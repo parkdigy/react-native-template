@@ -1,7 +1,14 @@
 import React from 'react';
 import {useWindowDimensions} from 'react-native';
 import {FullScreenDialogProps} from '../FullScreenDialog';
-import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
+import {
+  DialogAlertProps,
+  DialogInnerCommands,
+  DialogConfirmProps,
+  DialogProps,
+  DialogCommands,
+  DialogOnlyProps,
+} from './Dialog.types';
 import {
   __addRef,
   __open,
@@ -85,7 +92,7 @@ const Dialog = () => {
   );
 
   const commandOpen = useCallback(
-    (props: DialogProps) => {
+    (props: DialogOnlyProps) => {
       dialogId += 1;
       setDialogs((old) => [...old, {...props, type: 'dialog', id: dialogId, hide: false}]);
       return makeReturnCommands(dialogId);
