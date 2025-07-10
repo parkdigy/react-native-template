@@ -13,6 +13,7 @@ export default {
   editNickname(nickname: string) {
     return api.patch('my.nickname', {nickname});
   },
+  // 알림 설정 변경
   editIsPushNotification(is_push_notification: boolean) {
     return api.patch('my.is_push_notification', {is_push_notification});
   },

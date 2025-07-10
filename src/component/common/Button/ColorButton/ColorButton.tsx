@@ -1,5 +1,5 @@
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient, {LinearGradientProps} from 'react-native-linear-gradient';
 import {ColorButtonColors, ColorButtonProps as Props} from './ColorButton.types';
 
 const ColorButton = ({
@@ -17,8 +17,11 @@ const ColorButton = ({
   rotateBackground,
   extraPaddingLeft = 0,
   extraPaddingRight = 0,
+  angle = 45,
+  angleCenter = {x: 0.5, y: 0.5},
   onPress,
   onLongPress,
+  onLayout,
 }: Props) => {
   /********************************************************************************************************************
    * State
@@ -80,6 +83,30 @@ const ColorButton = ({
     };
   }, [height, size]);
 
+  const gradientStyle = useMemo<LinearGradientProps['style']>(
+    () => ({width, height: width, borderRadius: 999}),
+    [width],
+  );
+
+  /********************************************************************************************************************
+   * Content
+   * ******************************************************************************************************************/
+
+  const content = useMemo(
+    () => (
+      <>
+        {icon && !iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
+        {!hideLabel && (
+          <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
+            {children}
+          </T>
+        )}
+        {icon && iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
+      </>
+    ),
+    [children, fontSize, hideLabel, icon, iconRight, iconSize, lineHeight, marginVertical],
+  );
+
   /********************************************************************************************************************
    * Render
    * ******************************************************************************************************************/
@@ -96,7 +123,10 @@ const ColorButton = ({
         height={height}
         overflow='hidden'
         borderRadius={999}
-        onLayout={(e) => setWidth(e.nativeEvent.layout.width)}>
+        onLayout={(e) => {
+          setWidth(e.nativeEvent.layout.width);
+          onLayout?.(e);
+        }}>
         <View
           key={width}
           position='absolute'
@@ -104,13 +134,7 @@ const ColorButton = ({
           easing='linear'
           iterationCount='infinite'
           duration={5000}>
-          <LinearGradient
-            colors={colors}
-            useAngle
-            angle={45}
-            angleCenter={{x: 0.5, y: 0.5}}
-            style={[{width: width, height: width, borderRadius: 999}, styles.linearGradient]}
-          />
+          <LinearGradient colors={colors} useAngle angle={angle} angleCenter={angleCenter} style={gradientStyle} />
         </View>
         <Stack
           row
@@ -119,13 +143,7 @@ const ColorButton = ({
           pl={paddingHorizontal + extraPaddingLeft}
           pr={paddingHorizontal + extraPaddingRight}
           justifyContent={labelAlign === 'left' ? 'flex-start' : labelAlign === 'right' ? 'flex-end' : 'center'}>
-          {icon && !iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
-          {!hideLabel && (
-            <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
-              {children}
-            </T>
-          )}
-          {icon && iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
+          {content}
         </Stack>
       </View>
     </TouchableOpacity>
@@ -133,15 +151,3 @@ const ColorButton = ({
 };
 
 export default ColorButton;
-
-/********************************************************************************************************************
- * Styled Components
- * ******************************************************************************************************************/
-
-var styles = StyleSheet.create({
-  linearGradient: {
-    // position: 'absolute',
-    // borderRadius: 9999,
-    // transform: [{rotate: '34deg'}],
-  },
-});

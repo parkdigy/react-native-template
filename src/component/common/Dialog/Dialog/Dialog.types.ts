@@ -43,11 +43,14 @@ export interface DialogProps extends DialogCommonProps {
   onCancel?(): void;
 }
 
+export interface DialogProps extends DialogCommonProps {}
+
 export interface DialogAlertProps extends DialogCommonProps {}
 
 export interface DialogConfirmProps extends DialogCommonProps, Pick<DialogProps, 'cancelLabel' | 'onCancel'> {}
 
 export interface DialogInnerCommands {
+  open(props: DialogProps): DialogCommands;
   openAlert(props: DialogAlertProps): DialogCommands;
   openConfirm(props: DialogConfirmProps): DialogCommands;
 }

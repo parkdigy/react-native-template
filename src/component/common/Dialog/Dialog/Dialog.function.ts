@@ -16,6 +16,16 @@ export function __setIsHiding(isHidingValue: boolean) {
   isHiding = isHidingValue;
 }
 
+export function __open(props: DialogProps): DialogCommands {
+  if (refs.length > (isHiding ? 1 : 0)) {
+    const lastInstance = refs[refs.length - (isHiding ? 2 : 1)].current;
+    if (lastInstance) {
+      return lastInstance.open(props);
+    }
+  }
+  throw Error('Dialog Instance Not Exists');
+}
+
 export function __openAlert(props: DialogAlertProps): DialogCommands {
   if (refs.length > (isHiding ? 1 : 0)) {
     const lastInstance = refs[refs.length - (isHiding ? 2 : 1)].current;

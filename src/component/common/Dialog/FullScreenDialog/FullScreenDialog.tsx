@@ -7,6 +7,7 @@ import {FullScreenDialogProps as Props} from './FullScreenDialog.types';
 const FullScreenDialog = ({
   children,
   type,
+  position,
   keyboardAware,
   keyboardAwareScrollViewRef,
   keyboardAwareScrollViewProps,
@@ -125,7 +126,7 @@ const FullScreenDialog = ({
       </Button>
     ) : null;
 
-    const finalButtons = buttons ? (
+    const finalButtons = notEmpty(buttons) ? (
       <>
         {Array.isArray(buttons) ? (
           buttons.map((button, idx) => (
@@ -200,23 +201,27 @@ const FullScreenDialog = ({
               {children}
             </View>
 
-            {type === undefined ? (
-              <Stack row center mb={px.s_1} onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}>
-                {closeButton}
-                {finalButtons}
-              </Stack>
-            ) : (
-              <Stack
-                row={horizontalButtons}
-                center={horizontalButtons}
-                fullWidth={horizontalButtons}
-                spacing={px.s10}
-                onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}
-                ph={px.s15}
-                pb={px.s15}>
-                {closeButton}
-                {finalButtons}
-              </Stack>
+            {(closeButton || finalButtons) && (
+              <>
+                {type === undefined ? (
+                  <Stack row center mb={px.s_1} onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}>
+                    {closeButton}
+                    {finalButtons}
+                  </Stack>
+                ) : (
+                  <Stack
+                    row={horizontalButtons}
+                    center={horizontalButtons}
+                    fullWidth={horizontalButtons}
+                    spacing={px.s10}
+                    onLayout={(e) => setButtonsHeight(e.nativeEvent.layout.height)}
+                    ph={px.s15}
+                    pb={px.s15}>
+                    {closeButton}
+                    {finalButtons}
+                  </Stack>
+                )}
+              </>
             )}
           </View>
         </View>
@@ -300,7 +305,15 @@ const FullScreenDialog = ({
           <View
             flex={1}
             alignItems='center'
-            justifyContent={type === undefined ? 'center' : 'flex-end'}
+            justifyContent={
+              type === undefined
+                ? 'center'
+                : position === 'top'
+                ? 'flex-start'
+                : position === 'center'
+                ? 'center'
+                : 'flex-end'
+            }
             width={fullWidth ? '100%' : undefined}
             onLayout={(e) => setParentHeight(e.nativeEvent.layout.height)}>
             {content}

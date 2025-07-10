@@ -1,5 +1,5 @@
-import {GestureResponderEvent} from 'react-native';
 import {IconProps} from '../../Icon';
+import {LinearGradientProps} from 'react-native-linear-gradient';
 
 export type ColorButtonColors =
   | 'purple_violet'
@@ -22,7 +22,9 @@ export type ColorButtonColors =
   | 'timber'
   | 'grey';
 
-export interface ColorButtonProps {
+export interface ColorButtonProps
+  extends Pick<ButtonProps, 'onPress' | 'onLongPress' | 'onLayout'>,
+    Pick<LinearGradientProps, 'angle' | 'angleCenter'> {
   size?: 'x-small' | 'small' | 'medium' | 'large';
   color?: ColorButtonColors;
   icon?: IconProps['name'];
@@ -37,8 +39,6 @@ export interface ColorButtonProps {
   height?: number;
   rotateBackground?: boolean;
   children: ReactNode;
-  onPress?(event: GestureResponderEvent): void;
-  onLongPress?(event: GestureResponderEvent): void;
 }
 
 export const ColorButtonColors = {

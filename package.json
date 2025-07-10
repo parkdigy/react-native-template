@@ -24,7 +24,7 @@
     "tsc": "npx tsc --noEmit",
     "start": "npm run watchman-del && npm run remove-ios-generated-dotenv-m && react-native start --no-interactive --reset-cache",
     "git-cache-reset": "git rm -r -f --cached . && git add .",
-    "watchman-del": "watchman watch-del \"${PWD}\" ; watchman watch-project \"${PWD}\"",
+    "watchman-del": "watchman watch-del-all && watchman shutdown-server",
     "remove-ios-generated-dotenv-m": "rm -f ./node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m",
     "update-ios": "eas update --channel=production-ios --message=$(date +%Y-%m-%d-%H-%M-%S)",
     "update-android": "eas update --channel=production-android --message=$(date +%Y-%m-%d-%H-%M-%S)",

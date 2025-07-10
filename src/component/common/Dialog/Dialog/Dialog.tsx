@@ -4,6 +4,7 @@ import {FullScreenDialogProps} from '../FullScreenDialog';
 import {DialogAlertProps, DialogInnerCommands, DialogConfirmProps, DialogProps, DialogCommands} from './Dialog.types';
 import {
   __addRef,
+  __open,
   __openAlert,
   __openConfirm,
   __openErrorAlert,
@@ -15,7 +16,7 @@ import {
 let dialogId = 0;
 
 interface DialogInnerProps extends DialogProps {
-  type: 'alert' | 'confirm';
+  type: 'dialog' | 'alert' | 'confirm';
   id: number;
   hide?: boolean;
   loading?: boolean;
@@ -83,6 +84,15 @@ const Dialog = () => {
     [commandClose, commandSetLoading],
   );
 
+  const commandOpen = useCallback(
+    (props: DialogProps) => {
+      dialogId += 1;
+      setDialogs((old) => [...old, {...props, type: 'dialog', id: dialogId, hide: false}]);
+      return makeReturnCommands(dialogId);
+    },
+    [makeReturnCommands],
+  );
+
   const commandOpenAlert = useCallback(
     (props: DialogAlertProps) => {
       dialogId += 1;
@@ -106,6 +116,7 @@ const Dialog = () => {
    * ******************************************************************************************************************/
 
   const ref = useRef<DialogInnerCommands>({
+    open: commandOpen,
     openAlert: commandOpenAlert,
     openConfirm: commandOpenConfirm,
   });
@@ -209,21 +220,23 @@ const Dialog = () => {
           });
         }
 
-        buttons.push({
-          label: props.confirmLabel || '확인',
-          color: ifUndefined(props.confirmButtonColor, buttonColor),
-          ...props.confirmButtonProps,
-          onPress() {
-            handleConfirmPress(props);
-            if (props.type) {
-              props.__hide = true;
-              __setIsHiding(true);
-              setDialogs((old) => [...old]);
-            } else {
-              hideComplete(props);
-            }
-          },
-        });
+        if (props.type !== 'dialog') {
+          buttons.push({
+            label: props.confirmLabel || '확인',
+            color: ifUndefined(props.confirmButtonColor, buttonColor),
+            ...props.confirmButtonProps,
+            onPress() {
+              handleConfirmPress(props);
+              if (props.type) {
+                props.__hide = true;
+                __setIsHiding(true);
+                setDialogs((old) => [...old]);
+              } else {
+                hideComplete(props);
+              }
+            },
+          });
+        }
 
         if (props.reverseButtons) {
           buttons = buttons.reverse();
@@ -287,12 +300,32 @@ const Dialog = () => {
           </Pressable>
         ) : null;
 
+        const animationDuration = props.__hide ? 200 : 350;
+        let contentAnimation: FullScreenDialogProps['contentAnimation'] | undefined;
+
+        if (props.type) {
+          if (props.__hide) {
+            contentAnimation = {
+              animation:
+                props.position === 'top' ? 'slideOutUp' : props.position === 'center' ? 'bounceOut' : 'slideOutDown',
+              duration: animationDuration,
+              easing: 'ease-in',
+            };
+          } else {
+            contentAnimation = {
+              animation:
+                props.position === 'top' ? 'slideInDown' : props.position === 'center' ? 'bounceIn' : 'slideInUp',
+              duration: animationDuration,
+              easing: 'ease-out-back',
+            };
+          }
+        }
         return (
           <FullScreenDialog
             key={index}
             preventBackClose={props.preventBackClose}
             animation={props.type ? (props.__hide ? 'fadeOut' : 'fadeIn') : undefined}
-            duration={props.__hide ? 100 : 350}
+            duration={animationDuration}
             onAnimationEnd={
               props.type && props.__hide
                 ? () => {
@@ -300,15 +333,7 @@ const Dialog = () => {
                   }
                 : undefined
             }
-            contentAnimation={
-              props.type
-                ? {
-                    animation: props.type ? (props.__hide ? 'slideOutDown' : 'slideInUp') : undefined,
-                    duration: props.__hide ? 100 : 350,
-                    easing: props.__hide ? 'ease-in' : 'ease-out-back',
-                  }
-                : undefined
-            }
+            contentAnimation={contentAnimation}
             type={props.type}
             visible={true}
             maxWidth={Math.min(
@@ -323,6 +348,7 @@ const Dialog = () => {
             fullWidth={props.type !== undefined}
             hideCloseButton
             buttons={buttons}
+            position={props.position}
             horizontalButtons
             bottomView={props.bottomView}
             onRequestClose={() => {
@@ -364,6 +390,7 @@ const Dialog = () => {
   );
 };
 
+Dialog.open = __open;
 Dialog.openAlert = __openAlert;
 Dialog.openSuccessAlert = __openSuccessAlert;
 Dialog.openErrorAlert = __openErrorAlert;
