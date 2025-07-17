@@ -57,7 +57,7 @@ export const AuthSns = ({
           });
       })
       .catch((err) => {
-        ll(err);
+        le(err);
         //
       });
   }, [onKakaoLogin, onLoading]);
@@ -117,7 +117,7 @@ export const AuthSns = ({
         }
       }
     } catch (err) {
-      ll(err);
+      le(err);
       onLoading(false);
     }
   }, [onGoogleLogin, onLoading]);

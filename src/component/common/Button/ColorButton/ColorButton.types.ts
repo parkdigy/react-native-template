@@ -1,5 +1,7 @@
 import {IconProps} from '../../Icon';
 import {LinearGradientProps} from 'react-native-linear-gradient';
+import React from 'react';
+import {SvgProps} from 'react-native-svg';
 
 export type ColorButtonColors =
   | 'purple_violet'
@@ -27,7 +29,7 @@ export interface ColorButtonProps
     Pick<LinearGradientProps, 'angle' | 'angleCenter'> {
   size?: 'x-small' | 'small' | 'medium' | 'large';
   color?: ColorButtonColors;
-  icon?: IconProps['name'];
+  icon?: IconProps['name'] | React.FC<SvgProps>;
   iconSize?: IconProps['size'];
   iconRight?: boolean;
   labelAlign?: 'left' | 'center' | 'right';

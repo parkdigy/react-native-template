@@ -64,7 +64,7 @@ export default async function App_reloadFcmToken({
             return false;
         }
       } catch (err) {
-        ll(err);
+        le(err);
         return false;
       }
     };

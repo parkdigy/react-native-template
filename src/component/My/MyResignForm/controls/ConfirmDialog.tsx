@@ -47,7 +47,7 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
           });
         })
         .catch((err) => {
-          ll(err);
+          le(err);
           const errMsg = app.getAxiosApiErrorResultMessage(err);
 
           switch (app.getAxiosApiErrorResultCode(err)) {

@@ -88,6 +88,18 @@ const ColorButton = ({
     [width],
   );
 
+  const iconContent = useMemo(() => {
+    if (icon) {
+      const size = ifUndefined(iconSize, fontSize * 1.2);
+      if (typeof icon === 'string') {
+        return <Icon name={icon} color={'white'} size={size} />;
+      } else {
+        const IconComponent = icon;
+        return <IconComponent fill={'white'} width={size} height={size} />;
+      }
+    }
+  }, [fontSize, icon, iconSize]);
+
   /********************************************************************************************************************
    * Content
    * ******************************************************************************************************************/
@@ -95,16 +107,16 @@ const ColorButton = ({
   const content = useMemo(
     () => (
       <>
-        {icon && !iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
+        {!iconRight && iconContent}
         {!hideLabel && (
           <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
             {children}
           </T>
         )}
-        {icon && iconRight && <Icon name={icon} color={'white'} size={ifUndefined(iconSize, fontSize * 1.2)} />}
+        {iconRight && iconContent}
       </>
     ),
-    [children, fontSize, hideLabel, icon, iconRight, iconSize, lineHeight, marginVertical],
+    [children, fontSize, hideLabel, iconContent, iconRight, lineHeight, marginVertical],
   );
 
   /********************************************************************************************************************
