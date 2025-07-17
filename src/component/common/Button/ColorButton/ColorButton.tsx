@@ -90,12 +90,12 @@ const ColorButton = ({
 
   const iconContent = useMemo(() => {
     if (icon) {
-      const size = ifUndefined(iconSize, fontSize * 1.2);
+      const s = ifUndefined(iconSize, fontSize * 1.2);
       if (typeof icon === 'string') {
-        return <Icon name={icon} color={'white'} size={size} />;
+        return <Icon name={icon} color={'white'} size={s} />;
       } else {
         const IconComponent = icon;
-        return <IconComponent fill={'white'} width={size} height={size} />;
+        return <IconComponent fill={'white'} width={s} height={s} />;
       }
     }
   }, [fontSize, icon, iconSize]);
