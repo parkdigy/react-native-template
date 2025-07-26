@@ -333,6 +333,7 @@ const Dialog = () => {
             preventBackClose={props.preventBackClose}
             animation={props.type ? (props.__hide ? 'fadeOut' : 'fadeIn') : undefined}
             duration={animationDuration}
+            backgroundColor={props.transparent ? 'transparent' : undefined}
             onAnimationEnd={
               props.type && props.__hide
                 ? () => {

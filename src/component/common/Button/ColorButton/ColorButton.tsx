@@ -10,8 +10,10 @@ const ColorButton = ({
   iconSize,
   iconRight,
   disabled,
+  loading,
   children,
   hideLabel,
+  labelMinWidth,
   flex,
   height,
   rotateBackground,
@@ -19,6 +21,15 @@ const ColorButton = ({
   extraPaddingRight = 0,
   angle = 45,
   angleCenter = {x: 0.5, y: 0.5},
+  borderRadius = 999,
+  paddingHorizontal: initPaddingHorizontal,
+  ml,
+  mr,
+  mt,
+  mb,
+  mh,
+  mv,
+  hitSlop,
   onPress,
   onLongPress,
   onLayout,
@@ -49,21 +60,21 @@ const ColorButton = ({
         newFontSize = 12;
         newLineHeight = 20;
         newMarginVertical = 6;
-        newPaddingHorizontal = 10;
+        newPaddingHorizontal = ifUndefined(initPaddingHorizontal, 10);
         newSpacing = 5;
         break;
       case 'small':
         newFontSize = 14;
         newLineHeight = 19;
         newMarginVertical = 11;
-        newPaddingHorizontal = 25;
+        newPaddingHorizontal = ifUndefined(initPaddingHorizontal, 25);
         newSpacing = 10;
         break;
       case 'medium':
         newFontSize = 15;
         newLineHeight = 21;
         newMarginVertical = 13;
-        newPaddingHorizontal = 30;
+        newPaddingHorizontal = ifUndefined(initPaddingHorizontal, 30);
         newSpacing = 10;
         break;
       case 'large':
@@ -81,11 +92,11 @@ const ColorButton = ({
       paddingHorizontal: newPaddingHorizontal,
       spacing: newSpacing,
     };
-  }, [height, size]);
+  }, [height, initPaddingHorizontal, size]);
 
   const gradientStyle = useMemo<LinearGradientProps['style']>(
-    () => ({width, height: width, borderRadius: 999}),
-    [width],
+    () => ({width, height: width, borderRadius}),
+    [borderRadius, width],
   );
 
   const iconContent = useMemo(() => {
@@ -107,16 +118,34 @@ const ColorButton = ({
   const content = useMemo(
     () => (
       <>
-        {!iconRight && iconContent}
+        {loading && <ActivityIndicator size={ifUndefined(iconSize, fontSize * 1.2)} color='#fff' />}
+        {!loading && !iconRight && iconContent}
         {!hideLabel && (
-          <T c={'white'} size={fontSize} lineHeight={lineHeight} bold marginVertical={marginVertical}>
+          <T
+            c={'white'}
+            minWidth={labelMinWidth}
+            size={fontSize}
+            lineHeight={lineHeight}
+            bold
+            marginVertical={marginVertical}>
             {children}
           </T>
         )}
-        {iconRight && iconContent}
+        {!loading && iconRight && iconContent}
       </>
     ),
-    [children, fontSize, hideLabel, iconContent, iconRight, lineHeight, marginVertical],
+    [
+      children,
+      fontSize,
+      hideLabel,
+      iconContent,
+      iconRight,
+      iconSize,
+      labelMinWidth,
+      lineHeight,
+      loading,
+      marginVertical,
+    ],
   );
 
   /********************************************************************************************************************
@@ -125,16 +154,23 @@ const ColorButton = ({
 
   return (
     <TouchableOpacity
-      disabled={disabled}
+      disabled={loading || disabled}
       onPress={onPress}
       onLongPress={onLongPress}
       flex={flex}
+      ml={ml}
+      mr={mr}
+      mt={mt}
+      mb={mb}
+      mh={mh}
+      mv={mv}
+      hitSlop={hitSlop}
       opacity={disabled ? 0.5 : 1}>
       <View
         center
         height={height}
         overflow='hidden'
-        borderRadius={999}
+        borderRadius={borderRadius}
         onLayout={(e) => {
           setWidth(e.nativeEvent.layout.width);
           onLayout?.(e);

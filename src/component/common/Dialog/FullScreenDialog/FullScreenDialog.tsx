@@ -19,6 +19,7 @@ const FullScreenDialog = ({
   fullMax,
   maxWidth,
   minWidth: initMinWidth,
+  backgroundColor,
   animationType,
   backdropClose,
   hideCloseButton,
@@ -173,7 +174,7 @@ const FullScreenDialog = ({
           width='100%'
           maxWidth={finalMaxWidth}
           minWidth={finalMinWidth}
-          backgroundColor={theme.colors.background}
+          backgroundColor={ifUndefined(backgroundColor, theme.colors.background)}
           overflow='hidden'
           borderRadius={fullMax ? 0 : 20}>
           <View flex={fullHeight ? 1 : undefined}>
@@ -231,6 +232,7 @@ const FullScreenDialog = ({
   }, [
     hideCloseButton,
     disabledCloseButton,
+    onRequestClose,
     buttons,
     type,
     horizontalButtons,
@@ -240,6 +242,7 @@ const FullScreenDialog = ({
     fullMax,
     finalMaxWidth,
     finalMinWidth,
+    backgroundColor,
     theme.colors.background,
     theme.colors.surface,
     theme.colors.textAccent,
@@ -249,7 +252,6 @@ const FullScreenDialog = ({
     contentMaxHeight,
     children,
     bottomView,
-    onRequestClose,
   ]);
 
   /********************************************************************************************************************

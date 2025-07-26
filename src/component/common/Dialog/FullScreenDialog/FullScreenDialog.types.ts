@@ -26,6 +26,7 @@ export interface FullScreenDialogProps
   fullMax?: boolean;
   maxWidth?: number;
   minWidth?: number;
+  backgroundColor?: string;
   backdropClose?: boolean;
   hideCloseButton?: boolean;
   disabledCloseButton?: boolean;

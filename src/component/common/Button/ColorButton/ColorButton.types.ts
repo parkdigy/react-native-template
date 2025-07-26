@@ -2,6 +2,7 @@ import {IconProps} from '../../Icon';
 import {LinearGradientProps} from 'react-native-linear-gradient';
 import React from 'react';
 import {SvgProps} from 'react-native-svg';
+import {TouchableOpacityProps} from '../TouchableOpacity';
 
 export type ColorButtonColors =
   | 'purple_violet'
@@ -22,11 +23,16 @@ export type ColorButtonColors =
   | 'azure_pop'
   | 'nighthawk'
   | 'timber'
+  | 'sublime_light'
+  | 'purpink'
+  | 'summer'
+  | 'blue_skies'
   | 'grey';
 
 export interface ColorButtonProps
-  extends Pick<ButtonProps, 'onPress' | 'onLongPress' | 'onLayout'>,
-    Pick<LinearGradientProps, 'angle' | 'angleCenter'> {
+  extends Pick<ButtonProps, 'onPress' | 'onLongPress' | 'onLayout' | 'ml' | 'mr' | 'mt' | 'mb' | 'mh' | 'mv'>,
+    Pick<LinearGradientProps, 'angle' | 'angleCenter'>,
+    Pick<TouchableOpacityProps, 'hitSlop'> {
   size?: 'x-small' | 'small' | 'medium' | 'large';
   color?: ColorButtonColors;
   icon?: IconProps['name'] | React.FC<SvgProps>;
@@ -34,13 +40,17 @@ export interface ColorButtonProps
   iconRight?: boolean;
   labelAlign?: 'left' | 'center' | 'right';
   hideLabel?: boolean;
+  labelMinWidth?: number;
+  borderRadius?: number;
+  paddingHorizontal?: number;
   disabled?: boolean;
+  loading?: boolean;
   flex?: ButtonProps['flex'];
   extraPaddingLeft?: number;
   extraPaddingRight?: number;
   height?: number;
   rotateBackground?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const ColorButtonColors = {
@@ -62,5 +72,9 @@ export const ColorButtonColors = {
   azure_pop: ['#ef32d9', '#89fffd'],
   nighthawk: ['#2980b9', '#2c3e50'],
   timber: ['#fc00ff', '#00dbde'],
+  sublime_light: ['#fc5c7d', '#6a82fb'],
+  purpink: ['#7f00ff', '#e100ff'],
+  summer: ['#22c1c3', '#fdbb2d'],
+  blue_skies: ['#56ccf2', '#2f80ed'],
   grey: ['#bdc3c7', '#6a6a6a'],
 };

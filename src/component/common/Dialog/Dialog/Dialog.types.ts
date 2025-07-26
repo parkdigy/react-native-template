@@ -14,6 +14,7 @@ interface DialogCommonProps {
   ph?: number;
   pv?: number;
   spacing?: number;
+  transparent?: boolean;
   title?: ReactNode;
   titleColor?: string;
   contentTitle?: ReactNode;
