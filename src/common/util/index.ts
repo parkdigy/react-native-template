@@ -5,6 +5,7 @@ import array from './array';
 import react from './react';
 import style from './style';
 import random from './random';
+import text from './text';
 
 export const util = {
   compare,
@@ -14,6 +15,7 @@ export const util = {
   react,
   style,
   random,
+  text,
 };
 
 export default util;

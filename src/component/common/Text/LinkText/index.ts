@@ -1,7 +1,2 @@
-import LinkText from './LinkText';
-
-export default LinkText;
-
-export {LinkText};
-
-export * from './LinkText.types';
+export * from './LinkText';
+export * from './LinkTextGroup';

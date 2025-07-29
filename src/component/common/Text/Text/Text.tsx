@@ -260,7 +260,9 @@ const Text = React.forwardRef<NativeText, Props>(
       }
 
       return {
-        lineHeight: ifUndefined(newLh, customStyle.fontSize * _getFontLineHeightAdjustValue(customStyle.fontFamily)),
+        lineHeight: Math.floor(
+          ifUndefined(newLh, customStyle.fontSize * _getFontLineHeightAdjustValue(customStyle.fontFamily)),
+        ),
       };
     }, [customStyle.fontFamily, customStyle.fontSize, lh, lineHeight, noAutoTabletSize]);
 
