@@ -67,6 +67,7 @@ export interface DialogInnerCommands {
   open(props: DialogOnlyProps): DialogCommands;
   openAlert(props: DialogAlertProps): DialogCommands;
   openConfirm(props: DialogConfirmProps): DialogCommands;
+  openLoading(): DialogCommands;
 }
 
 export interface DialogCommands {

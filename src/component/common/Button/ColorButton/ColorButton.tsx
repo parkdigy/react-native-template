@@ -118,7 +118,7 @@ const ColorButton = ({
   const content = useMemo(
     () => (
       <>
-        {loading && <ActivityIndicator size={ifUndefined(iconSize, fontSize * 1.2)} color='#fff' />}
+        {loading && !iconRight && <ActivityIndicator size={ifUndefined(iconSize, fontSize * 1.2)} color='#fff' />}
         {!loading && !iconRight && iconContent}
         {!hideLabel && (
           <T
@@ -131,6 +131,7 @@ const ColorButton = ({
             {children}
           </T>
         )}
+        {loading && iconRight && <ActivityIndicator size={ifUndefined(iconSize, fontSize * 1.2)} color='#fff' />}
         {!loading && iconRight && iconContent}
       </>
     ),

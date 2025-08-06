@@ -15,6 +15,7 @@ import {
   __openAlert,
   __openConfirm,
   __openErrorAlert,
+  __openLoading,
   __openSuccessAlert,
   __removeRef,
   __setIsHiding,
@@ -23,7 +24,7 @@ import {
 let dialogId = 0;
 
 interface DialogInnerProps extends DialogProps {
-  type: 'dialog' | 'alert' | 'confirm';
+  type: 'dialog' | 'alert' | 'confirm' | 'loading';
   id: number;
   hide?: boolean;
   loading?: boolean;
@@ -100,6 +101,26 @@ const Dialog = () => {
     [makeReturnCommands],
   );
 
+  const commandOpenLoading = useCallback(() => {
+    dialogId += 1;
+    setDialogs((old) => [
+      ...old,
+      {
+        type: 'loading',
+        id: dialogId,
+        hide: false,
+        position: 'center',
+        transparent: true,
+        content: (
+          <View animation='bounceIn' p={40} backgroundColor={'#000000aa'} borderRadius={20}>
+            <ActivityIndicator color='#ffffffcc' />
+          </View>
+        ),
+      },
+    ]);
+    return makeReturnCommands(dialogId);
+  }, [makeReturnCommands]);
+
   const commandOpenAlert = useCallback(
     (props: DialogAlertProps) => {
       dialogId += 1;
@@ -124,6 +145,7 @@ const Dialog = () => {
 
   const ref = useRef<DialogInnerCommands>({
     open: commandOpen,
+    openLoading: commandOpenLoading,
     openAlert: commandOpenAlert,
     openConfirm: commandOpenConfirm,
   });
@@ -355,7 +377,7 @@ const Dialog = () => {
             }
             fullWidth={props.type !== undefined}
             hideCloseButton
-            buttons={buttons}
+            buttons={props.type !== 'loading' ? buttons : undefined}
             position={props.position}
             horizontalButtons
             bottomView={props.bottomView}
@@ -376,6 +398,14 @@ const Dialog = () => {
                 {contentTitle}
                 {content}
                 {subContent}
+              </Stack>
+            ) : props.type === 'loading' ? (
+              <Stack
+                ph={ifUndefined(props.ph, px.s40)}
+                pv={ifUndefined(props.pv, px.s40)}
+                spacing={ifUndefined(props.spacing, px.s14)}
+                alignItems='center'>
+                {content}
               </Stack>
             ) : (
               <Stack
@@ -399,6 +429,7 @@ const Dialog = () => {
 };
 
 Dialog.open = __open;
+Dialog.openLoading = __openLoading;
 Dialog.openAlert = __openAlert;
 Dialog.openSuccessAlert = __openSuccessAlert;
 Dialog.openErrorAlert = __openErrorAlert;

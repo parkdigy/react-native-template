@@ -32,7 +32,7 @@ export const LinkText = ({
 
   useEffect(() => {
     if (groupState && groupSeq) {
-      groupState.register(groupSeq, text, {
+      groupState.register(groupSeq, Array.isArray(text) ? text.join(' ') : text, {
         onLinks(newLinks) {
           setLinks(newLinks);
         },
@@ -51,47 +51,53 @@ export const LinkText = ({
    * ******************************************************************************************************************/
 
   const renderSentences = useMemo(() => {
-    const lines = util.text.splitLine(text);
+    if (links) {
+      const lines = Array.isArray(text) ? text : util.text.splitLine(text);
 
-    const usedLinks: LinkTextLink[] = [];
+      const usedLinks: LinkTextLink[] = [];
 
-    return lines.map((line) => {
-      let linkText = line;
-      if (links) {
-        for (const link of links) {
-          if (usedLinks.includes(link)) {
-            continue;
-          }
+      return lines.map((line) => {
+        let linkText = line;
+        if (links) {
+          for (const link of links) {
+            if (usedLinks.includes(link)) {
+              continue;
+            }
 
-          const texts = [link.text, ...link.subTexts];
-          for (const replaceText of texts) {
-            // renderText 에서 replaceText 찾아서 모두 [[[ | ]]] 로 감싸도록 변경
-            linkText = linkText
-              .split(/\[\[\[([^\]]+)\]\]\]/g)
-              .map((v) => {
-                if (v.startsWith('#') && v.includes('|')) {
-                  return `[[[${v}]]]`;
-                } else if (v.startsWith('**')) {
-                  return `[[[${v}]]]`;
-                } else {
-                  if (v.includes(replaceText) && !usedLinks.includes(link)) {
-                    usedLinks.push(link);
-                    return v.replace(replaceText, `[[[#${link.text}|${replaceText}]]]`);
+            const texts = [link.text, ...link.subTexts];
+            for (const replaceText of texts) {
+              // renderText 에서 replaceText 찾아서 모두 [[[ | ]]] 로 감싸도록 변경
+              linkText = linkText
+                .split(/\[\[\[([^\]]+)\]\]\]/g)
+                .map((v) => {
+                  if (v.startsWith('#') && v.includes('|')) {
+                    return `[[[${v}]]]`;
+                  } else if (v.startsWith('**')) {
+                    return `[[[${v}]]]`;
                   } else {
-                    return v;
+                    if (v.includes(replaceText) && !usedLinks.includes(link)) {
+                      usedLinks.push(link);
+                      return v.replace(replaceText, `[[[#${link.text}|${replaceText}]]]`);
+                    } else {
+                      return v;
+                    }
                   }
-                }
-              })
-              .join('');
+                })
+                .join('');
+            }
           }
         }
-      }
 
-      return {
-        text: line,
-        linkText: `${linkText}|||`,
-      };
-    });
+        return {
+          text: line,
+          linkText: `${linkText}|||`,
+        };
+      });
+    } else {
+      return Array.isArray(text)
+        ? text.map((line) => ({text: line, linkText: `${line}|||`}))
+        : util.text.splitLine(text).map((line) => ({text: line, linkText: `${line}|||`}));
+    }
   }, [text, links]);
 
   const contents = useMemo(() => {
@@ -163,17 +169,16 @@ export const LinkText = ({
 
             let activeStyle: TextProps['style'] | undefined;
             if (content.type === 'active') {
-              activeStyle = {
-                // fontWeight: 'bold',
-                // backgroundColor: '#e7ecff',
-                backgroundColor: '#fffcd8',
-              };
+              activeStyle = {backgroundColor: '#fffcd8'};
             }
 
             return (
               <React.Fragment key={`${idx}_${idx2}`}>
                 {isLink && notEmpty(linkText) ? (
-                  <T {...props} style={[style, activeStyle, linkStyle]} onPress={() => onLinkPress(linkText)}>
+                  <T
+                    {...props}
+                    style={[style, activeStyle, linkStyle]}
+                    onPress={onLinkPress ? () => onLinkPress(linkText) : undefined}>
                     {finalText}
                   </T>
                 ) : isAccent ? (

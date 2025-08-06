@@ -13,7 +13,7 @@ export interface FullScreenDialogButton {
 export interface FullScreenDialogProps
   extends Omit<ModalProps, 'presentationStyle' | 'transparent' | 'onRequestClose'> {
   __hide?: boolean;
-  type?: 'dialog' | 'alert' | 'confirm';
+  type?: 'dialog' | 'alert' | 'confirm' | 'loading';
   position?: 'top' | 'center' | 'bottom';
   keyboardAware?: boolean;
   keyboardAwareScrollViewRef?: RefObject<NativeScrollView>;

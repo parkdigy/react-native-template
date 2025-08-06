@@ -26,6 +26,16 @@ export function __open(props: DialogOnlyProps): DialogCommands {
   throw Error('Dialog Instance Not Exists');
 }
 
+export function __openLoading(): DialogCommands {
+  if (refs.length > (isHiding ? 1 : 0)) {
+    const lastInstance = refs[refs.length - (isHiding ? 2 : 1)].current;
+    if (lastInstance) {
+      return lastInstance.openLoading();
+    }
+  }
+  throw Error('Dialog Instance Not Exists');
+}
+
 export function __openAlert(props: DialogAlertProps): DialogCommands {
   if (refs.length > (isHiding ? 1 : 0)) {
     const lastInstance = refs[refs.length - (isHiding ? 2 : 1)].current;
