@@ -5,9 +5,20 @@
 # App
 -keep class domain.reactnativetemplate.** { *; }
 
-# hermes
--keep class com.facebook.hermes.unicode.** { *; }
--keep class com.facebook.jni.** { *; }
+# React Native
+-keep public class com.facebook.react.** {*;}
+-keep class com.facebook.react.bridge.** {*;}
+-keep class com.facebook.react.devsupport.** {*;}
+-keep class com.facebook.react.modules.** {*;}
+-keep class com.facebook.react.uimanager.** {*;}
+-keep class com.facebook.react.views.** {*;}
+-keep class com.facebook.react.packager.** {*;}
+-keep class com.facebook.react.v8executor.** {*;}
+-keep class com.facebook.react.util.** {*;}
+-keep class com.facebook.hermes.** {*;}
+
+# Firebase
+-keep class com.google.firebase.** { *; }
 
 # react-native-device-info
 -keepclassmembers class com.android.installreferrer.api.** { *; }
@@ -36,10 +47,17 @@
 -keep interface androidx.** { *; }
 -keep class androidx.** { *; }
 
+# webview
+-keep public class com.reactnativecommunity.webview.** { *; }
+-keep public class com.facebook.react.views.webview.** { *; }
+
+# react-native-svg
+-keep public class com.horcrux.svg.** {*;}
+
 # R8
-#-keepattributes LineNumberTable,SourceFile
-#-renamesourcefileattribute SourceFile
-#-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
-#-if interface * { @retrofit2.http.* public *** *(...); }
-#-keep,allowoptimization,allowshrinking,allowobfuscation class <3>
-#-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keepattributes LineNumberTable,SourceFile
+-renamesourcefileattribute SourceFile
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-if interface * { @retrofit2.http.* public *** *(...); }
+-keep,allowoptimization,allowshrinking,allowobfuscation class <3>
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
