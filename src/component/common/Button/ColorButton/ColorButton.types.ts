@@ -30,7 +30,23 @@ export type ColorButtonColors =
   | 'grey';
 
 export interface ColorButtonProps
-  extends Pick<ButtonProps, 'onPress' | 'onLongPress' | 'onLayout' | 'ml' | 'mr' | 'mt' | 'mb' | 'mh' | 'mv'>,
+  extends Pick<
+      ButtonProps,
+      | 'onPress'
+      | 'onLongPress'
+      | 'onLayout'
+      | 'ml'
+      | 'mr'
+      | 'mt'
+      | 'mb'
+      | 'mh'
+      | 'mv'
+      | 'borderRadius'
+      | 'borderTopLeftRadius'
+      | 'borderTopRightRadius'
+      | 'borderBottomLeftRadius'
+      | 'borderBottomRightRadius'
+    >,
     Pick<LinearGradientProps, 'angle' | 'angleCenter'>,
     Pick<TouchableOpacityProps, 'hitSlop'> {
   size?: 'x-small' | 'small' | 'medium' | 'large';
@@ -41,7 +57,6 @@ export interface ColorButtonProps
   labelAlign?: 'left' | 'center' | 'right';
   hideLabel?: boolean;
   labelMinWidth?: number;
-  borderRadius?: number;
   paddingHorizontal?: number;
   disabled?: boolean;
   loading?: boolean;

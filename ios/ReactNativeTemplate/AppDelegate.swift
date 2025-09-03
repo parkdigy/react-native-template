@@ -5,6 +5,8 @@ import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import Firebase
 import RNBootSplash
+import kakao_login
+import NaverThirdPartyLogin
 
 @main
 class AppDelegate: ExpoAppDelegate {
@@ -36,6 +38,18 @@ class AppDelegate: ExpoAppDelegate {
     )
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+  
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if RNKakaoLogins.isKakaoTalkLoginUrl(url) {
+      return RNKakaoLogins.handleOpen(url)
+    }
+    
+    if url.scheme == "{{ CUSTOM URL SCHEME }}" {
+      return NaverThirdPartyLoginConnection.getSharedInstance().application(app, open: url, options: options)
+    }
+    
+    return false
   }
 }
 

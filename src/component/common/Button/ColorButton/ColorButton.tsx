@@ -22,6 +22,10 @@ const ColorButton = ({
   angle = 45,
   angleCenter = {x: 0.5, y: 0.5},
   borderRadius = 999,
+  borderTopLeftRadius,
+  borderTopRightRadius,
+  borderBottomLeftRadius,
+  borderBottomRightRadius,
   paddingHorizontal: initPaddingHorizontal,
   ml,
   mr,
@@ -95,8 +99,16 @@ const ColorButton = ({
   }, [height, initPaddingHorizontal, size]);
 
   const gradientStyle = useMemo<LinearGradientProps['style']>(
-    () => ({width, height: width, borderRadius}),
-    [borderRadius, width],
+    () => ({
+      width,
+      height: width,
+      borderRadius,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      borderBottomLeftRadius,
+      borderBottomRightRadius,
+    }),
+    [borderBottomLeftRadius, borderBottomRightRadius, borderRadius, borderTopLeftRadius, borderTopRightRadius, width],
   );
 
   const iconContent = useMemo(() => {
@@ -172,6 +184,10 @@ const ColorButton = ({
         height={height}
         overflow='hidden'
         borderRadius={borderRadius}
+        borderTopLeftRadius={borderTopLeftRadius}
+        borderTopRightRadius={borderTopRightRadius}
+        borderBottomLeftRadius={borderBottomLeftRadius}
+        borderBottomRightRadius={borderBottomRightRadius}
         onLayout={(e) => {
           setWidth(e.nativeEvent.layout.width);
           onLayout?.(e);
