@@ -20,7 +20,7 @@ class AppDelegate: ExpoAppDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     FirebaseApp.configure()
-    
+
     let delegate = ReactNativeDelegate()
     let factory = ExpoReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()
@@ -39,16 +39,16 @@ class AppDelegate: ExpoAppDelegate {
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-  
-  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+  override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     if RNKakaoLogins.isKakaoTalkLoginUrl(url) {
       return RNKakaoLogins.handleOpen(url)
     }
-    
+
     if url.scheme == "{{ CUSTOM URL SCHEME }}" {
       return NaverThirdPartyLoginConnection.getSharedInstance().application(app, open: url, options: options)
     }
-    
+
     return false
   }
 }
