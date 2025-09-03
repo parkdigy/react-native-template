@@ -1722,7 +1722,7 @@ PODS:
     - Yoga
   - react-native-vector-icons-ionicons (12.0.0)
   - react-native-vector-icons-lucide (12.0.0)
-  - react-native-webview (13.13.5):
+  - react-native-webview (13.16.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2269,7 +2269,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSVG (15.12.0):
+  - RNSVG (15.12.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2292,9 +2292,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.12.0)
+    - RNSVG/common (= 15.12.1)
     - Yoga
-  - RNSVG/common (15.12.0):
+  - RNSVG/common (15.12.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2773,7 +2773,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 8cf8caf5fc0f5a5d3581b650579af9c85c16be04
   react-native-vector-icons-ionicons: 8b6dafd994b32061eb47e8746c96a7b5a6619bdb
   react-native-vector-icons-lucide: 5122d240d9122daee1b2de2cb0c4288d8f6fc14a
-  react-native-webview: 2489d02c8e729bbd323dcb83ab9ea3b0a150b3f6
+  react-native-webview: f0d598682cbc88a97d66da4121873d3467f76635
   React-NativeModulesApple: 3e3e6bf35c6ba5d0aa785e899087385821fa78bd
   React-oscompat: 56b4766e96b06843a3af49a6763ef40992e720aa
   React-perflogger: 8fe9ec5f9ddbab1b8906c1aec159aa946e0ba041
@@ -2819,7 +2819,7 @@ SPEC CHECKSUMS:
   RNNaverLogin: 197588b71758df3651ad90c2d0ff7c9c840dfb6a
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNScreens: 90b905d545a5ebbe976985702b8a39e3475727b2
-  RNSVG: 45e3c3210465e75ab6374c9f746179e75d76ce48
+  RNSVG: 680e961f640e381aab730a04b2371969686ed9f7
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: b37eeaa6148984cac70ecaf8022bb209e03296cb
 
