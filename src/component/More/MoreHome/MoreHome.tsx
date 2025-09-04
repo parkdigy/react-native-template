@@ -113,7 +113,7 @@ const MoreHome = ({navigation}: Props) => {
               title={
                 <TAccent>
                   {auth.reg_type === 'GUEST' ? (
-                    <>로그인 해주세요</>
+                    <>로그인해 주세요</>
                   ) : (
                     <>
                       <TAccent bold>{auth.name}</TAccent> 님 안녕하세요!
