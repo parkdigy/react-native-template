@@ -1,7 +1,7 @@
 import {ApiResult} from '@api';
 import {ConfigInfoData} from '../Common';
 
-export type AuthSigninType = 'KAKAO' | 'NAVER' | 'GOOGLE' | 'APPLE';
+export type AuthSigninType = 'GUEST' | 'KAKAO' | 'NAVER' | 'GOOGLE' | 'APPLE';
 
 /********************************************************************************************************************
  * 인증 정보
@@ -11,6 +11,7 @@ export interface AuthInfo {
   reg_type: AuthSigninType;
   user_key: string;
   email: string;
+  name: string | null;
   nickname: string;
   is_push_notification: boolean;
 }
@@ -20,7 +21,7 @@ export interface AuthInfo {
  * ******************************************************************************************************************/
 
 export interface AuthSignInRequestData {
-  type?: AuthSigninType;
+  type: AuthSigninType;
   kakao_access_token?: string;
   kakao_access_token_exp?: string;
   kakao_refresh_token?: string;
@@ -41,7 +42,7 @@ export interface AuthSignIn extends ApiResult {
  * ******************************************************************************************************************/
 
 export interface AuthSignupRequestData {
-  type?: AuthSigninType;
+  type: AuthSigninType;
   kakao_access_token?: string;
   kakao_access_token_exp?: string;
   kakao_refresh_token?: string;

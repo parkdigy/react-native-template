@@ -120,7 +120,7 @@ export default {
     onPurple: '#FFFFFF',
     purpleLine: '#B284FB',
     // splash
-    splashBackground: '#100f11',
+    splashBackground: '#F3F5F8',
     // panel
     panelTitle: darken('#696969', 5),
     // opacity

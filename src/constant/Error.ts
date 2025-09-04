@@ -5,7 +5,8 @@
 export const Error = {
   auth: {
     signIn: {
-      invalidSnsToken: 1002,
+      invalidSnsToken: 1000,
+      notExistsEmail: 1001,
     },
   },
   my: {

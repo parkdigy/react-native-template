@@ -15,7 +15,7 @@ export type FaqListData = FaqListDataItem[];
 
 export interface FaqList extends ApiResult {
   data: {
-    data_key: number;
+    data_key: string;
     items?: FaqListData;
   };
 }

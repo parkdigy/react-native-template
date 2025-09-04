@@ -5,3 +5,5 @@ export default storage;
 export {storage};
 
 export * from './storage.types';
+
+export * from './userStorage';

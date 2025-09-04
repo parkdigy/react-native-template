@@ -7,21 +7,16 @@ apply plugin: 'com.google.firebase.crashlytics'
 react {
     autolinkLibrariesWithApp()
 
-    ext {
-        hermesEnabled = (findProperty('expo.jsEngine') ?: "hermes") == "hermes"
-    }
-
-    // Added by install-expo-modules
     entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", rootDir.getAbsoluteFile().getParentFile().getAbsolutePath(), "android", "absolute"].execute(null, rootDir).text.trim())
     cliFile = new File(["node", "--print", "require.resolve('@expo/cli')"].execute(null, rootDir).text.trim())
     bundleCommand = "export:embed"
 }
 
 def enableProguardInReleaseBuilds = true
-def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
-
 def appVersionName = "1.0.0"
 def appVersionCode = 1
+
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
 def outputDirectory = "${layout.projectDirectory.asFile.absolutePath}/../@dist"
 project.mkdir outputDirectory
@@ -33,7 +28,7 @@ def outputStagingFileName = ''
 def outputReleasePath = ''
 def outputReleaseFileName = ''
 def buildDirectory = layout.getBuildDirectory()
-def destDirectory = ''
+def destDirectory
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -48,9 +43,6 @@ android {
         versionName appVersionName
         versionCode appVersionCode
         setProperty("archivesBaseName", applicationId + '_' + appVersionName + '_' + appVersionCode)
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
     }
     signingConfigs {
         debug {
@@ -60,9 +52,9 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('release.keystore')
+            storeFile file('debug.keystore')
             storePassword 'android'
-            keyAlias 'release_key'
+            keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
     }
@@ -72,30 +64,21 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            shrinkResources true
+            shrinkResources enableProguardInReleaseBuilds
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-//            ndk {
-//                debugSymbolLevel "FULL"
-//            }
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib'
             }
         }
         staging {
-            signingConfig signingConfigs.release
-            shrinkResources true
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-//            ndk {
-//                debugSymbolLevel "FULL"
-//            }
+            initWith release
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/staging/mergeStagingNativeLibs/out/lib'
             }
-            matchingFallbacks = ['debug', 'release']
+            matchingFallbacks = ['release']
         }
     }
 
@@ -133,6 +116,7 @@ project.ext.envConfigFiles = [
         release: ".env.production",
 ]
 
+// react-native-config
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 // aab 파일 이동, native-debug-symbols.zip 생성

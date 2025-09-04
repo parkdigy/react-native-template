@@ -5,6 +5,7 @@ import {ApiResult} from '@api';
  * ******************************************************************************************************************/
 
 export interface ConfigInfoData {
+  dt: string;
   auth_cookie_name: string;
   app_version: string;
   app_build_number: number;

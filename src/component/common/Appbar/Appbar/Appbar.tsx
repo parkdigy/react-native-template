@@ -133,7 +133,7 @@ const Appbar = React.forwardRef<AppbarCommands, Props>(
 
     const BackIcon = useCallback((iconProps: any) => <Icon name='chevron-back-outline' {...iconProps} />, []);
 
-    const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='contrast-outline' {...iconProps} />, []);
+    const ToggleColorSchemeIcon = useCallback((iconProps: any) => <Icon name='contrast' {...iconProps} />, []);
 
     const hasContent = !!(
       (notEmpty(title) && !hideTitle) ||

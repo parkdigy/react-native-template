@@ -24,3 +24,5 @@ export * from './BackAlert';
 export * from './ActiveDetector';
 export * from './WebView';
 export * from './Animatable';
+export * from './AuthSns';
+export * from './Terms';

@@ -1,9 +1,6 @@
 import React from 'react';
-import {getMessaging, AuthorizationStatus} from '@react-native-firebase/messaging';
 import {useAppState} from '@context';
 import {NotificationSettingsProps as Props} from './NotificationSettings.types';
-
-const messaging = getMessaging();
 
 export const NotificationSettings = ({}: Props) => {
   /********************************************************************************************************************
@@ -18,8 +15,13 @@ export const NotificationSettings = ({}: Props) => {
    * ******************************************************************************************************************/
 
   useEffect(() => {
-    messaging.hasPermission().then((permissionStatus) => {
-      if (!contains([AuthorizationStatus.NOT_DETERMINED, AuthorizationStatus.DENIED], permissionStatus)) {
+    firebase.messaging.hasPermission().then((permissionStatus) => {
+      if (
+        !contains(
+          [firebase.messaging.AuthorizationStatus.NOT_DETERMINED, firebase.messaging.AuthorizationStatus.DENIED],
+          permissionStatus,
+        )
+      ) {
         setHasPushPermission(true);
       } else {
         setHasPushPermission(false);
@@ -40,7 +42,7 @@ export const NotificationSettings = ({}: Props) => {
 
   const handleIsPushNotificationChange = useCallback(
     (value: boolean) => {
-      if (auth && value !== isPushNotification) {
+      if (value !== isPushNotification) {
         setIsPushNotificationChanging(true);
         setIsPushNotification(value);
 
@@ -61,9 +63,12 @@ export const NotificationSettings = ({}: Props) => {
 
   const handleActiveChange = useCallback((active: boolean, pastTime: number) => {
     if (active && pastTime > 10) {
-      messaging.hasPermission().then((permissionStatus) => {
+      firebase.messaging.hasPermission().then((permissionStatus) => {
         setHasPushPermission(
-          !contains([AuthorizationStatus.NOT_DETERMINED, AuthorizationStatus.DENIED], permissionStatus),
+          !contains(
+            [firebase.messaging.AuthorizationStatus.NOT_DETERMINED, firebase.messaging.AuthorizationStatus.DENIED],
+            permissionStatus,
+          ),
         );
       });
     }
@@ -82,40 +87,36 @@ export const NotificationSettings = ({}: Props) => {
       <ActiveDetector onChange={handleActiveChange} />
 
       <ContainerScrollView>
-        {auth && (
-          <>
-            {/* Push 알림 설정 */}
-            <View>
-              <TRight100 lh={42}>Push 알림 설정</TRight100>
-              {hasPushPermission !== undefined && (
-                <>
-                  {hasPushPermission ? (
-                    <Stack row center justifyContent={'space-between'} height={42}>
-                      <TAccent bold>알림 받기</TAccent>
-                      <View alignItems='center' justifyContent='center'>
-                        <FormSwitch
-                          style={{opacity: isPushNotificationChanging ? 0.3 : undefined}}
-                          disabled={isPushNotificationChanging}
-                          value={isPushNotification}
-                          onValueChange={handleIsPushNotificationChange}
-                        />
-                        {isPushNotificationChanging && (
-                          <View position='absolute'>
-                            <ActivityIndicator />
-                          </View>
-                        )}
+        {/* Push 알림 설정 */}
+        <View>
+          <TRight100 lh={42}>Push 알림 설정</TRight100>
+          {hasPushPermission !== undefined && (
+            <>
+              {hasPushPermission ? (
+                <Stack row center justifyContent={'space-between'} height={42}>
+                  <TAccent bold>알림 받기</TAccent>
+                  <View alignItems='center' justifyContent='center'>
+                    <FormSwitch
+                      style={{opacity: isPushNotificationChanging ? 0.3 : undefined}}
+                      disabled={isPushNotificationChanging}
+                      value={isPushNotification}
+                      onValueChange={handleIsPushNotificationChange}
+                    />
+                    {isPushNotificationChanging && (
+                      <View position='absolute'>
+                        <ActivityIndicator />
                       </View>
-                    </Stack>
-                  ) : (
-                    <>
-                      <Button onPress={handleRequestMessagingPermissionPress}>알림 받기</Button>
-                    </>
-                  )}
+                    )}
+                  </View>
+                </Stack>
+              ) : (
+                <>
+                  <Button onPress={handleRequestMessagingPermissionPress}>알림 받기</Button>
                 </>
               )}
-            </View>
-          </>
-        )}
+            </>
+          )}
+        </View>
       </ContainerScrollView>
     </>
   );

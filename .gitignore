@@ -6,6 +6,10 @@
 
 app.env
 
+# firebase
+GoogleService-Info.plist
+google-services.json
+
 # Ios
 ios/tmp.xcconfig
 ios/PrivacyManifestScanner*

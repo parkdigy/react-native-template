@@ -5,11 +5,11 @@
 import React from 'react';
 import {unstable_batchedUpdates} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {getMessaging} from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {AdvertisingStatus, MainScreenList, ScreenProps} from '@types';
 import {useAppState} from '@context';
 import {
+  AuthSignInScreen,
   FaqListScreen,
   MyNicknameChangeScreen,
   MyResignFormScreen,
@@ -20,11 +20,8 @@ import {
   TermsOfServiceScreen,
   ThemeSettingsScreen,
 } from '@screen';
-import AuthStack from '../AuthStack';
 import MainTab from './MainTab';
 import {Fcm} from './controls';
-
-const messaging = getMessaging();
 
 const Stack = createNativeStackNavigator<MainScreenList>();
 
@@ -99,13 +96,13 @@ const MainStack = ({navigation}: ScreenProps) => {
   }, []);
 
   useEffect(() => {
-    messaging.onNotificationOpenedApp((remoteMessage) => {
+    firebase.messaging.onNotificationOpenedApp((remoteMessage) => {
       if (remoteMessage.data) {
         app.notification.processData(navigation, remoteMessage.data);
       }
     });
 
-    messaging.getInitialNotification().then((remoteMessage) => {
+    firebase.messaging.getInitialNotification().then((remoteMessage) => {
       if (remoteMessage && remoteMessage.data) {
         app.notification.processData(navigation, remoteMessage.data);
       }
@@ -141,7 +138,7 @@ const MainStack = ({navigation}: ScreenProps) => {
     });
 
     unsubscribeList.push(
-      messaging.onMessage(async (remoteMessage) => {
+      firebase.messaging.onMessage(async (remoteMessage) => {
         if (remoteMessage.notification && remoteMessage.notification.body) {
           await app.notification.show(
             remoteMessage.notification.body.replace(/\n/g, '<br>'),
@@ -186,23 +183,21 @@ const MainStack = ({navigation}: ScreenProps) => {
 
       <Stack.Navigator initialRouteName='MainTab' screenOptions={commonStackNavigationOptions}>
         <Stack.Screen name='MainTab' component={MainTab} />
-        {auth && (
-          <Stack.Group>
-            <Stack.Screen name='MyResignForm' component={MyResignFormScreen} />
-            <Stack.Screen name='MyNicknameChange' component={MyNicknameChangeScreen} />
-          </Stack.Group>
-        )}
-        {!auth && <Stack.Screen name='AuthStack' component={AuthStack} options={{presentation: 'fullScreenModal'}} />}
 
-        <Stack.Group>
-          <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
-          <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />
-          <Stack.Screen name='NoticeList' component={NoticeListScreen} />
-          <Stack.Screen name='NoticeInfo' component={NoticeInfoScreen} />
-          <Stack.Screen name='FaqList' component={FaqListScreen} />
-          <Stack.Screen name='TermsOfService' component={TermsOfServiceScreen} />
-          <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />
+        <Stack.Screen name='ThemeSettings' component={ThemeSettingsScreen} />
+        <Stack.Screen name='TermsOfService' component={TermsOfServiceScreen} />
+        <Stack.Screen name='TermsOfPrivacy' component={TermsOfPrivacyScreen} />
+        <Stack.Screen name='NotificationSettings' component={NotificationSettingsScreen} />
+        <Stack.Screen name='NoticeList' component={NoticeListScreen} />
+        <Stack.Screen name='NoticeInfo' component={NoticeInfoScreen} />
+        <Stack.Screen name='FaqList' component={FaqListScreen} />
+        <Stack.Screen name='MyResignForm' component={MyResignFormScreen} />
+        <Stack.Screen name='MyNicknameChange' component={MyNicknameChangeScreen} />
+
+        <Stack.Group screenOptions={{headerShown: false, presentation: 'transparentModal', animation: 'none'}}>
+          <Stack.Screen name='AuthSignIn' component={AuthSignInScreen} />
         </Stack.Group>
+
       </Stack.Navigator>
 
       <Dialog />

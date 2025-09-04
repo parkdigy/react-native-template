@@ -4,8 +4,6 @@
 
 import './init';
 
-import 'react-native-gesture-handler';
+import App from './App';
 
-import AppContainer from './AppContainer';
-
-export default AppContainer;
+export default App;

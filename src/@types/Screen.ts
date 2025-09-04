@@ -26,21 +26,6 @@ interface NoticeInfoParam {
 type ScreenListToConst<T> = {[Key in keyof T]: IsScreen<T[Key]> extends never ? ScreenListToConst<T[Key]> : undefined};
 
 /********************************************************************************************************************
- * 로그인 / 회원가입
- * ******************************************************************************************************************/
-
-export type AuthScreenList = {
-  AuthHome: NoParams;
-  TermsOfPrivacy: NoParams;
-  TermsOfService: NoParams;
-};
-export const AuthScreenList: ScreenListToConst<AuthScreenList> = {
-  AuthHome: undefined,
-  TermsOfPrivacy: undefined,
-  TermsOfService: undefined,
-};
-
-/********************************************************************************************************************
  * 메인 홈 탭
  * ******************************************************************************************************************/
 
@@ -119,8 +104,8 @@ export const MainTabScreenList: ScreenListToConst<MainTabScreenList> = {
  * ******************************************************************************************************************/
 
 export type MainScreenList = {
-  AuthStack: AuthScreenList;
   MainTab: MainTabScreenList;
+  AuthSignIn: NoParams;
   MyResignForm: NoParams;
   MyNicknameChange: NoParams;
   ThemeSettings: NoParams;
@@ -132,8 +117,8 @@ export type MainScreenList = {
   TermsOfService: NoParams;
 };
 export const MainScreenList: ScreenListToConst<MainScreenList> = {
-  AuthStack: AuthScreenList,
   MainTab: MainTabScreenList,
+  AuthSignIn: undefined,
   MyResignForm: undefined,
   MyNicknameChange: undefined,
   ThemeSettings: undefined,

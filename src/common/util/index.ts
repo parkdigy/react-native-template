@@ -6,6 +6,7 @@ import react from './react';
 import style from './style';
 import random from './random';
 import text from './text';
+import cache from './cache';
 
 export const util = {
   compare,
@@ -16,6 +17,7 @@ export const util = {
   style,
   random,
   text,
+  cache,
 };
 
 export default util;

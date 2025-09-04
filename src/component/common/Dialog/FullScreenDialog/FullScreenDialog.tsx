@@ -176,7 +176,7 @@ const FullScreenDialog = ({
           minWidth={finalMinWidth}
           backgroundColor={ifUndefined(backgroundColor, theme.colors.background)}
           overflow='hidden'
-          borderRadius={fullMax ? 0 : 20}>
+          borderRadius={fullMax ? 0 : 15}>
           <View flex={fullHeight ? 1 : undefined}>
             {title && (
               <View
@@ -261,6 +261,8 @@ const FullScreenDialog = ({
   return (
     <Modal
       presentationStyle='overFullScreen'
+      statusBarTranslucent
+      navigationBarTranslucent
       transparent
       animationType={ifUndefined(animationType, 'none')}
       onRequestClose={() => {
@@ -269,17 +271,16 @@ const FullScreenDialog = ({
         }
       }}
       {...props}>
-      {isIos && (
-        <>
-          {fullMax ? (
-            statusBarStyle ? (
-              <StatusBar animated barStyle={statusBarStyle} />
-            ) : undefined
-          ) : (
-            <StatusBar animated barStyle={statusBarStyle || 'light-content'} />
-          )}
-        </>
-      )}
+      <>
+        {fullMax ? (
+          statusBarStyle ? (
+            <StatusBar animated barStyle={statusBarStyle} />
+          ) : undefined
+        ) : (
+          <StatusBar animated barStyle={statusBarStyle || 'light-content'} />
+        )}
+      </>
+
       <View style={containerViewStyle}>
         <Pressable
           position='absolute'

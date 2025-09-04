@@ -2,8 +2,11 @@ import {InternalAxiosRequestConfig} from 'axios';
 import {ApiOption, Api, ApiError, ApiRequestData, ApiRequestOption} from '@pdg/api';
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
-import {getBuildNumber} from 'react-native-device-info';
+import {getBuildNumber, getModel, getManufacturerSync} from 'react-native-device-info';
 import {ApiResult} from './api.types';
+
+const deviceModel = getModel();
+const deviceManufacturer = getManufacturerSync();
 
 export const API_BASE_URL =
   Platform.OS === 'android'
@@ -15,6 +18,9 @@ export const API_BASE_URL =
 export const API_AUTH_SIGN_IN_PATH = 'auth/signin';
 
 export let API_AUTH_COOKIE_NAME = '';
+
+let API_APP_KEY = '';
+let API_INSTALL_APP_KEY = '';
 
 function extractAuthKeyFromCookie(cookie: string) {
   const startChar = `${API_AUTH_COOKIE_NAME}=`;
@@ -79,17 +85,21 @@ const defaultOption: ApiOption = {
           if (res.request.responseURL.split('?')[0] === `${API_BASE_URL}/${API_AUTH_SIGN_IN_PATH}`) {
             storage.removeAuth();
             const cookies = res.headers['set-cookie'];
+            let foundAuthInfo = false;
             if (cookies) {
               for (const v of cookies) {
                 const authKey = extractAuthKeyFromCookie(v);
                 if (authKey) {
-                  const authType = responseData.data?.auth?.reg_type;
-                  if (authType) {
-                    storage.setAuth(authType, authKey);
+                  if (responseData.data?.auth) {
+                    storage.setAuth({authData: responseData.data.auth, authKey});
+                    foundAuthInfo = true;
                     break;
                   }
                 }
               }
+            }
+            if (!foundAuthInfo) {
+              app.getAppState()?.clearAuth();
             }
           }
         }
@@ -119,22 +129,36 @@ const defaultOption: ApiOption = {
 const appendDefaultData = (data?: ApiRequestData) => {
   if (data instanceof FormData) {
     data.append('_env_', Config.APP_ENV);
+    data.append('_ak_', API_APP_KEY);
+    data.append('_iak_', API_INSTALL_APP_KEY);
     data.append('_os_', isIos ? 'ios' : isAndroid ? 'aos' : '');
     data.append('_os_v_', `${Platform.Version}`);
     data.append('_bn_', getBuildNumber());
+    data.append('_dm_', deviceModel);
+    data.append('_dmf_', deviceManufacturer);
     return data;
   } else {
     return {
       _env_: Config.APP_ENV,
+      _ak_: API_APP_KEY,
+      _iak_: API_INSTALL_APP_KEY,
       _os_: isIos ? 'ios' : isAndroid ? 'aos' : '',
       _os_v_: `${Platform.Version}`,
       _bn_: getBuildNumber(),
+      _dm_: deviceModel,
+      _dmf_: deviceManufacturer,
       ...data,
     };
   }
 };
 
 export default {
+  _setAppKey(appKey: string) {
+    API_APP_KEY = appKey;
+  },
+  _setInstallAppKey(installAppKey: string) {
+    API_INSTALL_APP_KEY = installAppKey;
+  },
   _setAuthCookieName(cookieName: string) {
     API_AUTH_COOKIE_NAME = cookieName;
   },

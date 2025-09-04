@@ -66,4 +66,9 @@ class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
     Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif
   }
+  
+  override func customize(_ rootView: UIView) {
+    super.customize(rootView)
+    RNBootSplash.initWithStoryboard("BootSplash", rootView: rootView)
+  }
 }

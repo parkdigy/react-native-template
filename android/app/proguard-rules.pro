@@ -47,13 +47,6 @@
 -keep interface androidx.** { *; }
 -keep class androidx.** { *; }
 
-# webview
--keep public class com.reactnativecommunity.webview.** { *; }
--keep public class com.facebook.react.views.webview.** { *; }
-
-# react-native-svg
--keep public class com.horcrux.svg.** {*;}
-
 # R8
 -keepattributes LineNumberTable,SourceFile
 -renamesourcefileattribute SourceFile

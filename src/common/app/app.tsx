@@ -17,6 +17,7 @@ import {
   AppListenerValue,
   AppStatus,
   AppListenerTabRePressCallback,
+  AppListenerIsInternetConnectedCallback,
 } from './app.types';
 
 const {RNUtilModule} = NativeModules as TNativeModules;
@@ -24,12 +25,15 @@ const {RNUtilModule} = NativeModules as TNativeModules;
 const _extraParam: Dict<Dict> = {};
 let _appState: AppContextValue | undefined;
 let _lockScreen = false;
-let _appStatus: AppStatus = AppStatus.Loading;
+let _appStatus: AppStatus = AppStatus.Initializing;
 let _tabRePressName: keyof MainTabScreenList = 'MainTabHome';
+let _isInternetConnected = false;
+
 const _listeners: AppListeners = {
   appStatus: [],
   lockScreen: [],
   tabRePress: [],
+  isInternetConnected: [],
 };
 
 const app = {
@@ -54,6 +58,8 @@ const app = {
       ? AppListenerAppStatusCallback
       : Name extends 'tabRePress'
       ? AppListenerTabRePressCallback
+      : Name extends 'isInternetConnected'
+      ? AppListenerIsInternetConnectedCallback
       : never,
   >(name: Name, callback: Callback) {
     switch (name) {
@@ -66,6 +72,9 @@ const app = {
       case 'tabRePress':
         _listeners.tabRePress.push(callback as AppListenerTabRePressCallback);
         break;
+      case 'isInternetConnected':
+        _listeners.isInternetConnected.push(callback as AppListenerIsInternetConnectedCallback);
+        break;
     }
   },
 
@@ -77,6 +86,8 @@ const app = {
       ? AppListenerAppStatusCallback
       : Name extends 'tabRePress'
       ? AppListenerTabRePressCallback
+      : Name extends 'isInternetConnected'
+      ? AppListenerIsInternetConnectedCallback
       : never,
   >(name: Name, callback: Callback) {
     _listeners[name] = (_listeners[name] as []).filter((c) => c !== callback) as any;
@@ -90,6 +101,8 @@ const app = {
         return _appStatus as Value;
       case 'tabRePress':
         return _tabRePressName as Value;
+      case 'isInternetConnected':
+        return _isInternetConnected as Value;
       default:
         throw new Error('[app.getListenerValue] invalid name!');
     }
@@ -98,9 +111,39 @@ const app = {
   /********************************************************************************************************************
    * 앱 상태
    * ******************************************************************************************************************/
+
   setAppStatus(appStatus: AppStatus) {
     _appStatus = appStatus;
     _listeners.appStatus.forEach((c) => c(appStatus));
+  },
+
+  nextAppStatus(checkAppStatus: AppStatus | AppStatus[]) {
+    const prevAppStatus = _appStatus;
+    const finalCheckAppStatus = Array.isArray(checkAppStatus) ? checkAppStatus : [checkAppStatus];
+    if (finalCheckAppStatus.includes(_appStatus)) {
+      switch (_appStatus) {
+        case AppStatus.Initializing:
+          this.setAppStatus(AppStatus.ConfigLoading);
+          return `${prevAppStatus} -> ${AppStatus.ConfigLoading}`;
+        case AppStatus.ConfigLoading:
+          this.setAppStatus(AppStatus.EasUpdateChecking);
+          return `${prevAppStatus} -> ${AppStatus.EasUpdateChecking}`;
+        case AppStatus.EasUpdateChecking:
+        case AppStatus.EasUpdateInstalling:
+          this.setAppStatus(app.AppStatus.PermissionChecking);
+          return `${prevAppStatus} -> ${AppStatus.PermissionChecking}`;
+        case AppStatus.PermissionChecking:
+          this.setAppStatus(app.AppStatus.AuthLoading);
+          return `${prevAppStatus} -> ${AppStatus.AuthLoading}`;
+        case AppStatus.AuthLoading:
+          this.setAppStatus(AppStatus.Initialized);
+          return `${prevAppStatus} -> ${AppStatus.Initialized}`;
+        default:
+          return `${prevAppStatus} -> NONE`;
+      }
+    } else {
+      return `${finalCheckAppStatus.join(',')} / ${prevAppStatus}`;
+    }
   },
 
   /********************************************************************************************************************
@@ -193,6 +236,41 @@ const app = {
     _listeners.tabRePress.forEach((c) => {
       c(tabName);
     });
+  },
+
+  /********************************************************************************************************************
+   * 인터넷 연결 여부 업데이트
+   * ******************************************************************************************************************/
+
+  setIsInternetConnected(isInternetConnected: boolean) {
+    if (isInternetConnected !== _isInternetConnected) {
+      _isInternetConnected = isInternetConnected;
+      _listeners.isInternetConnected.forEach((c) => c(isInternetConnected));
+    }
+  },
+
+  /********************************************************************************************************************
+   * api 오류 다이얼로그 Alert 표시
+   * ******************************************************************************************************************/
+
+  showApiErrorAlert(err: any, processTitle: string) {
+    if (_isInternetConnected) {
+      if ((err as Error).message === 'Network Error') {
+        Dialog.openErrorAlert({content: '서버에 연결할 수 없습니다.\n잠시 후 재시도 해주세요.'});
+      } else {
+        Dialog.openErrorAlert({
+          contentTitle: `${processTitle} 실패`,
+          content: `${processTitle} 중 오류가 발생했습니다.\n잠시 후 재시도 해주세요.`,
+          subContent: app.getAxiosApiErrorResultMessage(err),
+          subHiddenContent: app.getAxiosApiErrorResultError(err),
+        });
+      }
+    } else {
+      Dialog.openErrorAlert({
+        contentTitle: `${processTitle} 실패`,
+        content: '인터넷에 연결되지 않았습니다.\n인터넷 연결을 확인 후 재시도 해주세요.',
+      });
+    }
   },
 
   /********************************************************************************************************************

@@ -14,7 +14,7 @@ export type NoticeListData = NoticeListDataItem[];
 
 export interface NoticeList extends ApiResult {
   data: {
-    data_key: number;
+    data_key: string;
     items?: NoticeListData;
   };
 }

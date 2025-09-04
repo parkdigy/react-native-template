@@ -6,7 +6,7 @@ import React, {useLayoutEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAppState} from '@context';
-import {useAppListener} from '@app';
+import app, {useAppListener} from '@app';
 import RootStack from './RootStack';
 
 const Stack = createNativeStackNavigator<{Root: undefined}>();
@@ -26,12 +26,6 @@ const DefaultLayout = () => {
 
   useLayoutEffect(() => {
     switch (appStatus) {
-      case app.AppStatus.AppSplashHiding:
-        nextTick(() => {
-          app.navigationBar.fullScreen(false);
-          app.navigationBar.set(theme.colors.background, theme.dark ? 'light' : 'dark');
-        });
-        break;
       case app.AppStatus.Main:
         nextTick(() => {
           app.navigationBar.fullScreen(false);
@@ -47,18 +41,7 @@ const DefaultLayout = () => {
 
   return (
     <>
-      {!contains(
-        [
-          app.AppStatus.Loading,
-          app.AppStatus.LoadError,
-          app.AppStatus.RequiredAppUpdate,
-          app.AppStatus.EasUpdateDownloading,
-          app.AppStatus.EasUpdateInstalling,
-          app.AppStatus.EasUpdateChecked,
-          app.AppStatus.AppSplashHiding,
-        ],
-        appStatus,
-      ) && (
+      {appStatus === app.AppStatus.Main && (
         <StatusBar
           animated
           barStyle={theme.dark ? 'light-content' : 'dark-content'}
