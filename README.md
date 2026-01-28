@@ -20,7 +20,7 @@
 
 - (Android) 아래 명령을 실행하여 debug.keystore 의 SHA-1 값을 Firebase 콘솔에 등록합니다.
   ```shell
-  keytool -J"-Duser.language=en" -genkey -list -v -alias androiddebugkey -keystore ./android/app/debug.keystore
+  keytool -J"-Duser.language=en" -list -v -alias androiddebugkey -keystore ./android/app/debug.keystore
   ```
 
 - ```google-services.json``` 파일을 ```android/app``` 디렉토리에 추가합니다.

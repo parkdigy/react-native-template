@@ -26,7 +26,7 @@ const replaceExtContent = (filePath, startText, findText, endText, replaceText) 
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const newFileContent = replaceTextExt(fileContent, startText, findText, endText, replaceText);
   fs.writeFileSync(filePath, newFileContent);
-}
+};
 
 /********************************************************************************************************************
  * (IOS) Info.plist 파일 변경
@@ -47,32 +47,32 @@ if (fs.existsSync(infoPlistPath)) {
       plistInfo.CFBundleURLTypes.push({
         CFBundleTypeRole: 'Editor',
         CFBundleURLName: 'firebase',
-        CFBundleURLSchemes: [env.FIREBASE_ENC_APP_ID_IOS]
+        CFBundleURLSchemes: [env.FIREBASE_ENC_APP_ID_IOS],
       });
     }
     if (env.KAKAO_APP_KEY) {
       plistInfo.CFBundleURLTypes.push({
         CFBundleTypeRole: 'Editor',
         CFBundleURLName: 'kakao',
-        CFBundleURLSchemes: [`kakao${env.KAKAO_APP_KEY}`]
+        CFBundleURLSchemes: [`kakao${env.KAKAO_APP_KEY}`],
       });
     }
     if (env.NAVER_LOGIN_URL_SCHEME_IOS) {
       plistInfo.CFBundleURLTypes.push({
         CFBundleTypeRole: 'Editor',
         CFBundleURLName: 'naver',
-        CFBundleURLSchemes: [env.NAVER_LOGIN_URL_SCHEME_IOS]
+        CFBundleURLSchemes: [env.NAVER_LOGIN_URL_SCHEME_IOS],
       });
     }
     if (env.URL_SCHEME_IOS) {
       plistInfo.CFBundleURLTypes.push({
         CFBundleTypeRole: 'Editor',
         CFBundleURLName: 'app',
-        CFBundleURLSchemes: [env.URL_SCHEME_IOS]
+        CFBundleURLSchemes: [env.URL_SCHEME_IOS],
       });
     }
   } else {
-    plistInfo.CFBundleURLTypes.forEach(info => {
+    plistInfo.CFBundleURLTypes.forEach((info) => {
       if (env.FIREBASE_ENC_APP_ID_IOS) {
         if (info.CFBundleURLName === 'firebase') {
           info.CFBundleURLSchemes = [env.FIREBASE_ENC_APP_ID_IOS];
@@ -93,7 +93,7 @@ if (fs.existsSync(infoPlistPath)) {
           info.CFBundleURLSchemes = [env.URL_SCHEME_IOS];
         }
       }
-    })
+    });
   }
 
   if (env.USER_TRACKING_USAGE_DESCRIPTION) {
@@ -136,12 +136,12 @@ if (fs.existsSync(entitlementsPath)) {
   const fileInfo = plist.parse(fs.readFileSync(entitlementsPath, 'utf8'));
   const node = [];
   if (env.WEB_CREDENTIALS_DOMAINS) {
-    env.WEB_CREDENTIALS_DOMAINS.split(',').forEach(domain => {
+    env.WEB_CREDENTIALS_DOMAINS.split(',').forEach((domain) => {
       node.push(`webcredentials:${domain}`);
     });
   }
   if (env.APP_LINKS_DOMAINS) {
-    env.APP_LINKS_DOMAINS.split(',').forEach(domain => {
+    env.APP_LINKS_DOMAINS.split(',').forEach((domain) => {
       node.push(`applinks:${domain}`);
     });
   }
@@ -158,14 +158,19 @@ if (fs.existsSync(appDelegatePath)) {
 
   let fileContent = fs.readFileSync(appDelegatePath, 'utf8');
 
-  let end = fileContent.indexOf('[[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];');
+  let end = fileContent.indexOf(
+    '[[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];',
+  );
   if (end > -1) {
     const findStr = 'if ([url.scheme isEqualToString:@"';
     let start = fileContent.lastIndexOf(findStr, end);
     if (start > -1) {
       start += findStr.length;
       end = fileContent.indexOf('"])', start);
-      fileContent = fileContent.substring(0, start) + (env.NAVER_LOGIN_URL_SCHEME_IOS || 'naver-url-scheme') + fileContent.substring(end);
+      fileContent =
+        fileContent.substring(0, start) +
+        (env.NAVER_LOGIN_URL_SCHEME_IOS || 'naver-url-scheme') +
+        fileContent.substring(end);
     }
   }
 
@@ -183,11 +188,11 @@ if (fs.existsSync(androidManifestPath)) {
 
   let start = fileContent.indexOf('android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"');
   if (start > -1) {
-    const findStr = '<data android:host="oauth" android:scheme="';
+    const findStr = '"kakao%kakao_app_key%';
     start = fileContent.indexOf(findStr, start);
     if (start > -1) {
-      start += findStr.length;
-      const end = fileContent.indexOf('"', start);
+      start += 1;
+      const end = fileContent.indexOf('"', start + 1);
       if (end > -1) {
         fileContent = fileContent.substring(0, start) + `kakao${env.KAKAO_APP_KEY}` + fileContent.substring(end);
       }
@@ -196,7 +201,6 @@ if (fs.existsSync(androidManifestPath)) {
 
   fs.writeFileSync(androidManifestPath, fileContent);
 }
-
 
 /********************************************************************************************************************
  * (Android) strings.xml 파일 변경

@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "exec &gt; &quot;${PROJECT_DIR}/prebuild.dev.log&quot; 2&gt;&amp;1&#10;echo &quot;Starting build scheme Pre-actions&quot;&#10;&#10;rm -f &quot;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m&quot;&#10;echo &quot;remove GeneratedDotEnv.m&quot;&#10;&#10;&quot;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb&quot; &quot;${SRCROOT}/..&quot; &quot;${SRCROOT}/tmp.xcconfig&quot; &quot;.env.development&quot;&#10;">
+               scriptText = "exec &gt; &quot;${PROJECT_DIR}/prebuild.dev.log&quot; 2&gt;&amp;1&#10;echo &quot;Starting build scheme Pre-actions&quot;&#10;&#10;export ENVFILE=.env.development&#10;&#10;cp &quot;${PROJECT_DIR}/../${ENVFILE}&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;&#10;rm -f &quot;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m&quot;&#10;echo &quot;remove GeneratedDotEnv.m&quot;&#10;&#10;&quot;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb&quot; &quot;${SRCROOT}/..&quot; &quot;${SRCROOT}/tmp.xcconfig&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
