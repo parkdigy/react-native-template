@@ -1,8 +1,7 @@
-import React from 'react';
-import {Linking, ViewStyle} from 'react-native';
-import _AutoHeightWebView, {SizeUpdate} from 'react-native-autoheight-webview';
-import {WebViewSourceHtml} from 'react-native-webview/lib/WebViewTypes';
-import {AutoHeightWebViewProps as Props} from './AutoHeightWebView.types';
+import {Linking, type ViewStyle} from 'react-native';
+import _AutoHeightWebView, {type SizeUpdate} from 'react-native-autoheight-webview';
+import {type WebViewSourceHtml} from 'react-native-webview/lib/WebViewTypes';
+import {type AutoHeightWebViewProps as Props} from './AutoHeightWebView.types';
 
 const customStyle = `
 body { margin: 0; padding: 0; font-size: 16px; font-family: "Pretendard","Dotum",sans-serif; line-height: 1.5; }
@@ -14,7 +13,7 @@ iframe { border: 0; }
 
 const viewportContent = 'width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no';
 
-const AutoHeightWebView: React.FC<Props> = ({style, onSizeUpdated, ...props}) => {
+const AutoHeightWebView = ({style, onSizeUpdated, ...props}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/

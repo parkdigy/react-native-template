@@ -1,5 +1,4 @@
-import React from 'react';
-import {ScreenProps} from '@types';
+import {type ScreenProps} from '@types';
 import {Home} from '@comp';
 import {ScreenBase} from '../@common';
 

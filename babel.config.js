@@ -1,8 +1,28 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['babel-preset-expo'],
+    presets: ['module:@react-native/babel-preset', ['@babel/preset-react', {runtime: 'automatic'}]],
     plugins: [
+      [
+        'babel-plugin-react-compiler',
+        {
+          panicThreshold: 'all_errors',
+          logger: {
+            logEvent(filename, event) {
+              switch (event.kind) {
+                case 'CompileSuccess': {
+                  // console.log(`✅ Compiled: ${filename}`);
+                  break;
+                }
+                case 'CompileError': {
+                  console.log(`❌ Skipped: ${filename}`);
+                  break;
+                }
+              }
+            },
+          },
+        },
+      ],
       'babel-plugin-styled-components',
       [
         'module-resolver',
@@ -10,6 +30,7 @@ module.exports = function (api) {
           root: ['./src'],
           extensions: ['.ios.ts', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
+            '@': './src',
             '@types': './src/@types',
             '@style': './src/@style',
             '@theme': './src/theme',

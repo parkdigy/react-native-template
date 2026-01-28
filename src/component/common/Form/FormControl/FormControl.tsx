@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
-import {useFirstSkipEffect} from '@pdg/react-hook';
+import {useState} from 'react';
 import {Text_Default} from '../../Text';
 import {useFormState} from '../FormContext';
-import {FormControlProps as Props, FormControlCommands} from './FormControl.types';
+import {type FormControlProps as Props, type FormControlCommands} from './FormControl.types';
 
 function FormControl<T extends unknown>({
   $controlType,
@@ -30,15 +29,10 @@ function FormControl<T extends unknown>({
   const formState = useFormState();
 
   /********************************************************************************************************************
-   * Ref
-   * ******************************************************************************************************************/
-
-  const containerRef = useRef<NativeView>(null);
-
-  /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
 
+  const [container, setContainer] = useState<NativeView | null>(null);
   const [error, setError] = useState<boolean | string>(ifUndefined(initError, false));
 
   /********************************************************************************************************************
@@ -64,7 +58,7 @@ function FormControl<T extends unknown>({
   const commands: FormControlCommands<T> = useMemo(() => {
     const baseCommands = {
       getContainer() {
-        return containerRef.current;
+        return container;
       },
       validate(noSetError?: boolean) {
         if (required && empty(value)) {
@@ -102,7 +96,7 @@ function FormControl<T extends unknown>({
     } else {
       return baseCommands;
     }
-  }, [$onGetCommands, onValidate, required, value]);
+  }, [$onGetCommands, container, onValidate, required, value]);
 
   useEffect(() => {
     formState?.addControl(name, $controlType, commands);
@@ -117,7 +111,7 @@ function FormControl<T extends unknown>({
    * ******************************************************************************************************************/
 
   return (
-    <View ref={containerRef}>
+    <View ref={(r) => setContainer(r)}>
       {label && (
         <View mb={10}>
           <Label required={required} error={error !== false} style={labelStyle}>

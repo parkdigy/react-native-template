@@ -1,6 +1,5 @@
-import {ReactElement, RefObject} from 'react';
-import {StatusBarStyle} from 'react-native';
-import {KeyboardAwareScrollViewProps} from '../../KeyboardAware';
+import {type StatusBarStyle} from 'react-native';
+import {type KeyboardAwareScrollViewProps} from '../../KeyboardAware';
 
 export interface FullScreenDialogButton {
   label: string;

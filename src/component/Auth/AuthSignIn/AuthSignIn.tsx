@@ -1,20 +1,19 @@
-import React from 'react';
 import Config from 'react-native-config';
 import {
-  AppleUserInfo,
+  type AppleUserInfo,
   AuthSns,
-  GoogleUserInfo,
-  KakaoUserInfo,
-  NaverUserInfo,
+  type GoogleUserInfo,
+  type KakaoUserInfo,
+  type NaverUserInfo,
   SlideFullScreenView,
-  SlideFullScreenViewCommand,
+  type SlideFullScreenViewCommand,
   TermsOfPrivacyDialog,
   TermsOfServiceDialog,
 } from '@ccomp';
 import {useAppState} from '@context';
 import app from '@app';
-import {AuthSignInRequestData, AuthSigninType} from '@const';
-import {AuthSignInProps as Props} from './AuthSignIn.types';
+import {type AuthSignInRequestData, type AuthSigninType} from '@const';
+import {type AuthSignInProps as Props} from './AuthSignIn.types';
 import {StatusBar} from 'react-native';
 
 export const AuthSignIn = ({navigation}: Props) => {

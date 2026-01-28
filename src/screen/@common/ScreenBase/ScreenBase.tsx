@@ -4,9 +4,9 @@
 
 import React from 'react';
 import ErrorBoundary from 'react-native-error-boundary';
-import {Button, SafeAreaView, View, Stack, SafeAreaViewProps} from '@ccomp';
-import {ScreenBaseProps as Props} from './ScreenBase.types';
-import {StackHeaderProps, StackNavigationOptions} from '@react-navigation/stack';
+import {Button, SafeAreaView, View, Stack, type SafeAreaViewProps} from '@ccomp';
+import {type ScreenBaseProps as Props} from './ScreenBase.types';
+import {type StackHeaderProps, type StackNavigationOptions} from '@react-navigation/stack';
 
 type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer TProps>
   ? TProps

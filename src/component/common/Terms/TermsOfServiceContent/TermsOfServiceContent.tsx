@@ -1,7 +1,6 @@
-import React from 'react';
 import WebView from 'react-native-webview';
 import {ApiErrorBackAlert} from '../../BackAlert/ApiErrorBackAlert';
-import {TermsOfServiceContentProps as Props} from './TermsOfServiceContent.types';
+import {type TermsOfServiceContentProps as Props} from './TermsOfServiceContent.types';
 
 export const TermsOfServiceContent = ({}: Props) => {
   /********************************************************************************************************************

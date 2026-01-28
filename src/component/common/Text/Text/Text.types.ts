@@ -1,6 +1,6 @@
-import {AnimatableProps} from 'react-native-animatable';
-import {TextProps as NativeTextProps, TextStyle} from 'react-native';
-import {CustomComponentStyleProps} from '../../CustomComponent';
+import {type AnimatableProps} from 'react-native-animatable';
+import {type TextProps as NativeTextProps, type TextStyle} from 'react-native';
+import {type CustomComponentStyleProps} from '../../CustomComponent';
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.193;
 
@@ -89,6 +89,7 @@ export interface TextProps
       | 'textTransform'
     >,
     Omit<AnimatableProps<TextStyle>, 'animation' | 'useNativeDriver'> {
+  ref?: Ref<NativeText>;
   center?: boolean;
   color?: TextColor;
   c?: TextColor;

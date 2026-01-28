@@ -2,8 +2,7 @@
  * 공지사항 목록 아이템 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {NoticeListDataItem} from '@const';
+import {type NoticeListDataItem} from '@const';
 
 interface Props {
   info: NoticeListDataItem;

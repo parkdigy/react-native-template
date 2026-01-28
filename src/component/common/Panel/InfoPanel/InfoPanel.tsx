@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text_Primary} from '../../Text';
-import {InfoPanelProps as Props} from './InfoPanel.types';
-import {InfoPanelItemProps} from '@ccomp';
+import {type InfoPanelProps as Props} from './InfoPanel.types';
+import {type InfoPanelItemProps} from '@ccomp';
 
 export const InfoPanel = ({title, children, ...props}: Props) => {
   /********************************************************************************************************************

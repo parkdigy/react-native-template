@@ -1,7 +1,6 @@
-import {SectionListProps} from 'react-native';
-import {ReactElement} from 'react';
+import {type SectionListProps} from 'react-native';
 import {LoadingStatus} from '@const';
-import {ApiFlatListProps} from '../ApiFlatList';
+import {type ApiFlatListProps} from '../ApiFlatList';
 
 export const ApiSectionListSection = {
   Header: 'header',
@@ -45,6 +44,7 @@ export interface ApiSectionListProps<T extends ApiSectionListItem>
       | 'onReloadWhenActiveFromBackground'
       | 'onReloadWhenActiveFromLongTermDeActive'
     > {
+  ref?: Ref<ApiSectionListCommands<T>>;
   listPaddingHorizontal?: number;
   listMarginTop?: number;
   listMinHeight?: number;

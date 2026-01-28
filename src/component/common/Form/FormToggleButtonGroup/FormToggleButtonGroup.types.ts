@@ -1,4 +1,4 @@
-import {FormControlCommands, FormControlProps} from '../FormControl';
+import {type FormControlCommands, type FormControlProps} from '../FormControl';
 
 export type FormToggleButtonGroupValue = string | number;
 
@@ -21,6 +21,7 @@ export interface FormToggleButtonGroupProps<
   Value extends (Multiple extends false ? T : T[]) | undefined = (Multiple extends false ? T : T[]) | undefined,
 > extends Omit<FormControlProps<Value>, '$controlType' | 'component' | '$onGetCommands'>,
     PartialPick<FormControlProps<Value>, '$controlType'> {
+  ref?: Ref<FormToggleButtonGroupCommands<T, Multiple>>;
   buttonType?: 'default' | 'chip';
   multiple?: Multiple;
   multipleMinCount?: number;

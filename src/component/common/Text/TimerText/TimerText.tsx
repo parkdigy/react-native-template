@@ -1,6 +1,5 @@
-import React from 'react';
 import {Text_Default} from '../Text';
-import {TimerTextProps as Props} from './TimerText.types';
+import {type TimerTextProps as Props} from './TimerText.types';
 
 const DEFAULT_LIMIT_SECONDS = 60 * 5;
 
@@ -24,10 +23,24 @@ const TimerText = ({startDate, limitSeconds, onLimitExceed, ...props}: Props) =>
   const finalLimitSeconds = useMemo(() => ifUndefined(limitSeconds, DEFAULT_LIMIT_SECONDS), [limitSeconds]);
 
   /********************************************************************************************************************
+   * Function
+   * ******************************************************************************************************************/
+
+  const makeText = useCallback((remainSeconds: number) => {
+    if (remainSeconds <= 0) {
+      setText('');
+    } else {
+      const min = `${Math.floor(remainSeconds / 60) + 100}`.substring(1);
+      const sec = `${(remainSeconds % 60) + 100}`.substring(1);
+      setText(`${min}:${sec}`);
+    }
+  }, []);
+
+  /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
 
-  useEffect(() => {
+  useEventEffect(() => {
     const firstRemainSeconds = finalLimitSeconds - Math.floor((nowTime() - startDate.getTime()) / 1000);
     if (firstRemainSeconds > 0) {
       makeText(firstRemainSeconds);
@@ -58,19 +71,7 @@ const TimerText = ({startDate, limitSeconds, onLimitExceed, ...props}: Props) =>
         timerRef.current = undefined;
       }
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [finalLimitSeconds, startDate]);
-
-  const makeText = useCallback((remainSeconds: number) => {
-    if (remainSeconds <= 0) {
-      setText('');
-    } else {
-      const min = `${Math.floor(remainSeconds / 60) + 100}`.substring(1);
-      const sec = `${(remainSeconds % 60) + 100}`.substring(1);
-      setText(`${min}:${sec}`);
-    }
-  }, []);
 
   /********************************************************************************************************************
    * Render

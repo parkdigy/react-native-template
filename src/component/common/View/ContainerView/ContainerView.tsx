@@ -1,7 +1,6 @@
-import React from 'react';
-import {ContainerViewProps as Props} from './ContainerView.types';
+import {type ContainerViewProps as Props} from './ContainerView.types';
 
-const ContainerView = React.forwardRef<NativeView, Props>(({flex, ph, pv, ...props}, ref) => {
+const ContainerView = ({flex, ph, pv, ...props}: Props) => {
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
@@ -14,7 +13,7 @@ const ContainerView = React.forwardRef<NativeView, Props>(({flex, ph, pv, ...pro
    * Render
    * ******************************************************************************************************************/
 
-  return <View ref={ref} flex={finalFlex} ph={finalPh} pv={finalPv} {...props} />;
-});
+  return <View flex={finalFlex} ph={finalPh} pv={finalPv} {...props} />;
+};
 
 export default ContainerView;

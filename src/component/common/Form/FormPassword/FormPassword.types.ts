@@ -1,8 +1,9 @@
-import {FormTextCommands, FormTextProps} from '../FormText';
+import {type FormTextCommands, type FormTextProps} from '../FormText';
 
 export interface FormPasswordCommands extends FormTextCommands {}
 
 export interface FormPasswordProps extends Omit<FormTextProps, 'type' | '$onGetCommands'> {
+  ref?: Ref<FormPasswordCommands>;
   type?: 'password' | 'newPassword';
   formatAlphabet?: boolean;
   formatNumeric?: boolean;

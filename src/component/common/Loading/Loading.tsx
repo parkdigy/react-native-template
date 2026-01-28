@@ -1,5 +1,4 @@
-import React from 'react';
-import {LoadingProps as Props} from './Loading.types';
+import {type LoadingProps as Props} from './Loading.types';
 
 const Loading = ({}: Props) => {
   return (

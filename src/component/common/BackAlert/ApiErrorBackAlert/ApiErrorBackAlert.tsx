@@ -2,8 +2,7 @@
  * API 오류 재시도 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {ApiErrorBackAlertProps as Props} from './ApiErrorBackAlert.types';
+import {type ApiErrorBackAlertProps as Props} from './ApiErrorBackAlert.types';
 
 const ApiErrorBackAlert = ({text: initText, noIcon, ...props}: Props) => {
   return (

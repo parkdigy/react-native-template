@@ -1,4 +1,4 @@
-import {FormControlCommands, FormControlType} from '../FormControl';
+import {type FormControlCommands, type FormControlType} from '../FormControl';
 
 export interface FormContextControl<Commands extends FormControlCommands<unknown> = FormControlCommands<unknown>> {
   type: FormControlType;

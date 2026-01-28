@@ -1,6 +1,5 @@
-import React from 'react';
 import {Text_Default} from '../../Text';
-import {PanelValueListProps as Props} from './PanelValueList.types';
+import {type PanelValueListProps as Props} from './PanelValueList.types';
 
 const LineHeight = 16.8;
 

@@ -2,11 +2,9 @@
  * 'FAQ 목록' 화면 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {useFirstSkipEffect} from '@pdg/react-hook';
-import {FaqListData, FaqListDataItem, LoadingStatus} from '@const';
-import {ApiSectionListCommands, FormSearchTextCommands, FormToggleButtonGroupItems} from '@ccomp';
-import {FaqListProps as Props} from './FaqList.types';
+import {type FaqListData, type FaqListDataItem, LoadingStatus} from '@const';
+import {type ApiSectionListCommands, type FormSearchTextCommands, type FormToggleButtonGroupItems} from '@ccomp';
+import {type FaqListProps as Props} from './FaqList.types';
 import {FaqListItem, FaqListLoading} from './controls';
 
 const LIMIT = 99999;
@@ -43,30 +41,10 @@ const FaqList = ({}: Props) => {
   const [listHeight, setListHeight] = useState<number>(0);
 
   /********************************************************************************************************************
-   * Memo
+   * Changed
    * ******************************************************************************************************************/
 
-  const isLoading = useMemo(
-    () => loadingStatus === undefined || Const.LoadingStatus.isLoading(loadingStatus),
-    [loadingStatus],
-  );
-
-  /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  useFirstSkipEffect(() => {
-    setActiveId(undefined);
-    if (list) {
-      const finalList = filterList(list);
-      apiSectionListCommands.current?.setList(
-        finalList,
-        empty(finalList) ? LoadingStatus.Empty : LoadingStatus.Complete,
-      );
-    }
-  }, [category, keyword]);
-
-  useEffect(() => {
+  useChanged(() => {
     if (list) {
       const newCategoryList: string[] = [];
       let lastCategory: string | undefined;
@@ -83,6 +61,15 @@ const FaqList = ({}: Props) => {
       setCategoryItems(undefined);
     }
   }, [list]);
+
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
+
+  const isLoading = useMemo(
+    () => loadingStatus === undefined || Const.LoadingStatus.isLoading(loadingStatus),
+    [loadingStatus],
+  );
 
   /********************************************************************************************************************
    * Function
@@ -102,6 +89,21 @@ const FaqList = ({}: Props) => {
     },
     [category, keyword],
   );
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useFirstSkipEffect(() => {
+    setActiveId(undefined);
+    if (list) {
+      const finalList = filterList(list);
+      apiSectionListCommands.current?.setList(
+        finalList,
+        empty(finalList) ? LoadingStatus.Empty : LoadingStatus.Complete,
+      );
+    }
+  }, [category, keyword]);
 
   /********************************************************************************************************************
    * Event Handler

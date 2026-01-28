@@ -2,9 +2,8 @@
  * MY 탭 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MainTabMoreScreenList, ScreenProps} from '@types';
+import {MainTabMoreScreenList, type ScreenProps} from '@types';
 import {MoreHomeScreen} from '@screen';
 import {useAppState} from '@context';
 

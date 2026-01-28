@@ -1,7 +1,6 @@
-import React from 'react';
 import {TouchableOpacity as NativeTouchableOpacity} from 'react-native';
 import CustomComponent from '../../CustomComponent';
-import {TouchableOpacityProps as Props} from './TouchableOpacity.types';
+import {type TouchableOpacityProps as Props} from './TouchableOpacity.types';
 
 const TouchableOpacity = ({activeOpacity, ...props}: Props) => {
   return (

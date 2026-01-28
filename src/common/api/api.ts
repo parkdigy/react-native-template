@@ -1,9 +1,9 @@
-import {InternalAxiosRequestConfig} from 'axios';
-import {ApiOption, Api, ApiError, ApiRequestData, ApiRequestOption} from '@pdg/api';
+import {type InternalAxiosRequestConfig} from 'axios';
+import {type ApiOption, Api, ApiError, type ApiRequestData, type ApiRequestOption} from '@pdg/api';
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
 import {getBuildNumber, getModel, getManufacturerSync} from 'react-native-device-info';
-import {ApiResult} from './api.types';
+import {type ApiResult} from './api.types';
 
 const deviceModel = getModel();
 const deviceManufacturer = getManufacturerSync();
@@ -60,6 +60,7 @@ const defaultOption: ApiOption = {
         config.headers['Content-Type'] = 'multipart/form-data';
       }
     }
+
     return config;
   },
 

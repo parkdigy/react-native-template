@@ -1,4 +1,3 @@
-import React from 'react';
 import app, {AppStatus} from '@app';
 import {Text_Accent} from '@ccomp';
 
@@ -17,11 +16,11 @@ export const AppInitializer_LogText = ({appStatus}: Props) => {
   const [logText, setLogText] = useState<string>();
 
   /********************************************************************************************************************
-   * Effect
+   * Changed
    * ******************************************************************************************************************/
 
   /** 앱 활성 상태 변경 시, 로그 텍스트 업데이트 (개발, 스테이징 환경에서만 사용) */
-  useEffect(() => {
+  useChanged(() => {
     if (IsUse) {
       let newLogText: string | undefined;
       switch (appStatus) {

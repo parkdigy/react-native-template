@@ -1,10 +1,8 @@
-import React from 'react';
-import {FormContextValue, useFormState} from '../FormContext';
+import {type FormContextValue, useFormState} from '../FormContext';
 import FormContextProvider from '../FormContextProvider';
-import {FormProps as Props, FormCommands} from './Form.types';
-import {useForwardLayoutRef} from '@pdg/react-hook';
+import {type FormProps as Props, type FormCommands} from './Form.types';
 
-const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubmit, onSubmitError}, ref) => {
+const FormInner = ({ref, children, flex, onSubmit, onSubmitError}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -16,7 +14,7 @@ const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubm
    * Commands
    * ******************************************************************************************************************/
 
-  useForwardLayoutRef(
+  useForwardRef(
     ref,
     useMemo<FormCommands>(
       () => ({
@@ -55,18 +53,14 @@ const FormInner = React.forwardRef<FormCommands, Props>(({children, flex, onSubm
    * ******************************************************************************************************************/
 
   return <View flex={flex}>{children}</View>;
-});
+};
 
-const Form = React.forwardRef<FormCommands, Props>(({children, parentScrollView, ...props}, ref) => {
+const Form = ({children, parentScrollView, ...props}: Props) => {
   return (
     <FormContextProvider parentScrollView={parentScrollView}>
-      <FormInner ref={ref} {...props}>
-        {children}
-      </FormInner>
+      <FormInner {...props}>{children}</FormInner>
     </FormContextProvider>
   );
-});
-
-Form.displayName = 'Form';
+};
 
 export default Form;

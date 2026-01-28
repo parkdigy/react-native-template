@@ -1,7 +1,5 @@
-import React, {ReactElement} from 'react';
-import {Animated, FlatListProps} from 'react-native';
+import {Animated, type FlatListProps} from 'react-native';
 import {LoadingStatus} from '@const';
-import AnimatedProps = Animated.AnimatedProps;
 
 export interface AnimatedApiFlatListItem {
   id: number | string;
@@ -18,7 +16,7 @@ export interface AnimatedApiFlatListCommands<T extends AnimatedApiFlatListItem =
 
 export interface AnimatedApiFlatListProps<T extends AnimatedApiFlatListItem>
   extends Omit<
-    AnimatedProps<FlatListProps<T>>,
+    Animated.AnimatedProps<FlatListProps<T>>,
     | 'data'
     | 'keyExtractor'
     | 'refreshing'

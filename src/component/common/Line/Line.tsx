@@ -1,8 +1,7 @@
-import React from 'react';
 import {StyleSheet} from 'react-native';
-import {LineProps as Props} from './Line.types';
+import {type LineProps as Props} from './Line.types';
 
-const Line: React.FC<Props> = ({height, color, ...props}) => {
+const Line = ({height, color, ...props}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/
@@ -21,7 +20,5 @@ const Line: React.FC<Props> = ({height, color, ...props}) => {
     />
   );
 };
-
-Line.displayName = 'Line';
 
 export default Line;

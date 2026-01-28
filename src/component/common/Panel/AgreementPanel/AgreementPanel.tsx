@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text_Default} from '../../Text';
-import AgreementPanelItem, {AgreementPanelItemCommand, AgreementPanelItemProps} from '../AgreementPanelItem';
-import {AgreementPanelProps as Props} from './AgreementPanel.types';
+import AgreementPanelItem, {type AgreementPanelItemCommand, type AgreementPanelItemProps} from '../AgreementPanelItem';
+import {type AgreementPanelProps as Props} from './AgreementPanel.types';
 
 export const AgreementPanel = ({children, title, allCheck, allCheckName, disabled, itemPadding}: Props) => {
   /********************************************************************************************************************

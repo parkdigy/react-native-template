@@ -1,5 +1,4 @@
-import React from 'react';
-import {DividerSkeletonPlaceholderProps as Props} from './DividerSkeletonPlaceholder.types';
+import {type DividerSkeletonPlaceholderProps as Props} from './DividerSkeletonPlaceholder.types';
 
 const DividerSkeletonPlaceholder = ({}: Props) => {
   return (

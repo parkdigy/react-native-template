@@ -1,5 +1,4 @@
-import React from 'react';
-import {SubmitButtonProps as Props} from './SubmitButton.types';
+import {type SubmitButtonProps as Props} from './SubmitButton.types';
 
 export const SubmitButton = (props: Props) => {
   /********************************************************************************************************************

@@ -1,6 +1,5 @@
-import React, {ReactNode} from 'react';
-import {FormContextControl, FormContextControlWithName} from '../FormContext';
-import {FormControlCommands} from '../FormControl';
+import {type FormContextControl, type FormContextControlWithName} from '../FormContext';
+import {type FormControlCommands} from '../FormControl';
 
 export interface FormCommands {
   submit(): void;
@@ -15,6 +14,7 @@ export interface FormCommands {
 }
 
 export interface FormProps {
+  ref?: Ref<FormCommands>;
   children: ReactNode;
   parentScrollView?: React.RefObject<NativeScrollView | null>;
   flex?: number;

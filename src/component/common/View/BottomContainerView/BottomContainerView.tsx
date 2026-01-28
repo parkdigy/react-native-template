@@ -1,5 +1,4 @@
-import React from 'react';
-import {BottomContainerViewProps as Props} from './BottomContainerView.types';
+import {type BottomContainerViewProps as Props} from './BottomContainerView.types';
 
 export const BottomContainerView = ({show, inSafeArea, noAnimation, hidden, ...props}: Props) => {
   /********************************************************************************************************************

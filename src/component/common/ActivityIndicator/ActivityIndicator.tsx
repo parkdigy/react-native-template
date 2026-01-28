@@ -2,9 +2,8 @@
  * 로딩 Indicator 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {ActivityIndicator as PaperActivityIndicator} from 'react-native-paper';
-import {ActivityIndicatorProps as Props} from './ActivityIndicator.types';
+import {type ActivityIndicatorProps as Props} from './ActivityIndicator.types';
 
 const ActivityIndicator = (props: Props) => {
   /********************************************************************************************************************

@@ -1,7 +1,6 @@
-import React from 'react';
 import WebView from 'react-native-webview';
 import {ApiErrorBackAlert} from '../../BackAlert/ApiErrorBackAlert';
-import {TermsOfPrivacyContentProps as Props} from './TermsOfPrivacyContent.types';
+import {type TermsOfPrivacyContentProps as Props} from './TermsOfPrivacyContent.types';
 
 export const TermsOfPrivacyContent = ({}: Props) => {
   /********************************************************************************************************************

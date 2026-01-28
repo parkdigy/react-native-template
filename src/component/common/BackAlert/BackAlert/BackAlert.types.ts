@@ -1,6 +1,6 @@
-import {GestureResponderEvent, ViewStyle} from 'react-native';
-import {ButtonProps} from '../../Button';
-import {StackProps} from '../../Stack';
+import {type GestureResponderEvent, type ViewStyle} from 'react-native';
+import {type ButtonProps} from '../../Button';
+import {type StackProps} from '../../Stack';
 
 export interface BackAlertProps extends Pick<StackProps, 'pv' | 'onLayout'> {
   icon?: 'info' | 'error' | 'no_data';

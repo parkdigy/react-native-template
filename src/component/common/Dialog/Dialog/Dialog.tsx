@@ -1,13 +1,12 @@
-import React from 'react';
 import {useWindowDimensions} from 'react-native';
-import {FullScreenDialogProps} from '../FullScreenDialog';
+import {type FullScreenDialogProps} from '../FullScreenDialog';
 import {
-  DialogAlertProps,
-  DialogInnerCommands,
-  DialogConfirmProps,
-  DialogProps,
-  DialogCommands,
-  DialogOnlyProps,
+  type DialogAlertProps,
+  type DialogInnerCommands,
+  type DialogConfirmProps,
+  type DialogProps,
+  type DialogCommands,
+  type DialogOnlyProps,
 } from './Dialog.types';
 import {
   __addRef,

@@ -1,6 +1,5 @@
-import React from 'react';
 import {Text_Default} from '../../Text';
-import {InfoPanelItemProps as Props} from './InfoPanelItem.types';
+import {type InfoPanelItemProps as Props} from './InfoPanelItem.types';
 
 export const InfoPanelItem = ({children, ...props}: Props) => {
   return (

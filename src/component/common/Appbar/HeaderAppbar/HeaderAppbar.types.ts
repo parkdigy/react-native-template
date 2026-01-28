@@ -1,10 +1,10 @@
-import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {AppbarHeaderProps} from 'react-native-paper';
-import {ParamListBase} from '@react-navigation/native';
-import {NativeStackNavigationOptions, NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {StackNavigationOptions, StackNavigationProp} from '@react-navigation/stack';
-import {NavigationProp} from '@react-navigation/core';
-import {AppbarCommands, AppbarProps} from '../Appbar';
+import {type NativeStackHeaderProps} from '@react-navigation/native-stack';
+import {type AppbarHeaderProps} from 'react-native-paper';
+import {type ParamListBase} from '@react-navigation/native';
+import {type NativeStackNavigationOptions, type NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {type StackNavigationOptions, type StackNavigationProp} from '@react-navigation/stack';
+import {type NavigationProp} from '@react-navigation/core';
+import {type AppbarCommands, type AppbarProps} from '../Appbar';
 
 export interface HeaderAppbarCommands extends AppbarCommands {}
 
@@ -13,6 +13,7 @@ export interface HeaderAppbarProps
     Omit<AppbarHeaderProps, 'ref' | 'children'>,
     PartialPick<AppbarHeaderProps, 'children'>,
     Pick<AppbarProps, 'containerStyle' | 'blur' | 'subContent' | 'disabled' | 'hideTitle'> {
+  ref?: Ref<HeaderAppbarCommands>;
   options: NativeStackNavigationOptions | StackNavigationOptions;
   navigation:
     | NativeStackNavigationProp<ParamListBase>

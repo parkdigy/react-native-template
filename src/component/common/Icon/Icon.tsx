@@ -1,7 +1,5 @@
 import VectorIcon from '@react-native-vector-icons/ionicons';
-
-import React from 'react';
-import {IconProps as Props} from './Icon.types';
+import {type IconProps as Props} from './Icon.types';
 import CustomComponent from '../CustomComponent';
 
 const Icon = ({color, ...props}: Props) => {
@@ -77,4 +75,4 @@ const Icon = ({color, ...props}: Props) => {
   return <CustomComponent component={VectorIcon} color={finalColor} {...props} />;
 };
 
-export default React.memo(Icon);
+export default Icon;

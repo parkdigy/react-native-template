@@ -1,9 +1,8 @@
-import React from 'react';
-import {GestureResponderEvent} from 'react-native';
+import {type GestureResponderEvent} from 'react-native';
 import {useAppState} from '@context';
 import {_getFontFamily} from '@types';
 import CustomComponent from '../../CustomComponent';
-import {ButtonProps as Props, ButtonSize} from './Button.types';
+import {type ButtonProps as Props, ButtonSize} from './Button.types';
 
 const Button = ({
   style,

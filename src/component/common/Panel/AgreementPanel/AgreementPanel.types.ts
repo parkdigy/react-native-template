@@ -1,4 +1,4 @@
-import {PanelProps} from '../Panel';
+import {type PanelProps} from '../Panel';
 
 export interface AgreementPanelProps extends Pick<PanelProps, 'itemPadding'> {
   title?: string;

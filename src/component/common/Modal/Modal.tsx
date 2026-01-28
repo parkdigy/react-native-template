@@ -1,6 +1,5 @@
-import React from 'react';
 import {Modal as NativeModal, StatusBar} from 'react-native';
-import {ModalProps as Props} from './Modal.types';
+import {type ModalProps as Props} from './Modal.types';
 
 const Modal = ({
   animationType = 'slide',

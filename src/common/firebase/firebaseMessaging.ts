@@ -1,6 +1,6 @@
 import {
   AuthorizationStatus,
-  FirebaseMessagingTypes,
+  type FirebaseMessagingTypes,
   getMessaging,
   setBackgroundMessageHandler as fbSetBackgroundMessageHandler,
   onNotificationOpenedApp as fbOnNotificationOpenedApp,

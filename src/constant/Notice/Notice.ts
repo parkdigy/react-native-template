@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import api from '@api';
-import {NoticeInfo, NoticeList} from './Notice.types';
+import {type NoticeInfo, type NoticeList} from './Notice.types';
 
 export default {
   // 목록

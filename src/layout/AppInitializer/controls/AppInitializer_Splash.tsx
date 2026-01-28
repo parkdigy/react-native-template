@@ -1,7 +1,6 @@
-import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import app, {AppStatus} from '@app';
-import {ConfigInfoData} from '@const';
+import {type ConfigInfoData} from '@const';
 import {Text_Accent, Text_Default} from '@ccomp';
 import AppInitializer_Logo from './AppInitializer_Logo';
 import AppInitializer_LogText from './AppInitializer_LogText';

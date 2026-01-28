@@ -1,6 +1,5 @@
-import React from 'react';
-import {SegmentedButtons, SegmentedButtonsProps} from 'react-native-paper';
-import {FormSegmentProps as Props} from './FormSegment.types';
+import {SegmentedButtons, type SegmentedButtonsProps} from 'react-native-paper';
+import {type FormSegmentProps as Props} from './FormSegment.types';
 
 const FormSegment = ({
   outlineWidth,

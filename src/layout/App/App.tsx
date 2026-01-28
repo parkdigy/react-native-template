@@ -3,9 +3,8 @@
  * - AppContextProvider, GestureHandlerRootView, NavigationContainer, PaperProvider, ThemeProvider
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {
-  ColorSchemeName,
+  type ColorSchemeName,
   Appearance,
   AppState,
   Linking,
@@ -19,15 +18,15 @@ import NaverLogin from '@react-native-seoul/naver-login';
 import {logout as KakaoLogout} from '@react-native-seoul/kakao-login';
 import NativePermission from 'react-native-permissions';
 import {useSafeAreaFrame} from 'react-native-safe-area-context';
-import {AppAuthInfo, AppContextProvider, AppContextValue, AppForceColorScheme} from '@context';
-import {ConfigInfoData} from '@const';
-import {FontFamily, Permission, PermissionMap, PermissionStatus} from '@types';
+import {type AppAuthInfo, AppContextProvider, type AppContextValue, type AppForceColorScheme} from '@context';
+import {type ConfigInfoData} from '@const';
+import {FontFamily, Permission, type PermissionMap, PermissionStatus} from '@types';
 import app, {useAppListener} from '@app';
 import {DefaultLayout} from '../DefaultLayout';
-import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {type NativeStackNavigationOptions} from '@react-navigation/native-stack';
 import {App_loadAuth} from './functions';
 import {App_Effect} from './controls';
-import {useAutoUpdateState} from '@pdg/react-hook';
+import {useFirstSkipChanged} from '@pdg/react-hook';
 
 interface Props {
   // 테마
@@ -96,8 +95,6 @@ const App = ({
    * Ref
    * ******************************************************************************************************************/
 
-  // 앱의 활성화 상태 Ref
-  const appStateRef = useRef(AppState.currentState);
   // FCM 토큰 삭제 중인지 여부 Ref
   const fcmTokenRemovingRef = useRef(false);
   // FCM 토큰 로딩 중인지 여부 Ref
@@ -110,7 +107,7 @@ const App = ({
    * ******************************************************************************************************************/
 
   // 앱의 활성화 상태
-  const [appState, setAppState] = useState(appStateRef.current);
+  const [appState, setAppState] = useState(AppState.currentState);
   // 탭 바 높이
   const [tabBarHeight, setTabBarHeight] = useState(0);
   // 광고 ID 가져오는 중인지 여부
@@ -118,9 +115,11 @@ const App = ({
   // 광고 ID
   const [adid, setAdid] = useState<string | null>(DEFAULT_ADID);
   // 인증 정보
-  const [auth, setAuth] = useAutoUpdateState<AppAuthInfo>(initAuth);
+  const [auth, setAuth] = useState<AppAuthInfo>(initAuth);
+  useFirstSkipChanged(() => setAuth(initAuth), [initAuth]);
   // 설정 정보
-  const [config, setConfig] = useAutoUpdateState<ConfigInfoData>(initConfig);
+  const [config, setConfig] = useState<ConfigInfoData>(initConfig);
+  useFirstSkipChanged(() => setConfig(initConfig), [initConfig]);
   // 강제 적용 테마 (light|dark|system)
   const [forceColorScheme, setForceColorScheme] = useState<AppForceColorScheme>(() => {
     const storageTheme = storage.getTheme();
@@ -133,9 +132,11 @@ const App = ({
     }
   });
   // 폰트
-  const [fontFamily, _setFontFamily] = useAutoUpdateState<FontFamily>(initFontFamily);
+  const [fontFamily, _setFontFamily] = useState<FontFamily>(initFontFamily);
+  useFirstSkipChanged(() => _setFontFamily(initFontFamily), [initFontFamily]);
   // 권한
-  const [permissionMap, setPermissionMap] = useAutoUpdateState<PermissionMap>(initPermissionMap);
+  const [permissionMap, setPermissionMap] = useState<PermissionMap>(initPermissionMap);
+  useFirstSkipChanged(() => setPermissionMap(initPermissionMap), [initPermissionMap]);
 
   /********************************************************************************************************************
    * Memo
@@ -208,7 +209,7 @@ const App = ({
             await firebase.auth.signOut();
             break;
         }
-      } catch (err) {}
+      } catch {}
 
       // storage 에서 인증 정보 삭제
       storage.removeAuth();
@@ -268,7 +269,7 @@ const App = ({
           onColorSchemeChange(newForceColorScheme);
           break;
         default:
-          onColorSchemeChange(Appearance.getColorScheme());
+          onColorSchemeChange(Appearance.getColorScheme() ?? 'unspecified');
           break;
       }
       setForceColorScheme(newForceColorScheme);
@@ -306,48 +307,43 @@ const App = ({
 
       // if (auth?.user_key) {
       const getToken = async () => {
-        try {
-          let permissionStatus = await firebase.messaging.hasPermission();
-          switch (permissionStatus) {
-            case firebase.messaging.AuthorizationStatus.DENIED:
-              if (isIos && openSettings) {
-                await Linking.openSettings();
-              }
-              return false;
-            case firebase.messaging.AuthorizationStatus.NOT_DETERMINED:
-              permissionStatus = await firebase.messaging.requestPermission();
-              break;
+        let permissionStatus = await firebase.messaging.hasPermission().catch(() => undefined);
+        if (permissionStatus === firebase.messaging.AuthorizationStatus.DENIED) {
+          if (isIos && openSettings) {
+            await Linking.openSettings();
           }
-
-          switch (permissionStatus) {
-            case firebase.messaging.AuthorizationStatus.AUTHORIZED:
-            case firebase.messaging.AuthorizationStatus.PROVISIONAL:
-              if (isInternetConnected && auth?.user_key) {
-                const fcmToken = await firebase.messaging.getToken();
-                const osVersion = `${Platform.Version}`;
-                const buildNumber = getBuildNumber();
-
-                const storageFcmData = storage.user.getFcm();
-
-                if (
-                  storageFcmData?.token !== fcmToken ||
-                  storageFcmData?.osVersion !== osVersion ||
-                  storageFcmData?.buildNumber !== buildNumber
-                ) {
-                  await Const.My.addFcm({
-                    token: fcmToken,
-                  });
-
-                  storage.user.setFcm(fcmToken, osVersion, buildNumber);
-                }
-              }
-              return true;
-            default:
-              return false;
-          }
-        } catch (err) {
-          ll(err);
+        } else if (permissionStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
+          permissionStatus = await firebase.messaging.requestPermission().catch(() => undefined);
+        }
+        if (permissionStatus === undefined) {
           return false;
+        }
+
+        switch (permissionStatus) {
+          case firebase.messaging.AuthorizationStatus.AUTHORIZED:
+          case firebase.messaging.AuthorizationStatus.PROVISIONAL:
+            if (isInternetConnected && auth?.user_key) {
+              const fcmToken = await firebase.messaging.getToken();
+              const osVersion = `${Platform.Version}`;
+              const buildNumber = getBuildNumber();
+
+              const storageFcmData = storage.user.getFcm();
+
+              if (
+                storageFcmData?.token !== fcmToken ||
+                storageFcmData?.osVersion !== osVersion ||
+                storageFcmData?.buildNumber !== buildNumber
+              ) {
+                await Const.My.addFcm({
+                  token: fcmToken,
+                });
+
+                storage.user.setFcm(fcmToken, osVersion, buildNumber);
+              }
+            }
+            return true;
+          default:
+            return false;
         }
       };
 
@@ -478,11 +474,10 @@ const App = ({
   }, [appStateValue]);
 
   /** 초기화 후 onReady 이벤트 호출 */
-  useEffect(() => {
+  useEventEffect(() => {
     nextTick(() => {
       onReady?.();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /********************************************************************************************************************

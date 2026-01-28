@@ -1,11 +1,12 @@
-import {ViewProps as NativeViewProps, ViewStyle} from 'react-native';
-import {AnimatableProps} from 'react-native-animatable';
-import {CustomComponentStyleProps} from '../../CustomComponent';
+import {type ViewProps as NativeViewProps, type ViewStyle} from 'react-native';
+import {type AnimatableProps} from 'react-native-animatable';
+import {type CustomComponentStyleProps} from '../../CustomComponent';
 
 export interface ViewProps
   extends NativeViewProps,
     CustomComponentStyleProps,
     Omit<AnimatableProps<ViewStyle>, 'animation' | 'useNativeDriver'> {
+  ref?: Ref<NativeView>;
   inline?: boolean;
   center?: boolean;
   fullWidth?: boolean;

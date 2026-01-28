@@ -6,10 +6,8 @@ import com.facebook.react.bridge.*
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import java.security.MessageDigest
 
-class RNUtilModule(reactContext: ReactApplicationContext) :
+class RNUtilModule(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
-
-  private val reactContext: ReactApplicationContext = reactContext
 
   override fun getName(): String {
     return "RNUtilModule"
@@ -32,7 +30,7 @@ class RNUtilModule(reactContext: ReactApplicationContext) :
     try {
       val intent = pm.getLaunchIntentForPackage(packageId)
       if (intent != null) {
-        val activity: Activity? = currentActivity
+        val activity: Activity? = getCurrentActivity()
         if (activity != null) {
           activity.startActivity(intent)
           promise.resolve(true)

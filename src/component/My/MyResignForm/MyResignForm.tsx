@@ -2,9 +2,8 @@
  * '더보기 > 앱 설정 > 회원탈퇴' 화면 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {useAppState} from '@context';
-import {MyResignFormProps as Props} from './MyResignForm.types';
+import {type MyResignFormProps as Props} from './MyResignForm.types';
 import {ConfirmDialog} from './controls';
 
 /** 탈퇴 사유 */

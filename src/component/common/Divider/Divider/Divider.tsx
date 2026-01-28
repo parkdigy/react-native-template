@@ -1,5 +1,4 @@
-import React from 'react';
-import {DividerProps as Props} from './Divider.types';
+import {type DividerProps as Props} from './Divider.types';
 
 const Divider = ({color, ...props}: Props) => {
   /********************************************************************************************************************

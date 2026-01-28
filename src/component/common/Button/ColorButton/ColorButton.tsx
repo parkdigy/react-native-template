@@ -1,6 +1,5 @@
-import React from 'react';
-import LinearGradient, {LinearGradientProps} from 'react-native-linear-gradient';
-import {ColorButtonColors, ColorButtonProps as Props} from './ColorButton.types';
+import LinearGradient, {type LinearGradientProps} from 'react-native-linear-gradient';
+import {ColorButtonColors, type ColorButtonProps as Props} from './ColorButton.types';
 
 const ColorButton = ({
   size = 'medium',

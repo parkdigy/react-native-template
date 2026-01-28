@@ -1,4 +1,4 @@
-import {ScrollViewProps} from '../../View/ScrollView';
+import {type ScrollViewProps} from '../../View/ScrollView';
 
 export interface KeyboardAwareScrollViewProps extends ScrollViewProps {
   extraHeight?: number;

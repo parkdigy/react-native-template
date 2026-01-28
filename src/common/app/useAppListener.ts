@@ -1,4 +1,4 @@
-import {AppListenerName, AppListenerValue} from './app.types';
+import {type AppListenerName, type AppListenerValue} from './app.types';
 
 export function useAppListener<Name extends AppListenerName, Value = AppListenerValue<Name>>(name: Name): Value {
   const [value, setValue] = useState<Value>(app.getListenerValue(name));

@@ -6,10 +6,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 react {
     autolinkLibrariesWithApp()
-
-    entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", rootDir.getAbsoluteFile().getParentFile().getAbsolutePath(), "android", "absolute"].execute(null, rootDir).text.trim())
-    cliFile = new File(["node", "--print", "require.resolve('@expo/cli')"].execute(null, rootDir).text.trim())
-    bundleCommand = "export:embed"
 }
 
 def enableProguardInReleaseBuilds = true
@@ -42,7 +38,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName appVersionName
         versionCode appVersionCode
-        setProperty("archivesBaseName", applicationId + '_' + appVersionName + '_' + appVersionCode)
+//        setProperty("archivesBaseName", applicationId + '_' + appVersionName + '_' + appVersionCode)
     }
     signingConfigs {
         debug {
@@ -66,7 +62,7 @@ android {
             signingConfig signingConfigs.release
             shrinkResources enableProguardInReleaseBuilds
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib'
@@ -82,7 +78,7 @@ android {
         }
     }
 
-   applicationVariants.all { variant ->
+   applicationVariants.configureEach { variant ->
        variant.outputs.each { output ->
            if (output.name == 'debug') {
                outputDebugPath = output.outputFile.parent
@@ -101,7 +97,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation 'com.google.android.gms:play-services-ads-identifier:18.2.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.3.0'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

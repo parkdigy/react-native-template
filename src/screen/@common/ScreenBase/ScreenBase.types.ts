@@ -1,6 +1,5 @@
-import React from 'react';
-import {ScreenProps} from '@types';
-import {SafeAreaViewProps} from '@ccomp';
+import {type ScreenProps} from '@types';
+import {type SafeAreaViewProps} from '@ccomp';
 
 type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer TProps>
   ? TProps

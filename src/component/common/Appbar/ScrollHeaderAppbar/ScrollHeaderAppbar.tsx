@@ -1,8 +1,7 @@
-import React from 'react';
-import {StyleProp, ViewStyle} from 'react-native';
-import {StackHeaderProps} from '@react-navigation/stack';
-import {HeaderAppbar, HeaderAppbarCommands} from '../HeaderAppbar';
-import {ScrollHeaderAppbarProps as Props} from './ScrollHeaderAppbar.types';
+import {type StyleProp, type ViewStyle} from 'react-native';
+import {type StackHeaderProps} from '@react-navigation/stack';
+import {HeaderAppbar, type HeaderAppbarCommands} from '../HeaderAppbar';
+import {type ScrollHeaderAppbarProps as Props} from './ScrollHeaderAppbar.types';
 
 const ScrollHeaderAppbar = ({children, navigation, animatedValue, onLayout, blur, subContent, ...props}: Props) => {
   /********************************************************************************************************************

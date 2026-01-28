@@ -1,5 +1,11 @@
 import React from 'react';
-import {DialogAlertProps, DialogCommands, DialogConfirmProps, DialogInnerCommands, DialogOnlyProps} from '../Dialog';
+import {
+  type DialogAlertProps,
+  type DialogCommands,
+  type DialogConfirmProps,
+  type DialogInnerCommands,
+  type DialogOnlyProps,
+} from '../Dialog';
 
 let refs: React.RefObject<DialogInnerCommands>[] = [];
 let isHiding = false;

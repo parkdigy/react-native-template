@@ -1,7 +1,6 @@
-import React from 'react';
 import {useAppState} from '@context';
-import {FormCommands} from '@ccomp';
-import {MyNicknameChangeProps as Props} from './MyNicknameChange.types';
+import {type FormCommands} from '@ccomp';
+import {type MyNicknameChangeProps as Props} from './MyNicknameChange.types';
 
 export const MyNicknameChange = ({navigation}: Props) => {
   /********************************************************************************************************************

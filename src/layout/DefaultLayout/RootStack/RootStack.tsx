@@ -2,7 +2,6 @@
  * Root 스택 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootScreenList} from '@types';
 import MainStack from '../MainStack';

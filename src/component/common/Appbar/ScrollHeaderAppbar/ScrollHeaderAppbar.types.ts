@@ -1,6 +1,6 @@
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Animated, LayoutChangeEvent} from 'react-native';
-import {HeaderAppbarProps} from '../HeaderAppbar';
+import {type StackNavigationProp} from '@react-navigation/stack';
+import {Animated, type LayoutChangeEvent} from 'react-native';
+import {type HeaderAppbarProps} from '../HeaderAppbar';
 
 export interface ScrollHeaderAppbarProps extends Pick<HeaderAppbarProps, 'children' | 'subContent' | 'blur'> {
   navigation: StackNavigationProp<any>;

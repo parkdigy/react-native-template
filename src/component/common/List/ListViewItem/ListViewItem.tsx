@@ -1,6 +1,5 @@
-import React from 'react';
 import {Text_Default} from '../../Text';
-import {ListViewItemProps as Props} from './ListViewItem.types';
+import {type ListViewItemProps as Props} from './ListViewItem.types';
 import styled from 'styled-components/native';
 
 const ListViewItem = ({

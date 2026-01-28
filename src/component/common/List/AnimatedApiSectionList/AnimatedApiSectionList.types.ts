@@ -1,8 +1,6 @@
-import {Animated, SectionListProps} from 'react-native';
-import {ReactElement} from 'react';
+import {Animated, type SectionListProps} from 'react-native';
 import {LoadingStatus} from '@const';
-import {AnimatedApiFlatListProps} from '../AnimatedApiFlatList';
-import AnimatedProps = Animated.AnimatedProps;
+import {type AnimatedApiFlatListProps} from '../AnimatedApiFlatList';
 
 export const AnimatedApiSectionListSection = {
   Header: 'header',
@@ -26,7 +24,7 @@ export interface AnimatedApiSectionListItem {
 
 export interface AnimatedApiSectionListProps<T extends AnimatedApiSectionListItem>
   extends Omit<
-      AnimatedProps<SectionListProps<T | undefined>>,
+      Animated.AnimatedProps<SectionListProps<T | undefined>>,
       'sections' | 'renderItem' | 'renderSectionHeader' | 'renderSectionFooter'
     >,
     Pick<

@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import {createContext} from 'react';
-import {AppContextValue} from './AppContext.types';
+import {type AppContextValue} from './AppContext.types';
 
 const AppContext = createContext<AppContextValue>({} as any);
 

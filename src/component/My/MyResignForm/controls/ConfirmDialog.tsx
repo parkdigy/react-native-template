@@ -2,8 +2,7 @@
  * 회원 탈퇴 확인 다이얼로그 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {ModalProps} from 'react-native';
+import {type ModalProps} from 'react-native';
 import Config from 'react-native-config';
 import {useAppState} from '@context';
 

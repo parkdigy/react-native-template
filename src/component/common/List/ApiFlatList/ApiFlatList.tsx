@@ -2,14 +2,20 @@
  * API 기본 리스트 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useRef} from 'react';
-import {FlatList, LayoutChangeEvent, ListRenderItemInfo, RefreshControl, unstable_batchedUpdates} from 'react-native';
+import {useRef} from 'react';
+import {
+  FlatList,
+  type LayoutChangeEvent,
+  type ListRenderItemInfo,
+  RefreshControl,
+  unstable_batchedUpdates,
+} from 'react-native';
 import {IconButton} from 'react-native-paper';
 import {useIsFocused} from '@react-navigation/native';
 import {useAppState} from '@context';
 import {LoadingStatus} from '@const';
-import {ScrollViewProps} from '../../View/ScrollView';
-import {ApiFlatListProps as Props, ApiFlatListItem, ApiFlatListCommands} from './ApiFlatList.types';
+import {type ScrollViewProps} from '../../View/ScrollView';
+import {type ApiFlatListProps as Props, type ApiFlatListItem, type ApiFlatListCommands} from './ApiFlatList.types';
 
 function ApiFlatList<T extends ApiFlatListItem>({
   perPageListItemCount,
@@ -77,51 +83,14 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const [errorHeight, setErrorHeight] = useState(0);
 
   /********************************************************************************************************************
-   * Effect
+   * Changed
    * ******************************************************************************************************************/
 
-  useEffect(() => {
-    setLastAppState(appState);
-  }, [appState]);
-
-  useEffect(() => {
-    setLastActiveScreen(activeScreen);
-  }, [activeScreen]);
-
-  useEffect(() => {
-    if (appState !== 'active' || !activeScreen) {
-      inactiveTimeRef.current = new Date().getTime();
+  useChanged(() => {
+    if (!InitListHeaderComponent) {
+      setListHeaderHeight(0);
     }
-  }, [appState, activeScreen]);
-
-  useEffect(() => {
-    if (reloadListWhenActiveFromBackground && lastAppState === 'background' && appState === 'active') {
-      setList(undefined);
-      loadRefreshList();
-      onReloadWhenActiveFromBackground?.();
-    } else if (
-      reloadListWhenActiveFromLongTermDeActive &&
-      ((lastAppState === 'background' && appState === 'active') || (!lastActiveScreen && activeScreen))
-    ) {
-      if (new Date().getTime() - inactiveTimeRef.current > app.RefreshTime) {
-        setList(undefined);
-        loadRefreshList();
-        onReloadWhenActiveFromLongTermDeActive?.();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appState, activeScreen, lastAppState, lastActiveScreen]);
-
-  useEffect(() => {
-    if (list === undefined) {
-      flatListRef.current?.scrollToOffset({offset: 0, animated: false});
-    }
-  }, [list]);
-
-  useEffect(() => {
-    onList?.(list, loadingStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list, loadingStatus]);
+  }, [InitListHeaderComponent]);
 
   /********************************************************************************************************************
    * Memo
@@ -138,38 +107,6 @@ function ApiFlatList<T extends ApiFlatListItem>({
   const isFirstError = useMemo(() => loadingStatus === Const.LoadingStatus.FirstError, [loadingStatus]);
   const isComplete = useMemo(() => loadingStatus === Const.LoadingStatus.Complete, [loadingStatus]);
   const isEmpty = useMemo(() => loadingStatus === Const.LoadingStatus.Empty, [loadingStatus]);
-
-  /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  useEffect(() => {
-    if (LoadingStatus.isSuccess(loadingStatus) || loadingStatus === LoadingStatus.Empty) {
-      lastLoadTimeRef.current = nowTime();
-      nextTick(() => {
-        lastLoadTimeRef.current = nowTime();
-      });
-    }
-  }, [list, loadingStatus]);
-
-  /********************************************************************************************************************
-   * Event Handler
-   * ******************************************************************************************************************/
-
-  useEffect(() => {
-    onChangeLoadingStatus?.(loadingStatus);
-
-    switch (loadingStatus) {
-      case Const.LoadingStatus.FirstLoading:
-      case Const.LoadingStatus.RefreshLoading:
-        loadList();
-        break;
-      case Const.LoadingStatus.NextLoading:
-        loadList(list && list.length > 0 ? list[list.length - 1].id : undefined);
-        break;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadingStatus]);
 
   /********************************************************************************************************************
    * Function
@@ -272,6 +209,74 @@ function ApiFlatList<T extends ApiFlatListItem>({
   }, [changeLoadingStatus, loadingStatus]);
 
   const keyExtractor = useCallback((item: T, idx: number) => (item ? `${item.id}` : `${idx}`), []);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEffect(() => {
+    setLastAppState(appState);
+  }, [appState]);
+
+  useEffect(() => {
+    setLastActiveScreen(activeScreen);
+  }, [activeScreen]);
+
+  useEffect(() => {
+    if (appState !== 'active' || !activeScreen) {
+      inactiveTimeRef.current = new Date().getTime();
+    }
+  }, [appState, activeScreen]);
+
+  useEventEffect(() => {
+    if (reloadListWhenActiveFromBackground && lastAppState === 'background' && appState === 'active') {
+      setList(undefined);
+      loadRefreshList();
+      onReloadWhenActiveFromBackground?.();
+    } else if (
+      reloadListWhenActiveFromLongTermDeActive &&
+      ((lastAppState === 'background' && appState === 'active') || (!lastActiveScreen && activeScreen))
+    ) {
+      if (new Date().getTime() - inactiveTimeRef.current > app.RefreshTime) {
+        setList(undefined);
+        loadRefreshList();
+        onReloadWhenActiveFromLongTermDeActive?.();
+      }
+    }
+  }, [appState, activeScreen, lastAppState, lastActiveScreen]);
+
+  useEffect(() => {
+    if (list === undefined) {
+      flatListRef.current?.scrollToOffset({offset: 0, animated: false});
+    }
+  }, [list]);
+
+  useEventEffect(() => {
+    onList?.(list, loadingStatus);
+  }, [list, loadingStatus]);
+
+  useEffect(() => {
+    if (LoadingStatus.isSuccess(loadingStatus) || loadingStatus === LoadingStatus.Empty) {
+      lastLoadTimeRef.current = nowTime();
+      nextTick(() => {
+        lastLoadTimeRef.current = nowTime();
+      });
+    }
+  }, [list, loadingStatus]);
+
+  useEventEffect(() => {
+    onChangeLoadingStatus?.(loadingStatus);
+
+    switch (loadingStatus) {
+      case Const.LoadingStatus.FirstLoading:
+      case Const.LoadingStatus.RefreshLoading:
+        loadList();
+        break;
+      case Const.LoadingStatus.NextLoading:
+        loadList(list && list.length > 0 ? list[list.length - 1].id : undefined);
+        break;
+    }
+  }, [loadingStatus]);
 
   /********************************************************************************************************************
    * Event Handler
@@ -446,8 +451,6 @@ function ApiFlatList<T extends ApiFlatListItem>({
           </Animated.View>
         );
       }
-    } else {
-      setListHeaderHeight(0);
     }
   }, [InitListHeaderComponent]);
 

@@ -1,7 +1,6 @@
-import {TextInputProps} from 'react-native-paper';
-import {ReactElement} from 'react';
-import {CustomComponentStyleProps} from '../../CustomComponent';
-import {FormControlCommands, FormControlProps} from '../FormControl';
+import {type TextInputProps} from 'react-native-paper';
+import {type CustomComponentStyleProps} from '../../CustomComponent';
+import {type FormControlCommands, type FormControlProps} from '../FormControl';
 
 export type FormTextValue = string;
 
@@ -32,6 +31,7 @@ export interface FormTextProps
       | 'textShadowRadius'
       | 'textTransform'
     > {
+  ref?: Ref<FormTextCommands>;
   type?:
     | 'text'
     | 'userEmail'

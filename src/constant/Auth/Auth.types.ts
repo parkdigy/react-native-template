@@ -1,5 +1,5 @@
-import {ApiResult} from '@api';
-import {ConfigInfoData} from '../Common';
+import {type ApiResult} from '@api';
+import {type ConfigInfoData} from '../Common';
 
 export type AuthSigninType = 'GUEST' | 'KAKAO' | 'NAVER' | 'GOOGLE' | 'APPLE';
 

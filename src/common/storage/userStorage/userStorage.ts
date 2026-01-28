@@ -1,6 +1,6 @@
-import {MMKV} from 'react-native-mmkv';
+import {createMMKV, type MMKV} from 'react-native-mmkv';
 import {FontFamily} from '@types';
-import {UserStorageKey, UserStorageKeyValueType} from './userStorage.types';
+import {UserStorageKey, type UserStorageKeyValueType} from './userStorage.types';
 
 let MmkvStorage: MMKV | undefined;
 
@@ -8,7 +8,7 @@ export const userStorage = {
   Key: UserStorageKey,
 
   init(userKey: string) {
-    MmkvStorage = new MMKV({id: userKey});
+    MmkvStorage = createMMKV({id: userKey});
   },
   uninit() {
     MmkvStorage = undefined;
@@ -20,7 +20,7 @@ export const userStorage = {
 
     for (const key of MmkvStorage.getAllKeys()) {
       if (!exceptKeys.includes(key)) {
-        MmkvStorage.delete(key);
+        MmkvStorage.remove(key);
       }
     }
   },
@@ -36,7 +36,7 @@ export const userStorage = {
       throw new Error('user storage 가 초기화되지 않았습니다!');
     }
 
-    if (value instanceof Uint8Array) {
+    if (value instanceof ArrayBuffer) {
       MmkvStorage.set(key, value);
     } else if (typeof value === 'object') {
       MmkvStorage.set(key, JSON.stringify(value));
@@ -92,7 +92,7 @@ export const userStorage = {
       throw new Error('user storage 가 초기화되지 않았습니다!');
     }
 
-    MmkvStorage.delete(key);
+    MmkvStorage.remove(key);
   },
 
   /********************************************************************************************************************

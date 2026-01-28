@@ -2,17 +2,23 @@
  * API 섹션 리스트 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useRef} from 'react';
-import {LayoutChangeEvent, RefreshControl, SectionList, SectionListData, SectionListRenderItemInfo} from 'react-native';
+import {useRef} from 'react';
+import {
+  type LayoutChangeEvent,
+  RefreshControl,
+  SectionList,
+  type SectionListData,
+  type SectionListRenderItemInfo,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingStatus} from '@const';
 import {useAppState} from '@context';
-import ApiFlatList, {ApiFlatListCommands} from '../ApiFlatList';
+import ApiFlatList, {type ApiFlatListCommands} from '../ApiFlatList';
 import {
-  ApiSectionListProps as Props,
-  ApiSectionListItem,
+  type ApiSectionListProps as Props,
+  type ApiSectionListItem,
   ApiSectionListSection,
-  ApiSectionListCommands,
+  type ApiSectionListCommands,
 } from './ApiSectionList.types';
 
 const _sections = [
@@ -114,9 +120,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
     }
   }, [appState, activeScreen]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     onListHeight?.(listHeight);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listHeight]);
 
   /********************************************************************************************************************
@@ -338,9 +343,8 @@ function ApiSectionList<T extends ApiSectionListItem>({
     };
   }, []);
 
-  useEffect(() => {
+  useEventEffect(() => {
     onCommands?.(commands);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commands]);
 
   /********************************************************************************************************************

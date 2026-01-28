@@ -1,10 +1,10 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 
 export default {
   isFragment(child: ReactElement): boolean {
     try {
       return child.type.toString() === React.Fragment.toString();
-    } catch (e) {
+    } catch {
       return false;
     }
   },

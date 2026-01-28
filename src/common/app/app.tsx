@@ -1,23 +1,23 @@
-import {StackNavigationProp} from '@react-navigation/stack';
+import {type StackNavigationProp} from '@react-navigation/stack';
 import Config from 'react-native-config';
 import {Linking, NativeModules} from 'react-native';
-import {API_BASE_URL, ApiResult} from '@api';
-import {AppContextValue} from '@context';
-import {ConfigInfoData} from '@const';
-import {MainTabScreenList, TNativeModules} from '@types';
+import {API_BASE_URL, type ApiResult} from '@api';
+import {type AppContextValue} from '@context';
+import {type ConfigInfoData} from '@const';
+import {MainTabScreenList, type TNativeModules} from '@types';
 import navigate from './navigate';
 import navigationBar from './navigationBar';
 import version from './version';
 import notification from './notification';
 import {
-  AppListenerLockScreenCallback,
-  AppListenerName,
-  AppListenerAppStatusCallback,
-  AppListeners,
-  AppListenerValue,
+  type AppListenerLockScreenCallback,
+  type AppListenerName,
+  type AppListenerAppStatusCallback,
+  type AppListeners,
+  type AppListenerValue,
   AppStatus,
-  AppListenerTabRePressCallback,
-  AppListenerIsInternetConnectedCallback,
+  type AppListenerTabRePressCallback,
+  type AppListenerIsInternetConnectedCallback,
 } from './app.types';
 
 const {RNUtilModule} = NativeModules as TNativeModules;

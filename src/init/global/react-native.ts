@@ -4,6 +4,7 @@ import {isTablet as _isTablet} from 'react-native-device-info';
 declare global {
   var Keyboard: typeof _Keyboard;
   var Platform: typeof _Platform;
+  // @ts-ignore
   var StyleSheet: typeof _StyleSheet;
   var isIos: boolean;
   var isAndroid: boolean;
@@ -13,6 +14,7 @@ declare global {
 
 globalThis.Keyboard = _Keyboard;
 globalThis.Platform = _Platform;
+// @ts-ignore
 globalThis.StyleSheet = _StyleSheet;
 globalThis.isIos = _Platform.OS === 'ios';
 globalThis.isAndroid = _Platform.OS === 'android';

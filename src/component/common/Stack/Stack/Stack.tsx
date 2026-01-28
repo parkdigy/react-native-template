@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomComponent from '../../CustomComponent';
-import {StackProps as Props} from './Stack.types';
+import {type StackProps as Props} from './Stack.types';
 
 type ReactChildArray = ReturnType<typeof React.Children.toArray>;
 function flattenChildren(children: Props['children'], keys: (string | number)[] = []): ReactChildArray {

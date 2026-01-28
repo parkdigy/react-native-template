@@ -1,15 +1,4 @@
 {
   "name": "ReactNativeTemplate",
-  "displayName": "ReactNativeTemplate",
-  "extra": {
-    "eas": {
-      "projectId": "[your-expo-update-project-id]"
-    }
-  },
-  "runtimeVersion": "1.0.0",
-  "updates": {
-    "url": "https://u.expo.dev/[your-expo-update-project-id]"
-  },
-  "android": {},
-  "ios": {}
+  "displayName": "ReactNativeTemplate"
 }

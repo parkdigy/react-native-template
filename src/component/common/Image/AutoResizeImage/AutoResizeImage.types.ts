@@ -1,4 +1,4 @@
-import {ImageProps, ImageStyle} from 'react-native';
+import {type ImageProps, type ImageStyle} from 'react-native';
 
 export interface AutoResizeImageProps extends Omit<ImageProps, 'source' | 'style'> {
   uri: string;

@@ -1,5 +1,5 @@
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootScreenList, ScreenList} from '@types';
+import {type StackNavigationProp} from '@react-navigation/stack';
+import {RootScreenList, type ScreenList} from '@types';
 
 type OptionalParam = {$$Optional$$?: true};
 

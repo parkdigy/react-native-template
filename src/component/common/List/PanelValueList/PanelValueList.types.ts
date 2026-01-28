@@ -1,4 +1,4 @@
-import {BulletValueListProps} from '../BulletValueList';
+import {type BulletValueListProps} from '../BulletValueList';
 
 export interface PanelValueListProps extends BulletValueListProps {
   title: string;

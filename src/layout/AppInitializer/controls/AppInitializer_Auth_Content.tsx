@@ -1,21 +1,20 @@
-import React from 'react';
 import Config from 'react-native-config';
 import {unstable_batchedUpdates} from 'react-native';
 import {
-  AppleUserInfo,
+  type AppleUserInfo,
   AuthSns,
-  GoogleUserInfo,
-  KakaoUserInfo,
-  NaverUserInfo,
+  type GoogleUserInfo,
+  type KakaoUserInfo,
+  type NaverUserInfo,
   SlideFullScreenView,
-  SlideFullScreenViewCommand,
+  type SlideFullScreenViewCommand,
   TermsOfPrivacyDialog,
   TermsOfServiceDialog,
 } from '@ccomp';
 import app from '@app';
 import {ImgSpeechBubbleHello, Logo} from '@asset-image';
-import {AuthSignInRequestData, AuthSigninType} from '@const';
-import {AppAuthInfo} from '@context';
+import {type AuthSignInRequestData, type AuthSigninType} from '@const';
+import {type AppAuthInfo} from '@context';
 
 interface Props {
   isInternetConnected: boolean;

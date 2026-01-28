@@ -1,6 +1,11 @@
 module.exports = {
   root: true,
-  extends: '@react-native',
+  extends: [
+    '@react-native',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
+    'plugin:@pdg/react-hook/recommended',
+  ],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -25,5 +30,23 @@ module.exports = {
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'import/export': 'off',
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          "TSTypeReference[typeName.left.name='React'][typeName.right.name='FC'], TSTypeReference[typeName.name='FC']",
+        message: 'React.FC 사용이 금지되었습니다.',
+      },
+      {
+        selector:
+          "CallExpression[callee.object.name='React'][callee.property.name='memo'], CallExpression[callee.name='memo']",
+        message: 'React.memo 사용이 금지되었습니다.',
+      },
+      {
+        selector:
+          "CallExpression[callee.object.name='React'][callee.property.name='forwardRef'], CallExpression[callee.name='forwardRef']",
+        message: 'React.forwardRef 사용이 금지되었습니다.',
+      },
+    ],
   },
 };

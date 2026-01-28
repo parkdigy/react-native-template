@@ -1,4 +1,4 @@
-import React, {ComponentType} from 'react';
+import React, {type ComponentType} from 'react';
 
 declare global {
   function LazyComponent<T extends ComponentType<any>>(
@@ -8,17 +8,16 @@ declare global {
 }
 
 globalThis.LazyComponent = (Component, options) => {
-  return React.forwardRef((props: any, ref) =>
+  return (props: any) =>
     options?.fullScreen ? (
       <View flex={1} justifyContent='center'>
         <React.Suspense fallback={options?.hideFallback ? undefined : <ActivityIndicator />}>
-          <Component ref={ref} {...props} />
+          <Component {...props} />
         </React.Suspense>
       </View>
     ) : (
       <React.Suspense fallback={options?.hideFallback ? undefined : <ActivityIndicator />}>
-        <Component ref={ref} {...props} />
+        <Component {...props} />
       </React.Suspense>
-    ),
-  ) as any;
+    );
 };

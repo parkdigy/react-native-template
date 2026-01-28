@@ -1,4 +1,4 @@
-import {AppContextValue} from '../AppContext';
+import {type AppContextValue} from '../AppContext';
 
 export interface AppContextProviderProps {
   value: AppContextValue;

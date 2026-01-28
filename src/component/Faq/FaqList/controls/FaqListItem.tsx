@@ -2,8 +2,7 @@
  * FAQ 목록 아이템 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {FaqListDataItem} from '@const';
+import {type FaqListDataItem} from '@const';
 
 interface Props {
   info: FaqListDataItem;

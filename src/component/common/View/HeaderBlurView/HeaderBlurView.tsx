@@ -1,5 +1,4 @@
-import React from 'react';
-import {HeaderBlurViewProps as Props} from './HeaderBlurView.types';
+import {type HeaderBlurViewProps as Props} from './HeaderBlurView.types';
 import {BlurView} from '@react-native-community/blur';
 import {Animated} from 'react-native';
 

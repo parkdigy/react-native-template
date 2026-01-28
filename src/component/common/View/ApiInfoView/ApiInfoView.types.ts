@@ -2,7 +2,8 @@ export interface ApiInfoViewCommands {
   reload(): void;
 }
 
-export interface ApiInfoViewProps<T = any> extends Omit<ViewProps, 'children'> {
+export interface ApiInfoViewProps<T = any> extends Omit<ViewProps, 'ref' | 'children'> {
+  ref?: Ref<ApiInfoViewCommands>;
   firstLoadDelay?: number;
   loadDelay?: number;
   renderInfo(info: T): ReactNode;

@@ -2,11 +2,10 @@
  * '더보기 홈' 화면 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import {useAppState} from '@context';
-import {MoreHomeProps as Props} from './MoreHome.types';
+import {type MoreHomeProps as Props} from './MoreHome.types';
 import {SvgImage, Text_Default} from '@ccomp';
 import {IconUser, SnsApple, SnsGoogle, SnsKakao, SnsNaver} from '@asset-image';
 

@@ -1,7 +1,6 @@
-import React from 'react';
 import {TermsOfPrivacyContent} from '../TermsOfPrivacyContent';
 import {FullScreenDialog} from '../../Dialog/FullScreenDialog';
-import {TermsOfPrivacyDialogProps as Props} from './TermsOfPrivacyDialog.types';
+import {type TermsOfPrivacyDialogProps as Props} from './TermsOfPrivacyDialog.types';
 
 export const TermsOfPrivacyDialog = ({visible, onRequestClose}: Props) => {
   return (

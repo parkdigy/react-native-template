@@ -1,6 +1,4 @@
-import React, {RefObject} from 'react';
-
 export interface FormContextProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   parentScrollView?: RefObject<NativeScrollView | null>;
 }

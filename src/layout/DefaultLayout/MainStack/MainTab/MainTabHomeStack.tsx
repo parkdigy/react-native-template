@@ -2,9 +2,8 @@
  * 홈 탭 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MainTabHomeScreenList, ScreenProps} from '@types';
+import {MainTabHomeScreenList, type ScreenProps} from '@types';
 import {HomeScreen} from '@screen';
 import {useAppState} from '@context';
 

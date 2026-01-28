@@ -1,5 +1,4 @@
-import React from 'react';
-import {PanelItemProps as Props} from './PanelItem.types';
+import {type PanelItemProps as Props} from './PanelItem.types';
 
 export const PanelItem = ({
   children,
@@ -14,6 +13,8 @@ export const PanelItem = ({
   value,
   disabled,
   onPress,
+  onFocus,
+  onBlur,
   ...props
 }: Props) => {
   /********************************************************************************************************************
@@ -117,7 +118,7 @@ export const PanelItem = ({
    * ******************************************************************************************************************/
 
   return onPress && !disabled ? (
-    <TouchableOpacity onPress={onPress} {...props}>
+    <TouchableOpacity onPress={onPress} onFocus={(e) => onFocus?.(e)} onBlur={(e) => onBlur?.(e)} {...props}>
       {finalChildren}
     </TouchableOpacity>
   ) : (

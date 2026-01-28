@@ -1,5 +1,4 @@
-import React from 'react';
-import {RadioButtonProps as Props} from './RadioButton.types';
+import {type RadioButtonProps as Props} from './RadioButton.types';
 
 const RadioButton = ({active}: Props) => {
   /********************************************************************************************************************

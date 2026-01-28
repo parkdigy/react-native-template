@@ -1,4 +1,4 @@
-import {AuthSigninType} from '@const';
+import {type AuthSigninType} from '@const';
 
 export interface KakaoUserInfo {
   accessToken: string;

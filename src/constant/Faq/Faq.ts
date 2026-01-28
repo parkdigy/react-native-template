@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import api from '@api';
-import {FaqList} from '@const';
+import {type FaqList} from '@const';
 
 export default {
   // 목록

@@ -1,6 +1,6 @@
 import VectorIcon from '@react-native-vector-icons/ionicons';
-import {ComponentProps} from 'react';
-import {ColorValue} from 'react-native';
+import {type ComponentProps} from 'react';
+import {type ColorValue} from 'react-native';
 
 type VectorIconProps = ComponentProps<typeof VectorIcon>;
 

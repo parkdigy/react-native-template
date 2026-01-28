@@ -1,5 +1,4 @@
-import React from 'react';
-import {HomeTitleRightProps as Props} from './HomeTitleRight.types';
+import {type HomeTitleRightProps as Props} from './HomeTitleRight.types';
 
 export const HomeTitleRight = ({}: Props) => {
   /********************************************************************************************************************

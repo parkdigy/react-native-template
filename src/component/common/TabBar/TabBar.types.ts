@@ -1,5 +1,5 @@
-import {ReactElement} from 'react';
-import {CustomComponentStyleProps} from '../CustomComponent';
+import {type ReactElement} from 'react';
+import {type CustomComponentStyleProps} from '../CustomComponent';
 
 export type TabBarItemValue = string | number;
 

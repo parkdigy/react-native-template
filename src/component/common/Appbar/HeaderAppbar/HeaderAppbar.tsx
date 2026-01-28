@@ -2,93 +2,98 @@
  * 해더 앱 바 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {useAppListener} from '@app';
-import Appbar, {AppbarCommands, AppbarProps} from '../Appbar';
-import {HeaderAppbarProps as Props, HeaderAppbarCommands} from './HeaderAppbar.types';
-import {useForwardLayoutRef} from '@pdg/react-hook';
+import Appbar, {type AppbarCommands, type AppbarProps} from '../Appbar';
+import {type HeaderAppbarProps as Props} from './HeaderAppbar.types';
 
-const HeaderAppbar = React.forwardRef<HeaderAppbarCommands, Props>(
-  ({back, navigation, options, height = 38, disabled, modalHeight = 60, children, blur: initBlur, ...props}, ref) => {
-    const lockScreen = useAppListener('lockScreen');
+const HeaderAppbar = ({
+  ref,
+  back,
+  navigation,
+  options,
+  height = 38,
+  disabled,
+  modalHeight = 60,
+  children,
+  blur: initBlur,
+  ...props
+}: Props) => {
+  const lockScreen = useAppListener('lockScreen');
 
-    /********************************************************************************************************************
-     * State
-     * ******************************************************************************************************************/
+  /********************************************************************************************************************
+   * State
+   * ******************************************************************************************************************/
 
-    const [blur, setBlur] = useState(initBlur);
+  const [blur, setBlur] = useState(initBlur);
 
-    /********************************************************************************************************************
-     * Effect
-     * ******************************************************************************************************************/
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
 
-    useEffect(() => {
-      setBlur(initBlur);
-    }, [initBlur]);
+  useEffect(() => {
+    setBlur(initBlur);
+  }, [initBlur]);
 
-    /********************************************************************************************************************
-     * Commands
-     * ******************************************************************************************************************/
+  /********************************************************************************************************************
+   * Commands
+   * ******************************************************************************************************************/
 
-    useForwardLayoutRef(
-      ref,
-      useMemo<AppbarCommands>(() => {
-        return {
-          setBlur(value: boolean) {
-            setBlur(value);
-          },
-        };
-      }, []),
-    );
+  useForwardRef(
+    ref,
+    useMemo<AppbarCommands>(() => {
+      return {
+        setBlur(value: boolean) {
+          setBlur(value);
+        },
+      };
+    }, []),
+  );
 
-    /********************************************************************************************************************
-     * Memo
-     * ******************************************************************************************************************/
+  /********************************************************************************************************************
+   * Memo
+   * ******************************************************************************************************************/
 
-    const title = useMemo(() => getHeaderTitle(options, ''), [options]);
-    const type = useMemo<AppbarProps['type']>(() => {
-      switch (options.presentation) {
-        case 'modal':
-        case 'formSheet':
-        case 'pageSheet':
-          return 'modal';
-        case 'fullScreenModal':
-        case 'transparentModal':
-        case 'containedModal':
-        case 'containedTransparentModal':
-          return 'fullscreen-modal';
-        default:
-          return 'default';
-      }
-    }, [options]);
+  const title = useMemo(() => getHeaderTitle(options, ''), [options]);
+  const type = useMemo<AppbarProps['type']>(() => {
+    switch (options.presentation) {
+      case 'modal':
+      case 'formSheet':
+      case 'pageSheet':
+        return 'modal';
+      case 'fullScreenModal':
+      case 'transparentModal':
+      case 'containedModal':
+      case 'containedTransparentModal':
+        return 'fullscreen-modal';
+      default:
+        return 'default';
+    }
+  }, [options]);
 
-    /********************************************************************************************************************
-     * Render
-     * ******************************************************************************************************************/
+  /********************************************************************************************************************
+   * Render
+   * ******************************************************************************************************************/
 
-    return (
-      <Appbar
-        key='HeaderAppbar'
-        title={title}
-        type={type}
-        height={height}
-        modalHeight={modalHeight}
-        blur={blur}
-        disabled={lockScreen || disabled}
-        {...props}
-        onBack={back ? navigation.goBack : undefined}
-        onClose={navigation.goBack}>
-        {children}
-      </Appbar>
-    );
-  },
-);
+  return (
+    <Appbar
+      key='HeaderAppbar'
+      title={title}
+      type={type}
+      height={height}
+      modalHeight={modalHeight}
+      blur={blur}
+      disabled={lockScreen || disabled}
+      {...props}
+      onBack={back ? navigation.goBack : undefined}
+      onClose={navigation.goBack}>
+      {children}
+    </Appbar>
+  );
+};
 
-const WithStaticHeaderAppbar = withStaticProps(HeaderAppbar, {
+export default withStaticProps(HeaderAppbar, {
   Action: Appbar.Action,
   BackAction: Appbar.BackAction,
   Content: Appbar.Content,
 });
-
-export default WithStaticHeaderAppbar;

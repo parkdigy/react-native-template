@@ -1,5 +1,12 @@
-import {ImageProps, ImageStyle, TextProps, TextStyle, ViewProps, ViewStyle} from 'react-native';
-import {AnimatableProps} from 'react-native-animatable';
+import {
+  type ImageProps,
+  type ImageStyle,
+  type TextProps,
+  type TextStyle,
+  type ViewProps,
+  type ViewStyle,
+} from 'react-native';
+import {type AnimatableProps} from 'react-native-animatable';
 
 export interface AnimatableViewProps extends Omit<AnimatableProps<ViewStyle>, 'useNativeDriver'>, ViewProps {
   notUseNativeDriver?: boolean;

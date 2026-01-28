@@ -1,8 +1,8 @@
-import {ButtonProps as PaperButtonProps} from 'react-native-paper';
-import {StyleProp, TextStyle} from 'react-native';
-import {CustomComponentStyleProps} from '../../CustomComponent';
+import {type ButtonProps as PaperButtonProps} from 'react-native-paper';
+import {type StyleProp, type TextStyle} from 'react-native';
+import {type CustomComponentStyleProps} from '../../CustomComponent';
 import {TextSize} from '../../Text';
-import {IconProps} from '../../Icon';
+import {type IconProps} from '../../Icon';
 
 const DEFAULT_BUTTON_MARGIN_VERTICAL_SCALE = 0.84;
 

@@ -1,11 +1,10 @@
-import React from 'react';
 import {Image, unstable_batchedUpdates} from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import axios from 'axios';
 import {API_AUTH_COOKIE_NAME} from '@api';
-import {AutoResizeImageProps as Props} from './AutoResizeImage.types';
+import {type AutoResizeImageProps as Props} from './AutoResizeImage.types';
 
-const AutoResizeImage: React.FC<Props> = ({uri, style, width, height, maxWidth, ...props}) => {
+const AutoResizeImage = ({uri, style, width, height, maxWidth, ...props}: Props) => {
   /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
@@ -14,6 +13,32 @@ const AutoResizeImage: React.FC<Props> = ({uri, style, width, height, maxWidth, 
   const [imageSize, setImageSize] = useState<{width: number; height: number}>();
   const [size, setSize] = useState<{width: number; height: number}>();
   const [isSvg, setIsSvg] = useState(false);
+
+  /********************************************************************************************************************
+   * Changed
+   * ******************************************************************************************************************/
+
+  useChanged(() => {
+    if (imageSize == null) {
+      return;
+    }
+
+    if (width == null && height == null) {
+      let scale = 1;
+      if (maxWidth != null && imageSize.width > maxWidth) {
+        scale = maxWidth / imageSize.width;
+      }
+      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
+    } else if (width != null && height == null) {
+      const scale = imageSize.width === 0 ? 1 : width / imageSize.width;
+      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
+    } else if (height != null && width == null) {
+      const scale = imageSize.height === 0 ? 1 : height / imageSize.height;
+      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
+    } else if (width != null && height != null) {
+      setSize({width, height});
+    }
+  }, [width, height, imageSize, maxWidth]);
 
   /********************************************************************************************************************
    * Memo
@@ -73,28 +98,6 @@ const AutoResizeImage: React.FC<Props> = ({uri, style, width, height, maxWidth, 
     }
   }, [uri, isInnerUrl]);
 
-  useEffect(() => {
-    if (imageSize == null) {
-      return;
-    }
-
-    if (width == null && height == null) {
-      let scale = 1;
-      if (maxWidth != null && imageSize.width > maxWidth) {
-        scale = maxWidth / imageSize.width;
-      }
-      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
-    } else if (width != null && height == null) {
-      const scale = imageSize.width === 0 ? 1 : width / imageSize.width;
-      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
-    } else if (height != null && width == null) {
-      const scale = imageSize.height === 0 ? 1 : height / imageSize.height;
-      setSize({width: imageSize.width * scale, height: imageSize.height * scale});
-    } else if (width != null && height != null) {
-      setSize({width, height});
-    }
-  }, [width, height, imageSize, maxWidth]);
-
   /********************************************************************************************************************
    * Memo
    * ******************************************************************************************************************/
@@ -120,7 +123,5 @@ const AutoResizeImage: React.FC<Props> = ({uri, style, width, height, maxWidth, 
     </>
   ) : null;
 };
-
-AutoResizeImage.displayName = 'AutoResizeImage';
 
 export default AutoResizeImage;

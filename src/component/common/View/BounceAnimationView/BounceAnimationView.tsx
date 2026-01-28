@@ -1,6 +1,5 @@
-import React from 'react';
 import {useActive} from '../../ActiveDetector';
-import {BounceAnimationViewProps as Props} from './BounceAnimationView.types';
+import {type BounceAnimationViewProps as Props} from './BounceAnimationView.types';
 
 export const BounceAnimationView = ({stop, bounceHeight = 1.02, ...props}: Props) => {
   const active = useActive();

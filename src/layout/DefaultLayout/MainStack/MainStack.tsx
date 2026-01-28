@@ -2,11 +2,10 @@
  * 메인 스택 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {unstable_batchedUpdates} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import notifee, {EventType} from '@notifee/react-native';
-import {AdvertisingStatus, MainScreenList, ScreenProps} from '@types';
+import {AdvertisingStatus, MainScreenList, type ScreenProps} from '@types';
 import {useAppState} from '@context';
 import {
   AuthSignInScreen,
@@ -36,13 +35,12 @@ const MainStack = ({navigation}: ScreenProps) => {
    * LayoutEffect
    * ******************************************************************************************************************/
 
-  useLayoutEffect(() => {
+  useEventLayoutEffect(() => {
     if (auth) {
       if (navigation.getState().index > 0) {
         navigation.popToTop();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   /********************************************************************************************************************
@@ -86,13 +84,12 @@ const MainStack = ({navigation}: ScreenProps) => {
    * Effect
    * ******************************************************************************************************************/
 
-  useEffect(() => {
+  useEventEffect(() => {
     const initData = app.notification.getInitData();
     if (initData) {
       app.notification.processData(navigation, initData);
       app.notification.setInitData(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -197,7 +194,6 @@ const MainStack = ({navigation}: ScreenProps) => {
         <Stack.Group screenOptions={{headerShown: false, presentation: 'transparentModal', animation: 'none'}}>
           <Stack.Screen name='AuthSignIn' component={AuthSignInScreen} />
         </Stack.Group>
-
       </Stack.Navigator>
 
       <Dialog />

@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconProps} from '../../Icon';
+import {type IconProps} from '../../Icon';
 
 export interface PanelItemProps extends Omit<ViewProps, 'children'> {
   icon?: IconProps['name'] | React.JSX.Element;

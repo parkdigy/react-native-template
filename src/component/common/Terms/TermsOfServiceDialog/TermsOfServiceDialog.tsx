@@ -1,7 +1,6 @@
-import React from 'react';
 import {TermsOfServiceContent} from '../TermsOfServiceContent';
 import {FullScreenDialog} from '../../Dialog/FullScreenDialog';
-import {TermsOfServiceDialogProps as Props} from './TermsOfServiceDialog.types';
+import {type TermsOfServiceDialogProps as Props} from './TermsOfServiceDialog.types';
 
 export const TermsOfServiceDialog = ({visible, onRequestClose}: Props) => {
   return (

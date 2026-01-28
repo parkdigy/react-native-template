@@ -1,8 +1,7 @@
-import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
 import {hasNotch} from 'react-native-device-info';
 import {Text_Default} from '../../Text';
-import {FullScreenDialogProps as Props} from './FullScreenDialog.types';
+import {type FullScreenDialogProps as Props} from './FullScreenDialog.types';
 
 const FullScreenDialog = ({
   children,

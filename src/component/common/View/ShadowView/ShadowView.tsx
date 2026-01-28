@@ -1,5 +1,4 @@
-import React from 'react';
-import {ShadowViewProps as Props} from './ShadowView.types';
+import {type ShadowViewProps as Props} from './ShadowView.types';
 
 const ShadowView = ({
   backgroundColor,

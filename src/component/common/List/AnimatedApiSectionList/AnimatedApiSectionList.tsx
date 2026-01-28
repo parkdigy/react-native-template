@@ -2,17 +2,23 @@
  * API 섹션 리스트 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useRef} from 'react';
-import {LayoutChangeEvent, RefreshControl, SectionList, SectionListData, SectionListRenderItemInfo} from 'react-native';
+import {useRef} from 'react';
+import {
+  type LayoutChangeEvent,
+  RefreshControl,
+  SectionList,
+  type SectionListData,
+  type SectionListRenderItemInfo,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingStatus} from '@const';
 import {useAppState} from '@context';
-import AnimatedApiFlatList, {AnimatedApiFlatListCommands} from '../AnimatedApiFlatList';
+import AnimatedApiFlatList, {type AnimatedApiFlatListCommands} from '../AnimatedApiFlatList';
 import {
-  AnimatedApiSectionListProps as Props,
-  AnimatedApiSectionListItem,
+  type AnimatedApiSectionListProps as Props,
+  type AnimatedApiSectionListItem,
   AnimatedApiSectionListSection,
-  AnimatedApiSectionListCommands,
+  type AnimatedApiSectionListCommands,
 } from './AnimatedApiSectionList.types';
 
 const _sections = [
@@ -114,9 +120,8 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
     }
   }, [appState, activeScreen]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     onListHeight?.(listHeight);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listHeight]);
 
   /********************************************************************************************************************
@@ -338,9 +343,8 @@ function AnimatedApiSectionList<T extends AnimatedApiSectionListItem>({
     };
   }, []);
 
-  useEffect(() => {
+  useEventEffect(() => {
     onCommands?.(commands);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commands]);
 
   /********************************************************************************************************************

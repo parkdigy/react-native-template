@@ -1,7 +1,7 @@
 import RNFS from 'react-native-fs';
-import {MMKV} from 'react-native-mmkv';
+import {createMMKV} from 'react-native-mmkv';
 
-const mmkv = new MMKV({id: 'cache_files'});
+const mmkv = createMMKV({id: 'cache_files'});
 
 const CACHE_DIR = `${RNFS.CachesDirectoryPath}/app_managed`;
 
@@ -38,7 +38,7 @@ export default {
             ll('캐시 파일 삭제:', uri);
             await RNFS.unlink(uri);
           }
-          mmkv.delete(key);
+          mmkv.remove(key);
         }
       } else {
         const uri = getUri(key);
@@ -46,7 +46,7 @@ export default {
           ll('캐시 파일 삭제:', uri);
           await RNFS.unlink(uri);
         }
-        mmkv.delete(key);
+        mmkv.remove(key);
       }
     }
     ll('캐시 파일 정리 완료');

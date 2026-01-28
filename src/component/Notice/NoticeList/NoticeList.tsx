@@ -2,10 +2,9 @@
  * '더보기 > 공지사항' 화면 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {ListRenderItemInfo} from 'react-native';
-import {NoticeListData, NoticeListDataItem} from '@const';
-import {NoticeListProps as Props} from './NoticeList.types';
+import {type ListRenderItemInfo} from 'react-native';
+import {type NoticeListData, type NoticeListDataItem} from '@const';
+import {type NoticeListProps as Props} from './NoticeList.types';
 import {NoticeListItem, NoticeListLoading} from './controls';
 
 const LIMIT = 20;

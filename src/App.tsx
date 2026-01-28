@@ -5,7 +5,6 @@
  * - iOS : AppEasUpdate 컴포넌트 바로 표시
  * ******************************************************************************************************************/
 
-import React from 'react';
 import app from '@app';
 import {AppInitializer} from './layout';
 
@@ -21,11 +20,11 @@ const AppContainer = ({notificationData}: Props) => {
   const [initialized, setInitialized] = useState(false);
 
   /********************************************************************************************************************
-   * Effect
+   * Changed
    * ******************************************************************************************************************/
 
   /** 푸시 알림 데이터 설정 */
-  useLayoutEffect(() => {
+  useChanged(() => {
     app.notification.setInitData(notificationData);
     setInitialized(true);
   }, [notificationData]);

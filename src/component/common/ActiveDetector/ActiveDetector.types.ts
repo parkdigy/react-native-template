@@ -1,4 +1,4 @@
-import {AppStateStatus} from 'react-native';
+import {type AppStateStatus} from 'react-native';
 
 export interface ActiveDetectorProps {
   children?: ReactNode;

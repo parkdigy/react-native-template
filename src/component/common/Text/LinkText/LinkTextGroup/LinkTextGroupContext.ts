@@ -1,5 +1,5 @@
 import {createContext} from 'react';
-import {LinkTextLink} from '../LinkText/LinkText.types';
+import {type LinkTextLink} from '../LinkText/LinkText.types';
 
 export interface LinkTextGroupContextValue {
   groupId: string;

@@ -1,5 +1,4 @@
-import React from 'react';
-import {SkeletonPlaceholderProps as Props} from './SkeletonPlaceholder.types';
+import {type SkeletonPlaceholderProps as Props} from './SkeletonPlaceholder.types';
 
 const SkeletonPlaceholder = ({children, backgroundColor, ...props}: Props) => {
   /********************************************************************************************************************

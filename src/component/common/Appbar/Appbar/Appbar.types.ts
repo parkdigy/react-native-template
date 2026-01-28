@@ -1,11 +1,12 @@
-import {AppbarProps as PaperAppbarProps} from 'react-native-paper';
-import {StyleProp, ViewStyle} from 'react-native';
+import {type AppbarProps as PaperAppbarProps} from 'react-native-paper';
+import {type StyleProp, type ViewStyle} from 'react-native';
 
 export interface AppbarCommands {
   setBlur(blur: boolean): void;
 }
 
 export interface AppbarProps extends Partial<Omit<PaperAppbarProps, 'ref'>> {
+  ref?: Ref<AppbarCommands>;
   title: ReactNode | string;
   hideTitle?: boolean;
   type?: 'default' | 'safe-area' | 'modal' | 'fullscreen-modal';

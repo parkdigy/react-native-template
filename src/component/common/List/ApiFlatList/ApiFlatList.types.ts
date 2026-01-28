@@ -1,5 +1,4 @@
-import React, {ReactElement} from 'react';
-import {FlatListProps} from 'react-native';
+import {type FlatListProps} from 'react-native';
 import {LoadingStatus} from '@const';
 
 export interface ApiFlatListItem {

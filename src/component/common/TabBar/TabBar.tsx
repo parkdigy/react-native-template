@@ -1,6 +1,5 @@
-import React from 'react';
 import {Text_Default} from '../Text';
-import {TabBarProps as Props, TabBarItemValue} from './TabBar.types';
+import {type TabBarProps as Props, type TabBarItemValue} from './TabBar.types';
 
 function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initValue, onChange, ...props}: Props<T>) {
   /********************************************************************************************************************
@@ -14,25 +13,19 @@ function TabBar<T extends TabBarItemValue>({mode: initMode, items, value: initVa
    * ******************************************************************************************************************/
 
   const [value, setValue] = useState(initValue);
-  const [mode, setMode] = useState<'default' | 'angled'>(initMode || 'default');
+  useFirstSkipChanged(() => setValue(initValue), [initValue]);
+
+  const [mode, setMode] = useState<'default' | 'angled'>(initMode ?? 'default');
+  useFirstSkipChanged(() => setMode(initMode ?? 'default'), [initMode]);
 
   /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
 
-  useEffect(() => {
-    setMode(initMode || 'default');
-  }, [initMode]);
-
-  useEffect(() => {
-    setValue(initValue);
-  }, [initValue]);
-
-  useEffect(() => {
+  useEventEffect(() => {
     if (value !== undefined) {
       onChange?.(value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   /********************************************************************************************************************

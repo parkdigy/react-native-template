@@ -1,5 +1,4 @@
-import React from 'react';
-import {LabelProps as Props} from './Label.types';
+import {type LabelProps as Props} from './Label.types';
 
 const Label = ({children, required, error, ...props}: Props) => {
   return (

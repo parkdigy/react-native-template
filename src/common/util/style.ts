@@ -1,7 +1,7 @@
-import {Falsy, RecursiveArray, RegisteredStyle, TextStyle} from 'react-native';
+import {type StyleProp, type RecursiveArray, type TextStyle} from 'react-native';
 
 export default {
-  findFontWeight(s: RecursiveArray<Falsy | TextStyle | RegisteredStyle<TextStyle>>): TextStyle['fontWeight'] {
+  findFontWeight(s: RecursiveArray<StyleProp<TextStyle>>): TextStyle['fontWeight'] {
     let fw: TextStyle['fontWeight'];
     for (const s2 of s.reverse()) {
       if (Array.isArray(s2)) {

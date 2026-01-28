@@ -2,11 +2,11 @@
  * 앱의 활성화 상태 변화를 감지하는 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import {useIsFocused} from '@react-navigation/native';
-import {AppStateStatus} from 'react-native';
+import {type AppStateStatus} from 'react-native';
 import {useAppState} from '@context';
-import {ActiveDetectorProps as Props} from './ActiveDetector.types';
+import {type ActiveDetectorProps as Props} from './ActiveDetector.types';
 
 const ActiveDetector = ({
   children,
@@ -55,7 +55,7 @@ const ActiveDetector = ({
     }
   }, [activeScreen, appState]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     if (appState === 'active') {
       if (foregroundChangeSkipRef.current) {
         foregroundChangeSkipRef.current = false;
@@ -64,10 +64,9 @@ const ActiveDetector = ({
         onChangeInForeground?.(isActive, pastTime);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     if (lastAppState === 'background' && appState === 'active') {
       onActiveFromBackground &&
         onActiveFromBackground(
@@ -77,32 +76,28 @@ const ActiveDetector = ({
       activeFromBackgroundTimeRef.current = nowTime();
     }
     setLastAppState(appState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState, lastAppState]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     if (lastAppState === 'active' && appState !== 'active') {
       appInactiveActiveTimeRef.current = nowTime();
       onAppInactive?.();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState, lastAppState]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     if (lastAppState !== 'active' && appState === 'active') {
       onAppActiveFromInactive &&
         onAppActiveFromInactive(
           appInactiveActiveTimeRef.current === 0 ? 0 : nowTime() - appInactiveActiveTimeRef.current,
         );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState, lastAppState]);
 
-  useEffect(() => {
+  useEventEffect(() => {
     setLastIsActive(isActive);
     const pastTime = pastTimeRef.current === 0 ? 0 : nowTime() - pastTimeRef.current;
     onChange?.(isActive, pastTime, appState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {

@@ -1,5 +1,8 @@
 import {
-  ReactNode as _ReactNode,
+  type ReactNode as _ReactNode,
+  type ReactElement as _ReactElement,
+  type Ref as _Ref,
+  type RefObject as _RefObject,
   useId as _useId,
   useRef as _useRef,
   useState as _useState,
@@ -7,19 +10,17 @@ import {
   useLayoutEffect as _useLayoutEffect,
   useCallback as _useCallback,
   useMemo as _useMemo,
-  ForwardRefExoticComponent,
-  RefAttributes,
 } from 'react';
 
-const _withStaticProps = <Props, Ref, T>(
-  forwarded: ForwardRefExoticComponent<Props & RefAttributes<Ref>>,
-  staticProps: T,
-) => Object.assign(forwarded, staticProps);
+export function _withStaticProps<T, P>(component: T, props: P): T & P {
+  return Object.assign(component as any, props);
+}
 
 declare global {
   type ReactNode = _ReactNode;
-
-  var withStaticProps: typeof _withStaticProps;
+  type ReactElement = _ReactElement;
+  type Ref<T> = _Ref<T>;
+  type RefObject<T> = _RefObject<T>;
 
   var useId: typeof _useId;
   var useRef: typeof _useRef;
@@ -28,9 +29,9 @@ declare global {
   var useCallback: typeof _useCallback;
   var useMemo: typeof _useMemo;
   var useState: typeof _useState;
-}
 
-globalThis.withStaticProps = _withStaticProps;
+  var withStaticProps: typeof _withStaticProps;
+}
 
 globalThis.useId = _useId;
 globalThis.useRef = _useRef;
@@ -39,6 +40,8 @@ globalThis.useEffect = _useEffect;
 globalThis.useCallback = _useCallback;
 globalThis.useMemo = _useMemo;
 globalThis.useState = _useState;
+
+globalThis.withStaticProps = _withStaticProps;
 
 /********************************************************************************************************************
  * export

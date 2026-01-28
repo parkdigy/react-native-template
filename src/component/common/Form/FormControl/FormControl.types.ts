@@ -1,5 +1,4 @@
-import {ReactElement} from 'react';
-import {TextStyle} from 'react-native';
+import {type TextStyle} from 'react-native';
 
 export type FormControlType =
   | 'text'

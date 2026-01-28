@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import {ScrollView as _NativeScrollView} from 'react-native-gesture-handler';
 import {Button as _PaperButton} from 'react-native-paper';
-import {Animation as _Animation} from 'react-native-animatable';
+import {type Animation as _Animation} from 'react-native-animatable';
 import {
   Modal as _Modal,
-  ModalProps as _ModalProps,
+  type ModalProps as _ModalProps,
   Dialog as _Dialog,
-  DialogProps as _DialogProps,
+  type DialogProps as _DialogProps,
   FullScreenDialog as _FullScreenDialog,
   Appbar as _Appbar,
   HeaderAppbar as _HeaderAppbar,
@@ -21,7 +21,7 @@ import {
   Pressable as _Pressable,
   TouchableOpacity as _TouchableOpacity,
   View as _View,
-  ViewProps as _ViewProps,
+  type ViewProps as _ViewProps,
   ShadowView as _ShadowView,
   SafeAreaView as _SafeAreaView,
   ScrollView as _ScrollView,
@@ -35,7 +35,7 @@ import {
   InfoPanelItem as _InfoPanelItem,
   PanelValueList as _PanelValueList,
   Text as _Text,
-  TextProps as _TextProps,
+  type TextProps as _TextProps,
   TextSize as _TextSize,
   Text_Default as _Text_Default,
   Text_Accent as _Text_Accent,
@@ -57,7 +57,7 @@ import {
   Text_Gray as _Text_Gray,
   TimerText as _TimerText,
   Button as _Button,
-  ButtonProps as _ButtonProps,
+  type ButtonProps as _ButtonProps,
   ButtonSize as _ButtonSize,
   ColorButton as _ColorButton,
   SubmitButton as _SubmitButton,
@@ -170,6 +170,7 @@ declare global {
   var InfoPanel: typeof _InfoPanel;
   var InfoPanelItem: typeof _InfoPanelItem;
   var PanelValueList: typeof _PanelValueList;
+  // @ts-ignore
   var Text: typeof _Text;
   type TextProps = _TextProps;
   type TextSize = _TextSize;
@@ -283,6 +284,7 @@ globalThis.AgreementPanelItem = _AgreementPanelItem;
 globalThis.InfoPanel = _InfoPanel;
 globalThis.InfoPanelItem = _InfoPanelItem;
 globalThis.PanelValueList = _PanelValueList;
+// @ts-ignore
 globalThis.Text = _Text;
 globalThis.TextSize = _TextSize;
 globalThis.T = _Text_Default;

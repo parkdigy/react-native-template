@@ -1,4 +1,4 @@
-import {LinkTextLink} from '../LinkText/LinkText.types';
+import {type LinkTextLink} from '../LinkText/LinkText.types';
 
 export interface LinkTextGroupProps {
   groupId: string;

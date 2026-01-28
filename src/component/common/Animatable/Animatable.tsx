@@ -1,6 +1,5 @@
-import React from 'react';
 import {View, Text, Image} from 'react-native-animatable';
-import {AnimatableImageProps, AnimatableTextProps, AnimatableViewProps} from './Animatable.types';
+import {type AnimatableImageProps, type AnimatableTextProps, type AnimatableViewProps} from './Animatable.types';
 
 const AnimatableView = ({notUseNativeDriver, ...props}: AnimatableViewProps) => {
   return <View useNativeDriver={!notUseNativeDriver} {...props} />;

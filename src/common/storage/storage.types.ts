@@ -1,5 +1,5 @@
-import {AppAuthInfo, AppForceColorScheme} from '@context';
-import {AuthSigninType, ConfigInfoData, FaqListData, NoticeListData} from '@const';
+import {type AppAuthInfo, type AppForceColorScheme} from '@context';
+import {type AuthSigninType, type ConfigInfoData, type FaqListData, type NoticeListData} from '@const';
 
 export const StorageKey = {
   AppKey: 'app_key', // 앱 키

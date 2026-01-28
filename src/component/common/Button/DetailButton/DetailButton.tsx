@@ -1,5 +1,4 @@
-import React from 'react';
-import {DetailButtonProps as Props} from './DetailButton.types';
+import {type DetailButtonProps as Props} from './DetailButton.types';
 
 export const DetailButton = ({children, ...props}: Props) => {
   /********************************************************************************************************************

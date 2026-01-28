@@ -2,8 +2,7 @@
  * Bullet 이 있는 값 목록 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {BulletValueListProps as Props} from './BulletValueList.types';
+import {type BulletValueListProps as Props} from './BulletValueList.types';
 import {View} from 'react-native';
 
 const BulletValueList = ({bulletProps, ...props}: Props) => {

@@ -1,15 +1,15 @@
 import {
-  ValueOf as _ValueOf,
-  Dict as _Dict,
-  Arr as _Arr,
-  IsObject as _IsObject,
-  IsArray as _IsArray,
-  ObjectMerge as _ObjectMerge,
-  ArrayMerge as _ArrayMerge,
-  PartialPick as _PartialPick,
-  PartialOmit as _PartialOmit,
-  RequiredPick as _RequiredPick,
-  RequiredOmit as _RequiredOmit,
+  type ValueOf as _ValueOf,
+  type Dict as _Dict,
+  type Arr as _Arr,
+  type IsObject as _IsObject,
+  type IsArray as _IsArray,
+  type ObjectMerge as _ObjectMerge,
+  type ArrayMerge as _ArrayMerge,
+  type PartialPick as _PartialPick,
+  type PartialOmit as _PartialOmit,
+  type RequiredPick as _RequiredPick,
+  type RequiredOmit as _RequiredOmit,
 } from '@pdg/types';
 import {
   empty as _empty,
@@ -26,6 +26,22 @@ import {
 } from '@pdg/compare';
 import {now as _now, nowJs as _nowJs, nowTime as _nowTime} from '@pdg/date-time';
 import {lv as _lv, vl as _vl, copy as _copy} from '@pdg/data';
+import {
+  useChanged as _useChanged,
+  useFirstSkipChanged as _useFirstSkipChanged,
+  useEventEffect as _useEventEffect,
+  useEventLayoutEffect as _useEventLayoutEffect,
+  useFirstSkipEffect as _useFirstSkipEffect,
+  useFirstSkipLayoutEffect as _useFirstSkipLayoutEffect,
+  useForwardRef as _useForwardRef,
+  useMounted as _useMounted,
+  useMountedRef as _useMountedRef,
+  useAutoUpdateRef as _useAutoUpdateRef,
+  useTimeoutRef as _useTimeoutRef,
+  clearTimeoutRef as _clearTimeoutRef,
+  useIntervalRef as _useIntervalRef,
+  clearIntervalRef as _clearIntervalRef,
+} from '@pdg/react-hook';
 
 declare global {
   /** types */
@@ -63,6 +79,22 @@ declare global {
   var lv: typeof _lv;
   var vl: typeof _vl;
   var copy: typeof _copy;
+
+  /** react-hook */
+  var useChanged: typeof _useChanged;
+  var useFirstSkipChanged: typeof _useFirstSkipChanged;
+  var useEventEffect: typeof _useEventEffect;
+  var useEventLayoutEffect: typeof _useEventLayoutEffect;
+  var useFirstSkipEffect: typeof _useFirstSkipEffect;
+  var useFirstSkipLayoutEffect: typeof _useFirstSkipLayoutEffect;
+  var useForwardRef: typeof _useForwardRef;
+  var useMounted: typeof _useMounted;
+  var useMountedRef: typeof _useMountedRef;
+  var useAutoUpdateRef: typeof _useAutoUpdateRef;
+  var useTimeoutRef: typeof _useTimeoutRef;
+  var clearTimeoutRef: typeof _clearTimeoutRef;
+  var useIntervalRef: typeof _useIntervalRef;
+  var clearIntervalRef: typeof _clearIntervalRef;
 }
 
 /** compare */
@@ -87,5 +119,21 @@ globalThis.nowTime = _nowTime;
 globalThis.lv = _lv;
 globalThis.vl = _vl;
 globalThis.copy = _copy;
+
+/** react-hook */
+globalThis.useChanged = _useChanged;
+globalThis.useFirstSkipChanged = _useFirstSkipChanged;
+globalThis.useEventEffect = _useEventEffect;
+globalThis.useEventLayoutEffect = _useEventLayoutEffect;
+globalThis.useFirstSkipEffect = _useFirstSkipEffect;
+globalThis.useFirstSkipLayoutEffect = _useFirstSkipLayoutEffect;
+globalThis.useForwardRef = _useForwardRef;
+globalThis.useMounted = _useMounted;
+globalThis.useMountedRef = _useMountedRef;
+globalThis.useAutoUpdateRef = _useAutoUpdateRef;
+globalThis.useTimeoutRef = _useTimeoutRef;
+globalThis.clearTimeoutRef = _clearTimeoutRef;
+globalThis.useIntervalRef = _useIntervalRef;
+globalThis.clearIntervalRef = _clearIntervalRef;
 
 export {};

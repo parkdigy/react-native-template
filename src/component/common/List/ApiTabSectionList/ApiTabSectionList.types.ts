@@ -1,7 +1,6 @@
-import {ReactElement} from 'react';
 import {LoadingStatus} from '@const';
-import {ApiSectionListItem, ApiSectionListProps} from '../ApiSectionList';
-import {TabBarItem, TabBarItemValue} from '../../TabBar';
+import {type ApiSectionListItem, type ApiSectionListProps} from '../ApiSectionList';
+import {type TabBarItem, type TabBarItemValue} from '../../TabBar';
 
 export interface ApiTabSectionListTabItem<TAB extends TabBarItemValue> extends TabBarItem<TAB> {
   label: string;

@@ -1,4 +1,4 @@
-import {TouchableOpacityProps} from '../TouchableOpacity';
+import {type TouchableOpacityProps} from '../TouchableOpacity';
 
 export interface CloseIconButtonProps extends Pick<TouchableOpacityProps, 'mt' | 'mb' | 'ml' | 'mr' | 'mv' | 'mh'> {
   size?: number;

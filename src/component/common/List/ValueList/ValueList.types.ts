@@ -1,5 +1,4 @@
-import {ReactElement} from 'react';
-import {StackProps} from '../../Stack';
+import {type StackProps} from '../../Stack';
 
 export type ValueListItems = (string | ReactElement)[];
 

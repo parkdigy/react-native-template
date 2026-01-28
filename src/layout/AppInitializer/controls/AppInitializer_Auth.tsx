@@ -1,7 +1,7 @@
-import React from 'react';
-import {AppAuthInfo} from '@context';
+import {type AppAuthInfo} from '@context';
 import app, {AppStatus} from '@app';
 import {AppInitializer_Auth_Content} from './AppInitializer_Auth_Content';
+import type {StorageAuthInfo} from '@storage';
 
 interface Props {
   appStatus: AppStatus;
@@ -17,23 +17,6 @@ export const AppInitializer_Auth = ({appStatus, auth, isInternetConnected, onAut
    * ******************************************************************************************************************/
 
   const [isShow, setIsShow] = useState(false);
-
-  /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  useEffect(() => {
-    onDetailLogText(`init - ${appStatus}`);
-    if (appStatus === app.AppStatus.AuthLoading) {
-      if (auth) {
-        storage.user.init(auth.user_key);
-        onDetailLogText(`init - next - ${app.nextAppStatus(app.AppStatus.AuthLoading)}`);
-      } else {
-        loadAuth();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appStatus]);
 
   /********************************************************************************************************************
    * Function
@@ -60,60 +43,72 @@ export const AppInitializer_Auth = ({appStatus, auth, isInternetConnected, onAut
   const loadAuth = useCallback(async () => {
     onDetailLogText('loadAuth');
 
+    let storageAuthData: StorageAuthInfo | undefined;
     try {
       // storage 에서 인증 정보 로드
-      const storageAuthData = storage.getAuth();
-      if (storageAuthData) {
-        const storageAuthInfo = storageAuthData.authData;
+      storageAuthData = storage.getAuth();
+    } catch {}
 
-        // 인증 정보 로드 API 호출 함수
-        const goLoadInfo = (data?: {google_id_token?: string; apple_id_token?: string}) => {
-          Const.Auth.info({is_login: true, ...data})
-            .then(({data: serverAuthData}) => {
-              if (serverAuthData.auth) {
-                storage.user.init(serverAuthData.auth.user_key);
-                complete(serverAuthData.auth);
-              } else {
-                storage.removeAuth();
-                showLogin();
-              }
-            })
-            .catch(() => {
-              app.setAppStatus(app.AppStatus.AuthLoadError);
-            });
-        };
+    if (!storageAuthData) {
+      showLogin();
+      return;
+    }
 
-        if (contains(['GOOGLE', 'APPLE'], storageAuthInfo.reg_type)) {
-          // 구글, 애플 로그인
-          // Firebase 에서 idToken 을 가져옴
-          try {
-            const idToken = await firebase.auth.currentUser?.getIdToken();
-            if (idToken) {
-              if (storageAuthInfo.reg_type === 'GOOGLE') {
-                goLoadInfo({google_id_token: idToken});
-              } else if (storageAuthInfo.reg_type === 'APPLE') {
-                goLoadInfo({apple_id_token: idToken});
-              }
-            } else {
-              // idToken 가져오기 실패 시
-              showLogin();
-            }
-          } catch (err) {
-            // idToken 가져오기 실패 시
+    const storageAuthInfo = storageAuthData.authData;
+
+    // 인증 정보 로드 API 호출 함수
+    const goLoadInfo = (data?: {google_id_token?: string; apple_id_token?: string}) => {
+      Const.Auth.info({is_login: true, ...data})
+        .then(({data: serverAuthData}) => {
+          if (serverAuthData.auth) {
+            storage.user.init(serverAuthData.auth.user_key);
+            complete(serverAuthData.auth);
+          } else {
+            storage.removeAuth();
             showLogin();
           }
-        } else {
-          // 일반, 카카오, 네이버 로그인
-          goLoadInfo();
-        }
-      } else {
-        // 인증 정보가 없을 경우
+        })
+        .catch(() => {
+          app.setAppStatus(app.AppStatus.AuthLoadError);
+        });
+    };
+
+    if (contains(['GOOGLE', 'APPLE'], storageAuthInfo.reg_type)) {
+      // 구글, 애플 로그인
+      // Firebase 에서 idToken 을 가져옴
+      const idToken = await firebase.auth.currentUser?.getIdToken().catch(() => undefined);
+
+      if (!idToken) {
         showLogin();
+        return;
       }
-    } catch {
-      showLogin();
+
+      if (storageAuthInfo.reg_type === 'GOOGLE') {
+        goLoadInfo({google_id_token: idToken});
+      } else if (storageAuthInfo.reg_type === 'APPLE') {
+        goLoadInfo({apple_id_token: idToken});
+      }
+    } else {
+      // 일반, 카카오, 네이버 로그인
+      goLoadInfo();
     }
   }, [complete, onDetailLogText, showLogin]);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEventEffect(() => {
+    onDetailLogText(`init - ${appStatus}`);
+    if (appStatus === app.AppStatus.AuthLoading) {
+      if (auth) {
+        storage.user.init(auth.user_key);
+        onDetailLogText(`init - next - ${app.nextAppStatus(app.AppStatus.AuthLoading)}`);
+      } else {
+        loadAuth();
+      }
+    }
+  }, [appStatus]);
 
   /********************************************************************************************************************
    * Render

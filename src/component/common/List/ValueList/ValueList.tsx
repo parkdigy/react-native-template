@@ -2,9 +2,8 @@
  * 값 목록 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
 import {Text_Default} from '../../Text';
-import {ValueListProps as Props} from './ValueList.types';
+import {type ValueListProps as Props} from './ValueList.types';
 
 const ValueList = ({label, items, centerVertical, valueTextProps, ...props}: Props) => {
   return (

@@ -1,7 +1,11 @@
-import React from 'react';
-import {FormContext, FormContextControl, FormContextControlWithName, FormContextValue} from '../FormContext';
-import {FormControlCommands, FormControlType} from '../FormControl';
-import {FormContextProviderProps as Props} from './FormContextProvider.types';
+import {
+  FormContext,
+  type FormContextControl,
+  type FormContextControlWithName,
+  type FormContextValue,
+} from '../FormContext';
+import {type FormControlCommands, type FormControlType} from '../FormControl';
+import {type FormContextProviderProps as Props} from './FormContextProvider.types';
 
 const FormContextProvider = ({children, parentScrollView}: Props) => {
   /********************************************************************************************************************
@@ -55,12 +59,17 @@ const FormContextProvider = ({children, parentScrollView}: Props) => {
 
   const focusControl = useCallback(
     (name: string) => {
-      if (controlsRef.current[name]) {
-        const {commands} = controlsRef.current[name];
-        if (parentScrollView?.current) {
+      const scrollView = parentScrollView;
+      const control = controlsRef.current[name];
+
+      if (control) {
+        const {commands} = control;
+        const scrollInstance = scrollView?.current;
+
+        if (scrollInstance) {
           commands.focus();
-          commands.getContainer()?.measureLayout(parentScrollView?.current as any, (x, y) => {
-            parentScrollView?.current?.scrollTo({x: 0, y: y - 16, animated: true});
+          commands.getContainer()?.measureLayout(scrollInstance as any, (x, y) => {
+            scrollInstance.scrollTo({x: 0, y: y - 16, animated: true});
           });
         } else {
           commands.focus();

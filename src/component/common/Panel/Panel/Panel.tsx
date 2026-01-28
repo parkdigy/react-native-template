@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text_Default} from '../../Text';
-import {PanelProps as Props} from './Panel.types';
+import {type PanelProps as Props} from './Panel.types';
 import LinearGradient from 'react-native-linear-gradient';
 import {ColorButtonColors} from '../../Button/ColorButton';
-import {PanelItemProps} from '../PanelItem';
-import {PanelDividerProps} from '../PanelDivider';
+import {type PanelItemProps} from '../PanelItem';
+import {type PanelDividerProps} from '../PanelDivider';
 
 const Panel = ({
   titleIcon,
@@ -35,10 +35,10 @@ const Panel = ({
   const [showGradientBorder, setShowGradientBorder] = useState(false);
 
   /********************************************************************************************************************
-   * Effect
+   * Changed
    * ******************************************************************************************************************/
 
-  useEffect(() => {
+  useChanged(() => {
     if (gradientBorderWidth) {
       setLoadGradientBorder(true);
       setGradientBorderMargin(-gradientBorderWidth);
@@ -129,7 +129,7 @@ const Panel = ({
             }
 
             let itemProps: PanelItemProps | PanelDividerProps | undefined;
-            let itemChildren: React.ReactNode | undefined;
+            let itemChildren: ReactNode | undefined;
 
             if (child.type === PanelItem) {
               const {children: panelItemChildren, ...panelItemProps} = child.props as PanelItemProps;

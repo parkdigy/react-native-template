@@ -1,6 +1,5 @@
-import React from 'react';
 import {useAppState} from '@context';
-import {ThemeSettingsProps as Props} from './ThemeSettings.types';
+import {type ThemeSettingsProps as Props} from './ThemeSettings.types';
 
 export const ThemeSettings = ({}: Props) => {
   /********************************************************************************************************************

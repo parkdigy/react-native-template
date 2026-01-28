@@ -1,11 +1,11 @@
-import {MMKV} from 'react-native-mmkv';
-import {AuthSigninType, ConfigInfoData, FaqListData, NoticeListData} from '@const';
-import {AppForceColorScheme} from '@context';
-import {StorageAuthInfo, StorageKey, StorageKeyValueType} from './storage.types';
+import {createMMKV} from 'react-native-mmkv';
+import {type AuthSigninType, type ConfigInfoData, type FaqListData, type NoticeListData} from '@const';
+import {type AppForceColorScheme} from '@context';
+import {type StorageAuthInfo, StorageKey, type StorageKeyValueType} from './storage.types';
 import userStorage from './userStorage';
 import dayjs from 'dayjs';
 
-const MmkvStorage = new MMKV();
+const MmkvStorage = createMMKV();
 
 const storage = {
   Key: StorageKey,
@@ -13,7 +13,7 @@ const storage = {
   user: userStorage,
 
   set<K extends StorageKey>(key: K, value: StorageKeyValueType<K>) {
-    if (value instanceof Uint8Array) {
+    if (value instanceof ArrayBuffer) {
       MmkvStorage.set(key, value);
     } else if (typeof value === 'object') {
       MmkvStorage.set(key, JSON.stringify(value));
@@ -54,7 +54,7 @@ const storage = {
     }
   },
   remove(key: StorageKey) {
-    MmkvStorage.delete(key);
+    MmkvStorage.remove(key);
   },
 
   /********************************************************************************************************************
@@ -174,7 +174,7 @@ const storage = {
       } else {
         return now();
       }
-    } catch (err) {
+    } catch {
       return now();
     }
   },

@@ -1,7 +1,6 @@
-import React from 'react';
 import BootSplash from 'react-native-bootsplash';
 import NetInfo from '@react-native-community/netinfo';
-import {ColorSchemeName, StatusBar} from 'react-native';
+import {type ColorSchemeName, StatusBar} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import notifee, {AndroidNotificationSetting} from '@notifee/react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -11,11 +10,10 @@ import NaverLogin from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer, useNavigationContainerRef} from '@react-navigation/native';
-import {useForceUpdate} from '@pdg/react-hook';
 import app, {AppStatus, useAppListener} from '@app';
-import {ConfigInfoData} from '@const';
-import {AppAuthInfo} from '@context';
-import {FontFamily, PermissionMap, ScreenList} from '@types';
+import {type ConfigInfoData} from '@const';
+import {type AppAuthInfo} from '@context';
+import {FontFamily, type PermissionMap, type ScreenList} from '@types';
 import api from '@api';
 import App from '../App';
 import {NavigationDarkTheme, NavigationLightTheme, PaperBlueDarkTheme, PaperBlueLightTheme} from '../../theme';
@@ -41,17 +39,12 @@ export const AppInitializer = () => {
   // 앱 활성 상태
   const appStatus = useAppListener('appStatus');
   const navigationRef = useNavigationContainerRef<ScreenList>();
-  const forceUpdate = useForceUpdate(500);
-
-  /********************************************************************************************************************
-   * Ref
-   * ******************************************************************************************************************/
-
-  const detailLogTextsRef = useRef<string[]>([]);
 
   /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
+
+  const [detailLogTexts, setDetailLogTexts] = useState<string[]>([]);
 
   // 앱 상태
   const [localAppStatus, setLocalAppStatus] = useState<AppStatus>(appStatus);
@@ -105,149 +98,6 @@ export const AppInitializer = () => {
   }, [colorScheme]);
 
   /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  /** 초기화 */
-  useLayoutEffect(() => {
-    app.setAppStatus(app.AppStatus.Initializing);
-
-    // 앱 아이콘의 Badge Count 를 0 으로 설정
-    notifee.setBadgeCount(0).then(() => {});
-    // 네비게이션 바 색상 및 스타일 설정
-    app.navigationBar.set(paperTheme.colors.background, colorScheme ? 'light' : 'dark');
-    // BootSplash 화면 숨김
-    BootSplash.hide({fade: true}).then(() => {});
-    // 알림 권한 체크
-    /** 초기화 */
-    checkNotificationPermission().then(() => {});
-    // 네트워크 연결 상태 변경 이벤트 리스너 등록
-    let isFirstNetStatus = true;
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsInternetConnected(state.isConnected !== false);
-      // setIsInternetConnected(false);
-      //
-      // setTimeout(() => {
-      //   setIsInternetConnected(true);
-      // }, 5000);
-
-      if (isFirstNetStatus) {
-        isFirstNetStatus = false;
-        app.nextAppStatus(app.AppStatus.Initializing);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /** 인터넷 연결 상태 변경 시 */
-  useEffect(() => {
-    ll('인터넷 연결 여부 : ', isInternetConnected);
-
-    app.setIsInternetConnected(isInternetConnected);
-  }, [isInternetConnected]);
-
-  /** 앱 KEY, 설치 앱 KEY 초기화 */
-  useLayoutEffect(() => {
-    // 앱 KEY
-    {
-      const storageAppKey = storage.getAppKey();
-      if (storageAppKey) {
-        api._setAppKey(storageAppKey);
-        setAppKey(storageAppKey);
-      } else {
-        const newAppKey = DeviceInfo.getUniqueIdSync().replaceAll('-', '');
-        storage.setAppKey(newAppKey);
-        api._setAppKey(newAppKey);
-        setAppKey(newAppKey);
-      }
-    }
-    // 설치 앱 KEY
-    {
-      const storageInstallAppKey = storage.getInstallAppKey();
-      if (storageInstallAppKey) {
-        api._setInstallAppKey(storageInstallAppKey);
-        setInstallAppKey(storageInstallAppKey);
-      } else {
-        firebase.installations.getId().then((newInstallAppKey) => {
-          storage.setInstallAppKey(newInstallAppKey);
-          api._setInstallAppKey(newInstallAppKey);
-          setInstallAppKey(newInstallAppKey);
-        });
-      }
-    }
-  }, []);
-
-  /** 네이버 로그인 초기화 */
-  useEffect(() => {
-    NaverLogin.initialize({
-      appName: Config.APP_TITLE,
-      consumerKey: Config.NAVER_LOGIN_CLIENT_KEY,
-      consumerSecret: Config.NAVER_LOGIN_CLIENT_SECRET,
-      serviceUrlSchemeIOS: Config.NAVER_LOGIN_URL_SCHEME_IOS,
-    });
-  }, []);
-
-  /** 설정 정보 변경 시, API 인증 쿠키 이름 설정 */
-  useEffect(() => {
-    if (config) {
-      api._setAuthCookieName(config.auth_cookie_name);
-    }
-  }, [config]);
-
-  /** 앱 상태 변경 시 */
-  useEffect(() => {
-    ll('AppInitializer - appStatusChange - ', appStatus);
-    addDetailLogText(`AppInitializer - appStatusChange - ${appStatus}`);
-
-    if (appStatus === app.AppStatus.EasUpdateDownloading) {
-      // EasUpdate 다운로드중 상태로 변경 시
-
-      // App 컴포넌트 초기화 완료 여부 초기화
-      setComponentReady(false);
-
-      nextTick(() => {
-        // 네비게이션 바 색상 및 스타일 설정
-        app.navigationBar.set(paperTheme.colors.background, 'light');
-      });
-    } else if (appStatus === app.AppStatus.RequiredAppUpdate) {
-      // 앱 강제 업데이트 상태로 변경 시
-
-      nextTick(() => {
-        // 네비게이션 바 색상 및 스타일 설정
-        app.navigationBar.set(paperTheme.colors.background, 'light');
-      });
-    } else if (appStatus === app.AppStatus.Initialized) {
-      detailLogTextsRef.current = [];
-    }
-
-    switch (appStatus) {
-      case app.AppStatus.PermissionChecking:
-        {
-          const newTodayDate = storage.getServerDate();
-          setTodayDate(newTodayDate);
-          setTodayDateVal(Number(dayjs(newTodayDate).format('YYYYMMDD')));
-        }
-        break;
-      case app.AppStatus.AppSplashHiding:
-      case app.AppStatus.Main:
-        // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
-        app.navigationBar.fullScreen(false);
-        break;
-      default:
-        // 네비게이션 바 전체화면 모드 설정 (안드로이드만 해당)
-        app.navigationBar.fullScreen(true);
-        app.navigationBar.set(theme.colors.background, theme.dark ? 'light' : 'dark');
-        break;
-    }
-
-    setLocalAppStatus(appStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appStatus]);
-
-  /********************************************************************************************************************
    * Function
    * ******************************************************************************************************************/
 
@@ -295,13 +145,150 @@ export const AppInitializer = () => {
     }
   }, []);
 
-  const addDetailLogText = useCallback(
-    (newDetailLogText: string) => {
-      detailLogTextsRef.current.push(newDetailLogText);
-      forceUpdate();
-    },
-    [forceUpdate],
-  );
+  const addDetailLogText = useCallback((newDetailLogText: string) => {
+    setDetailLogTexts((prev) => [...prev, newDetailLogText]);
+  }, []);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  /** 초기화 */
+  useEventLayoutEffect(() => {
+    app.setAppStatus(app.AppStatus.Initializing);
+
+    // 앱 아이콘의 Badge Count 를 0 으로 설정
+    notifee.setBadgeCount(0).then(() => {});
+    // 네비게이션 바 색상 및 스타일 설정
+    app.navigationBar.set(paperTheme.colors.background, colorScheme ? 'light' : 'dark');
+    // BootSplash 화면 숨김
+    BootSplash.hide({fade: true}).then(() => {});
+    // 알림 권한 체크
+    /** 초기화 */
+    checkNotificationPermission().then(() => {});
+    // 네트워크 연결 상태 변경 이벤트 리스너 등록
+    let isFirstNetStatus = true;
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsInternetConnected(state.isConnected !== false);
+      // setIsInternetConnected(false);
+      //
+      // setTimeout(() => {
+      //   setIsInternetConnected(true);
+      // }, 5000);
+
+      if (isFirstNetStatus) {
+        isFirstNetStatus = false;
+        app.nextAppStatus(app.AppStatus.Initializing);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  /** 인터넷 연결 상태 변경 시 */
+  useEffect(() => {
+    ll('인터넷 연결 여부 : ', isInternetConnected);
+
+    app.setIsInternetConnected(isInternetConnected);
+  }, [isInternetConnected]);
+
+  /** 앱 KEY, 설치 앱 KEY 초기화 */
+  useEventLayoutEffect(() => {
+    // 앱 KEY
+    {
+      const storageAppKey = storage.getAppKey();
+      if (storageAppKey) {
+        api._setAppKey(storageAppKey);
+        setAppKey(storageAppKey);
+      } else {
+        const newAppKey = DeviceInfo.getUniqueIdSync().replaceAll('-', '');
+        storage.setAppKey(newAppKey);
+        api._setAppKey(newAppKey);
+        setAppKey(newAppKey);
+      }
+    }
+    // 설치 앱 KEY
+    {
+      const storageInstallAppKey = storage.getInstallAppKey();
+      if (storageInstallAppKey) {
+        api._setInstallAppKey(storageInstallAppKey);
+        setInstallAppKey(storageInstallAppKey);
+      } else {
+        firebase.installations.getId().then((newInstallAppKey) => {
+          storage.setInstallAppKey(newInstallAppKey);
+          api._setInstallAppKey(newInstallAppKey);
+          setInstallAppKey(newInstallAppKey);
+        });
+      }
+    }
+  }, []);
+
+  /** 네이버 로그인 초기화 */
+  useEffect(() => {
+    NaverLogin.initialize({
+      appName: Config.APP_TITLE,
+      consumerKey: Config.NAVER_LOGIN_CLIENT_KEY,
+      consumerSecret: Config.NAVER_LOGIN_CLIENT_SECRET,
+      serviceUrlSchemeIOS: Config.NAVER_LOGIN_URL_SCHEME_IOS,
+    });
+  }, []);
+
+  /** 설정 정보 변경 시, API 인증 쿠키 이름 설정 */
+  useEffect(() => {
+    if (config) {
+      api._setAuthCookieName(config.auth_cookie_name);
+    }
+  }, [config]);
+
+  /** 앱 상태 변경 시 */
+  useEventEffect(() => {
+    ll('AppInitializer - appStatusChange - ', appStatus);
+    addDetailLogText(`AppInitializer - appStatusChange - ${appStatus}`);
+
+    if (appStatus === app.AppStatus.EasUpdateDownloading) {
+      // EasUpdate 다운로드중 상태로 변경 시
+
+      // App 컴포넌트 초기화 완료 여부 초기화
+      setComponentReady(false);
+
+      nextTick(() => {
+        // 네비게이션 바 색상 및 스타일 설정
+        app.navigationBar.set(paperTheme.colors.background, 'light');
+      });
+    } else if (appStatus === app.AppStatus.RequiredAppUpdate) {
+      // 앱 강제 업데이트 상태로 변경 시
+
+      nextTick(() => {
+        // 네비게이션 바 색상 및 스타일 설정
+        app.navigationBar.set(paperTheme.colors.background, 'light');
+      });
+    } else if (appStatus === app.AppStatus.Initialized) {
+      setDetailLogTexts([]);
+    }
+
+    switch (appStatus) {
+      case app.AppStatus.PermissionChecking:
+        {
+          const newTodayDate = storage.getServerDate();
+          setTodayDate(newTodayDate);
+          setTodayDateVal(Number(dayjs(newTodayDate).format('YYYYMMDD')));
+        }
+        break;
+      case app.AppStatus.AppSplashHiding:
+      case app.AppStatus.Main:
+        // 네비게이션 바 전체화면 모드 해제 (안드로이드만 해당)
+        app.navigationBar.fullScreen(false);
+        break;
+      default:
+        // 네비게이션 바 전체화면 모드 설정 (안드로이드만 해당)
+        app.navigationBar.fullScreen(true);
+        app.navigationBar.set(theme.colors.background, theme.dark ? 'light' : 'dark');
+        break;
+    }
+
+    setLocalAppStatus(appStatus);
+  }, [appStatus]);
 
   /********************************************************************************************************************
    * Event Handler
@@ -391,7 +378,7 @@ export const AppInitializer = () => {
                     isInternetConnected={isInternetConnected}
                     appStatus={localAppStatus}
                     config={config}
-                    detailLogTexts={detailLogTextsRef.current}
+                    detailLogTexts={detailLogTexts}
                     componentReady={showApp && componentReady}
                     onErrorRetry={() => {
                       app.setAppStatus(app.AppStatus.ConfigLoading);

@@ -1,7 +1,6 @@
-import React from 'react';
-import {LinkTextGroupProps as Props} from './LinkTextGroup.types';
+import {type LinkTextGroupProps as Props} from './LinkTextGroup.types';
 import LinkTextGroupContext from './LinkTextGroupContext';
-import {LinkTextLink} from '../LinkText/LinkText.types';
+import {type LinkTextLink} from '../LinkText/LinkText.types';
 
 export const LinkTextGroup = ({groupId, links, children}: Props) => {
   /********************************************************************************************************************
@@ -27,11 +26,17 @@ export const LinkTextGroup = ({groupId, links, children}: Props) => {
     >
   >({[`${groupId}`]: {}});
 
-  if (groupId !== lastGroupIdRef.current) {
-    delete infoRef.current[lastGroupIdRef.current];
-    infoRef.current[groupId] = {};
-    lastGroupIdRef.current = groupId;
-  }
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEventEffect(() => {
+    if (groupId !== lastGroupIdRef.current) {
+      delete infoRef.current[lastGroupIdRef.current];
+      infoRef.current[groupId] = {};
+      lastGroupIdRef.current = groupId;
+    }
+  }, [groupId]);
 
   /********************************************************************************************************************
    * Function

@@ -1,7 +1,7 @@
-import {AppState, AppStateStatus, BackHandler, NativeEventSubscription} from 'react-native';
+import {AppState, type AppStateStatus, BackHandler, type NativeEventSubscription} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import api from '@api';
-import {ConfigInfoData} from '@const';
+import {type ConfigInfoData} from '@const';
 
 interface Props {
   config: ConfigInfoData;
@@ -14,7 +14,7 @@ export const App_Effect = ({config, onChangeAppState}: Props) => {
    * ******************************************************************************************************************/
 
   /** 앱 상태 변경 이벤트 등록 */
-  useEffect(() => {
+  useEventEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
       onChangeAppState(nextAppState);
     });
@@ -22,7 +22,6 @@ export const App_Effect = ({config, onChangeAppState}: Props) => {
     return () => {
       subscription.remove();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** 앱 강제 업데이트 여부 체크 */

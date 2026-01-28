@@ -1,5 +1,4 @@
-import React from 'react';
-import {Tab2HomeProps as Props} from './Tab2Home.types';
+import {type Tab2HomeProps as Props} from './Tab2Home.types';
 
 export const Tab2Home = ({}: Props) => {
   return (

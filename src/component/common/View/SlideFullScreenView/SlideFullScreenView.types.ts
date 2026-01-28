@@ -3,6 +3,7 @@ export interface SlideFullScreenViewCommand {
 }
 
 export interface SlideFullScreenViewProps {
+  ref?: Ref<SlideFullScreenViewCommand>;
   animationType?: 'slide' | 'zoom' | 'fade';
   noAnimation?: boolean;
   children?: ReactNode;

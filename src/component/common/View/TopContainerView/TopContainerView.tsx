@@ -1,6 +1,5 @@
-import React from 'react';
 import {hasNotch} from 'react-native-device-info';
-import {TopContainerViewProps as Props} from './TopContainerView.types';
+import {type TopContainerViewProps as Props} from './TopContainerView.types';
 
 export const TopContainerView = ({show, noAnimation, inSafeArea, ...props}: Props) => {
   /********************************************************************************************************************

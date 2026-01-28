@@ -1,8 +1,8 @@
-import {IconProps} from '../../Icon';
-import {LinearGradientProps} from 'react-native-linear-gradient';
 import React from 'react';
-import {SvgProps} from 'react-native-svg';
-import {TouchableOpacityProps} from '../TouchableOpacity';
+import {type IconProps} from '../../Icon';
+import {type LinearGradientProps} from 'react-native-linear-gradient';
+import {type SvgProps} from 'react-native-svg';
+import {type TouchableOpacityProps} from '../TouchableOpacity';
 
 export type ColorButtonColors =
   | 'purple_violet'
@@ -51,7 +51,7 @@ export interface ColorButtonProps
     Pick<TouchableOpacityProps, 'hitSlop'> {
   size?: 'x-small' | 'small' | 'medium' | 'large';
   color?: ColorButtonColors;
-  icon?: IconProps['name'] | React.FC<SvgProps>;
+  icon?: IconProps['name'] | ((props: SvgProps) => React.JSX.Element);
   iconSize?: IconProps['size'];
   iconRight?: boolean;
   labelAlign?: 'left' | 'center' | 'right';

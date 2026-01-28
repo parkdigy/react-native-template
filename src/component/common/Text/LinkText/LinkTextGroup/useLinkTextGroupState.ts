@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import LinkTextGroupContext, {LinkTextGroupContextValue} from './LinkTextGroupContext';
+import LinkTextGroupContext, {type LinkTextGroupContextValue} from './LinkTextGroupContext';
 
 export function useLinkTextGroupState(): LinkTextGroupContextValue | undefined {
   return useContext(LinkTextGroupContext);

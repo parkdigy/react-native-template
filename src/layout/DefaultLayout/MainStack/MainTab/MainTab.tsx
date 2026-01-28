@@ -2,12 +2,11 @@
  * 메인 탭 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {EventListenerCallback} from '@react-navigation/native';
+import {type EventListenerCallback} from '@react-navigation/native';
 import {
-  BottomTabBarButtonProps,
-  BottomTabNavigationEventMap,
-  BottomTabNavigationOptions,
+  type BottomTabBarButtonProps,
+  type BottomTabNavigationEventMap,
+  type BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {MainTabScreenList} from '@types';
@@ -36,10 +35,10 @@ const MainTab = () => {
   const lockScreen = useAppListener('lockScreen');
 
   /********************************************************************************************************************
-   * Ref
+   * State
    * ******************************************************************************************************************/
 
-  const currentTabNameRef = useRef<keyof MainTabScreenList>('MainTabHome');
+  const [currentTabName, setCurrentTabName] = useState<keyof MainTabScreenList>('MainTabHome');
 
   /********************************************************************************************************************
    * Function
@@ -145,15 +144,15 @@ const MainTab = () => {
         } else {
           if (e.target) {
             const newTabName = e.target.split('-')[0];
-            if (newTabName === currentTabNameRef.current) {
+            if (newTabName === currentTabName) {
               app.tabRePress(newTabName);
             }
-            currentTabNameRef.current = newTabName as keyof MainTabScreenList;
+            setCurrentTabName(newTabName as keyof MainTabScreenList);
           }
         }
       },
     }),
-    [lockScreen],
+    [currentTabName, lockScreen],
   );
 
   /********************************************************************************************************************
@@ -162,7 +161,7 @@ const MainTab = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName={currentTabNameRef.current}
+      initialRouteName={currentTabName}
       screenOptions={{
         headerShown: false,
         animation: 'shift',

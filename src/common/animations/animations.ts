@@ -1,4 +1,4 @@
-import {CustomAnimation} from 'react-native-animatable';
+import {type CustomAnimation} from 'react-native-animatable';
 
 export const animations = {
   /** fade zoom */

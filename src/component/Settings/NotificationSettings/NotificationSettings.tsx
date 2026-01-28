@@ -1,6 +1,5 @@
-import React from 'react';
 import {useAppState} from '@context';
-import {NotificationSettingsProps as Props} from './NotificationSettings.types';
+import {type NotificationSettingsProps as Props} from './NotificationSettings.types';
 
 export const NotificationSettings = ({}: Props) => {
   /********************************************************************************************************************

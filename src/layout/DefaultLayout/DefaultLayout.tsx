@@ -2,7 +2,7 @@
  * 기본 레이아웃 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useLayoutEffect} from 'react';
+import {useLayoutEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAppState} from '@context';

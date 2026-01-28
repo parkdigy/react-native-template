@@ -1,20 +1,23 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
     "module": "esnext",
+    "lib": ["esnext"],
     "moduleResolution": "bundler",
     "noEmit": true,
     "jsx": "react-native",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "preserveSymlinks": true,
     "baseUrl": "./",
     "paths": {
+      "@/*": ["src/*"],
       "@types": ["src/@types"],
       "@style": ["src/@style"],
       "@theme": ["src/theme"],
@@ -28,6 +31,6 @@
       "@storage": ["src/common/storage"],
       "@util": ["src/common/util"],
       "@asset-image": ["src/@assets/image"]
-    },
-  },
+    }
+  }
 }

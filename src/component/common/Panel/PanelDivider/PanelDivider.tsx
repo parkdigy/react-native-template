@@ -1,6 +1,5 @@
-import React from 'react';
 import {StyleSheet} from 'react-native';
-import {PanelDividerProps as Props} from './PanelDivider.types';
+import {type PanelDividerProps as Props} from './PanelDivider.types';
 
 export const PanelDivider = ({borderTopWidth, borderTopColor, ...props}: Props) => {
   const theme = useTheme();

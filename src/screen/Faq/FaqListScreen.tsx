@@ -2,8 +2,7 @@
  * 'FAQ 목록' 화면 Screen 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {ScreenProps} from '@types';
+import {type ScreenProps} from '@types';
 import {FaqList} from '@comp';
 import {ScreenBase} from '../@common';
 

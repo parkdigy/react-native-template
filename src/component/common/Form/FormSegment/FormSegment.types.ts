@@ -1,4 +1,4 @@
-import {SegmentedButtonsProps} from 'react-native-paper';
+import {type SegmentedButtonsProps} from 'react-native-paper';
 
 export type FormSegmentProps = SegmentedButtonsProps & {
   outlineWidth?: number;

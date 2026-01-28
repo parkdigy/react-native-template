@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import api from '@api';
-import {ConfigInfo} from '@const';
+import {type ConfigInfo} from '@const';
 
 export default {
   // 설정 정보

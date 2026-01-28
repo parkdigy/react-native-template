@@ -2,12 +2,11 @@
  * API 탭 섹션 리스트 컴포넌트
  * ******************************************************************************************************************/
 
-import React, {useRef} from 'react';
-import {useFirstSkipEffect} from '@pdg/react-hook';
+import {useRef} from 'react';
 import {LoadingStatus} from '@const';
-import {ApiSectionListCommands, ApiSectionListItem} from '../ApiSectionList';
-import TabBar, {TabBarItemValue} from '../../TabBar';
-import {ApiTabSectionListProps as Props} from './ApiTabSectionList.types';
+import {type ApiSectionListCommands, type ApiSectionListItem} from '../ApiSectionList';
+import TabBar, {type TabBarItemValue} from '../../TabBar';
+import {type ApiTabSectionListProps as Props} from './ApiTabSectionList.types';
 
 function ApiTabSectionList<T extends ApiSectionListItem, TAB extends TabBarItemValue>({
   tab: initTab,

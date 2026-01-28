@@ -1,4 +1,4 @@
-import {ImageProps} from 'react-native';
+import {type ImageProps} from 'react-native';
 
 export interface PngImageProps extends Omit<ImageProps, 'width' | 'height'> {
   width?: number;

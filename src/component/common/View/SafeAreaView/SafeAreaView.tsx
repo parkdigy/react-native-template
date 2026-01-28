@@ -1,7 +1,6 @@
-import React from 'react';
 import {SafeAreaView as NativeSafeAreaView} from 'react-native-safe-area-context';
 import CustomComponent from '../../CustomComponent';
-import {SafeAreaViewProps as Props} from './SafeAreaView.types';
+import {type SafeAreaViewProps as Props} from './SafeAreaView.types';
 
 const SafeAreaView = ({flex, backgroundColor, transparent, ...props}: Props) => {
   /********************************************************************************************************************

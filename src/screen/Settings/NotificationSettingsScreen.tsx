@@ -2,8 +2,7 @@
  * '더보기 > 테마 설정' 화면 Screen 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {ScreenProps} from '@types';
+import {type ScreenProps} from '@types';
 import {NotificationSettings} from '@comp';
 import {ScreenBase} from '../@common';
 

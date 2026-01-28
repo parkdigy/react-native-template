@@ -2,9 +2,8 @@
  * '더보기 > 공지사항 > 상세' 화면 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {NoticeInfoData} from '@const';
-import {NoticeInfoProps as Props} from './NoticeInfo.types';
+import {type NoticeInfoData} from '@const';
+import {type NoticeInfoProps as Props} from './NoticeInfo.types';
 
 const NoticeInfo = ({
   route: {

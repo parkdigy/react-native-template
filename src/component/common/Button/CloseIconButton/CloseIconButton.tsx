@@ -1,5 +1,4 @@
-import React from 'react';
-import {CloseIconButtonProps as Props} from './CloseIconButton.types';
+import {type CloseIconButtonProps as Props} from './CloseIconButton.types';
 
 export const CloseIconButton = ({size = px.s30, iconColor, opacity, backgroundColor, onPress, ...props}: Props) => {
   /********************************************************************************************************************

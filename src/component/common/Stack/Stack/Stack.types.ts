@@ -1,4 +1,4 @@
-import {CustomComponentStyleProps} from '../../CustomComponent';
+import {type CustomComponentStyleProps} from '../../CustomComponent';
 
 export interface StackProps extends Omit<ViewProps, 'children'>, CustomComponentStyleProps {
   children?: ReactNode;

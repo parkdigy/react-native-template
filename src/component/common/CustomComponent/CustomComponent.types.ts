@@ -1,5 +1,5 @@
 import React from 'react';
-import {ViewStyle} from 'react-native';
+import {type ViewStyle} from 'react-native';
 
 export interface CustomComponentStyleProps
   extends Pick<
@@ -91,5 +91,5 @@ export interface CustomComponentStyleProps
 export interface CustomComponentProps extends CustomComponentStyleProps {
   [key: string]: any;
   component: React.ComponentType<any>;
-  componentProps: Dict;
+  componentProps?: Dict;
 }

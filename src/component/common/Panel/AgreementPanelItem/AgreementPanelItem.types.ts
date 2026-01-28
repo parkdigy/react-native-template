@@ -5,6 +5,7 @@ export interface AgreementPanelItemCommand {
 }
 
 export interface AgreementPanelItemProps {
+  ref?: Ref<AgreementPanelItemCommand>;
   name: string;
   title: string;
   required?: boolean;

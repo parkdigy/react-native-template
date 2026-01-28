@@ -1,6 +1,5 @@
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MainTab1ScreenList, ScreenProps} from '@types';
+import {MainTab1ScreenList, type ScreenProps} from '@types';
 import {Tab1HomeScreen} from '@screen';
 import {useAppState} from '@context';
 

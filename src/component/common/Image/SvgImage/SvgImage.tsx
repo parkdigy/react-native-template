@@ -1,5 +1,4 @@
-import React from 'react';
-import {SvgImageProps as Props} from './SvgImage.types';
+import {type SvgImageProps as Props} from './SvgImage.types';
 
 export const SvgImage = ({source: Img, width, height, autoTabletSize, ...props}: Props) => {
   return (

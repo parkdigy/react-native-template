@@ -1,5 +1,3 @@
-import {ReactElement} from 'react';
-
 export type DialogPosition = 'top' | 'center' | 'bottom';
 
 type DialogButtonProps = Omit<ButtonProps, 'children' | 'onPress'>;

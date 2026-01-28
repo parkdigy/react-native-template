@@ -2,13 +2,12 @@
  * 오류 표시 컴포넌트
  * ******************************************************************************************************************/
 
-import React from 'react';
-import {BackAlertProps as Props} from './BackAlert.types';
+import {type BackAlertProps as Props} from './BackAlert.types';
 import styled from 'styled-components/native';
 import {Stack} from '../../Stack';
 import {Text} from '../../Text';
 
-const BackAlert: React.FC<Props> = ({
+const BackAlert = ({
   icon,
   iconColor,
   text,
@@ -25,7 +24,7 @@ const BackAlert: React.FC<Props> = ({
   onRetryPress,
   onClosePress,
   onLayout,
-}) => {
+}: Props) => {
   /********************************************************************************************************************
    * Use
    * ******************************************************************************************************************/

@@ -1,8 +1,7 @@
-import React from 'react';
 import {Text_Accent} from '../../Text';
 import TopContainerView from '../../View/TopContainerView';
 import HomeTitleRight from '../HomeTitleRight';
-import {HomeTitleProps as Props} from './HomeTitle.types';
+import {type HomeTitleProps as Props} from './HomeTitle.types';
 import {useAppState} from '@context';
 
 const HomeTitle = ({children, right: initRight, inTopContainer, ...props}: Props) => {

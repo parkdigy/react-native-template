@@ -1,4 +1,4 @@
-import {BackAlertProps} from '../BackAlert';
+import {type BackAlertProps} from '../BackAlert';
 
 export interface ApiErrorBackAlertProps
   extends Pick<

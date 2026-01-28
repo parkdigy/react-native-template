@@ -1,5 +1,5 @@
 import notifee, {AndroidImportance} from '@notifee/react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {type StackNavigationProp} from '@react-navigation/stack';
 
 type NotificationData = Dict<string | object | number>;
 let _initData: NotificationData | undefined;

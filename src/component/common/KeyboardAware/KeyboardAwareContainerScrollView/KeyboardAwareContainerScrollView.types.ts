@@ -1,3 +1,3 @@
-import {KeyboardAwareScrollViewProps} from '../KeyboardAwareScrollView';
+import {type KeyboardAwareScrollViewProps} from '../KeyboardAwareScrollView';
 
 export interface KeyboardAwareContainerScrollViewProps extends KeyboardAwareScrollViewProps {}

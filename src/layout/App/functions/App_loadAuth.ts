@@ -1,4 +1,4 @@
-import {AppAuthInfo} from '@context';
+import {type AppAuthInfo} from '@context';
 
 export const App_loadAuth = async ({isInternetConnected, auth}: {isInternetConnected: boolean; auth: AppAuthInfo}) => {
   return new Promise<AppAuthInfo | undefined>(async (resolve) => {
@@ -33,7 +33,7 @@ export const App_loadAuth = async ({isInternetConnected, auth}: {isInternetConne
             // idToken 가져오기 실패 시
             resolve(undefined);
           }
-        } catch (err) {
+        } catch {
           resolve(undefined);
         }
       } else {

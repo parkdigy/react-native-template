@@ -3,7 +3,7 @@
  * ******************************************************************************************************************/
 
 import api, {API_AUTH_SIGN_IN_PATH} from '@api';
-import {AuthSignIn, AuthSignInRequestData, AuthSignupRequestData} from './Auth.types';
+import {type AuthSignIn, type AuthSignInRequestData, type AuthSignupRequestData} from './Auth.types';
 
 export default {
   // 인증 정보

@@ -1,7 +1,7 @@
-import {AppStateStatus, ColorSchemeName} from 'react-native';
-import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
-import {AuthInfo, ConfigInfoData} from '@const';
-import {FontFamily, Permission, PermissionMap} from '@types';
+import {type AppStateStatus, type ColorSchemeName} from 'react-native';
+import {type NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {type AuthInfo, type ConfigInfoData} from '@const';
+import {FontFamily, Permission, type PermissionMap} from '@types';
 
 export type AppForceColorScheme = 'light' | 'dark' | 'system';
 

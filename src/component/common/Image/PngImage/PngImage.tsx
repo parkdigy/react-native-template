@@ -1,6 +1,5 @@
-import React from 'react';
 import {Image} from 'react-native';
-import {PngImageProps as Props} from './PngImage.types';
+import {type PngImageProps as Props} from './PngImage.types';
 
 const PngImage = ({style, width, height, autoTabletSize, resizeMode, ...props}: Props) => {
   /********************************************************************************************************************

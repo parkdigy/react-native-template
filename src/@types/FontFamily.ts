@@ -1,4 +1,4 @@
-import {DEFAULT_LINE_HEIGHT_SCALE} from '../component/common/Text/Text/Text.types';
+import {DEFAULT_LINE_HEIGHT_SCALE} from '@/component/common/Text/Text/Text.types';
 
 export const FontFamily = {
   Pretendard: {

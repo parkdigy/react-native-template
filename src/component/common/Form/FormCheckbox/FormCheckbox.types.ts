@@ -1,5 +1,4 @@
-import {ReactElement} from 'react';
-import {FormControlCommands, FormControlProps} from '../FormControl';
+import {type FormControlCommands, type FormControlProps} from '../FormControl';
 
 export type FormCheckboxValue = boolean;
 
@@ -22,6 +21,7 @@ export interface FormCheckboxProps
       | 'onChange'
     >,
     PartialPick<FormControlProps<FormCheckboxValue>, '$controlType'> {
+  ref?: Ref<FormCheckboxCommands>;
   children?: string | ReactElement;
   checked?: boolean;
   disabled?: boolean;

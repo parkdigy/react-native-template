@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import DeviceInfo from 'react-native-device-info';
-import {ConfigInfoData} from '@const';
+import {type ConfigInfoData} from '@const';
 import app, {AppStatus} from '@app';
 import api from '@api';
 
@@ -28,38 +28,6 @@ export const AppInitializer_Config = ({isInternetConnected, appStatus, onConfig}
    * ******************************************************************************************************************/
 
   const [serverConfigLoadUpdateKey, setServerConfigLoadUpdateKey] = useState(0);
-
-  /********************************************************************************************************************
-   * Effect
-   * ******************************************************************************************************************/
-
-  useEffect(() => {
-    if (appStatus === AppStatus.ConfigLoading) {
-      loadConfig();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appStatus]);
-
-  useEffect(() => {
-    if (!isServerConfigLoadedRef.current && serverConfigLoadUpdateKey > 0) {
-      if (isInternetConnected) {
-        setReloadServerConfigTimeout(() => {
-          loadServerConfig()
-            .then((serverConfigData) => {
-              onConfig(serverConfigData);
-            })
-            .catch(() => {
-              setServerConfigLoadUpdateKey((prev) => prev + 1);
-            });
-        }, 10000);
-      } else {
-        setReloadServerConfigTimeout(() => {
-          setServerConfigLoadUpdateKey((prev) => prev + 1);
-        }, 10000);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInternetConnected, serverConfigLoadUpdateKey]);
 
   /********************************************************************************************************************
    * Function
@@ -102,6 +70,36 @@ export const AppInitializer_Config = ({isInternetConnected, appStatus, onConfig}
         setServerConfigLoadUpdateKey((prev) => prev + 1);
       });
   }, [loadServerConfig, onConfig]);
+
+  /********************************************************************************************************************
+   * Effect
+   * ******************************************************************************************************************/
+
+  useEventEffect(() => {
+    if (appStatus === AppStatus.ConfigLoading) {
+      loadConfig();
+    }
+  }, [appStatus]);
+
+  useEventEffect(() => {
+    if (!isServerConfigLoadedRef.current && serverConfigLoadUpdateKey > 0) {
+      if (isInternetConnected) {
+        setReloadServerConfigTimeout(() => {
+          loadServerConfig()
+            .then((serverConfigData) => {
+              onConfig(serverConfigData);
+            })
+            .catch(() => {
+              setServerConfigLoadUpdateKey((prev) => prev + 1);
+            });
+        }, 10000);
+      } else {
+        setReloadServerConfigTimeout(() => {
+          setServerConfigLoadUpdateKey((prev) => prev + 1);
+        }, 10000);
+      }
+    }
+  }, [isInternetConnected, serverConfigLoadUpdateKey]);
 
   /********************************************************************************************************************
    * Render

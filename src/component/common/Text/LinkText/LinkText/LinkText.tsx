@@ -1,5 +1,5 @@
 import React from 'react';
-import {LinkTextLink, LinkTextProps as Props} from './LinkText.types';
+import {type LinkTextLink, type LinkTextProps as Props} from './LinkText.types';
 import useLinkTextGroupState from '../LinkTextGroup/useLinkTextGroupState';
 
 export const LinkText = ({
@@ -30,7 +30,7 @@ export const LinkText = ({
    * Effect
    * ******************************************************************************************************************/
 
-  useEffect(() => {
+  useEventEffect(() => {
     if (groupState && groupSeq) {
       groupState.register(groupSeq, Array.isArray(text) ? text.join(' ') : text, {
         onLinks(newLinks) {

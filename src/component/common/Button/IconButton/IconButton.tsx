@@ -1,5 +1,4 @@
-import React from 'react';
-import {IconButtonProps as Props} from './IconButton.types';
+import {type IconButtonProps as Props} from './IconButton.types';
 import {IconButton as _IconButton} from 'react-native-paper';
 import CustomComponent from '../../CustomComponent';
 

@@ -1,5 +1,5 @@
-import {GestureResponderEvent, ViewProps, ViewStyle} from 'react-native';
-import {IconProps} from '../../Icon';
+import {type GestureResponderEvent, type ViewProps, type ViewStyle} from 'react-native';
+import {type IconProps} from '../../Icon';
 
 export interface ListViewItemProps
   extends Pick<
