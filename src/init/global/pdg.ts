@@ -41,6 +41,7 @@ declare global {
   var lv: typeof PdgData.lv;
   var vl: typeof PdgData.vl;
   var copy: typeof PdgData.copy;
+  var makeConst: typeof PdgData.makeConst;
 
   /** api */
   type ApiRequestData = PdgApi.ApiRequestData;
@@ -88,6 +89,7 @@ globalThis.nowTime = PdgDateTime.nowTime;
 globalThis.lv = PdgData.lv;
 globalThis.vl = PdgData.vl;
 globalThis.copy = PdgData.copy;
+globalThis.makeConst = PdgData.makeConst;
 
 /** api */
 globalThis.ApiError = PdgApi.ApiError;
