@@ -33,6 +33,7 @@ const _sections = [
 ];
 
 function ApiSectionList<T extends ApiSectionListItem>({
+  ref,
   perPageListItemCount,
   keyboardDismissMode,
   keyboardShouldPersistTaps,
@@ -82,7 +83,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
    * Ref
    * ******************************************************************************************************************/
 
-  const sectionListRef = useRef<SectionList>(null);
+  const sectionListRef = useRef<SectionList<T | undefined, any>>(null);
   const inactiveTimeRef = useRef(0);
   const apiFlatListCommands = useRef<ApiFlatListCommands>(null);
   const loadingStatusRef = useRef<LoadingStatus>(Const.LoadingStatus.FirstLoading);
@@ -320,7 +321,7 @@ function ApiSectionList<T extends ApiSectionListItem>({
    * Commands
    * ******************************************************************************************************************/
 
-  const commands: ApiSectionListCommands = useMemo(() => {
+  const commands: ApiSectionListCommands<T> = useMemo(() => {
     return {
       reloadList() {
         apiFlatListCommands.current?.reload();
@@ -342,6 +343,16 @@ function ApiSectionList<T extends ApiSectionListItem>({
       },
     };
   }, []);
+
+  useEventEffect(() => {
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(commands);
+      } else {
+        ref.current = commands;
+      }
+    }
+  }, [ref, commands]);
 
   useEventEffect(() => {
     onCommands?.(commands);

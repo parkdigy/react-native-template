@@ -134,22 +134,6 @@ const MainStack = ({navigation}: ScreenProps) => {
       }
     });
 
-    unsubscribeList.push(
-      firebase.messaging.onMessage(async (remoteMessage) => {
-        if (remoteMessage.notification && remoteMessage.notification.body) {
-          await app.notification.show(
-            remoteMessage.notification.body.replace(/\n/g, '<br>'),
-            remoteMessage.notification.title,
-            remoteMessage.data,
-          );
-        }
-
-        if (remoteMessage.data && (remoteMessage.data.goldChanged || remoteMessage.data.ticketChanged)) {
-          reloadAuth().then(() => {});
-        }
-      }),
-    );
-
     return () => {
       unsubscribeList.forEach((fn) => fn());
     };

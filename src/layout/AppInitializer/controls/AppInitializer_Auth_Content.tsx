@@ -11,7 +11,6 @@ import {
   TermsOfPrivacyDialog,
   TermsOfServiceDialog,
 } from '@ccomp';
-import app from '@app';
 import {ImgSpeechBubbleHello, Logo} from '@asset-image';
 import {type AuthSignInRequestData, type AuthSigninType} from '@const';
 import {type AppAuthInfo} from '@context';
@@ -79,11 +78,11 @@ export const AppInitializer_Auth_Content = ({onSuccess}: Props) => {
           });
         })
         .catch((err) => {
-          switch (app.getAxiosApiErrorResultCode(err)) {
+          switch (api.error.getResultCode(err)) {
             case Const.Error.auth.signIn.invalidSnsToken:
             case Const.Error.auth.signIn.notExistsEmail:
               Dialog.openErrorAlert({
-                content: app.getAxiosApiErrorResultMessage(err) as string,
+                content: api.error.getResultMessage(err) as string,
               });
               break;
             default:

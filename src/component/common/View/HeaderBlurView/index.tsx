@@ -1,5 +1,5 @@
 import HeaderBlurView from './HeaderBlurView';
-import {HeaderBlurViewProps} from './HeaderBlurView.types';
+import {type HeaderBlurViewProps} from './HeaderBlurView.types';
 
 export default HeaderBlurView;
 

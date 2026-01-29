@@ -6,7 +6,6 @@ import './adid';
 import './isEmulator';
 import './pdg';
 import './delay';
-import './lazy';
 import './component';
 import './const';
 import './log';

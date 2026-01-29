@@ -18,7 +18,7 @@ export const useApiLoadStatus = (initStatus: ApiLoadStatus = 'none') => {
     if (typeof err === 'string') {
       setError(err);
     } else {
-      setError(app.getAxiosApiErrorResultMessage(err) || defaultErrorMsg);
+      setError(api.error.getResultMessage(err) || defaultErrorMsg);
     }
     // setError(message);
   }, []);

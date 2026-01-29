@@ -1,139 +1,111 @@
-import {
-  type ValueOf as _ValueOf,
-  type Dict as _Dict,
-  type Arr as _Arr,
-  type IsObject as _IsObject,
-  type IsArray as _IsArray,
-  type ObjectMerge as _ObjectMerge,
-  type ArrayMerge as _ArrayMerge,
-  type PartialPick as _PartialPick,
-  type PartialOmit as _PartialOmit,
-  type RequiredPick as _RequiredPick,
-  type RequiredOmit as _RequiredOmit,
-} from '@pdg/types';
-import {
-  empty as _empty,
-  notEmpty as _notEmpty,
-  equal as _equal,
-  contains as _contains,
-  ifNull as _ifNull,
-  ifNotNull as _ifNotNull,
-  ifUndefined as _ifUndefined,
-  ifNotUndefined as _ifNotUndefined,
-  ifNullOrUndefined as _ifNullOrUndefined,
-  ifNotNullAndUndefined as _ifNotNullAndUndefined,
-  isEmail as _isEmail,
-} from '@pdg/compare';
-import {now as _now, nowJs as _nowJs, nowTime as _nowTime} from '@pdg/date-time';
-import {lv as _lv, vl as _vl, copy as _copy} from '@pdg/data';
-import {
-  useChanged as _useChanged,
-  useFirstSkipChanged as _useFirstSkipChanged,
-  useEventEffect as _useEventEffect,
-  useEventLayoutEffect as _useEventLayoutEffect,
-  useFirstSkipEffect as _useFirstSkipEffect,
-  useFirstSkipLayoutEffect as _useFirstSkipLayoutEffect,
-  useForwardRef as _useForwardRef,
-  useMounted as _useMounted,
-  useMountedRef as _useMountedRef,
-  useAutoUpdateRef as _useAutoUpdateRef,
-  useTimeoutRef as _useTimeoutRef,
-  clearTimeoutRef as _clearTimeoutRef,
-  useIntervalRef as _useIntervalRef,
-  clearIntervalRef as _clearIntervalRef,
-} from '@pdg/react-hook';
+import * as PdgTypes from '@pdg/types';
+import * as PdgCompare from '@pdg/compare';
+import * as PdgDateTime from '@pdg/date-time';
+import * as PdgData from '@pdg/data';
+import * as PdgApi from '@pdg/api';
+import * as PdgReactHook from '@pdg/react-hook';
 
 declare global {
   /** types */
-  type ValueOf<T> = _ValueOf<T>;
-  type Dict<T = any> = _Dict<T>;
-  type Arr<T = any> = _Arr<T>;
-  type IsObject<T> = _IsObject<T>;
-  type IsArray<T> = _IsArray<T>;
-  type ObjectMerge<T> = _ObjectMerge<T>;
-  type ArrayMerge<A extends any[]> = _ArrayMerge<A>;
-  type PartialPick<T, K extends keyof T> = _PartialPick<T, K>;
-  type PartialOmit<T, K extends keyof T> = _PartialOmit<T, K>;
-  type RequiredPick<T, K extends keyof T> = _RequiredPick<T, K>;
-  type RequiredOmit<T, K extends keyof T> = _RequiredOmit<T, K>;
+  type ValueOf<T> = PdgTypes.ValueOf<T>;
+  type Dict<T = any> = PdgTypes.Dict<T>;
+  type Arr<T = any> = PdgTypes.Arr<T>;
+  type IsObject<T> = PdgTypes.IsObject<T>;
+  type IsArray<T> = PdgTypes.IsArray<T>;
+  type ObjectMerge<T> = PdgTypes.ObjectMerge<T>;
+  type ArrayMerge<A extends any[]> = PdgTypes.ArrayMerge<A>;
+  type PartialPick<T, K extends keyof T> = PdgTypes.PartialPick<T, K>;
+  type PartialOmit<T, K extends keyof T> = PdgTypes.PartialOmit<T, K>;
+  type RequiredPick<T, K extends keyof T> = PdgTypes.RequiredPick<T, K>;
+  type RequiredOmit<T, K extends keyof T> = PdgTypes.RequiredOmit<T, K>;
 
   /** compare */
-  var empty: typeof _empty;
-  var notEmpty: typeof _notEmpty;
-  var equal: typeof _equal;
-  var contains: typeof _contains;
-  var ifNull: typeof _ifNull;
-  var ifNotNull: typeof _ifNotNull;
-  var ifUndefined: typeof _ifUndefined;
-  var ifNotUndefined: typeof _ifNotUndefined;
-  var ifNullOrUndefined: typeof _ifNullOrUndefined;
-  var ifNotNullAndUndefined: typeof _ifNotNullAndUndefined;
-  var isEmail: typeof _isEmail;
+  var empty: typeof PdgCompare.empty;
+  var notEmpty: typeof PdgCompare.notEmpty;
+  var equal: typeof PdgCompare.equal;
+  var contains: typeof PdgCompare.contains;
+  var ifNull: typeof PdgCompare.ifNull;
+  var ifNotNull: typeof PdgCompare.ifNotNull;
+  var ifUndefined: typeof PdgCompare.ifUndefined;
+  var ifNotUndefined: typeof PdgCompare.ifNotUndefined;
+  var ifNullOrUndefined: typeof PdgCompare.ifNullOrUndefined;
+  var ifNotNullAndUndefined: typeof PdgCompare.ifNotNullAndUndefined;
+  var isEmail: typeof PdgCompare.isEmail;
 
-  /** date */
-  var now: typeof _now;
-  var nowJs: typeof _nowJs;
-  var nowTime: typeof _nowTime;
+  /** date-time */
+  var now: typeof PdgDateTime.now;
+  var nowJs: typeof PdgDateTime.nowJs;
+  var nowTime: typeof PdgDateTime.nowTime;
 
   /** data */
-  var lv: typeof _lv;
-  var vl: typeof _vl;
-  var copy: typeof _copy;
+  var lv: typeof PdgData.lv;
+  var vl: typeof PdgData.vl;
+  var copy: typeof PdgData.copy;
+
+  /** api */
+  type ApiRequestData = PdgApi.ApiRequestData;
+  type ApiRequestOption = PdgApi.ApiRequestOption;
+  type ApiOption<T = any, D = ApiRequestData> = PdgApi.ApiOption<T, D>;
+  var ApiError: typeof PdgApi.ApiError;
+  type ApiError<T = any, D = ApiRequestData> = PdgApi.ApiError<T, D>;
 
   /** react-hook */
-  var useChanged: typeof _useChanged;
-  var useFirstSkipChanged: typeof _useFirstSkipChanged;
-  var useEventEffect: typeof _useEventEffect;
-  var useEventLayoutEffect: typeof _useEventLayoutEffect;
-  var useFirstSkipEffect: typeof _useFirstSkipEffect;
-  var useFirstSkipLayoutEffect: typeof _useFirstSkipLayoutEffect;
-  var useForwardRef: typeof _useForwardRef;
-  var useMounted: typeof _useMounted;
-  var useMountedRef: typeof _useMountedRef;
-  var useAutoUpdateRef: typeof _useAutoUpdateRef;
-  var useTimeoutRef: typeof _useTimeoutRef;
-  var clearTimeoutRef: typeof _clearTimeoutRef;
-  var useIntervalRef: typeof _useIntervalRef;
-  var clearIntervalRef: typeof _clearIntervalRef;
+  var useChanged: typeof PdgReactHook.useChanged;
+  var useFirstSkipChanged: typeof PdgReactHook.useFirstSkipChanged;
+  var useEventEffect: typeof PdgReactHook.useEventEffect;
+  var useEventLayoutEffect: typeof PdgReactHook.useEventLayoutEffect;
+  var useFirstSkipEffect: typeof PdgReactHook.useFirstSkipEffect;
+  var useFirstSkipLayoutEffect: typeof PdgReactHook.useFirstSkipLayoutEffect;
+  var useForwardRef: typeof PdgReactHook.useForwardRef;
+  var useMounted: typeof PdgReactHook.useMounted;
+  var useMountedRef: typeof PdgReactHook.useMountedRef;
+  var useAutoUpdateRef: typeof PdgReactHook.useAutoUpdateRef;
+  var useTimeoutRef: typeof PdgReactHook.useTimeoutRef;
+  var clearTimeoutRef: typeof PdgReactHook.clearTimeoutRef;
+  var useIntervalRef: typeof PdgReactHook.useIntervalRef;
+  var clearIntervalRef: typeof PdgReactHook.clearIntervalRef;
 }
 
 /** compare */
-globalThis.empty = _empty;
-globalThis.notEmpty = _notEmpty;
-globalThis.equal = _equal;
-globalThis.contains = _contains;
-globalThis.ifNull = _ifNull;
-globalThis.ifNotNull = _ifNotNull;
-globalThis.ifUndefined = _ifUndefined;
-globalThis.ifNotUndefined = _ifNotUndefined;
-globalThis.ifNullOrUndefined = _ifNullOrUndefined;
-globalThis.ifNotNullAndUndefined = _ifNotNullAndUndefined;
-globalThis.isEmail = _isEmail;
+globalThis.empty = PdgCompare.empty;
+globalThis.notEmpty = PdgCompare.notEmpty;
+globalThis.equal = PdgCompare.equal;
+globalThis.contains = PdgCompare.contains;
+globalThis.ifNull = PdgCompare.ifNull;
+globalThis.ifNotNull = PdgCompare.ifNotNull;
+globalThis.ifUndefined = PdgCompare.ifUndefined;
+globalThis.ifNotUndefined = PdgCompare.ifNotUndefined;
+globalThis.ifNullOrUndefined = PdgCompare.ifNullOrUndefined;
+globalThis.ifNotNullAndUndefined = PdgCompare.ifNotNullAndUndefined;
+globalThis.isEmail = PdgCompare.isEmail;
 
 /** date */
-globalThis.now = _now;
-globalThis.nowJs = _nowJs;
-globalThis.nowTime = _nowTime;
+globalThis.now = PdgDateTime.now;
+globalThis.nowJs = PdgDateTime.nowJs;
+globalThis.nowTime = PdgDateTime.nowTime;
 
 /** data */
-globalThis.lv = _lv;
-globalThis.vl = _vl;
-globalThis.copy = _copy;
+globalThis.lv = PdgData.lv;
+globalThis.vl = PdgData.vl;
+globalThis.copy = PdgData.copy;
+
+/** api */
+globalThis.ApiError = PdgApi.ApiError;
 
 /** react-hook */
-globalThis.useChanged = _useChanged;
-globalThis.useFirstSkipChanged = _useFirstSkipChanged;
-globalThis.useEventEffect = _useEventEffect;
-globalThis.useEventLayoutEffect = _useEventLayoutEffect;
-globalThis.useFirstSkipEffect = _useFirstSkipEffect;
-globalThis.useFirstSkipLayoutEffect = _useFirstSkipLayoutEffect;
-globalThis.useForwardRef = _useForwardRef;
-globalThis.useMounted = _useMounted;
-globalThis.useMountedRef = _useMountedRef;
-globalThis.useAutoUpdateRef = _useAutoUpdateRef;
-globalThis.useTimeoutRef = _useTimeoutRef;
-globalThis.clearTimeoutRef = _clearTimeoutRef;
-globalThis.useIntervalRef = _useIntervalRef;
-globalThis.clearIntervalRef = _clearIntervalRef;
+globalThis.useChanged = PdgReactHook.useChanged;
+globalThis.useFirstSkipChanged = PdgReactHook.useFirstSkipChanged;
+globalThis.useEventEffect = PdgReactHook.useEventEffect;
+globalThis.useEventLayoutEffect = PdgReactHook.useEventLayoutEffect;
+globalThis.useFirstSkipEffect = PdgReactHook.useFirstSkipEffect;
+globalThis.useFirstSkipLayoutEffect = PdgReactHook.useFirstSkipLayoutEffect;
+globalThis.useForwardRef = PdgReactHook.useForwardRef;
+globalThis.useMounted = PdgReactHook.useMounted;
+globalThis.useMountedRef = PdgReactHook.useMountedRef;
+globalThis.useAutoUpdateRef = PdgReactHook.useAutoUpdateRef;
+globalThis.useTimeoutRef = PdgReactHook.useTimeoutRef;
+globalThis.clearTimeoutRef = PdgReactHook.clearTimeoutRef;
+globalThis.useIntervalRef = PdgReactHook.useIntervalRef;
+globalThis.clearIntervalRef = PdgReactHook.clearIntervalRef;
 
 export {};

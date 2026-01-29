@@ -43,13 +43,13 @@ export const MyNicknameChange = ({navigation}: Props) => {
             setSubmitting(false);
           })
           .catch((err) => {
-            switch (app.getAxiosApiErrorResultCode(err)) {
+            switch (api.error.getResultCode(err)) {
               default:
                 Dialog.openErrorAlert({
                   contentTitle: '닉네임 변경 실패',
                   content: '닉네임 변경 중 오류가 발생했습니다. 잠시 후 재시도 해주세요.',
-                  subContent: app.getAxiosApiErrorResultMessage(err),
-                  subHiddenContent: app.getAxiosApiErrorResultError(err),
+                  subContent: api.error.getResultMessage(err),
+                  subHiddenContent: api.error.getResultError(err),
                 });
                 break;
             }

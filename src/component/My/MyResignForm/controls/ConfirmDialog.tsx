@@ -47,12 +47,12 @@ const ConfirmDialog = ({reasons, visible, onSuccess, onRequestClose}: Props) => 
         })
         .catch((err) => {
           le(err);
-          const errMsg = app.getAxiosApiErrorResultMessage(err);
+          const errMsg = api.error.getResultMessage(err);
 
-          switch (app.getAxiosApiErrorResultCode(err)) {
+          switch (api.error.getResultCode(err)) {
             case Const.Error.my.resign.alreadyResign:
               Dialog.openErrorAlert({
-                content: app.getAxiosApiErrorResultMessage(err) as string,
+                content: api.error.getResultMessage(err) as string,
               });
               break;
             default:

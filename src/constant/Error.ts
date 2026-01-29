@@ -23,4 +23,28 @@ export const Error = {
   },
 };
 
-export default Error;
+/********************************************************************************************************************
+ * all values
+ * ******************************************************************************************************************/
+function getAllValues(obj: object, result = []) {
+  for (const key of Object.keys(obj)) {
+    const value = obj[key as keyof typeof obj];
+
+    if (typeof value === 'object') {
+      getAllValues(value, result);
+    } else {
+      if (!result.includes(value)) {
+        result.push(value);
+      }
+    }
+  }
+  return result;
+}
+
+const allValues = getAllValues(Error);
+
+/********************************************************************************************************************
+ * export
+ * ******************************************************************************************************************/
+
+export default {...Error, allValues};

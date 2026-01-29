@@ -2,7 +2,7 @@
  * 인증 API
  * ******************************************************************************************************************/
 
-import api, {API_AUTH_SIGN_IN_PATH} from '@api';
+import {API_AUTH_SIGN_IN_PATH} from '@api';
 import {type AuthSignIn, type AuthSignInRequestData, type AuthSignupRequestData} from './Auth.types';
 
 export default {

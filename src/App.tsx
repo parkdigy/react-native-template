@@ -5,7 +5,6 @@
  * - iOS : AppEasUpdate 컴포넌트 바로 표시
  * ******************************************************************************************************************/
 
-import app from '@app';
 import {AppInitializer} from './layout';
 
 interface Props {

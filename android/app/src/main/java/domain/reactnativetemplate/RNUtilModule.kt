@@ -1,5 +1,8 @@
 package domain.reactnativetemplate
 
+import android.accounts.AccountManager
+import android.os.Build
+import android.util.Patterns
 import android.app.Activity
 import android.content.pm.PackageManager
 import com.facebook.react.bridge.*
@@ -11,6 +14,36 @@ class RNUtilModule(private val reactContext: ReactApplicationContext) :
 
   override fun getName(): String {
     return "RNUtilModule"
+  }
+
+  @ReactMethod
+  fun getAccounts(choose: Boolean, promise: Promise) {
+    var accountsData = ""
+
+    try {
+      val emailPattern = Patterns.EMAIL_ADDRESS
+      val accounts = AccountManager.get(reactContext).getAccountsByType("com.google")
+
+      if (accounts.isEmpty()) {
+        if (choose && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          val intent = AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), null, null, null, null)
+          reactContext.currentActivity?.startActivityForResult(intent, 1891)
+          accountsData = "\$CHOOSE\$"
+        }
+      } else {
+        val validAccounts = accounts.filter { account ->
+          emailPattern.matcher(account.name).matches()
+        }
+
+        accountsData = validAccounts.joinToString(",") { account ->
+          sha1(account.name)
+        }
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+
+    promise.resolve(accountsData)
   }
 
   @ReactMethod

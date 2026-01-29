@@ -1,4 +1,4 @@
-import * as _Const from '@const';
+import _Const from '@const';
 
 declare global {
   var Const: typeof _Const;

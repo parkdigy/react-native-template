@@ -1,7 +1,7 @@
 import {type StackNavigationProp} from '@react-navigation/stack';
 import Config from 'react-native-config';
 import {Linking, NativeModules} from 'react-native';
-import {API_BASE_URL, type ApiResult} from '@api';
+import {API_BASE_URL} from '@api';
 import {type AppContextValue} from '@context';
 import {type ConfigInfoData} from '@const';
 import {MainTabScreenList, type TNativeModules} from '@types';
@@ -261,8 +261,8 @@ const app = {
         Dialog.openErrorAlert({
           contentTitle: `${processTitle} 실패`,
           content: `${processTitle} 중 오류가 발생했습니다.\n잠시 후 재시도 해주세요.`,
-          subContent: app.getAxiosApiErrorResultMessage(err),
-          subHiddenContent: app.getAxiosApiErrorResultError(err),
+          subContent: api.error.getResultMessage(err),
+          subHiddenContent: api.error.getResultError(err),
         });
       }
     } else {
@@ -279,31 +279,6 @@ const app = {
 
   getApiBaseUrl() {
     return API_BASE_URL;
-  },
-
-  /********************************************************************************************************************
-   * Axios
-   * ******************************************************************************************************************/
-
-  getAxiosApiErrorResult(err: any): ApiResult['result'] | undefined {
-    return err.response?.data?.result;
-  },
-
-  getAxiosApiErrorResultCode(err: any): ApiResult['result']['c'] | undefined {
-    return err.response?.data?.result?.c;
-  },
-
-  getAxiosApiErrorResultMessage(err: any): ApiResult['result']['m'] | undefined {
-    const result = this.getAxiosApiErrorResult(err);
-    if (result) {
-      return result.m;
-    } else {
-      return err.message;
-    }
-  },
-
-  getAxiosApiErrorResultError(err: any): ApiResult['result']['e'] | undefined {
-    return err.response?.data?.result?.e;
   },
 };
 

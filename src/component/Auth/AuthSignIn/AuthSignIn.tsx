@@ -11,7 +11,6 @@ import {
   TermsOfServiceDialog,
 } from '@ccomp';
 import {useAppState} from '@context';
-import app from '@app';
 import {type AuthSignInRequestData, type AuthSigninType} from '@const';
 import {type AuthSignInProps as Props} from './AuthSignIn.types';
 import {StatusBar} from 'react-native';
@@ -68,11 +67,11 @@ export const AuthSignIn = ({navigation}: Props) => {
             hide();
           })
           .catch((err) => {
-            switch (app.getAxiosApiErrorResultCode(err)) {
+            switch (api.error.getResultCode(err)) {
               case Const.Error.auth.signIn.invalidSnsToken:
               case Const.Error.auth.signIn.notExistsEmail:
                 Dialog.openErrorAlert({
-                  content: app.getAxiosApiErrorResultMessage(err) as string,
+                  content: api.error.getResultMessage(err) as string,
                 });
                 break;
               default:
