@@ -63,5 +63,3 @@ npm run generate:bootsplash
   ```
 
 - Before launch 의 ```Start React Native Bundler``` 더블 클릭하여, ```Command``` 값을 ```npm script``` 로 바꾸고, ```Script``` 를 ```start``` 로 설정합니다.
-
-## Expo Update 사용 시
