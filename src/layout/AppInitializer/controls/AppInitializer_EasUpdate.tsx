@@ -10,7 +10,6 @@ interface Props {
 // const SKIP_UPDATE_ID = isIos ? Config.IOS_EAS_SKIN_UPDATE_ID : Config.AOS_EAS_SKIN_UPDATE_ID;
 
 export const AppInitializer_EasUpdate = ({appStatus}: Props) => {
-  ll('AppInitializer_EasUpdate');
   /********************************************************************************************************************
    * Function
    * ******************************************************************************************************************/
@@ -19,7 +18,6 @@ export const AppInitializer_EasUpdate = ({appStatus}: Props) => {
   const checkUpdate = useCallback(() => {
     // if (__DEV__ || !isInternetConnected || !Updates.isEnabled) {
     // 개발 환경, 오프라인, 업데이트 비활성화 된 경우
-    ll('--------1');
     app.nextAppStatus(app.AppStatus.EasUpdateChecking);
     // } else {
     //   Updates.checkForUpdateAsync()
@@ -59,14 +57,9 @@ export const AppInitializer_EasUpdate = ({appStatus}: Props) => {
    * ******************************************************************************************************************/
 
   useEventEffect(() => {
-    ll('-------------', appStatus);
     if (appStatus === app.AppStatus.EasUpdateChecking) {
       checkUpdate();
     }
-  }, [appStatus]);
-
-  useEffect(() => {
-    ll('+++++++++++++', appStatus);
   }, [appStatus]);
 
   /********************************************************************************************************************
