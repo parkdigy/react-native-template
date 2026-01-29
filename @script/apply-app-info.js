@@ -188,11 +188,11 @@ if (fs.existsSync(androidManifestPath)) {
 
   let start = fileContent.indexOf('android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"');
   if (start > -1) {
-    const findStr = '"kakao%kakao_app_key%';
+    const findStr = 'android:scheme="';
     start = fileContent.indexOf(findStr, start);
     if (start > -1) {
-      start += 1;
-      const end = fileContent.indexOf('"', start + 1);
+      start += findStr.length;
+      const end = fileContent.indexOf('"', start);
       if (end > -1) {
         fileContent = fileContent.substring(0, start) + `kakao${env.KAKAO_APP_KEY}` + fileContent.substring(end);
       }
