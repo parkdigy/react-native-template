@@ -1,5 +1,6 @@
 import './react';
 import './react-native';
+import './object';
 import './color';
 import './px';
 import './adid';
